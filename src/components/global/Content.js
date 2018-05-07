@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+
+//Assets
 import './css/Content.css';
 
 class Content extends Component {
@@ -11,11 +14,26 @@ class Content extends Component {
     this.handleResultClick = this.handleResultClick.bind(this);
 
     this.state = {
-      count: 0,
-      number1: 0,
-      number2: 0,
-      number3: 0,
-      resultState: 0
+        count: 0,
+        number1: 0,
+        number2: 0,
+        number3: 0,
+        resultState: 0,
+        objectId: '',
+        createdAt: '',
+        updatedAt: '',
+        codigo: '',
+        nombres: '',
+        apellidos: '',
+        tarifa_plena: 0,
+        tarifa_reducida_7_5: 0,
+        tarifa_reducida_15: 0,
+        descuento_exalumno: 0,
+        descuento_2do_hno: 0,
+        descuento_3er_hno: 0,
+        empleado: 0,
+        santa_barbara: 0,
+        convenio: 0
     }
   }
 
@@ -23,6 +41,45 @@ class Content extends Component {
     this.setState({
       count : 1
     });
+
+    let axiosConfig = {
+      headers: {
+          'X-Parse-Application-Id': 'U8jcs4wAuoOvBeCUCy4tAQTApcfUjiGmso98wM9h',
+          'X-Parse-Master-Key': 'vN7hMK7QknCPf2xeazTaILtaskHFAveqnh6NDwi6',
+          'Content-Type': 'application/json;charset=UTF-8'
+      }
+    };
+
+    //axios.get('https://ibrparseserver.herokuapp.com/parse/classes/Donations', axiosConfig)
+    axios.get('https://parseapi.back4app.com/classes/Enrollment', axiosConfig)
+      .then(res => {
+        console.log("Full object:");
+        console.log(res.data);
+        console.log("Node object:");
+        console.log(res.data.results);
+        console.log("Item object:");
+        let item = res.data.results[0];
+        console.log(item);
+
+        //Setting Parse Data to states
+        this.setState({
+            objectId:            item.objectId,
+            createdAt:           item.createdAt,
+            updatedAt:           item.updatedAt,
+            codigo:              item.CODIGO,
+            nombres:             item.NOMBRES,
+            apellidos:           item.APELLIDOS,
+            tarifa_plena:        item.TARIFA_PLENA,
+            tarifa_reducida_7_5: item.TARIFA_REDUCIDA_7_5,
+            tarifa_reducida_15:  item.TARIFA_REDUCIDA_15,
+            descuento_2do_hno:   item.DESCUENTO_2HNO,
+            descuento_3er_hno:   item.DESCUENTO_3HNO,
+            empleado:            item.EMPLEADO,
+            santa_barbara:       item.SANTA_BARBARA,
+            convenio:            item.CONVENIO
+        });
+      }
+    )
   }
 
   handleCountClick(e){
@@ -84,12 +141,24 @@ class Content extends Component {
         
         <hr/>
 
-        <input type="text" id="num1" onChange={this.handleOnInputChange} value={this.state.number1} />
-        <input type="text" id="num2" onChange={this.handleOnInputChange} value={this.state.number2} />
-        <input type="text" id="num3" onChange={this.handleOnInputChange} value={this.state.number3} />
+        <input type="text" id="num1" onChange={this.handleOnInputChange} value={this.state.number1} /><br/>
+        <input type="text" id="num2" onChange={this.handleOnInputChange} value={this.state.number2} /><br/>
+        <input type="text" id="num3" onChange={this.handleOnInputChange} value={this.state.number3} /><br/>
         
         <button id="result" onClick={this.handleResultClick}>[=]Result</button>
-        {this.state.resultState}
+        {this.state.resultState}<br/><br/><br/>
+        <hr/>
+        <p>Parse Object Id: {this.state.objectId}</p>
+        <p>Código estudiante: {this.state.codigo}</p>
+
+        <br/>
+        
+
+        
+
+
+
+
       </div>
     );
   }
