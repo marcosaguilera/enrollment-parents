@@ -13,7 +13,7 @@ class App extends Component {
         
           <Header />
           <Content />
-          <Footer />
+          <Footer copyright="&copy;Colegio Rochester 2018" />
      
       </div>
     );
