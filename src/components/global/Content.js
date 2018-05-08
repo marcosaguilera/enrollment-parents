@@ -13,6 +13,8 @@ class Content extends Component {
     this.handleCountClick = this.handleCountClick.bind(this);
     this.handleOnInputChange = this.handleOnInputChange.bind(this);
     this.handleGetTotalPay = this.handleGetTotalPay.bind(this);
+    this.handleClickSearchStudent = this.handleClickSearchStudent.bind(this);
+    this.handleOnChange = this.handleOnChange.bind(this);
 
     this.state = {
         count: 0,
@@ -35,7 +37,8 @@ class Content extends Component {
         empleado: 0,
         santa_barbara: 0,
         convenio: 0,
-        total_a_pagar: 0
+        total_a_pagar: 0,
+        student_code: ''      
     }
   }
 
@@ -43,45 +46,6 @@ class Content extends Component {
     this.setState({
       count : 1
     });
-
-    let axiosConfig = {
-      headers: {
-          'X-Parse-Application-Id': 'U8jcs4wAuoOvBeCUCy4tAQTApcfUjiGmso98wM9h',
-          'X-Parse-Master-Key': 'vN7hMK7QknCPf2xeazTaILtaskHFAveqnh6NDwi6',
-          'Content-Type': 'application/json;charset=UTF-8'
-      }
-    };
-
-    axios.get('https://parseapi.back4app.com/classes/Enrollment', axiosConfig)
-      .then(res => {
-        console.log("Full object:");
-        console.log(res.data);
-        console.log("Node object:");
-        console.log(res.data.results);
-        console.log("Item object:");
-        let item = res.data.results[0];
-        console.log(item);
-
-        //Setting Parse Data to states
-        this.setState({
-            objectId:            item.objectId, 
-            createdAt:           item.createdAt,
-            updatedAt:           item.updatedAt,
-            codigo:              item.CODIGO,
-            nombres:             item.NOMBRES,
-            apellidos:           item.APELLIDOS,
-            tarifa_plena:        Number(item.TARIFA_PLENA),
-            tarifa_reducida_7_5: Number(item.TARIFA_REDUCIDA_7_5),
-            tarifa_reducida_15:  Number(item.TARIFA_REDUCIDA_15),
-            descuento_2do_hno:   Number(item.DESCUENTO_2HNO),
-            descuento_3er_hno:   Number(item.DESCUENTO_3HNO),
-            empleado:            Number(item.EMPLEADO),
-            santa_barbara:       Number(item.SANTA_BARBARA),
-            convenio:            Number(item.CONVENIO)
-        });
-        this.handleGetTotalPay();
-      }
-    )
   }
 
   handleCountClick(e){
@@ -138,6 +102,57 @@ class Content extends Component {
     }
   }
 
+  handleClickSearchStudent(){
+    
+    let axiosConfig = {
+      headers: {
+          'X-Parse-Application-Id': 'U8jcs4wAuoOvBeCUCy4tAQTApcfUjiGmso98wM9h',
+          'X-Parse-Master-Key': 'vN7hMK7QknCPf2xeazTaILtaskHFAveqnh6NDwi6',
+          'Content-Type': 'application/json;charset=UTF-8'
+      }
+    };
+
+    axios.get('https://parseapi.back4app.com/classes/Enrollment?where={"CODIGO":"' + this.state.student_code + '"}', axiosConfig)
+      .then(res => {
+        console.log("Full object:");
+        console.log(res.data);
+        console.log("Node object:");
+        console.log(res.data.results);
+        console.log("Item object:");
+        let item = res.data.results[0];
+        console.log(item);
+
+        //Setting Parse Data to states
+        this.setState({
+            objectId:            item.objectId, 
+            createdAt:           item.createdAt,
+            updatedAt:           item.updatedAt,
+            codigo:              item.CODIGO,
+            nombres:             item.NOMBRES,
+            apellidos:           item.APELLIDOS,
+            tarifa_plena:        Number(item.TARIFA_PLENA),
+            tarifa_reducida_7_5: Number(item.TARIFA_REDUCIDA_7_5),
+            tarifa_reducida_15:  Number(item.TARIFA_REDUCIDA_15),
+            descuento_2do_hno:   Number(item.DESCUENTO_2HNO),
+            descuento_3er_hno:   Number(item.DESCUENTO_3HNO),
+            empleado:            Number(item.EMPLEADO),
+            santa_barbara:       Number(item.SANTA_BARBARA),
+            convenio:            Number(item.CONVENIO)
+        });
+        this.handleGetTotalPay();
+      }
+    )
+  }
+
+  handleOnChange(e){
+    if(e.target.id === 'student_code_input'){
+      this.setState({
+        student_code: String(e.target.value)
+      });
+    }
+    console.log("=> code: " + this.state.student_code)
+  }
+
   //////// Rendering UI
   render() {
     return (
@@ -147,6 +162,18 @@ class Content extends Component {
         <button id="remove" onClick={this.handleCountClick}>[-]Remove</button>
         <button id="reset" onClick={this.handleCountClick}>[//]Reset</button>
         
+        <hr/>
+        
+        <input 
+            id="student_code_input"
+            type="text"
+            placeholder="Ingrese código del estudiante"
+            onChange={this.handleOnChange}
+            maxLength="5" />
+        <br />
+        <button onClick={this.handleClickSearchStudent}>Buscar</button>
+        <br />
+        <p>Código: {this.state.student_code}</p> 
         <hr/>
 
         <p>Parse Object Id: {this.state.objectId}</p>
