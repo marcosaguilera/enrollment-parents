@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import NumberFormat from 'react-number-format';
 
-//Assets
+//////// Assets
 import './css/Content.css';
 
 class Content extends Component {
-  //////// Controller
+//////// Controller
   constructor(){
     super();
 
     this.handleCountClick = this.handleCountClick.bind(this);
     this.handleOnInputChange = this.handleOnInputChange.bind(this);
     this.handleResultClick = this.handleResultClick.bind(this);
+    this.handleGetTotalPay = this.handleGetTotalPay.bind(this);
 
     this.state = {
         count: 0,
@@ -33,7 +35,8 @@ class Content extends Component {
         descuento_3er_hno: 0,
         empleado: 0,
         santa_barbara: 0,
-        convenio: 0
+        convenio: 0,
+        total_a_pagar: 0
     }
   }
 
@@ -77,8 +80,12 @@ class Content extends Component {
             santa_barbara:       Number(item.SANTA_BARBARA),
             convenio:            Number(item.CONVENIO)
         });
+
+        this.handleGetTotalPay();
+
       }
     )
+    
   }
 
   handleCountClick(e){
@@ -101,6 +108,20 @@ class Content extends Component {
       })
       console.log("Counter reset to " + 0);
     }
+  }
+
+  handleGetTotalPay(){
+     this.setState({
+         total_a_pagar:  Number(this.state.tarifa_plena
+                         + this.state.tarifa_reducida_7_5
+                         + this.state.tarifa_reducida_15
+                         + this.state.descuento_2do_hno
+                         + this.state.descuento_3er_hno
+                         + this.state.empleado
+                         + this.state.santa_barbara
+                         + this.state.convenio)
+     });
+     console.log("===> End total calculation: " + this.state.total_a_pagar );
   }
 
   handleOnInputChange(e){
@@ -146,6 +167,7 @@ class Content extends Component {
         <button id="result" onClick={this.handleResultClick}>[=]Result</button>
         {this.state.resultState}<br/><br/><br/> 
         <hr/>*/}
+
         <p>Parse Object Id: {this.state.objectId}</p>
         <p>Código estudiante: {this.state.codigo}</p>
         <p>Nombres: {this.state.nombres}</p>
@@ -160,39 +182,67 @@ class Content extends Component {
                   </tr>
                   <tr>
                     <td className="tg-dx8v">Tarifa plena</td>
-                    <td className="tg-dx8v">{this.state.tarifa_plena}</td>
+                    <td className="tg-dx8v">
+                        <NumberFormat value={this.state.tarifa_plena} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                    </td>
                   </tr>
                   <tr>
                     <td className="tg-dx8v">Tarifa reducida 7.5%</td>
-                    <td className="tg-dx8v">{this.state.tarifa_reducida_7_5}</td>
+                    <td className="tg-dx8v">
+                        <NumberFormat value={this.state.tarifa_reducida_7_5} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                    </td>
                   </tr>
                   <tr>
                     <td className="tg-dx8v">Tarifa reducida 15%</td>
-                    <td className="tg-dx8v">{this.state.tarifa_reducida_15}</td>
+                    <td className="tg-dx8v">
+                        <NumberFormat value={this.state.tarifa_reducida_15} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                    </td>
                   </tr>
                   <tr>
                     <td className="tg-dx8v">Descuento ex-alumno</td>
-                    <td className="tg-dx8v">{this.state.descuento_exalumno}</td>
+                    <td className="tg-dx8v">
+                        <NumberFormat value={this.state.descuento_exalumno} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                    </td>
                   </tr>
                   <tr>
                     <td className="tg-dx8v">Descuento 2do hermano</td>
-                    <td className="tg-dx8v">{this.state.descuento_2do_hno}</td>
+                    <td className="tg-dx8v">
+                        <NumberFormat value={this.state.descuento_2do_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                    </td>
                   </tr>
                   <tr>
                     <td className="tg-dx8v">Descuento 3er hermano</td>
-                    <td className="tg-dx8v">{this.state.descuento_3er_hno}</td>
+                    <td className="tg-dx8v">
+                        <NumberFormat value={this.state.descuento_3er_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                    </td>
                   </tr>
                   <tr>
                     <td className="tg-dx8v">Descuento padre empleado</td>
-                    <td className="tg-dx8v">{this.state.empleado}</td>
+                    <td className="tg-dx8v">
+                        <NumberFormat value={this.state.empleado} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                    </td>
                   </tr>
                   <tr>
                     <td className="tg-dx8v">Descuento Santa Barbara</td>
-                    <td className="tg-dx8v">{this.state.santa_barbara}</td>
+                    <td className="tg-dx8v">
+                        <NumberFormat value={this.state.santa_barbara} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                    </td>
                   </tr>
                   <tr>
                     <td className="tg-dx8v">Descuento convenio</td>
-                    <td className="tg-dx8v">{this.state.convenio}</td>
+                    <td className="tg-dx8v">
+                        <NumberFormat value={this.state.convenio} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="tg-dx8v"><b><h3>Total</h3></b></td>
+                    <td className="tg-dx8v">
+                        <b>
+                          <h3>
+                            <NumberFormat value={this.state.total_a_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                          </h3>
+                        </b>
+                    </td>
                   </tr>
               </tbody>
           </table>
