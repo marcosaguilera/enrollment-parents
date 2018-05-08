@@ -12,7 +12,6 @@ class Content extends Component {
 
     this.handleCountClick = this.handleCountClick.bind(this);
     this.handleOnInputChange = this.handleOnInputChange.bind(this);
-    this.handleResultClick = this.handleResultClick.bind(this);
     this.handleGetTotalPay = this.handleGetTotalPay.bind(this);
 
     this.state = {
@@ -80,12 +79,9 @@ class Content extends Component {
             santa_barbara:       Number(item.SANTA_BARBARA),
             convenio:            Number(item.CONVENIO)
         });
-
         this.handleGetTotalPay();
-
       }
     )
-    
   }
 
   handleCountClick(e){
@@ -142,13 +138,6 @@ class Content extends Component {
     }
   }
 
-  handleResultClick(e){
-    console.log("Result value: " + this.state.resultState);
-    this.setState({
-      resultState: this.state.number1 + this.state.number2 + this.state.number3
-    })
-  }
-
   //////// Rendering UI
   render() {
     return (
@@ -160,18 +149,9 @@ class Content extends Component {
         
         <hr/>
 
-        {/* <input type="text" id="num1" onChange={this.handleOnInputChange} value={this.state.number1} /><br/>
-        <input type="text" id="num2" onChange={this.handleOnInputChange} value={this.state.number2} /><br/>
-        <input type="text" id="num3" onChange={this.handleOnInputChange} value={this.state.number3} /><br/>
-        
-        <button id="result" onClick={this.handleResultClick}>[=]Result</button>
-        {this.state.resultState}<br/><br/><br/> 
-        <hr/>*/}
-
         <p>Parse Object Id: {this.state.objectId}</p>
         <p>Código estudiante: {this.state.codigo}</p>
-        <p>Nombres: {this.state.nombres}</p>
-        <p>Apellidos: {this.state.apellidos}</p>
+        <p>Nombre estudiante: {this.state.nombres} {this.state.apellidos}</p>
         
         <div className="tableContainer">
           <table className="tg">
@@ -247,7 +227,7 @@ class Content extends Component {
               </tbody>
           </table>
         </div>
-        
+
       </div>
     );
   }
