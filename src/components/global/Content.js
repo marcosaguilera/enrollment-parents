@@ -50,7 +50,6 @@ class Content extends Component {
       }
     };
 
-    //axios.get('https://ibrparseserver.herokuapp.com/parse/classes/Donations', axiosConfig)
     axios.get('https://parseapi.back4app.com/classes/Enrollment', axiosConfig)
       .then(res => {
         console.log("Full object:");
@@ -63,20 +62,20 @@ class Content extends Component {
 
         //Setting Parse Data to states
         this.setState({
-            objectId:            item.objectId,
+            objectId:            item.objectId, 
             createdAt:           item.createdAt,
             updatedAt:           item.updatedAt,
             codigo:              item.CODIGO,
             nombres:             item.NOMBRES,
             apellidos:           item.APELLIDOS,
-            tarifa_plena:        item.TARIFA_PLENA,
-            tarifa_reducida_7_5: item.TARIFA_REDUCIDA_7_5,
-            tarifa_reducida_15:  item.TARIFA_REDUCIDA_15,
-            descuento_2do_hno:   item.DESCUENTO_2HNO,
-            descuento_3er_hno:   item.DESCUENTO_3HNO,
-            empleado:            item.EMPLEADO,
-            santa_barbara:       item.SANTA_BARBARA,
-            convenio:            item.CONVENIO
+            tarifa_plena:        Number(item.TARIFA_PLENA),
+            tarifa_reducida_7_5: Number(item.TARIFA_REDUCIDA_7_5),
+            tarifa_reducida_15:  Number(item.TARIFA_REDUCIDA_15),
+            descuento_2do_hno:   Number(item.DESCUENTO_2HNO),
+            descuento_3er_hno:   Number(item.DESCUENTO_3HNO),
+            empleado:            Number(item.EMPLEADO),
+            santa_barbara:       Number(item.SANTA_BARBARA),
+            convenio:            Number(item.CONVENIO)
         });
       }
     )
@@ -129,11 +128,10 @@ class Content extends Component {
     })
   }
 
-  //////// Rendeting UI
+  //////// Rendering UI
   render() {
     return (
       <div className="Content">
-        Wow, it's just a Content
         <h2>Counter: {this.state.count}</h2>
         <button id="add" onClick={this.handleCountClick}>[+]Add</button>
         <button id="remove" onClick={this.handleCountClick}>[-]Remove</button>
@@ -141,24 +139,65 @@ class Content extends Component {
         
         <hr/>
 
-        <input type="text" id="num1" onChange={this.handleOnInputChange} value={this.state.number1} /><br/>
+        {/* <input type="text" id="num1" onChange={this.handleOnInputChange} value={this.state.number1} /><br/>
         <input type="text" id="num2" onChange={this.handleOnInputChange} value={this.state.number2} /><br/>
         <input type="text" id="num3" onChange={this.handleOnInputChange} value={this.state.number3} /><br/>
         
         <button id="result" onClick={this.handleResultClick}>[=]Result</button>
-        {this.state.resultState}<br/><br/><br/>
-        <hr/>
+        {this.state.resultState}<br/><br/><br/> 
+        <hr/>*/}
         <p>Parse Object Id: {this.state.objectId}</p>
         <p>Código estudiante: {this.state.codigo}</p>
-
-        <br/>
+        <p>Nombres: {this.state.nombres}</p>
+        <p>Apellidos: {this.state.apellidos}</p>
         
-
+        <div className="tableContainer">
+          <table className="tg">
+              <tbody>
+                  <tr>
+                    <th className="tg-dx8v">Conceptos</th>
+                    <th className="tg-dx8v">Valor ($)</th>
+                  </tr>
+                  <tr>
+                    <td className="tg-dx8v">Tarifa plena</td>
+                    <td className="tg-dx8v">{this.state.tarifa_plena}</td>
+                  </tr>
+                  <tr>
+                    <td className="tg-dx8v">Tarifa reducida 7.5%</td>
+                    <td className="tg-dx8v">{this.state.tarifa_reducida_7_5}</td>
+                  </tr>
+                  <tr>
+                    <td className="tg-dx8v">Tarifa reducida 15%</td>
+                    <td className="tg-dx8v">{this.state.tarifa_reducida_15}</td>
+                  </tr>
+                  <tr>
+                    <td className="tg-dx8v">Descuento ex-alumno</td>
+                    <td className="tg-dx8v">{this.state.descuento_exalumno}</td>
+                  </tr>
+                  <tr>
+                    <td className="tg-dx8v">Descuento 2do hermano</td>
+                    <td className="tg-dx8v">{this.state.descuento_2do_hno}</td>
+                  </tr>
+                  <tr>
+                    <td className="tg-dx8v">Descuento 3er hermano</td>
+                    <td className="tg-dx8v">{this.state.descuento_3er_hno}</td>
+                  </tr>
+                  <tr>
+                    <td className="tg-dx8v">Descuento padre empleado</td>
+                    <td className="tg-dx8v">{this.state.empleado}</td>
+                  </tr>
+                  <tr>
+                    <td className="tg-dx8v">Descuento Santa Barbara</td>
+                    <td className="tg-dx8v">{this.state.santa_barbara}</td>
+                  </tr>
+                  <tr>
+                    <td className="tg-dx8v">Descuento convenio</td>
+                    <td className="tg-dx8v">{this.state.convenio}</td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
         
-
-
-
-
       </div>
     );
   }
