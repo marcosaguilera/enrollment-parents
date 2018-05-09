@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 /// Material UI
-import Button from 'material-ui/Button';
-import { withStyles } from 'material-ui/styles';
-import 'typeface-roboto';
-import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
-import Typography from 'material-ui/Typography';
 
 //// Other dependencies
 import axios from 'axios';
@@ -48,6 +43,7 @@ class Content extends Component {
         santa_barbara: 0,
         convenio: 0,
         total_a_pagar: 0,
+        grado: '',
         student_code: ''      
     }
   }
@@ -82,14 +78,14 @@ class Content extends Component {
 
   handleGetTotalPay(){
      this.setState({
-         total_a_pagar:  Number(this.state.tarifa_plena
-                         + this.state.tarifa_reducida_7_5
-                         + this.state.tarifa_reducida_15
-                         + this.state.descuento_2do_hno
-                         + this.state.descuento_3er_hno
-                         + this.state.empleado
-                         + this.state.santa_barbara
-                         + this.state.convenio)
+         total_a_pagar:  Number((this.state.tarifa_plena)
+                         - this.state.tarifa_reducida_7_5
+                         - this.state.tarifa_reducida_15
+                         - this.state.descuento_2do_hno
+                         - this.state.descuento_3er_hno
+                         - this.state.empleado
+                         - this.state.santa_barbara
+                         - this.state.convenio)
      });
      console.log("===> End total calculation: " + this.state.total_a_pagar );
   }
@@ -152,7 +148,8 @@ class Content extends Component {
                 descuento_3er_hno:   Number(item.DESCUENTO_3HNO),
                 empleado:            Number(item.EMPLEADO),
                 santa_barbara:       Number(item.SANTA_BARBARA),
-                convenio:            Number(item.CONVENIO)
+                convenio:            Number(item.CONVENIO),
+                grado:               item.GRADO
             });
             this.handleGetTotalPay();
         }else{
@@ -174,111 +171,164 @@ class Content extends Component {
   //////// Rendering UI
   render() {
     return (
-      <div className="Content">
-        <h2>Counter: {this.state.count}</h2>
-        <button id="add" onClick={this.handleCountClick}>[+]Add</button>
-        <button id="remove" onClick={this.handleCountClick}>[-]Remove</button>
-        <button id="reset" onClick={this.handleCountClick}>[//]Reset</button>
-        
-        <hr/>
-        
-        <input 
-            id="student_code_input"
-            type="text"
-            placeholder="Ingrese código del estudiante"
-            onChange={this.handleOnChange}
-            maxLength="5" />
-        <br />
-        <button onClick={this.handleClickSearchStudent}>Buscar</button>
-        <br />
-        <p>Código: {this.state.student_code}</p> 
+      <div className="bg-light">
+        <main role="main"  className="container">
+          <div class="shadow-sm p-3 mb-5 bg-white rounded">
+          <div className="starter-template">
+            
+            <p id="help-text" className="lead">Liquidador de Matrícula - Rochester 2018-2019<br /> 
+                                               Ingrese el código del estudiante</p>
 
-        <Button variant="raised" color="primary">
-          Hello World
-        </Button>
+            <div class="row">
+              <div class="col-sm"> 
+              </div>
+              <div class="col-sm">
+                <div className="input-group input-group-lg mb-3">
+                  <input
+                      id="student_code_input"
+                      onChange={this.handleOnChange}
+                      type="text" 
+                      className="form-control" 
+                      placeholder="Ej. 15001"
+                      aria-label="Recipient's username" 
+                      aria-describedby="basic-addon2"
+                      maxLength="5"></input>
+                  <div className="input-group-append">
+                    <button 
+                      className="btn btn-primary" 
+                      onClick={this.handleClickSearchStudent}
+                      type="button">Buscar</button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm">
+              </div>
+            </div>
+            
+            </div>
+            <p>Código: {this.state.student_code}</p> 
+            <hr />
 
-        <hr/>
+            <div class="shadow-sm p-3 mb-5 bg-white rounded">
+            
+              <div className="row">
+              
+                <div className="col-md-8">
+                  <h4 class="d-flex justify-content-between mb-3" >Información del Estudiante</h4>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="firstName">Código</label>
+                      <input type="text" class="form-control" id="firstName" placeholder="" value={this.state.codigo} required="" readonly="readonly"></input>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="firstName">Grado</label>
+                      <input type="text" class="form-control" id="firstName" placeholder="" value={this.state.grado} required="" readonly="readonly"></input>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="firstName">Nombres</label>
+                      <input type="text" class="form-control" id="firstName" placeholder="" value={this.state.nombres} required="" readonly="readonly"></input>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="lastName">Apellidos</label>
+                      <input type="text" class="form-control" id="lastName" placeholder="" value={this.state.apellidos} required="" readonly="readonly"></input>
+                    </div>
+                  </div>
 
-        <p>Parse Object Id: {this.state.objectId}</p>
-        <p>Código estudiante: {this.state.codigo}</p>
-        <p>Nombre estudiante: {this.state.nombres} {this.state.apellidos}</p>
-        
-        <div className="tableContainer">
-          <table className="tg">
-              <tbody>
-                  <tr>
-                    <th className="tg-dx8v">Conceptos</th>
-                    <th className="tg-dx8v">Valor ($)</th>
-                  </tr>
-                  <tr>
-                    <td className="tg-dx8v">Tarifa plena</td>
-                    <td className="tg-dx8v">
-                        <NumberFormat value={this.state.tarifa_plena} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="tg-dx8v">Tarifa reducida 7.5%</td>
-                    <td className="tg-dx8v">
-                        <NumberFormat value={this.state.tarifa_reducida_7_5} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="tg-dx8v">Tarifa reducida 15%</td>
-                    <td className="tg-dx8v">
-                        <NumberFormat value={this.state.tarifa_reducida_15} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="tg-dx8v">Descuento ex-alumno</td>
-                    <td className="tg-dx8v">
-                        <NumberFormat value={this.state.descuento_exalumno} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="tg-dx8v">Descuento 2do hermano</td>
-                    <td className="tg-dx8v">
-                        <NumberFormat value={this.state.descuento_2do_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="tg-dx8v">Descuento 3er hermano</td>
-                    <td className="tg-dx8v">
-                        <NumberFormat value={this.state.descuento_3er_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="tg-dx8v">Descuento padre empleado</td>
-                    <td className="tg-dx8v">
-                        <NumberFormat value={this.state.empleado} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="tg-dx8v">Descuento Santa Barbara</td>
-                    <td className="tg-dx8v">
-                        <NumberFormat value={this.state.santa_barbara} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="tg-dx8v">Descuento convenio</td>
-                    <td className="tg-dx8v">
-                        <NumberFormat value={this.state.convenio} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="tg-dx8v"><b><h3>Total</h3></b></td>
-                    <td className="tg-dx8v">
-                        <b>
-                          <h3>
+                  <hr />
+
+                  <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">Conceptos</th>
+                            <th scope="col">Valor ($)</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Tarifa plena</td>
+                            <td><NumberFormat value={this.state.tarifa_plena} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                          </tr>
+
+                          <tr>
+                            <td>Tarifa reducida 7.5%</td>
+                            <td>- <NumberFormat value={this.state.tarifa_reducida_7_5} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                          </tr>
+                          
+                          <tr>
+                            <td>Tarifa reducida 15%</td>
+                            <td>- <NumberFormat value={this.state.tarifa_reducida_15} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                          </tr>
+
+                          <tr>
+                            <td>Descuento ex-alumno</td>
+                            <td>- <NumberFormat value={this.state.descuento_exalumno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                          </tr>
+                          
+                          <tr>
+                            <td>Descuento 2do hermano</td>
+                            <td>- <NumberFormat value={this.state.descuento_2do_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                          </tr>
+                          
+                          <tr>
+                            <td>Descuento 3er hermano</td>
+                            <td>- <NumberFormat value={this.state.descuento_3er_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                          </tr>
+
+                          <tr>
+                            <td>Descuento padre empleado</td>
+                            <td>- <NumberFormat value={this.state.empleado} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                          </tr>
+
+                          <tr>
+                            <td>Descuento Santa Barbara</td>
+                            <td>- <NumberFormat value={this.state.santa_barbara} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                          </tr>
+
+                          <tr>
+                            <td>Descuento convenio</td>
+                            <td>- <NumberFormat value={this.state.convenio} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                          </tr>
+
+                        </tbody>
+                  </table>
+                </div>
+
+                <div className="col-md-4">
+
+                  <div class="card my-4">
+                      <div class="card-header bg-primary" >
+                        <h5 id="card_title_color" class="mb-0 text-center">Selección de servicios</h5>
+                      </div>
+                      <div class="card-body">
+                        <p class="card-text">Aquí van los selecctores de los servicios que modificarán dinamicamente el Total a pagar, dependiendo de lo seleccionado.</p>
+                      </div>
+                      <div class="card-footer">
+                        <div class="row">
+                          <div class="col-6">
+                            <h6>Total Matrícula: </h6>
+                          </div>
+                          <div class="col-6">
                             <NumberFormat value={this.state.total_a_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                          </h3>
-                        </b>
-                    </td>
-                  </tr>
-              </tbody>
-          </table>
-        </div>
+                          </div>
+                        </div>
+                        
+                      </div>
+                  </div>
+                  
+
+                </div>
+
+              </div>
+            </div>
+           </div>
+        </main>
+       
+       
 
       </div>
+  
     );
   }
 }

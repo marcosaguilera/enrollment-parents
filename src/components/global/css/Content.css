@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+#help-text{
+  text-align: center;
+}
+
+#card_title_color{
+  color: #fff;
+}
+
 .tg {
   border-collapse: collapse;
   border-spacing: 0;
