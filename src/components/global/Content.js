@@ -1,4 +1,14 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+
+/// Material UI
+import Button from 'material-ui/Button';
+import { withStyles } from 'material-ui/styles';
+import 'typeface-roboto';
+import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
+import Typography from 'material-ui/Typography';
+
+//// Other dependencies
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
 
@@ -120,26 +130,34 @@ class Content extends Component {
         console.log(res.data.results);
         console.log("Item object:");
         let item = res.data.results[0];
+        
+        // jsonLenght gets the number of objects in the response
+        let jsonLenght = Object.keys(res.data.results).length;
+        console.log("Response size:" + jsonLenght);
         console.log(item);
-
-        //Setting Parse Data to states
-        this.setState({
-            objectId:            item.objectId, 
-            createdAt:           item.createdAt,
-            updatedAt:           item.updatedAt,
-            codigo:              item.CODIGO,
-            nombres:             item.NOMBRES,
-            apellidos:           item.APELLIDOS,
-            tarifa_plena:        Number(item.TARIFA_PLENA),
-            tarifa_reducida_7_5: Number(item.TARIFA_REDUCIDA_7_5),
-            tarifa_reducida_15:  Number(item.TARIFA_REDUCIDA_15),
-            descuento_2do_hno:   Number(item.DESCUENTO_2HNO),
-            descuento_3er_hno:   Number(item.DESCUENTO_3HNO),
-            empleado:            Number(item.EMPLEADO),
-            santa_barbara:       Number(item.SANTA_BARBARA),
-            convenio:            Number(item.CONVENIO)
-        });
-        this.handleGetTotalPay();
+        
+        if(jsonLenght > 0){
+            //Setting Parse Data to states
+            this.setState({
+                objectId:            item.objectId, 
+                createdAt:           item.createdAt,
+                updatedAt:           item.updatedAt,
+                codigo:              item.CODIGO,
+                nombres:             item.NOMBRES,
+                apellidos:           item.APELLIDOS,
+                tarifa_plena:        Number(item.TARIFA_PLENA),
+                tarifa_reducida_7_5: Number(item.TARIFA_REDUCIDA_7_5),
+                tarifa_reducida_15:  Number(item.TARIFA_REDUCIDA_15),
+                descuento_2do_hno:   Number(item.DESCUENTO_2HNO),
+                descuento_3er_hno:   Number(item.DESCUENTO_3HNO),
+                empleado:            Number(item.EMPLEADO),
+                santa_barbara:       Number(item.SANTA_BARBARA),
+                convenio:            Number(item.CONVENIO)
+            });
+            this.handleGetTotalPay();
+        }else{
+          alert("Upps!, No existen resultados para el código ingresado.");  
+        }
       }
     )
   }
@@ -174,6 +192,11 @@ class Content extends Component {
         <button onClick={this.handleClickSearchStudent}>Buscar</button>
         <br />
         <p>Código: {this.state.student_code}</p> 
+
+        <Button variant="raised" color="primary">
+          Hello World
+        </Button>
+
         <hr/>
 
         <p>Parse Object Id: {this.state.objectId}</p>

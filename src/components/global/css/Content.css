@@ -46,3 +46,12 @@
   background-color: aliceblue;
   padding: 0 25%;
 }
+
+.card{
+  max-width: 345;
+}
+
+.media{
+  height: 0;
+  padding-top: 56.25%;
+}
