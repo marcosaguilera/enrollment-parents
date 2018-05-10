@@ -238,7 +238,7 @@ class Content extends Component {
                   </div>
 
                   <hr />
-
+                  {/*Tabla de descuentos y valores*/}
                   <table className="table table-hover">
                         <thead>
                           <tr>
@@ -297,14 +297,24 @@ class Content extends Component {
                 </div>
 
                 <div className="col-md-4">
-
                   <div className="card my-4">
                       <div className="card-header bg-primary" >
                         <h5 id="card_title_color" className="mb-0 text-center">Selección de servicios</h5>
                       </div>
                       <div className="card-body">
-                        <p className="card-text">Aquí van los selecctores de los servicios que modificarán dinamicamente el Total a pagar, dependiendo de lo seleccionado.</p>
+                      <p class="" >A continuación seleccione los servicios que desea adicionar:</p>
+                      <div className="row">
+                              <div className="col-md-12 mb-3" >
+                                <label for="country">Seguro de accidentes</label>
+                                <select className="custom-select d-block w-100" id="seguro-accidentes" required="">
+                                  <option value="Si" selected="selected">Si</option>
+                                  <option value="No">No</option>
+                                </select>
+                                <div className="invalid-feedback"> Please select a valid country. </div>
+                              </div>
+                            </div>
                       </div>
+
                       <div className="card-footer">
                         <div className="row">
                           <div className="col-6">
@@ -314,11 +324,9 @@ class Content extends Component {
                             <NumberFormat value={this.state.total_a_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                           </div>
                         </div>
-                        
                       </div>
-                  </div>
-                  
 
+                  </div>
                 </div>
 
               </div>
