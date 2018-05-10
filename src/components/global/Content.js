@@ -78,9 +78,10 @@ class Content extends Component {
 
   handleGetTotalPay(){
      this.setState({
-         total_a_pagar:  Number((this.state.tarifa_plena)
-                         - this.state.tarifa_reducida_7_5
-                         - this.state.tarifa_reducida_15
+         // Sumamos las tarifas y restamos los descuentos
+         total_a_pagar:  Number((this.state.tarifa_plena
+                         + this.state.tarifa_reducida_7_5
+                         + this.state.tarifa_reducida_15)
                          - this.state.descuento_2do_hno
                          - this.state.descuento_3er_hno
                          - this.state.empleado
@@ -173,16 +174,16 @@ class Content extends Component {
     return (
       <div className="bg-light">
         <main role="main"  className="container">
-          <div class="shadow-sm p-3 mb-5 bg-white rounded">
+          <div className="shadow-sm p-3 mb-5 bg-white rounded">
           <div className="starter-template">
             
             <p id="help-text" className="lead">Liquidador de Matrícula - Rochester 2018-2019<br /> 
                                                Ingrese el código del estudiante</p>
 
-            <div class="row">
-              <div class="col-sm"> 
+            <div className="row">
+              <div className="col-sm"> 
               </div>
-              <div class="col-sm">
+              <div className="col-sm">
                 <div className="input-group input-group-lg mb-3">
                   <input
                       id="student_code_input"
@@ -201,7 +202,7 @@ class Content extends Component {
                   </div>
                 </div>
               </div>
-              <div class="col-sm">
+              <div className="col-sm">
               </div>
             </div>
             
@@ -209,36 +210,36 @@ class Content extends Component {
             <p>Código: {this.state.student_code}</p> 
             <hr />
 
-            <div class="shadow-sm p-3 mb-5 bg-white rounded">
+            <div className="shadow-sm p-3 mb-5 bg-white rounded">
             
               <div className="row">
               
                 <div className="col-md-8">
-                  <h4 class="d-flex justify-content-between mb-3" >Información del Estudiante</h4>
-                  <div class="row">
-                    <div class="col-md-6 mb-3">
-                      <label for="firstName">Código</label>
-                      <input type="text" class="form-control" id="firstName" placeholder="" value={this.state.codigo} required="" readonly="readonly"></input>
+                  <h4 className="d-flex justify-content-between mb-3" >Información del Estudiante</h4>
+                  <div className="row">
+                    <div className="col-md-6 mb-3">
+                      <label htmlFor="firstName">Código</label>
+                      <input type="text" className="form-control" id="firstName" placeholder="" value={this.state.codigo} required="" readOnly="readonly"></input>
                     </div>
-                    <div class="col-md-6 mb-3">
-                      <label for="firstName">Grado</label>
-                      <input type="text" class="form-control" id="firstName" placeholder="" value={this.state.grado} required="" readonly="readonly"></input>
+                    <div className="col-md-6 mb-3">
+                      <label htmlFor="firstName">Grado</label>
+                      <input type="text" className="form-control" id="firstName" placeholder="" value={this.state.grado} required="" readOnly="readonly"></input>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-6 mb-3">
-                      <label for="firstName">Nombres</label>
-                      <input type="text" class="form-control" id="firstName" placeholder="" value={this.state.nombres} required="" readonly="readonly"></input>
+                  <div className="row">
+                    <div className="col-md-6 mb-3">
+                      <label htmlFor="firstName">Nombres</label>
+                      <input type="text" className="form-control" id="firstName" placeholder="" value={this.state.nombres} required="" readOnly="readonly"></input>
                     </div>
-                    <div class="col-md-6 mb-3">
-                      <label for="lastName">Apellidos</label>
-                      <input type="text" class="form-control" id="lastName" placeholder="" value={this.state.apellidos} required="" readonly="readonly"></input>
+                    <div className="col-md-6 mb-3">
+                      <label htmlFor="lastName">Apellidos</label>
+                      <input type="text" className="form-control" id="lastName" placeholder="" value={this.state.apellidos} required="" readOnly="readonly"></input>
                     </div>
                   </div>
 
                   <hr />
 
-                  <table class="table table-hover">
+                  <table className="table table-hover">
                         <thead>
                           <tr>
                             <th scope="col">Conceptos</th>
@@ -253,12 +254,12 @@ class Content extends Component {
 
                           <tr>
                             <td>Tarifa reducida 7.5%</td>
-                            <td>- <NumberFormat value={this.state.tarifa_reducida_7_5} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                            <td><NumberFormat value={this.state.tarifa_reducida_7_5} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                           </tr>
                           
                           <tr>
                             <td>Tarifa reducida 15%</td>
-                            <td>- <NumberFormat value={this.state.tarifa_reducida_15} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                            <td><NumberFormat value={this.state.tarifa_reducida_15} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                           </tr>
 
                           <tr>
@@ -297,19 +298,19 @@ class Content extends Component {
 
                 <div className="col-md-4">
 
-                  <div class="card my-4">
-                      <div class="card-header bg-primary" >
-                        <h5 id="card_title_color" class="mb-0 text-center">Selección de servicios</h5>
+                  <div className="card my-4">
+                      <div className="card-header bg-primary" >
+                        <h5 id="card_title_color" className="mb-0 text-center">Selección de servicios</h5>
                       </div>
-                      <div class="card-body">
-                        <p class="card-text">Aquí van los selecctores de los servicios que modificarán dinamicamente el Total a pagar, dependiendo de lo seleccionado.</p>
+                      <div className="card-body">
+                        <p className="card-text">Aquí van los selecctores de los servicios que modificarán dinamicamente el Total a pagar, dependiendo de lo seleccionado.</p>
                       </div>
-                      <div class="card-footer">
-                        <div class="row">
-                          <div class="col-6">
+                      <div className="card-footer">
+                        <div className="row">
+                          <div className="col-6">
                             <h6>Total Matrícula: </h6>
                           </div>
-                          <div class="col-6">
+                          <div className="col-6">
                             <NumberFormat value={this.state.total_a_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                           </div>
                         </div>
