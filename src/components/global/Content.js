@@ -301,18 +301,52 @@ class Content extends Component {
                       <div className="card-header bg-primary" >
                         <h5 id="card_title_color" className="mb-0 text-center">Selección de servicios</h5>
                       </div>
+                      
                       <div className="card-body">
-                      <p class="" >A continuación seleccione los servicios que desea adicionar:</p>
-                      <div className="row">
+                          <p className="" >A continuación seleccione los servicios que desea adicionar:</p>
+                          {/*Select Seguro Accidentes*/}
+                          <div className="row">
                               <div className="col-md-12 mb-3" >
-                                <label for="country">Seguro de accidentes</label>
-                                <select className="custom-select d-block w-100" id="seguro-accidentes" required="">
-                                  <option value="Si" selected="selected">Si</option>
-                                  <option value="No">No</option>
+                                <label htmlFor="country">Seguro de accidentes</label>
+                                <select className="custom-select d-block w-100" id="seguro-accidentes">
+                                  <option value="55000" defaultValue="selected">Si - $55.000</option>
+                                  <option value="0">No - 0$</option>
                                 </select>
-                                <div className="invalid-feedback"> Please select a valid country. </div>
                               </div>
-                            </div>
+                          </div>
+                          {/*Select Anuario*/}
+                          <div className="row">
+                              <div className="col-md-12 mb-3" >
+                                <label htmlFor="country">Anuario</label>
+                                <select className="custom-select d-block w-100" id="anuario">
+                                  <option value="110000" defaultValue="selected">Impreso - $110.000</option>
+                                  <option value="46000">Digital - $46.000</option>
+                                  <option value="156000">Impreso + Digital - $156.000</option>
+                                  <option value="0">No - 0$</option>
+                                </select>
+                              </div>
+                          </div>
+                          {/*Select Asopadres*/}
+                          <div className="row">
+                              <div className="col-md-12 mb-3" >
+                                <label htmlFor="country">Asopadres</label>
+                                <select className="custom-select d-block w-100" id="asopadres">
+                                  <option value="190000" defaultValue="selected">Si - $190.000</option>
+                                  <option value="0">No - 0$</option>
+                                </select>
+                              </div>
+                          </div>
+                          {/*Select Afiliación Club Deportivo*/}
+                          <div className="row">
+                              <div className="col-md-12 mb-3" >
+                                <label htmlFor="country">Afiliación Club Deportivo</label>
+                                <select className="custom-select d-block w-100" id="afiliacion-club">
+                                  <option value="375000" defaultValue="selected">Si - $375.000</option>
+                                  <option value="0">No - 0$</option>
+                                </select>
+                              </div>
+                          </div>
+                   
                       </div>
 
                       <div className="card-footer">
