@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 //// Other dependencies
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
+import LoadingSpinner from './LoadSpinner';
 
 //////// Assets
 import './css/Content.css';
@@ -15,17 +16,16 @@ class Content extends Component {
   constructor(){
     super();
 
-    this.handleCountClick = this.handleCountClick.bind(this);
-    this.handleOnInputChange = this.handleOnInputChange.bind(this);
-    this.handleGetTotalPay = this.handleGetTotalPay.bind(this);
-    this.handleClickSearchStudent = this.handleClickSearchStudent.bind(this);
-    this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleGetTotals           = this.handleGetTotals.bind(this);
+    this.handleGetTotalToPay       = this.handleGetTotalToPay.bind(this);
+    this.handleClickSearchStudent  = this.handleClickSearchStudent.bind(this);
+    this.handleOnChange            = this.handleOnChange.bind(this);
+    this.handleOnChangeServices    = this.handleOnChangeServices.bind(this);
+    this.handleChangeTotalServices = this.handleChangeTotalServices.bind(this);
+    this.handleUpdateStateSeguro   = this.handleUpdateStateSeguro.bind(this);
 
     this.state = {
         count: 0,
-        number1: 0,
-        number2: 0,
-        number3: 0,
         resultState: 0,
         objectId: '',
         createdAt: '',
@@ -42,71 +42,29 @@ class Content extends Component {
         empleado: 0,
         santa_barbara: 0,
         convenio: 0,
-        total_a_pagar: 0,
+        total_descuentos: 0,
         grado: '',
-        student_code: ''      
+        student_code: '',
+        // Servicios de matrículas
+        seguro_accidentes: 55000,
+        anuario_impreso: 110000,
+        anuario_digital: 46000,
+        anuario_combo: 156000,
+        anuario_seleccionado: 110000,
+        asopadres: 190000,
+        club: 375000,
+        total_servicios: 0,
+        // Total a pagar state
+        total_pagar: 0,
+        // Loading state
+        loading: false, // will be true when ajax request is running     
     }
   }
 
   componentDidMount(){
     this.setState({
-      count : 1
+      
     });
-  }
-
-  handleCountClick(e){
-    //console.log(e);
-    if(e.target.id === 'add'){
-      this.setState({
-        count: this.state.count + 1
-      })
-      console.log("Added + : " + this.state.count);
-    }
-    if(e.target.id === 'remove' && this.state.count > 0){
-      this.setState({
-        count: this.state.count - 1
-      })
-      console.log("Removed - : " + this.state.count);
-    }
-    if(e.target.id === 'reset'){
-      this.setState({
-        count: 0
-      })
-      console.log("Counter reset to " + 0);
-    }
-  }
-
-  handleGetTotalPay(){
-     this.setState({
-         // Sumamos las tarifas y restamos los descuentos
-         total_a_pagar:  Number((this.state.tarifa_plena
-                         + this.state.tarifa_reducida_7_5
-                         + this.state.tarifa_reducida_15)
-                         - this.state.descuento_2do_hno
-                         - this.state.descuento_3er_hno
-                         - this.state.empleado
-                         - this.state.santa_barbara
-                         - this.state.convenio)
-     });
-     console.log("===> End total calculation: " + this.state.total_a_pagar );
-  }
-
-  handleOnInputChange(e){
-    if(e.target.id === 'num1'){
-      this.setState({
-        number1: Number(e.target.value)
-      });
-    }
-    if(e.target.id === 'num2'){
-      this.setState({
-        number2: Number(e.target.value)
-      });
-    }
-    if(e.target.id === 'num3'){
-      this.setState({
-        number3: Number(e.target.value)
-      });
-    }
   }
 
   handleClickSearchStudent(){
@@ -152,7 +110,7 @@ class Content extends Component {
                 convenio:            Number(item.CONVENIO),
                 grado:               item.GRADO
             });
-            this.handleGetTotalPay();
+            this.handleGetTotals();
         }else{
           alert("Upps!, No existen resultados para el código ingresado.");  
         }
@@ -164,12 +122,93 @@ class Content extends Component {
     if(e.target.id === 'student_code_input'){
       this.setState({
         student_code: String(e.target.value)
+      }, () => {
+        console.log("=> code: " + this.state.student_code)
       });
     }
-    console.log("=> code: " + this.state.student_code)
   }
 
-  //////// Rendering UI
+  handleOnChangeServices(e){
+     if(e.target.id === 'seguro-accidentes'){  
+        console.log(" ///// All values: *" + Number(e.target.value) + ", " + this.state.anuario_seleccionado + ", " + this.state.asopadres + ", "+ this.state.club); 
+        this.handleGetTotalToPay(Number(e.target.value), this.state.anuario_seleccionado, this.state.asopadres, this.state.club)
+        this.handleUpdateStateSeguro(Number(e.target.value));
+     }
+     if(e.target.id === 'anuario'){
+        this.setState({
+          anuario_seleccionado: Number(e.target.value)
+        }, () => {
+          //console.log(" ///// Anuario value: " + this.state.anuario_seleccionado)
+          console.log(" ///// All values: " + this.state.seguro_accidentes + ", *" + this.state.anuario_seleccionado + ", " + this.state.asopadres + ", "+ this.state.club); 
+          this.handleGetTotalToPay(this.state.seguro_accidentes, this.state.anuario_seleccionado, this.state.asopadres, this.state.club)
+        })      
+     }
+     if(e.target.id === 'asopadres'){
+        console.log(" ///// All values: " + this.state.seguro_accidentes + ", " + this.state.anuario_seleccionado + ", *" + Number(e.target.value) + ", "+ this.state.club); 
+        this.handleGetTotalToPay(this.state.seguro_accidentes, this.state.anuario_seleccionado, Number(e.target.value), this.state.club)
+     }
+     if(e.target.id === 'afiliacion-club'){
+        //console.log(" ///// Club value: " + e.target.value)
+        console.log(" ///// All values: " + this.state.seguro_accidentes + ", " + this.state.anuario_seleccionado + ", " + this.state.asopadres + ", *"+ this.state.club); 
+        
+     }
+  }
+
+  handleGetTotals(){
+    this.setState({
+        // Sumamos las tarifas y restamos los descuentos
+       total_descuentos:  Number((this.state.tarifa_plena
+                          + this.state.tarifa_reducida_7_5
+                          + this.state.tarifa_reducida_15)
+                          - this.state.descuento_2do_hno
+                          - this.state.descuento_3er_hno
+                          - this.state.empleado
+                          - this.state.santa_barbara
+                          - this.state.convenio),
+       // Sumamos el total de servicios seleccionados
+       total_servicios: Number( this.state.seguro_accidentes + 
+                                this.state.anuario_impreso +
+                                this.state.asopadres +
+                                this.state.club )
+    });
+
+    console.log("===> Total for discounts: " + this.state.total_descuentos );
+    console.log("===> Total for services: " + this.state.total_servicios );
+    // Calling the method for totalize
+    this.handleGetTotalToPay();
+  }
+
+  handleGetTotalToPay(seguro_value, anuario_value, aso_value, club_value){
+    
+    var total_services = Number(seguro_value + anuario_value + aso_value + club_value);
+    console.log(" ########### Total services : " + total_services );
+
+  }
+
+  handleChangeTotalServices(){
+
+    this.setState({
+      total_servicios : Number( this.state.seguro_accidentes +
+                                this.state.anuario_seleccionado +
+                                this.state.asopadres +
+                                this.state.club )
+    });
+    console.log(" ///// Total Services: " + this.state.total_servicios)
+    //this.handleGetTotalToPay();
+  }
+
+  handleUpdateStateSeguro(inDatum){
+    this.setState({
+        seguro_accidentes: Number(inDatum)
+    });
+    console.log("Dev:// Value updated: " + this.state.seguro_accidentes)
+  }
+
+
+
+  /////////////////////////////////
+  //////// Rendering UI ///////////
+  /////////////////////////////////
   render() {
     return (
       <div className="bg-light">
@@ -308,8 +347,8 @@ class Content extends Component {
                           <div className="row">
                               <div className="col-md-12 mb-3" >
                                 <label htmlFor="country">Seguro de accidentes</label>
-                                <select className="custom-select d-block w-100" id="seguro-accidentes">
-                                  <option value="55000" defaultValue="selected">Si - $55.000</option>
+                                <select className="custom-select d-block w-100" onChange={this.handleOnChangeServices} id="seguro-accidentes">
+                                  <option value={this.state.seguro_accidentes} defaultValue="selected">Si - $55.000</option>
                                   <option value="0">No - 0$</option>
                                 </select>
                               </div>
@@ -318,10 +357,10 @@ class Content extends Component {
                           <div className="row">
                               <div className="col-md-12 mb-3" >
                                 <label htmlFor="country">Anuario</label>
-                                <select className="custom-select d-block w-100" id="anuario">
-                                  <option value="110000" defaultValue="selected">Impreso - $110.000</option>
-                                  <option value="46000">Digital - $46.000</option>
-                                  <option value="156000">Impreso + Digital - $156.000</option>
+                                <select className="custom-select d-block w-100" onChange={this.handleOnChangeServices} id="anuario">
+                                  <option value={this.state.anuario_impreso} defaultValue="selected">Impreso - $110.000</option>
+                                  <option value={this.state.anuario_digital}>Digital - $46.000</option>
+                                  <option value={this.state.anuario_combo}>Impreso + digital - $156.000</option>
                                   <option value="0">No - 0$</option>
                                 </select>
                               </div>
@@ -330,8 +369,8 @@ class Content extends Component {
                           <div className="row">
                               <div className="col-md-12 mb-3" >
                                 <label htmlFor="country">Asopadres</label>
-                                <select className="custom-select d-block w-100" id="asopadres">
-                                  <option value="190000" defaultValue="selected">Si - $190.000</option>
+                                <select className="custom-select d-block w-100" onChange={this.handleOnChangeServices} id="asopadres">
+                                  <option value={this.state.asopadres} defaultValue="selected">Si - $190.000</option>
                                   <option value="0">No - 0$</option>
                                 </select>
                               </div>
@@ -340,8 +379,8 @@ class Content extends Component {
                           <div className="row">
                               <div className="col-md-12 mb-3" >
                                 <label htmlFor="country">Afiliación Club Deportivo</label>
-                                <select className="custom-select d-block w-100" id="afiliacion-club">
-                                  <option value="375000" defaultValue="selected">Si - $375.000</option>
+                                <select className="custom-select d-block w-100" onChange={this.handleOnChangeServices} id="afiliacion-club">
+                                  <option value={this.state.club} defaultValue="selected">Si - $375.000</option>
                                   <option value="0">No - 0$</option>
                                 </select>
                               </div>
@@ -349,17 +388,22 @@ class Content extends Component {
                    
                       </div>
 
-                      <div className="card-footer">
+                      <div className="card-footer bg-success text-white">
                         <div className="row">
-                          <div className="col-6">
-                            <h6>Total Matrícula: </h6>
+                          <div className="col-12">
+                            <center><h5>Total Matrícula: </h5></center>
                           </div>
-                          <div className="col-6">
-                            <NumberFormat value={this.state.total_a_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                        </div>
+                        <div className="row">
+                          <div className="col-12">
+                              <center>
+                                <h5>
+                                  <NumberFormat value={this.state.total_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </h5>
+                              </center>
                           </div>
                         </div>
                       </div>
-
                   </div>
                 </div>
 
