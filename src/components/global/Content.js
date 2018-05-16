@@ -21,8 +21,6 @@ class Content extends Component {
     this.handleClickSearchStudent  = this.handleClickSearchStudent.bind(this);
     this.handleOnChange            = this.handleOnChange.bind(this);
     this.handleOnChangeServices    = this.handleOnChangeServices.bind(this);
-    this.handleChangeTotalServices = this.handleChangeTotalServices.bind(this);
-    this.handleUpdateStateSeguro   = this.handleUpdateStateSeguro.bind(this);
 
     this.state = {
         count: 0,
@@ -42,29 +40,66 @@ class Content extends Component {
         empleado: 0,
         santa_barbara: 0,
         convenio: 0,
-        total_descuentos: 0,
         grado: '',
         student_code: '',
+
         // Servicios de matrículas
         seguro_accidentes: 55000,
         anuario_impreso: 110000,
         anuario_digital: 46000,
         anuario_combo: 156000,
-        anuario_seleccionado: 110000,
         asopadres: 190000,
         club: 375000,
-        total_servicios: 0,
+        
+        // zero values,
+        seguro_cero: 0,
+        anuario_cero: 0,
+        asopadres_cero: 0,
+        club_cero: 0,
+        
+        // Seleccionado
+        seguro_seleccionado: 0,
+        anuario_seleccionado: 0,
+        asopadres_seleccionado: 0,
+        club_seleccionado: 0,
+
         // Total a pagar state
         total_pagar: 0,
+        total_descuentos: 0,
+        total_servicios: 0,
+
         // Loading state
-        loading: false, // will be true when ajax request is running     
+        loading: false, // will be true when ajax request is running  
+        
+        // Labels
+        label_seguro          : 'Si - $55.000',
+        label_seguro_cero     : 'No - $0.0',
+        label_anuario_impreso : 'Impreso - $110.000',
+        label_anuario_digital : 'Digital - $46.000',
+        label_anuario_combo   : 'Impreso y digital - $156.000',
+        label_anuario_cero    : 'No - $0.0',
+        label_asopadres       : 'Si - $190.000',
+        label_asopadres_cero  : 'No - $0.0',
+        label_club            : 'Si - $375.000',
+        label_club_cero       : 'No - $0.0'
     }
   }
 
   componentDidMount(){
-    this.setState({
-      
-    });
+
+      this.setState({
+          seguro_seleccionado: this.state.seguro_accidentes,
+          anuario_seleccionado: this.state.anuario_impreso,
+          asopadres_seleccionado: this.state.asopadres,
+          club_seleccionado: this.state.club
+
+      }, () => {
+        console.log("didMount action: " + this.state.seguro_seleccionado + ", " 
+                                        + this.state.anuario_seleccionado + ", " 
+                                        + this.state.asopadres_seleccionado + ", " 
+                                        + this.state.club_seleccionado);
+        this.handleGetTotalToPay("fromStart");
+      });
   }
 
   handleClickSearchStudent(){
@@ -129,29 +164,47 @@ class Content extends Component {
   }
 
   handleOnChangeServices(e){
-     if(e.target.id === 'seguro-accidentes'){  
-        console.log(" ///// All values: *" + Number(e.target.value) + ", " + this.state.anuario_seleccionado + ", " + this.state.asopadres + ", "+ this.state.club); 
-        this.handleGetTotalToPay(Number(e.target.value), this.state.anuario_seleccionado, this.state.asopadres, this.state.club)
-        this.handleUpdateStateSeguro(Number(e.target.value));
-     }
-     if(e.target.id === 'anuario'){
+     
+    if(e.target.id === 'seguro-accidentes'){
+        console.log("Seguro: " + e.target.value); 
         this.setState({
-          anuario_seleccionado: Number(e.target.value)
+            seguro_seleccionado: Number(e.target.value)
         }, () => {
-          //console.log(" ///// Anuario value: " + this.state.anuario_seleccionado)
-          console.log(" ///// All values: " + this.state.seguro_accidentes + ", *" + this.state.anuario_seleccionado + ", " + this.state.asopadres + ", "+ this.state.club); 
-          this.handleGetTotalToPay(this.state.seguro_accidentes, this.state.anuario_seleccionado, this.state.asopadres, this.state.club)
-        })      
+            console.log("Seguro updated: " + this.state.seguro_seleccionado);
+            this.handleGetTotalToPay("fromSelection");
+        })     
      }
+     
+     if(e.target.id === 'anuario'){
+        console.log("Anuario: " + e.target.value); 
+        this.setState({
+            anuario_seleccionado: Number(e.target.value)
+        }, () => {
+            console.log("Anuario updated: " + this.state.anuario_seleccionado);
+            this.handleGetTotalToPay("fromSelection");
+        })
+     }
+     
      if(e.target.id === 'asopadres'){
-        console.log(" ///// All values: " + this.state.seguro_accidentes + ", " + this.state.anuario_seleccionado + ", *" + Number(e.target.value) + ", "+ this.state.club); 
-        this.handleGetTotalToPay(this.state.seguro_accidentes, this.state.anuario_seleccionado, Number(e.target.value), this.state.club)
+        console.log("Asopadres: " + e.target.value); 
+        this.setState({
+            asopadres_seleccionado: Number(e.target.value)
+        }, () => {
+          console.log("Asopadres updated: " + this.state.asopadres_seleccionado);
+          this.handleGetTotalToPay("fromSelection");
+        })
      }
+     
      if(e.target.id === 'afiliacion-club'){
-        //console.log(" ///// Club value: " + e.target.value)
-        console.log(" ///// All values: " + this.state.seguro_accidentes + ", " + this.state.anuario_seleccionado + ", " + this.state.asopadres + ", *"+ this.state.club); 
-        
+        console.log("Club: " + e.target.value);
+        this.setState({
+            club_seleccionado: Number(e.target.value)
+        }, () => {
+          console.log("Club: " + this.state.club_seleccionado);
+          this.handleGetTotalToPay("fromSelection");
+        })
      }
+
   }
 
   handleGetTotals(){
@@ -175,36 +228,37 @@ class Content extends Component {
     console.log("===> Total for discounts: " + this.state.total_descuentos );
     console.log("===> Total for services: " + this.state.total_servicios );
     // Calling the method for totalize
-    this.handleGetTotalToPay();
+    this.handleGetTotalToPay("fromSearch");
   }
 
-  handleGetTotalToPay(seguro_value, anuario_value, aso_value, club_value){
-    
-    var total_services = Number(seguro_value + anuario_value + aso_value + club_value);
-    console.log(" ########### Total services : " + total_services );
-
+  handleGetTotalToPay(action){
+    console.log("Action coming: " + action);
+      switch(action) {
+        case "fromSearch":
+            this.setState({
+              total_pagar : Number(this.state.total_descuentos + this.state.total_servicios)
+            })
+            break;
+        case "fromSelection":
+            this.setState({
+              total_pagar : Number( this.state.total_descuentos 
+                                  + this.state.seguro_seleccionado
+                                  + this.state.anuario_seleccionado
+                                  + this.state.asopadres_seleccionado
+                                  + this.state.club_seleccionado )
+            })
+            break;
+        case "fromStart":
+            this.setState({
+              total_pagar : Number(this.state.total_descuentos 
+                                  + this.state.seguro_seleccionado
+                                  + this.state.anuario_seleccionado
+                                  + this.state.asopadres_seleccionado
+                                  + this.state.club_seleccionado)
+            })
+            break;
+      }
   }
-
-  handleChangeTotalServices(){
-
-    this.setState({
-      total_servicios : Number( this.state.seguro_accidentes +
-                                this.state.anuario_seleccionado +
-                                this.state.asopadres +
-                                this.state.club )
-    });
-    console.log(" ///// Total Services: " + this.state.total_servicios)
-    //this.handleGetTotalToPay();
-  }
-
-  handleUpdateStateSeguro(inDatum){
-    this.setState({
-        seguro_accidentes: Number(inDatum)
-    });
-    console.log("Dev:// Value updated: " + this.state.seguro_accidentes)
-  }
-
-
 
   /////////////////////////////////
   //////// Rendering UI ///////////
@@ -246,7 +300,7 @@ class Content extends Component {
             </div>
             
             </div>
-            <p>Código: {this.state.student_code}</p> 
+            { /*<p>Código: {this.state.student_code}</p> */}
             <hr />
 
             <div className="shadow-sm p-3 mb-5 bg-white rounded">
@@ -348,8 +402,8 @@ class Content extends Component {
                               <div className="col-md-12 mb-3" >
                                 <label htmlFor="country">Seguro de accidentes</label>
                                 <select className="custom-select d-block w-100" onChange={this.handleOnChangeServices} id="seguro-accidentes">
-                                  <option value={this.state.seguro_accidentes} defaultValue="selected">Si - $55.000</option>
-                                  <option value="0">No - 0$</option>
+                                  <option value={this.state.seguro_accidentes} defaultValue="selected">{this.state.label_seguro}</option>
+                                  <option value={this.state.seguro_cero}>{this.state.label_seguro_cero}</option>
                                 </select>
                               </div>
                           </div>
@@ -358,10 +412,10 @@ class Content extends Component {
                               <div className="col-md-12 mb-3" >
                                 <label htmlFor="country">Anuario</label>
                                 <select className="custom-select d-block w-100" onChange={this.handleOnChangeServices} id="anuario">
-                                  <option value={this.state.anuario_impreso} defaultValue="selected">Impreso - $110.000</option>
-                                  <option value={this.state.anuario_digital}>Digital - $46.000</option>
-                                  <option value={this.state.anuario_combo}>Impreso + digital - $156.000</option>
-                                  <option value="0">No - 0$</option>
+                                  <option value={this.state.anuario_impreso} defaultValue="selected">{this.state.label_anuario_impreso}</option>
+                                  <option value={this.state.anuario_digital}>{this.state.label_anuario_digital}</option>
+                                  <option value={this.state.anuario_combo}>{this.state.label_anuario_combo}</option>
+                                  <option value={this.state.anuario_cero}>{this.state.label_anuario_cero}</option>
                                 </select>
                               </div>
                           </div>
@@ -370,8 +424,8 @@ class Content extends Component {
                               <div className="col-md-12 mb-3" >
                                 <label htmlFor="country">Asopadres</label>
                                 <select className="custom-select d-block w-100" onChange={this.handleOnChangeServices} id="asopadres">
-                                  <option value={this.state.asopadres} defaultValue="selected">Si - $190.000</option>
-                                  <option value="0">No - 0$</option>
+                                  <option value={this.state.asopadres} defaultValue="selected">{this.state.label_asopadres}</option>
+                                  <option value={this.state.asopadres_cero}>{this.state.label_asopadres_cero}</option>
                                 </select>
                               </div>
                           </div>
@@ -380,8 +434,8 @@ class Content extends Component {
                               <div className="col-md-12 mb-3" >
                                 <label htmlFor="country">Afiliación Club Deportivo</label>
                                 <select className="custom-select d-block w-100" onChange={this.handleOnChangeServices} id="afiliacion-club">
-                                  <option value={this.state.club} defaultValue="selected">Si - $375.000</option>
-                                  <option value="0">No - 0$</option>
+                                  <option value={this.state.club} defaultValue="selected">{this.state.label_club}</option>
+                                  <option value={this.state.club_cero}>{this.state.label_club_cero}</option>
                                 </select>
                               </div>
                           </div>
