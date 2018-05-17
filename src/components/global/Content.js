@@ -8,7 +8,7 @@ import axios from 'axios';
 import NumberFormat from 'react-number-format';
 
 //// Addons
-import LoadingSpinner from './LoadSpinner';
+import LoadingModal from './Addons/LoadSpinner';
 import ModalUI from './Addons/Modal';
 import ModalUI2 from './Addons/Modal';
 
@@ -112,6 +112,8 @@ class Content extends Component {
 
   handleClickSearchStudent(){
     
+    this.toggleModalLoader();
+    
     let axiosConfig = {
       headers: {
           'X-Parse-Application-Id': 'U8jcs4wAuoOvBeCUCy4tAQTApcfUjiGmso98wM9h',
@@ -158,6 +160,7 @@ class Content extends Component {
                     grado:               item.GRADO
                 });
                 this.handleGetTotals();
+                this.loaderStatusChange();
             }else{
               this.toggleModalNoResults()
             }
@@ -303,6 +306,20 @@ class Content extends Component {
          
   }
 
+  toggleModalLoader = () => {
+      
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+         
+  }
+
+  loaderStatusChange = () =>{
+
+    setTimeout(()=> this.setState({isOpen: false}), 1500)
+
+  }
+  
   /////////////////////////////////
   //////// Rendering UI ///////////
   /////////////////////////////////
@@ -507,11 +524,6 @@ class Content extends Component {
                               Open the modal
                             </button>*/}
 
-                            <ModalUI title="Important message" 
-                                     show={this.state.isOpen} 
-                                     onClose={this.toggleModal} 
-                                     msn={this.state.message}>
-                            </ModalUI>
                             {/*Modal for no results from cloud data*/}
                             <ModalUI2 title="Important message" 
                                       show={this.state.isOpen} 
@@ -525,6 +537,12 @@ class Content extends Component {
                                       onClose={this.toggleModalWrongCode} 
                                       msn={this.state.message}>
                             </ModalUI2>
+                            
+                            {/*Modal for Loading...*/}
+                            <LoadingModal title="Cargando datos. Espere ..." 
+                                          show={this.state.isOpen} 
+                                          onClose={this.toggleModalLoader} >
+                            </LoadingModal>
                           
                           </div>
                         </div>
