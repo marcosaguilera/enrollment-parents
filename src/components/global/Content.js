@@ -75,7 +75,8 @@ class Content extends Component {
         // Addons states
         loading: false, // will be true when ajax request is running
         isOpen: false,  // Modal windows state
-        
+        isOpenLoader: false,  // Modal windows state
+        isDisableSelect: true,        
         // Modal message
         message: '',
         
@@ -111,9 +112,7 @@ class Content extends Component {
   }
 
   handleClickSearchStudent(){
-    
-    this.toggleModalLoader();
-    
+
     let axiosConfig = {
       headers: {
           'X-Parse-Application-Id': 'U8jcs4wAuoOvBeCUCy4tAQTApcfUjiGmso98wM9h',
@@ -125,7 +124,12 @@ class Content extends Component {
     let studentCodeSize = this.state.student_code.length;
     console.log("Student code size: " + studentCodeSize);
 
+    
+
     if(studentCodeSize === 5 ){
+      
+        this.toggleModalLoader(); 
+        
         axios.get('https://parseapi.back4app.com/classes/Enrollment?where={"CODIGO":"' + this.state.student_code + '"}', axiosConfig)
           .then(res => {
             console.log("Full object:");
@@ -140,7 +144,7 @@ class Content extends Component {
             console.log("Response size:" + jsonLenght);
             console.log(item);
 
-            if(jsonLenght > 0){
+            if(jsonLenght > 0){ 
                 //Setting Parse Data to states
                 this.setState({
                     objectId:            item.objectId, 
@@ -160,13 +164,16 @@ class Content extends Component {
                     grado:               item.GRADO
                 });
                 this.handleGetTotals();
+                this.toggleSelectorsActivation();
                 this.loaderStatusChange();
             }else{
-              this.toggleModalNoResults()
+              this.loaderStatusChange();
+              this.toggleModalNoResults();
             }
         })
     }else{
-        this.toggleModalWrongCode() // If the code size is not equals to 5, then show a message
+        //this.loaderStatusChange();
+        this.toggleModalWrongCode(); // If the code size is not equals to 5, then show a message
     }       
   }
 
@@ -309,14 +316,22 @@ class Content extends Component {
   toggleModalLoader = () => {
       
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpenLoader: !this.state.isOpenLoader
     });
          
   }
 
   loaderStatusChange = () =>{
 
-    setTimeout(()=> this.setState({isOpen: false}), 1500)
+    setTimeout(()=> this.setState({isOpenLoader: false}), 0)
+
+  }
+
+  toggleSelectorsActivation = () =>{
+
+    this.setState({
+      isDisableSelect: false
+    });
 
   }
   
@@ -461,9 +476,12 @@ class Content extends Component {
                           <div className="row">
                               <div className="col-md-12 mb-3" >
                                 <label htmlFor="country">Seguro de accidentes</label>
-                                <select className="custom-select d-block w-100" onChange={this.handleOnChangeServices} id="seguro-accidentes">
-                                  <option value={this.state.seguro_accidentes} defaultValue="selected">{this.state.label_seguro}</option>
-                                  <option value={this.state.seguro_cero}>{this.state.label_seguro_cero}</option>
+                                <select className="custom-select d-block w-100" 
+                                        onChange={this.handleOnChangeServices} 
+                                        id="seguro-accidentes" 
+                                        disabled={this.state.isDisableSelect}>
+                                          <option value={this.state.seguro_accidentes} defaultValue="selected">{this.state.label_seguro}</option>
+                                          <option value={this.state.seguro_cero}>{this.state.label_seguro_cero}</option>
                                 </select>
                               </div>
                           </div>
@@ -471,11 +489,14 @@ class Content extends Component {
                           <div className="row">
                               <div className="col-md-12 mb-3" >
                                 <label htmlFor="country">Anuario</label>
-                                <select className="custom-select d-block w-100" onChange={this.handleOnChangeServices} id="anuario">
-                                  <option value={this.state.anuario_impreso} defaultValue="selected">{this.state.label_anuario_impreso}</option>
-                                  <option value={this.state.anuario_digital}>{this.state.label_anuario_digital}</option>
-                                  <option value={this.state.anuario_combo}>{this.state.label_anuario_combo}</option>
-                                  <option value={this.state.anuario_cero}>{this.state.label_anuario_cero}</option>
+                                <select className="custom-select d-block w-100" 
+                                        onChange={this.handleOnChangeServices} 
+                                        id="anuario"
+                                        disabled={this.state.isDisableSelect}>
+                                          <option value={this.state.anuario_impreso} defaultValue="selected">{this.state.label_anuario_impreso}</option>
+                                          <option value={this.state.anuario_digital}>{this.state.label_anuario_digital}</option>
+                                          <option value={this.state.anuario_combo}>{this.state.label_anuario_combo}</option>
+                                          <option value={this.state.anuario_cero}>{this.state.label_anuario_cero}</option>
                                 </select>
                               </div>
                           </div>
@@ -483,9 +504,12 @@ class Content extends Component {
                           <div className="row">
                               <div className="col-md-12 mb-3" >
                                 <label htmlFor="country">Asopadres</label>
-                                <select className="custom-select d-block w-100" onChange={this.handleOnChangeServices} id="asopadres">
-                                  <option value={this.state.asopadres} defaultValue="selected">{this.state.label_asopadres}</option>
-                                  <option value={this.state.asopadres_cero}>{this.state.label_asopadres_cero}</option>
+                                <select className="custom-select d-block w-100" 
+                                        onChange={this.handleOnChangeServices} 
+                                        id="asopadres"
+                                        disabled={this.state.isDisableSelect}>
+                                          <option value={this.state.asopadres} defaultValue="selected">{this.state.label_asopadres}</option>
+                                          <option value={this.state.asopadres_cero}>{this.state.label_asopadres_cero}</option>
                                 </select>
                               </div>
                           </div>
@@ -493,9 +517,12 @@ class Content extends Component {
                           <div className="row">
                               <div className="col-md-12 mb-3" >
                                 <label htmlFor="country">Afiliación Club Deportivo</label>
-                                <select className="custom-select d-block w-100" onChange={this.handleOnChangeServices} id="afiliacion-club">
-                                  <option value={this.state.club} defaultValue="selected">{this.state.label_club}</option>
-                                  <option value={this.state.club_cero}>{this.state.label_club_cero}</option>
+                                <select className="custom-select d-block w-100" 
+                                        onChange={this.handleOnChangeServices} 
+                                        id="afiliacion-club"
+                                        disabled={this.state.isDisableSelect}>
+                                          <option value={this.state.club} defaultValue="selected">{this.state.label_club}</option>
+                                          <option value={this.state.club_cero}>{this.state.label_club_cero}</option>
                                 </select>
                               </div>
                           </div>
@@ -520,10 +547,6 @@ class Content extends Component {
                         <div className="row">
                           <div className="col-12">
                             
-                            {/*<button onClick={this.toggleModal}>
-                              Open the modal
-                            </button>*/}
-
                             {/*Modal for no results from cloud data*/}
                             <ModalUI2 title="Important message" 
                                       show={this.state.isOpen} 
@@ -540,7 +563,7 @@ class Content extends Component {
                             
                             {/*Modal for Loading...*/}
                             <LoadingModal title="Cargando datos. Espere ..." 
-                                          show={this.state.isOpen} 
+                                          show={this.state.isOpenLoader} 
                                           onClose={this.toggleModalLoader} >
                             </LoadingModal>
                           
