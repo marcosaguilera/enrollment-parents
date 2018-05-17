@@ -6,15 +6,19 @@ import ReactDOM from 'react-dom';
 //// Other dependencies
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
+
+//// Addons
 import LoadingSpinner from './LoadSpinner';
+import ModalUI from './Addons/Modal';
+import ModalUI2 from './Addons/Modal';
 
 //////// Assets
 import './css/Content.css';
 
 class Content extends Component {
 //////// Controller
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
 
     this.handleGetTotals           = this.handleGetTotals.bind(this);
     this.handleGetTotalToPay       = this.handleGetTotalToPay.bind(this);
@@ -68,8 +72,12 @@ class Content extends Component {
         total_descuentos: 0,
         total_servicios: 0,
 
-        // Loading state
-        loading: false, // will be true when ajax request is running  
+        // Addons states
+        loading: false, // will be true when ajax request is running
+        isOpen: false,  // Modal windows state
+        
+        // Modal message
+        message: '',
         
         // Labels
         label_seguro          : 'Si - $55.000',
@@ -112,45 +120,51 @@ class Content extends Component {
       }
     };
 
-    axios.get('https://parseapi.back4app.com/classes/Enrollment?where={"CODIGO":"' + this.state.student_code + '"}', axiosConfig)
-      .then(res => {
-        console.log("Full object:");
-        console.log(res.data);
-        console.log("Node object:");
-        console.log(res.data.results);
-        console.log("Item object:");
-        let item = res.data.results[0];
-        
-        // jsonLenght gets the number of objects in the response
-        let jsonLenght = Object.keys(res.data.results).length;
-        console.log("Response size:" + jsonLenght);
-        console.log(item);
-        
-        if(jsonLenght > 0){
-            //Setting Parse Data to states
-            this.setState({
-                objectId:            item.objectId, 
-                createdAt:           item.createdAt,
-                updatedAt:           item.updatedAt,
-                codigo:              item.CODIGO,
-                nombres:             item.NOMBRES,
-                apellidos:           item.APELLIDOS,
-                tarifa_plena:        Number(item.TARIFA_PLENA),
-                tarifa_reducida_7_5: Number(item.TARIFA_REDUCIDA_7_5),
-                tarifa_reducida_15:  Number(item.TARIFA_REDUCIDA_15),
-                descuento_2do_hno:   Number(item.DESCUENTO_2HNO),
-                descuento_3er_hno:   Number(item.DESCUENTO_3HNO),
-                empleado:            Number(item.EMPLEADO),
-                santa_barbara:       Number(item.SANTA_BARBARA),
-                convenio:            Number(item.CONVENIO),
-                grado:               item.GRADO
-            });
-            this.handleGetTotals();
-        }else{
-          alert("Upps!, No existen resultados para el código ingresado.");  
-        }
-      }
-    )
+    let studentCodeSize = this.state.student_code.length;
+    console.log("Student code size: " + studentCodeSize);
+
+    if(studentCodeSize === 5 ){
+        axios.get('https://parseapi.back4app.com/classes/Enrollment?where={"CODIGO":"' + this.state.student_code + '"}', axiosConfig)
+          .then(res => {
+            console.log("Full object:");
+            console.log(res.data);
+            console.log("Node object:");
+            console.log(res.data.results);
+            console.log("Item object:");
+            let item = res.data.results[0];
+            
+            // jsonLenght gets the number of objects in the response
+            let jsonLenght = Object.keys(res.data.results).length;
+            console.log("Response size:" + jsonLenght);
+            console.log(item);
+
+            if(jsonLenght > 0){
+                //Setting Parse Data to states
+                this.setState({
+                    objectId:            item.objectId, 
+                    createdAt:           item.createdAt,
+                    updatedAt:           item.updatedAt,
+                    codigo:              item.CODIGO,
+                    nombres:             item.NOMBRES,
+                    apellidos:           item.APELLIDOS,
+                    tarifa_plena:        Number(item.TARIFA_PLENA),
+                    tarifa_reducida_7_5: Number(item.TARIFA_REDUCIDA_7_5),
+                    tarifa_reducida_15:  Number(item.TARIFA_REDUCIDA_15),
+                    descuento_2do_hno:   Number(item.DESCUENTO_2HNO),
+                    descuento_3er_hno:   Number(item.DESCUENTO_3HNO),
+                    empleado:            Number(item.EMPLEADO),
+                    santa_barbara:       Number(item.SANTA_BARBARA),
+                    convenio:            Number(item.CONVENIO),
+                    grado:               item.GRADO
+                });
+                this.handleGetTotals();
+            }else{
+              this.toggleModalNoResults()
+            }
+        })
+    }else{
+        this.toggleModalWrongCode() // If the code size is not equals to 5, then show a message
+    }       
   }
 
   handleOnChange(e){
@@ -232,7 +246,7 @@ class Content extends Component {
   }
 
   handleGetTotalToPay(action){
-    console.log("Action coming: " + action);
+      console.log("Action coming: " + action);
       switch(action) {
         case "fromSearch":
             this.setState({
@@ -257,7 +271,36 @@ class Content extends Component {
                                   + this.state.club_seleccionado)
             })
             break;
+        
+        default:
+            console.log("Default action coming: " + action);
       }
+  }
+
+  toggleModal = () => {
+      
+      this.setState({
+        isOpen: !this.state.isOpen,
+      });
+           
+  }
+
+  toggleModalNoResults = () => {
+      
+    this.setState({
+      isOpen: !this.state.isOpen,
+      message: 'No se encontraron resultados para el código ingresado. Verifique el código del estudiante e intente nuevamente.'
+    });
+         
+  }
+
+  toggleModalWrongCode = () => {
+      
+    this.setState({
+      isOpen: !this.state.isOpen,
+      message: 'El código del estudiante debe tener una extensión de 5 dígitos. Por favor verifiquelo e intente nuevamente.'
+    });
+         
   }
 
   /////////////////////////////////
@@ -445,7 +488,7 @@ class Content extends Component {
                       <div className="card-footer bg-success text-white">
                         <div className="row">
                           <div className="col-12">
-                            <center><h5>Total Matrícula: </h5></center>
+                            <center><h5>Total Matrícula</h5></center>
                           </div>
                         </div>
                         <div className="row">
@@ -457,6 +500,34 @@ class Content extends Component {
                               </center>
                           </div>
                         </div>
+                        <div className="row">
+                          <div className="col-12">
+                            
+                            {/*<button onClick={this.toggleModal}>
+                              Open the modal
+                            </button>*/}
+
+                            <ModalUI title="Important message" 
+                                     show={this.state.isOpen} 
+                                     onClose={this.toggleModal} 
+                                     msn={this.state.message}>
+                            </ModalUI>
+                            {/*Modal for no results from cloud data*/}
+                            <ModalUI2 title="Important message" 
+                                      show={this.state.isOpen} 
+                                      onClose={this.toggleModalNoResults} 
+                                      msn={this.state.message}>
+                            </ModalUI2>
+
+                            {/*Modal for Wrong code inserted*/}
+                            <ModalUI2 title="Important message" 
+                                      show={this.state.isOpen} 
+                                      onClose={this.toggleModalWrongCode} 
+                                      msn={this.state.message}>
+                            </ModalUI2>
+                          
+                          </div>
+                        </div>
                       </div>
                   </div>
                 </div>
@@ -464,6 +535,9 @@ class Content extends Component {
               </div>
             </div>
            </div>
+
+           
+
         </main>
        
        
