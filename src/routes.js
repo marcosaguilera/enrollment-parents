@@ -6,6 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 import App from './components/App';
 import Resume from './components/global/Modules/Resume/Resume'
 import Help from './components/global/Modules/Help/Help'
+import Home from './components/global/Modules/Services/Services'
 import Page404 from './components/global/Modules/Page404/Page404'
 
 const AppRoutes = () => 
@@ -13,6 +14,7 @@ const AppRoutes = () =>
         <Switch>
             <Route exact path="/resume" component={Resume} />
             <Route exact path="/help" component={Help} />
+            <Route exact path="/" component={Home} />
             <Route exact component={Page404} />
         </Switch>
     </App>      
