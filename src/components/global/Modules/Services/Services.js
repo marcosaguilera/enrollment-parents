@@ -10,6 +10,7 @@ import NumberFormat from 'react-number-format';
 import LoadingModal from '../../Addons/LoadSpinner';
 import ModalUI from '../../Addons/Modal';
 import ModalUI2 from '../../Addons/Modal';
+import Resume from '../Resume/Resume'
 
 //////// Assets
 import '../../Modules/Services/Services.css';
@@ -579,9 +580,11 @@ class Services extends Component {
 
                   <div className="row">
                     <div className="col-12">
-                    <button type="button" 
-                            className="btn btn-primary btn-lg btn-block"
-                            onClick={() => this.nextPath('/resume')}>Imprimir y Pagar</button>
+                      <button type="button" 
+                              className="btn btn-primary btn-lg btn-block"
+                              onClick={() => this.nextPath('/resume')}
+                              disabled={this.state.isDisableSelect}>Imprimir y Pagar</button>
+                      {/*Passing data to Resume UI*/}
                     </div>
                   </div>
 

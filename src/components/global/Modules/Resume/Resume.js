@@ -1,7 +1,18 @@
 // Dependencies
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Resume extends Component {
+  
+  constructor(){
+    super();
+  }
+
+  // Props definitions
+  static propTypes = {
+    data     : PropTypes.object.isRequired
+  }
+
   render() {
     return (
       <div className="Resume">
@@ -13,36 +24,38 @@ class Resume extends Component {
                 <div className="col-md-8">
                   <div className="card p-5 bg-light text-dark">
                     <div className="card-body">
-                      <div class="row">
-                        <div class="col-md-12">
-                            <h1 class="">Resumen de servicios</h1>
+                      <div className="row">
+                        <div className="col-md-12">
+                            <h1 className="">Resumen de servicios</h1>
                         </div>
                       </div>
-                      <div class="row">
-                        <div class="col-md-12">
-                          <table class="table">
-                            <thead>
-                              <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                              </tr>
-                              <tr>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                              </tr>
-                              <tr>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
+                      <div className="py-5">
+                          <div className="row">
+                            <div className="col-md-12">
+                              <table className="table">
+                                <thead>
+                                  <tr>
+                                    <th>Concepto</th>
+                                    <th>Valor ($)</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Larry</td>
+                                    <td>the Bird</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
                       </div>
                     </div>
                   </div>
