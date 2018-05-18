@@ -9,7 +9,8 @@
 
 .Header-header {
   background-color: #222;
-  height: 150px;
+  /*background-image: url('../images/pattern.jpg');*/
+  height: 180px;
   padding: 20px;
   color: white;
 }

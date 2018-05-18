@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-
-/// Material UI
 
 //// Other dependencies
 import axios from 'axios';
@@ -103,10 +100,10 @@ class Content extends Component {
           club_seleccionado: this.state.club
 
       }, () => {
-        console.log("didMount action: " + this.state.seguro_seleccionado + ", " 
+        {/*console.log("didMount action: " + this.state.seguro_seleccionado + ", " 
                                         + this.state.anuario_seleccionado + ", " 
                                         + this.state.asopadres_seleccionado + ", " 
-                                        + this.state.club_seleccionado);
+      + this.state.club_seleccionado);*/}
         this.handleGetTotalToPay("fromStart");
       });
   }
@@ -345,8 +342,7 @@ class Content extends Component {
           <div className="shadow-sm p-3 mb-5 bg-white rounded">
           <div className="starter-template">
             
-            <p id="help-text" className="lead">Liquidador de Matrícula - Rochester 2018-2019<br /> 
-                                               Ingrese el código del estudiante</p>
+            <p id="help-text" className="lead">Ingrese el código del estudiante</p>
 
             <div className="row">
               <div className="col-sm"> 
@@ -358,7 +354,7 @@ class Content extends Component {
                       onChange={this.handleOnChange}
                       type="text" 
                       className="form-control" 
-                      placeholder="Ej. 15001"
+                      placeholder=""
                       aria-label="Recipient's username" 
                       aria-describedby="basic-addon2"
                       maxLength="5"></input>
@@ -548,11 +544,11 @@ class Content extends Component {
                           <div className="col-12">
                             
                             {/*Modal for no results from cloud data*/}
-                            <ModalUI2 title="Important message" 
+                            <ModalUI title="Important message" 
                                       show={this.state.isOpen} 
                                       onClose={this.toggleModalNoResults} 
                                       msn={this.state.message}>
-                            </ModalUI2>
+                            </ModalUI>
 
                             {/*Modal for Wrong code inserted*/}
                             <ModalUI2 title="Important message" 

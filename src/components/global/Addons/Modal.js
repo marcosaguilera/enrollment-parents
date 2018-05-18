@@ -26,9 +26,6 @@ class Spacecraft extends Component {
   // event handling methods go here
   render() {
 
-    {/*console.log(this.props);
-    console.log("Props values: " + " Title: " + this.props.title + " Show: " + this.props.show);*/}
-
     if(!this.props.show) {
       return null;
     }
