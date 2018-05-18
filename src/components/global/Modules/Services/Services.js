@@ -17,10 +17,6 @@ import '../../Modules/Services/Services.css';
 class Services extends Component {
 //////// Controller
 
-  static propTypes = {
-    body: PropTypes.object.isRequired
-  }
-
   constructor(props){
     super(props);
 
@@ -348,11 +344,9 @@ class Services extends Component {
   /////////////////////////////////
   render() {
 
-    const { body } = this.props;
-    console.log(this.props);
-
     return (
       <div className="bg-light">
+
         <main role="main"  className="container">
           <div className="shadow-sm p-3 mb-5 bg-white rounded">
           <div className="starter-template">
@@ -596,10 +590,9 @@ class Services extends Component {
             </div>          
            </div>
 
-        </main>
-            
+        </main>  
+        
       </div>
-  
     );
   }
 }
