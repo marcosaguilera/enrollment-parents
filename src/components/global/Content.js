@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 //// Other dependencies
 import axios from 'axios';
@@ -14,6 +16,11 @@ import './css/Content.css';
 
 class Content extends Component {
 //////// Controller
+
+  static propTypes = {
+    body: PropTypes.object.isRequired
+  }
+
   constructor(props){
     super(props);
 
@@ -331,11 +338,19 @@ class Content extends Component {
     });
 
   }
+
+  nextPath(path) {
+    this.props.history.push(path);
+  }
   
   /////////////////////////////////
   //////// Rendering UI ///////////
   /////////////////////////////////
   render() {
+
+    const { body } = this.props;
+    console.log(this.props);
+
     return (
       <div className="bg-light">
         <main role="main"  className="container">
@@ -377,7 +392,6 @@ class Content extends Component {
             <div className="shadow-sm p-3 mb-5 bg-white rounded">
             
               <div className="row">
-              
                 <div className="col-md-8">
                   <h4 className="d-flex justify-content-between mb-3" >Información del Estudiante</h4>
                   <div className="row">
@@ -566,23 +580,28 @@ class Content extends Component {
                           </div>
                         </div>
                       </div>
-                  </div>
-                </div>
+                      
+                  </div>  
 
+                  <div className="row">
+                    <div className="col-12">
+                    <button type="button" 
+                            className="btn btn-primary btn-lg btn-block"
+                            onClick={() => this.nextPath('/resume')}>Imprimir y Pagar</button>
+                    </div>
+                  </div>
+
+                </div>
               </div>
-            </div>
+            </div>          
            </div>
 
-           
-
         </main>
-       
-       
-
+            
       </div>
   
     );
   }
 }
 
-export default Content;
+export default withRouter(Content);
