@@ -77,7 +77,8 @@ class Services extends Component {
         loading: false, // will be true when ajax request is running
         isOpen: false,  // Modal windows state
         isOpenLoader: false,  // Modal windows state
-        isDisableSelect: true,        
+        isDisableSelect: true, 
+        isShowingResume: 'none',        
         // Modal message
         message: '',
         
@@ -336,8 +337,11 @@ class Services extends Component {
 
   }
 
-  nextPath(path) {
-    this.props.history.push(path);
+  nextPath = () => {
+    this.setState({
+      isShowingResume: ''
+    })
+    this.props.history.push('/resume');
   }
   
   /////////////////////////////////
@@ -374,10 +378,9 @@ class Services extends Component {
                       onClick={this.handleClickSearchStudent}
                       type="button">Buscar</button>
                   </div>
-                </div>
-              </div>
-              <div className="col-sm">
-              </div>
+                 </div>
+               </div>
+               <div className="col-sm"></div>
             </div>
             
             </div>
@@ -554,9 +557,9 @@ class Services extends Component {
                             
                             {/*Modal for no results from cloud data*/}
                             <ModalUI title="Important message" 
-                                      show={this.state.isOpen} 
-                                      onClose={this.toggleModalNoResults} 
-                                      msn={this.state.message}>
+                                     show={this.state.isOpen} 
+                                     onClose={this.toggleModalNoResults} 
+                                     msn={this.state.message}>
                             </ModalUI>
 
                             {/*Modal for Wrong code inserted*/}
@@ -582,9 +585,12 @@ class Services extends Component {
                     <div className="col-12">
                       <button type="button" 
                               className="btn btn-primary btn-lg btn-block"
-                              onClick={() => this.nextPath('/resume')}
+                              onClick={() => this.nextPath()}
                               disabled={this.state.isDisableSelect}>Imprimir y Pagar</button>
                       {/*Passing data to Resume UI*/}
+                      <Resume 
+                              show={this.state.isShowingResume}>
+                      </Resume>
                     </div>
                   </div>
 

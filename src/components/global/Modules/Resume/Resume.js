@@ -10,12 +10,22 @@ class Resume extends Component {
 
   // Props definitions
   static propTypes = {
-    data     : PropTypes.object.isRequired
+    data     : PropTypes.string,
+    show     : PropTypes.string
   }
 
   render() {
+    console.log(this.props)
+
+    if(this.props.show === 'none') {
+      return null;
+    }
+
+    console.log(this.props.show)
+    
+    
     return (
-      <div className="Resume">
+      <div className="Resume" style={{display: this.props.show }}>
         <main>  
           <div className="album py-5 bg-light" >
             <div className="container">
