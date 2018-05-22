@@ -78,10 +78,14 @@ class Services extends Component {
         isOpen: false,  // Modal windows state
         isOpenLoader: false,  // Modal windows state
         isDisableSelect: true, 
-        isShowingResume: 'none',        
+        isShowingResume: 'none',  
+
         // Modal message
         message: '',
         
+        // Data PropTypes to Resume
+        resumeData : 'hello',
+
         // Labels
         label_seguro          : 'Si - $55.000',
         label_seguro_cero     : 'No - $0.0',
@@ -258,7 +262,6 @@ class Services extends Component {
   }
 
   handleGetTotalToPay(action){
-      console.log("Action coming: " + action);
       switch(action) {
         case "fromSearch":
             this.setState({
@@ -338,9 +341,24 @@ class Services extends Component {
   }
 
   nextPath = () => {
+    var servicesData = this.state.seguro_seleccionado;
+    // Service selected
+    //servicesData.push(this.state.seguro_seleccionado);
+    //servicesData.push(this.state.anuario_seleccionado);
+    //servicesData.push(this.state.asopadres_seleccionado);
+    //servicesData.push(this.state.club_seleccionado);
+    // Totals
+    //servicesData.push(this.state.total_descuentos);
+    //servicesData.push(this.state.total_servicios);
+    //servicesData.push(this.state.total_pagar);
+
+    console.log("Data Array to pass: " + servicesData);
+
     this.setState({
-      isShowingResume: ''
-    })
+      isShowingResume: '',
+      resumeData: servicesData
+    });
+
     this.props.history.push('/resume');
   }
   
@@ -586,10 +604,12 @@ class Services extends Component {
                       <button type="button" 
                               className="btn btn-primary btn-lg btn-block"
                               onClick={() => this.nextPath()}
-                              disabled={this.state.isDisableSelect}>Imprimir y Pagar</button>
+                              disabled={this.state.isDisableSelect}>Imprimir</button>
                       {/*Passing data to Resume UI*/}
+                      {this.state.resumeData}
                       <Resume 
-                              show={this.state.isShowingResume}>
+                              show={this.state.isShowingResume}
+                              data={this.state.resumeData}>
                       </Resume>
                     </div>
                   </div>

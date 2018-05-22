@@ -10,8 +10,8 @@ class Resume extends Component {
 
   // Props definitions
   static propTypes = {
-    data     : PropTypes.string,
-    show     : PropTypes.string
+    dataResumed : PropTypes.string.isRequired,
+    show        : PropTypes.string
   }
 
   render() {
@@ -19,10 +19,7 @@ class Resume extends Component {
 
     if(this.props.show === 'none') {
       return null;
-    }
-
-    console.log(this.props.show)
-    
+    }    
     
     return (
       <div className="Resume" style={{display: this.props.show }}>
@@ -51,16 +48,24 @@ class Resume extends Component {
                                 </thead>
                                 <tbody>
                                   <tr>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
+                                    <td>Matrícula</td>
+                                    <td>$ 1.345.000</td>
                                   </tr>
                                   <tr>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
+                                    <td>Seguro Accidentes</td>
+                                    <td>$ 450.0000</td>
                                   </tr>
                                   <tr>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
+                                    <td>Anuario</td>
+                                    <td>$ 0</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Asopadres</td>
+                                    <td>$ 0</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Club</td>
+                                    <td>$ 0</td>
                                   </tr>
                                 </tbody>
                               </table>
