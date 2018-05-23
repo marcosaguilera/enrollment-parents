@@ -1,6 +1,5 @@
 // Dependencies
 import React, { Component } from 'react';
-import PDFDocument from 'pdfkit';
 
 class Print extends Component {
   
@@ -18,4 +17,4 @@ class Print extends Component {
   }
 }
 
-export default Print;
+export default Print; 
