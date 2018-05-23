@@ -158,14 +158,16 @@ class Resume extends Component {
 
                       <div className="py-3">
                         <div className="col-md-12">
-                          <div class="row">
-                            <div class="col">
-                                <button type="button" class="btn btn-primary btn-lg">Imprimir</button>
+                          <div className="row">
+                            <div className="col">
+                                <button type="button" className="btn btn-primary btn-lg">Imprimir</button>
                             </div>
-                            <div class="col"></div>
-                            <div class="col"></div>
-                            <div class="col">
-                                <button type="button" class="btn btn-primary btn-lg">Pagar en línea</button>
+                            <div className="col"></div>
+                            <div className="col"></div>
+                            <div className="col">
+                                <button type="button" className="btn btn-success btn-lg">
+                                  Pagar en línea
+                                </button>
                             </div>
                           </div>      
                         </div>
