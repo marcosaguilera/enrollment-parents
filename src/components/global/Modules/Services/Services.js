@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 
 //// Other dependencies
 import axios from 'axios';
@@ -10,7 +8,6 @@ import NumberFormat from 'react-number-format';
 import LoadingModal from '../../Addons/LoadSpinner';
 import ModalUI from '../../Addons/Modal';
 import ModalUI2 from '../../Addons/Modal';
-import Resume from '../Resume/Resume'
 
 //////// Assets
 import '../../Modules/Services/Services.css';
@@ -84,7 +81,7 @@ class Services extends Component {
         message: '',
         
         // Data PropTypes to Resume
-        resumeData : 'hello',
+        resumeData : 0,
 
         // Labels
         label_seguro          : 'Si - $55.000',
@@ -109,10 +106,10 @@ class Services extends Component {
           club_seleccionado: this.state.club
 
       }, () => {
-        {/*console.log("didMount action: " + this.state.seguro_seleccionado + ", " 
+        /*console.log("didMount action: " + this.state.seguro_seleccionado + ", " 
                                         + this.state.anuario_seleccionado + ", " 
                                         + this.state.asopadres_seleccionado + ", " 
-      + this.state.club_seleccionado);*/}
+      + this.state.club_seleccionado);*/
         this.handleGetTotalToPay("fromStart");
       });
   }
@@ -341,25 +338,26 @@ class Services extends Component {
   }
 
   nextPath = () => {
-    var servicesData = this.state.seguro_seleccionado;
-    // Service selected
-    //servicesData.push(this.state.seguro_seleccionado);
-    //servicesData.push(this.state.anuario_seleccionado);
-    //servicesData.push(this.state.asopadres_seleccionado);
-    //servicesData.push(this.state.club_seleccionado);
-    // Totals
-    //servicesData.push(this.state.total_descuentos);
-    //servicesData.push(this.state.total_servicios);
-    //servicesData.push(this.state.total_pagar);
-
-    console.log("Data Array to pass: " + servicesData);
+    var services = new Object();
+    services.seguro           = this.state.seguro_seleccionado;
+    services.anuario          = this.state.anuario_seleccionado;
+    services.asopadres        = this.state.asopadres_seleccionado;
+    services.club             = this.state.club_seleccionado;
+    services.total_descuentos = this.state.total_descuentos;
+    services.total_servicios  = this.state.total_servicios;
+    services.total_pagar      = this.state.total_pagar;
+    // Student data
+    services.codigo           = this.state.codigo;
+    services.nombres          = this.state.nombres;
+    services.apellidos        = this.state.apellidos;
+    services.grado            = this.state.grado;
+    services.uid              = this.state.objectId;
 
     this.setState({
-      isShowingResume: '',
-      resumeData: servicesData
+      isShowingResume: ''
     });
 
-    this.props.history.push('/resume');
+    this.props.history.push('/resume', services);
   }
   
   /////////////////////////////////
@@ -372,37 +370,37 @@ class Services extends Component {
 
         <main role="main"  className="container">
           <div className="shadow-sm p-3 mb-5 bg-white rounded">
-          <div className="starter-template">
-            
-            <p id="help-text" className="lead">Ingrese el código del estudiante</p>
+            <div className="starter-template">
+              
+              <p id="help-text" className="lead">Ingrese el código del estudiante</p>
 
-            <div className="row">
-              <div className="col-sm"> 
-              </div>
-              <div className="col-sm">
-                <div className="input-group input-group-lg mb-3">
-                  <input
-                      id="student_code_input"
-                      onChange={this.handleOnChange}
-                      type="text" 
-                      className="form-control" 
-                      placeholder=""
-                      aria-label="Recipient's username" 
-                      aria-describedby="basic-addon2"
-                      maxLength="5"></input>
-                  <div className="input-group-append">
-                    <button 
-                      className="btn btn-primary" 
-                      onClick={this.handleClickSearchStudent}
-                      type="button">Buscar</button>
+              <div className="row">
+                  <div className="col-sm"></div>
+                  <div className="col-sm">
+                    <div className="input-group input-group-lg mb-3">
+                        <input
+                          id="student_code_input"
+                          onChange={this.handleOnChange}
+                          type="text" 
+                          className="form-control" 
+                          placeholder=""
+                          aria-label="Recipient's username" 
+                          aria-describedby="basic-addon2"
+                          maxLength="5">
+                        </input>
+                        <div className="input-group-append">
+                          <button 
+                            className="btn btn-primary" 
+                            onClick={this.handleClickSearchStudent}
+                            type="button">Buscar</button>
+                        </div>
+                    </div>
                   </div>
-                 </div>
-               </div>
-               <div className="col-sm"></div>
+                  <div className="col-sm"></div>
+              </div>
+              
             </div>
-            
-            </div>
-            { /*<p>Código: {this.state.student_code}</p> */}
+
             <hr />
 
             <div className="shadow-sm p-3 mb-5 bg-white rounded">
@@ -552,7 +550,7 @@ class Services extends Component {
                                 </select>
                               </div>
                           </div>
-                   
+                    
                       </div>
 
                       <div className="card-footer bg-success text-white">
@@ -575,9 +573,9 @@ class Services extends Component {
                             
                             {/*Modal for no results from cloud data*/}
                             <ModalUI title="Important message" 
-                                     show={this.state.isOpen} 
-                                     onClose={this.toggleModalNoResults} 
-                                     msn={this.state.message}>
+                                      show={this.state.isOpen} 
+                                      onClose={this.toggleModalNoResults} 
+                                      msn={this.state.message}>
                             </ModalUI>
 
                             {/*Modal for Wrong code inserted*/}
@@ -606,18 +604,16 @@ class Services extends Component {
                               onClick={() => this.nextPath()}
                               disabled={this.state.isDisableSelect}>Imprimir</button>
                       {/*Passing data to Resume UI*/}
-                      {this.state.resumeData}
-                      <Resume 
-                              show={this.state.isShowingResume}
-                              data={this.state.resumeData}>
-                      </Resume>
+                      {/*<Resume 
+                              show={this.state.isShowingResume}>  
+                      </Resume>*/}
                     </div>
                   </div>
 
                 </div>
               </div>
             </div>          
-           </div>
+          </div>
 
         </main>  
         

@@ -1,28 +1,71 @@
 // Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import NumberFormat from 'react-number-format';
 
 class Resume extends Component {
   
   constructor(){
     super();
+
+    this.state = {
+      seguro        : 0,
+      anuario       : 0,
+      asopadres     : 0,
+      club          : 0,
+      tot_matricula : 0,
+      tot_servicios : 0,
+      tot_pagar     : 0,
+      fee           : 3.2,
+      fee_cop       : 900,
+      codigo        : '',
+      nombres       : '',
+      apellidos     : '',
+      grado         : '',
+      objectId      : '' 
+    }
+  }
+
+  componentDidMount(){
+    var servicesObj = this.props.location.state;
+    console.log("Services data: " + JSON.stringify(servicesObj));
+
+    this.setState({
+        anuario       : servicesObj.anuario,
+        asopadres     : servicesObj.asopadres,
+        club          : servicesObj.club,
+        seguro        : servicesObj.seguro,
+        tot_matricula : servicesObj.total_descuentos,
+        tot_servicios : servicesObj.total_servicios,
+        tot_pagar     : servicesObj.total_pagar,
+        // Student Data
+        codigo        : servicesObj.codigo,
+        nombres       : servicesObj.nombres,
+        apellidos     : servicesObj.apellidos,
+        grado         : servicesObj.grado,
+        objectId      : servicesObj.uid
+
+    }, () => {
+        console.log("Updated value: " + this.state.seguro);
+    });
+    
+
   }
 
   // Props definitions
   static propTypes = {
-    dataResumed : PropTypes.string.isRequired,
-    show        : PropTypes.string
+    show : PropTypes.string
   }
 
   render() {
     console.log(this.props)
 
-    if(this.props.show === 'none') {
+    /*if(this.props.show === 'none') {
       return null;
-    }    
+    }    */
     
     return (
-      <div className="Resume" style={{display: this.props.show }}>
+      <div className="Resume"> {/*style={{display: this.props.show }} >*/}
         <main>  
           <div className="album py-5 bg-light" >
             <div className="container">
@@ -35,7 +78,30 @@ class Resume extends Component {
                         <div className="col-md-12">
                             <h1 className="">Resumen de servicios</h1>
                         </div>
+                        <div className="col-md-12"> 
+                            <div className="py-3">
+                              <div className="container">
+                                <div className="row">
+                                  <div className="col-md-3"><b>Código</b></div>
+                                  <div className="col-md-9">{this.state.codigo}</div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-md-3"><b>Grado</b></div>
+                                  <div className="col-md-9">{this.state.grado}</div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-md-3"><b>Nombres</b></div>
+                                  <div className="col-md-9">{this.state.nombres}</div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-md-3"><b>Apellidos</b></div>
+                                  <div className="col-md-9">{this.state.apellidos}</div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
                       </div>
+                      
                       <div className="py-5">
                           <div className="row">
                             <div className="col-md-12">
@@ -49,23 +115,23 @@ class Resume extends Component {
                                 <tbody>
                                   <tr>
                                     <td>Matrícula</td>
-                                    <td>$ 1.345.000</td>
+                                    <td><NumberFormat value={this.state.tot_matricula} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                   </tr>
                                   <tr>
                                     <td>Seguro Accidentes</td>
-                                    <td>$ 450.0000</td>
+                                    <td><NumberFormat value={this.state.seguro} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                   </tr>
                                   <tr>
                                     <td>Anuario</td>
-                                    <td>$ 0</td>
+                                    <td><NumberFormat value={this.state.anuario} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                   </tr>
                                   <tr>
                                     <td>Asopadres</td>
-                                    <td>$ 0</td>
+                                    <td><NumberFormat value={this.state.asopadres} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                   </tr>
                                   <tr>
-                                    <td>Club</td>
-                                    <td>$ 0</td>
+                                    <td>Afiliación Club Deportivo</td>
+                                    <td><NumberFormat value={this.state.club} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                   </tr>
                                 </tbody>
                               </table>

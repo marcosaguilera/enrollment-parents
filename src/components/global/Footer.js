@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import './css/Footer.css';
 
 class Footer extends Component {
-  static PropTypes = {
+  static propTypes = {
     copyright: PropTypes.string
   };
 
