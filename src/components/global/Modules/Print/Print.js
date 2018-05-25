@@ -39,10 +39,10 @@ class Print extends Component {
              style={{ background: '#f5f5f5', 
                       width: '210mm',
                       minHeight: '297mm',
-                      paddingLeft: '20px',
+                      paddingLeft: '80px',
                       paddingTop: '20px',
                       paddingBottom: '20px',
-                      paddingRight: '150px',
+                      paddingRight: '140px',
                       marginLeft: 'auto',
                       marginRight: 'auto'
                    }}>
@@ -59,21 +59,20 @@ class Print extends Component {
                                             <p>&nbsp;</p>
                                         </td>
                                         <td style={{width: '80.6162%', textAlign: 'center'}}>
-                                            <h2>FUNDACION EDUCATIVA ROCHESTER</h2>
-                                            <h4>NIT: 900 509 589 - 7</h4>
+                                            <h5>FUNDACION EDUCATIVA ROCHESTER</h5>
+                                            <h6>NIT: 900 509 589 - 7</h6>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style={{width: '80.6162%', textAlign: 'right'}}>RECIBO DE PAGO EN BANCOS N&ordm;. xxxxxxxxxx
+                                        <td style={{width: '80.6162%', textAlign: 'right'}}>
+                                            <p style={{fontSize: 'xx-small'}}>RECIBO DE PAGO EN BANCOS N&ordm;. xxxxxxxxxx
                                             <br />Actividad comercial 8000. Tarifa I.C.A 0.7%.
-                                            <br />NO RESPONSABLE DE I.V.A&nbsp;</td>
+                                            <br />NO RESPONSABLE DE I.V.A&nbsp;</p></td>
                                     </tr>
-                                    <tr>
-                                        <td style={{width: '80.6162%'}}>&nbsp;</td>
-                                    </tr>
+                                    
                                 </tbody>
                             </table>
-                            <h3><strong>Informaci&oacute;n del Alumno</strong></h3>
+                            <h5><strong>Informaci&oacute;n del Alumno</strong></h5>
                             <table style={{width: '100%'}}>
                                 <tbody>
                                     <tr>
@@ -130,36 +129,38 @@ class Print extends Component {
                                     <tr>
                                         <td style={{width: '50.2092%', textAlign: 'left'}}>&nbsp;</td>
                                         <td style={{width: '23.7908%'}}><strong>TOTAL A PAGAR</strong></td>
-                                        <td style={{width: '21%', textAlign: 'right'}}><strong>$2.504.221</strong>&nbsp;</td>
+                                        <td style={{width: '21%', textAlign: 'right'}}><strong>$2.504.221</strong></td>
                                     </tr>
                                 </tbody>
                             </table>
                             <hr />
-                            <p>Nota: Si el estudiante, una vez matriculado en el COLEGIO ROCHESTER se retira antes de la fecha de iniciaci&oacute;n de clases del a&ntilde;o escolar 2018-2019, se le devolver&aacute; el 50% del valor de la matr&iacute;cula y el valor de los otros costos pagados. Si el estudiante se retira despu&eacute;s de iniciadas las clases, no habr&aacute; lugar a devolver suma alguna del valor de la matr&iacute;cula, y se le devolver&aacute; lo pagado por otros conceptos de costos proporcionalmente al tiempo de permanencia en EL COLEGIO.</p>
-                            <br />
+                            <p style={{fontSize: '11px', textAlign: 'justify'}}>Nota: Si el estudiante, una vez matriculado en el COLEGIO ROCHESTER se retira antes de la fecha de iniciaci&oacute;n de clases del a&ntilde;o escolar 2018-2019, se le devolver&aacute; el 50% del valor de la matr&iacute;cula y el valor de los otros costos pagados. Si el estudiante se retira despu&eacute;s de iniciadas las clases, no habr&aacute; lugar a devolver suma alguna del valor de la matr&iacute;cula, y se le devolver&aacute; lo pagado por otros conceptos de costos proporcionalmente al tiempo de permanencia en EL COLEGIO.</p>
                             <table style={{width: '100%'}}>
                                 <tbody>
                                     <tr>
                                         <td style={{width: '45%'}}>&nbsp;
                                             <hr />
-                                            <p><strong>Padre</strong></p>
-                                            <p><strong>C.C__ P.S__ C.E__ </strong></p>
-                                            <p><strong>No.___________________________</strong></p>
+                                            <p style={{fontSize: '12px'}}><strong>Padre</strong><br />
+                                              <strong>C.C__ P.S__ C.E__ </strong><br />
+                                              <strong>No.__________________________________________</strong>
+                                            </p>
                                         </td>
                                         <td style={{width: '10%'}}>&nbsp;</td>
                                         <td style={{width: '45%'}}>&nbsp;
                                             <hr />
-                                            <p><strong>Madre</strong></p>
-                                            <p><strong>C.C__ P.S__ C.E__ </strong></p>
-                                            <p><strong>No.___________________________</strong></p>
+                                            <p style={{fontSize: '12px'}}><strong>Madre</strong><br />
+                                              <strong>C.C__ P.S__ C.E__ </strong><br />
+                                              <strong>No.__________________________________________</strong>
+                                            </p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style={{width: '45%'}}>&nbsp;
                                             <hr />
-                                            <p><strong>Acudiente</strong></p>
-                                            <p><strong>C.C__ P.S__ C.E__ </strong></p>
-                                            <p><strong>No.___________________________</strong></p>
+                                            <p style={{fontSize: '12px'}}><strong>Acudiente</strong><br />
+                                              <strong>C.C__ P.S__ C.E__ </strong><br />
+                                              <strong>No.__________________________________________</strong>
+                                            </p>
                                         </td>
                                         <td style={{width: '10%'}}>&nbsp;</td>
                                         <td style={{width: '45%'}}>&nbsp;</td>
@@ -170,9 +171,7 @@ class Print extends Component {
                     </tr>
                 </tbody>
             </table>
-          <div>Note: Here the dimensions of div are same as A4</div> 
-          <div>You Can add any component here</div>
-        </div>
+          </div>
       </div>
     );
   }
