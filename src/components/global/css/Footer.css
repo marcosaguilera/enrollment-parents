@@ -1,5 +1,11 @@
 .Footer {
   text-align: center;
+  background-color: grey;
+}
+
+footer.footer {
+  height: 118px;
+  background-color: #f8f9fa !important;
 }
 
 

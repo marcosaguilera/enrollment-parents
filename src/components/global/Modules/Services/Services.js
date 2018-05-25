@@ -12,6 +12,10 @@ import ModalUI2 from '../../Addons/Modal';
 //////// Assets
 import '../../Modules/Services/Services.css';
 
+//Components declaration
+import Header from '../../Header'
+import Footer from '../../Footer'
+
 class Services extends Component {
 //////// Controller
 
@@ -366,7 +370,9 @@ class Services extends Component {
   render() {
 
     return (
+      
       <div className="bg-light">
+        <Header />
 
         <main role="main"  className="container">
           <div className="shadow-sm p-3 mb-5 bg-white rounded">
@@ -612,6 +618,8 @@ class Services extends Component {
           </div>
 
         </main>  
+
+        <Footer copyright="&copy;Colegio Rochester 2018" />
         
       </div>
     );

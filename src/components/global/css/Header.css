@@ -3,20 +3,19 @@
 }
 
 .Header-logo {
-  animation: Header-logo-spin infinite 20s linear;
-  height: 140px;
+  height: 100px;
+  image-rendering: initial;
 }
 
 .Header-header {
   background-color: #222;
-  /*background-image: url('../images/pattern.jpg');*/
-  height: 240px;
+  height: 185px;
   padding: 20px;
   color: white;
 }
 
 .Header-title {
-  font-size: 1.5em;
+  font-size: 1.3em;
   font-weight: lighter;
 }
 
