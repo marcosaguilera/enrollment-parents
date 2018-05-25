@@ -603,10 +603,6 @@ class Services extends Component {
                               className="btn btn-primary btn-lg btn-block"
                               onClick={() => this.nextPath()}
                               disabled={this.state.isDisableSelect}>Imprimir</button>
-                      {/*Passing data to Resume UI*/}
-                      {/*<Resume 
-                              show={this.state.isShowingResume}>  
-                      </Resume>*/}
                     </div>
                   </div>
 

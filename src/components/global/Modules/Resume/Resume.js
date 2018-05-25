@@ -61,6 +61,10 @@ class Resume extends Component {
     })
   }
 
+  nextPath = () => {
+    this.props.history.push('/print');
+  }
+
   // Props definitions
   static propTypes = {
     show : PropTypes.string
@@ -160,7 +164,10 @@ class Resume extends Component {
                         <div className="col-md-12">
                           <div className="row">
                             <div className="col">
-                                <button type="button" className="btn btn-primary btn-lg">Imprimir</button>
+                                <button type="button" 
+                                        className="btn btn-primary btn-lg"
+                                        onClick={() => this.nextPath()}>
+                                Imprimir</button>
                             </div>
                             <div className="col"></div>
                             <div className="col"></div>
