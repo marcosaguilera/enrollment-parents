@@ -38,14 +38,17 @@ class Services extends Component {
         nombres: '',
         apellidos: '',
         tarifa_plena: 0,
+        bibliobanco: 0,
         tarifa_reducida_7_5: 0,
         tarifa_reducida_15: 0,
         descuento_exalumno: 0,
         descuento_2do_hno: 0,
         descuento_3er_hno: 0,
+        descuento_4to_hno: 0,
         empleado: 0,
         santa_barbara: 0,
         convenio: 0,
+        otros: 0,
         grado: '',
         student_code: '',
 
@@ -137,7 +140,8 @@ class Services extends Component {
       
         this.toggleModalLoader(); 
         
-        axios.get('https://parseapi.back4app.com/classes/Enrollment?where={"CODIGO":"' + this.state.student_code + '"}', axiosConfig)
+        //axios.get('https://parseapi.back4app.com/classes/Enrollment?where={"CODIGO":"' + this.state.student_code + '"}', axiosConfig)
+        axios.get('https://parseapi.back4app.com/classes/EnrollmentData?where={"Codigo":"' + this.state.student_code + '"}', axiosConfig)
           .then(res => {
             console.log("Full object:");
             console.log(res.data);
@@ -157,18 +161,22 @@ class Services extends Component {
                     objectId:            item.objectId, 
                     createdAt:           item.createdAt,
                     updatedAt:           item.updatedAt,
-                    codigo:              item.CODIGO,
-                    nombres:             item.NOMBRES,
-                    apellidos:           item.APELLIDOS,
-                    tarifa_plena:        Number(item.TARIFA_PLENA),
-                    tarifa_reducida_7_5: Number(item.TARIFA_REDUCIDA_7_5),
-                    tarifa_reducida_15:  Number(item.TARIFA_REDUCIDA_15),
-                    descuento_2do_hno:   Number(item.DESCUENTO_2HNO),
-                    descuento_3er_hno:   Number(item.DESCUENTO_3HNO),
-                    empleado:            Number(item.EMPLEADO),
-                    santa_barbara:       Number(item.SANTA_BARBARA),
-                    convenio:            Number(item.CONVENIO),
-                    grado:               item.GRADO
+                    codigo:              item.Codigo,
+                    nombres:             item.Nombres,
+                    apellidos:           item.Apellidos,
+                    grado:               item.Grado,
+                    tarifa_plena:        Number(item.Derecho_Matricula_Plena),
+                    bibliobanco:         Number(item.Bibliobanco),
+                    tarifa_reducida_7_5: Number(item.Derecho_por_pago_anualidades_7_5),
+                    tarifa_reducida_15:  Number(item.Derecho_por_pago_anualidades_15),
+                    descuento_exalumno:  Number(item.Hijo_Exalumno),
+                    descuento_2do_hno:   Number(item.Hijo_2),
+                    descuento_3er_hno:   Number(item.Hijo_3),
+                    descuento_4to_hno:   Number(item.Hijo_4),
+                    empleado:            Number(item.Empleado),
+                    santa_barbara:       Number(item.SantaBarbara),
+                    convenio:            Number(item.Jardin_Convenio),
+                    otros:               Number(item.Otros)
                 });
                 this.handleGetTotals();
                 this.toggleSelectorsActivation();
@@ -409,93 +417,116 @@ class Services extends Component {
 
             <hr />
 
+            <div className="row">
+                  <div className="col-md-12">
+                      <h4 className="d-flex justify-content-between mb-3" >Información del Estudiante</h4>
+                      <div className="row">
+                        <div className="col-md-6 mb-3">
+                        <label htmlFor="firstName">Código</label>
+                        <input type="text" className="form-control" id="firstName" placeholder="" value={this.state.codigo} required="" readOnly="readonly"></input>
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label htmlFor="firstName">Grado</label>
+                        <input type="text" className="form-control" id="firstName" placeholder="" value={this.state.grado} required="" readOnly="readonly"></input>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-6 mb-3">
+                        <label htmlFor="firstName">Nombres</label>
+                        <input type="text" className="form-control" id="firstName" placeholder="" value={this.state.nombres} required="" readOnly="readonly"></input>
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label htmlFor="lastName">Apellidos</label>
+                        <input type="text" className="form-control" id="lastName" placeholder="" value={this.state.apellidos} required="" readOnly="readonly"></input>
+                      </div>
+                    </div>
+
+                  </div>
+                  
+            </div>
+
+            <hr />
+
             <div className="shadow-sm p-3 mb-5 bg-white rounded">
-            
               <div className="row">
                 <div className="col-md-8">
-                  <h4 className="d-flex justify-content-between mb-3" >Información del Estudiante</h4>
-                  <div className="row">
-                    <div className="col-md-6 mb-3">
-                      <label htmlFor="firstName">Código</label>
-                      <input type="text" className="form-control" id="firstName" placeholder="" value={this.state.codigo} required="" readOnly="readonly"></input>
-                    </div>
-                    <div className="col-md-6 mb-3">
-                      <label htmlFor="firstName">Grado</label>
-                      <input type="text" className="form-control" id="firstName" placeholder="" value={this.state.grado} required="" readOnly="readonly"></input>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6 mb-3">
-                      <label htmlFor="firstName">Nombres</label>
-                      <input type="text" className="form-control" id="firstName" placeholder="" value={this.state.nombres} required="" readOnly="readonly"></input>
-                    </div>
-                    <div className="col-md-6 mb-3">
-                      <label htmlFor="lastName">Apellidos</label>
-                      <input type="text" className="form-control" id="lastName" placeholder="" value={this.state.apellidos} required="" readOnly="readonly"></input>
-                    </div>
-                  </div>
+                {/*<td></td>*/}
 
-                  <hr />
-                  {/*Tabla de descuentos y valores*/}
                   <table className="table table-hover">
-                        <thead>
-                          <tr>
-                            <th scope="col">Conceptos</th>
-                            <th scope="col">Valor ($)</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Tarifa plena</td>
-                            <td><NumberFormat value={this.state.tarifa_plena} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                          </tr>
-
-                          <tr>
-                            <td>Tarifa reducida 7.5%</td>
-                            <td><NumberFormat value={this.state.tarifa_reducida_7_5} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                          </tr>
-                          
-                          <tr>
-                            <td>Tarifa reducida 15%</td>
-                            <td><NumberFormat value={this.state.tarifa_reducida_15} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                          </tr>
-
-                          <tr>
-                            <td>Descuento ex-alumno</td>
-                            <td>- <NumberFormat value={this.state.descuento_exalumno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                          </tr>
-                          
-                          <tr>
-                            <td>Descuento 2do hermano</td>
-                            <td>- <NumberFormat value={this.state.descuento_2do_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                          </tr>
-                          
-                          <tr>
-                            <td>Descuento 3er hermano</td>
-                            <td>- <NumberFormat value={this.state.descuento_3er_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                          </tr>
-
-                          <tr>
-                            <td>Descuento padre empleado</td>
-                            <td>- <NumberFormat value={this.state.empleado} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                          </tr>
-
-                          <tr>
-                            <td>Descuento Santa Barbara</td>
-                            <td>- <NumberFormat value={this.state.santa_barbara} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                          </tr>
-
-                          <tr>
-                            <td>Descuento convenio</td>
-                            <td>- <NumberFormat value={this.state.convenio} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                          </tr>
-
-                        </tbody>
+                    <thead>
+                      <tr className="table-success">
+                        <th scope="col">Conceptos</th>
+                        <th scope="col"></th>
+                        <th scope="col">Valor</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Derecho de Matrícula Pleno</td>
+                        <td></td>
+                        <td><NumberFormat value={this.state.tarifa_plena} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                      </tr>
+                      <tr>
+                        <td>Derecho de Matrícula -7.5% por pago de anualidades futuras</td>
+                        <td></td>
+                        <td><NumberFormat value={this.state.tarifa_reducida_7_5} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                      </tr>
+                      <tr>
+                        <td>Derecho de Matrícula -15% por pago de anualidades futuras</td>
+                        <td></td>
+                        <td><NumberFormat value={this.state.tarifa_reducida_15} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                      </tr>
+                      <tr className="table-secondary">
+                        <td colSpan="2"><b>Descuentos</b></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>&emsp;&emsp;Hijo de ex-alumno</td>
+                        <td></td>
+                        <td> - <NumberFormat value={this.state.descuento_exalumno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                      </tr>
+                      <tr>
+                        <td>&emsp;&emsp;Ex alumno Santa Barbara Preschool</td>
+                        <td></td>
+                        <td> - <NumberFormat value={this.state.santa_barbara} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                      </tr>
+                      <tr>
+                        <td>&emsp;&emsp;Ex alumno Jardín Convenio</td>
+                        <td></td>
+                        <td> - <NumberFormat value={this.state.convenio} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                      </tr>
+                      <tr>
+                        <td>&emsp;&emsp;2do Hijo</td>
+                        <td></td>
+                        <td> - <NumberFormat value={this.state.descuento_2do_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                      </tr>
+                      <tr>
+                        <td>&emsp;&emsp;3er Hijo</td>
+                        <td></td>
+                        <td> - <NumberFormat value={this.state.descuento_3er_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                      </tr>
+                      <tr>
+                        <td>&emsp;&emsp;4to Hijo</td>
+                        <td></td>
+                        <td> - <NumberFormat value={this.state.descuento_4to_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                      </tr>
+                      <tr>
+                        <td>&emsp;&emsp;Empleado</td>
+                        <td></td>
+                        <td> - <NumberFormat value={this.state.empleado} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                      </tr>
+                      <tr>
+                        <td>&emsp;&emsp;Otros</td>
+                        <td></td>
+                        <td> - <NumberFormat value={this.state.otros} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                      </tr>
+                    </tbody>
                   </table>
+
                 </div>
 
                 <div className="col-md-4">
-                  <div className="card my-4">
+                  <div className="card">
                       <div className="card-header bg-primary" >
                         <h5 id="card_title_color" className="mb-0 text-center">Selección de servicios</h5>
                       </div>
