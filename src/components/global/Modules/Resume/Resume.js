@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import NumberFormat from 'react-number-format';
 
+// Assets
+import '../../Modules/Resume/Resume.css';
+
 //Components declaration
 import Footer from '../../Footer'
 
@@ -83,7 +86,7 @@ class Resume extends Component {
     return (
         <div className="Resume" > {/*style={{display: this.props.show }} >*/}
           <main>  
-            <div className="album py-5 bg-light" >
+            <div className="album py-3 bg-light" >
               <div className="container">
                 <div className="row">
                   <div className="col-md-2"> </div>
@@ -122,12 +125,7 @@ class Resume extends Component {
                             <div className="row">
                               <div className="col-md-12">
                                 <table className="table">
-                                  <thead>
-                                    <tr>
-                                      <th>Concepto</th>
-                                      <th>Valor ($)</th>
-                                    </tr>
-                                  </thead>
+                                  
                                   <tbody>
                                     <tr>
                                       <td>Matrícula</td>
@@ -150,12 +148,16 @@ class Resume extends Component {
                                       <td><NumberFormat value={this.state.club} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
                                     <tr className="table-primary">
-                                      <td ><b>Total Matrícula + Servicios</b></td>
+                                      <td ><b>Total a pagar</b></td>
                                       <td><b><NumberFormat value={this.state.tot_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
                                     </tr>
-                                    <tr className="table-warning">
-                                      <td>Tarifa pasarela ePayCo <br/> 2,99% + 900$</td>
-                                      <td><NumberFormat value={this.state.tot_tarifa} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                    <tr>
+                                        <td colSpan="2" id="base_table">
+                                            <div>
+                                              <p> <b>Imprimir (sin costo adicional):</b> Usted podrá descargar e imprimir su recibo de pago y acercarse a la ventanilla del banco a realizar el pago.</p>
+                                              <p> <b>Pagar en línea (con costo adicional):</b>  Ofrecemos la facilidad de pago en línea con PayU (3.49% + $900). Agíl, seguro y desde la comodidad de su casa.</p>
+                                            </div>
+                                        </td>        
                                     </tr>
                                   </tbody>
                                 </table>
