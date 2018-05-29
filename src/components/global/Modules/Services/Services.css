@@ -9,6 +9,11 @@
   #card_title_color{
     color: #fff;
   }
+
+  #line_color{
+    background-color: rgba(0,0,0,.03) !important;
+    //background-color: #d6d8db !important;
+  }
   
   .tg {
     border-collapse: collapse;

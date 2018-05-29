@@ -29,66 +29,68 @@ class Services extends Component {
     this.handleOnChangeServices    = this.handleOnChangeServices.bind(this);
 
     this.state = {
-        count: 0,
-        resultState: 0,
-        objectId: '',
-        createdAt: '',
-        updatedAt: '',
-        codigo: '',
-        nombres: '',
-        apellidos: '',
-        tarifa_plena: 0,
-        bibliobanco: 0,
-        tarifa_reducida_7_5: 0,
-        tarifa_reducida_15: 0,
-        descuento_exalumno: 0,
-        descuento_2do_hno: 0,
-        descuento_3er_hno: 0,
-        descuento_4to_hno: 0,
-        empleado: 0,
-        santa_barbara: 0,
-        convenio: 0,
-        otros: 0,
-        grado: '',
-        student_code: '',
+        count                 : 0,
+        resultState           : 0,
+        objectId              : '',
+        createdAt             : '',
+        updatedAt             : '',
+        codigo                : '',
+        nombres               : '',
+        apellidos             : '',
+        tarifa_plena          : 0,
+        bibliobanco           : 0,
+        tarifa_reducida_7_5   : 0,
+        tarifa_reducida_15    : 0,
+        descuento_exalumno    : 0,
+        descuento_2do_hno     : 0,
+        descuento_3er_hno     : 0,
+        descuento_4to_hno     : 0,
+        empleado              : 0,
+        santa_barbara         : 0,
+        convenio              : 0,
+        otros                 : 0,
+        grado                 : '',
+        student_code          : '',
 
         // Servicios de matrículas
-        seguro_accidentes: 55000,
-        anuario_impreso: 110000,
-        anuario_digital: 46000,
-        anuario_combo: 156000,
-        asopadres: 190000,
-        club: 375000,
+        seguro_accidentes     : 55000,
+        anuario_impreso       : 110000,
+        anuario_digital       : 46000,
+        anuario_combo         : 156000,
+        asopadres             : 190000,
+        club                  : 375000,
         
         // zero values,
-        seguro_cero: 0,
-        anuario_cero: 0,
-        asopadres_cero: 0,
-        club_cero: 0,
+        seguro_cero           : 0,
+        anuario_cero          : 0,
+        asopadres_cero        : 0,
+        club_cero             : 0,
         
         // Seleccionado
-        seguro_seleccionado: 0,
-        anuario_seleccionado: 0,
+        seguro_seleccionado   : 0,
+        anuario_seleccionado  : 0,
         asopadres_seleccionado: 0,
-        club_seleccionado: 0,
+        club_seleccionado     : 0,
 
         // Total a pagar state
-        total_pagar: 0,
-        total_descuentos: 0,
-        total_servicios: 0,
+        total_matricula       : 0,
+        total_dtos_matr       : 0,
+        total_descuentos      : 0,
+        total_servicios       : 0,
+        total_pagar           : 0,
 
         // Addons states
-        loading: false, // will be true when ajax request is running
-        isOpen: false,  // Modal windows state
-        isOpenLoader: false,  // Modal windows state
-        isDisableSelect: true, 
-        isShowingResume: 'none',  
+        loading               : false, // will be true when ajax request is running
+        isOpen                : false,  // Modal windows state
+        isOpenLoader          : false,  // Modal windows state
+        isDisableSelect       : true, 
+        isShowingResume       : 'none',  
 
         // Modal message
-        message: '',
+        message               : '',
         
         // Data PropTypes to Resume
-        resumeData : 0,
+        resumeData            : 0,
 
         // Labels
         label_seguro          : 'Si - $55.000',
@@ -194,27 +196,46 @@ class Services extends Component {
 
   handleGetTotals(){
     this.setState({
-        // Sumamos las tarifas y restamos los descuentos
-       total_descuentos:  Number(
-                          ( this.state.tarifa_plena
-                          + this.state.tarifa_reducida_7_5
-                          + this.state.tarifa_reducida_15
-                          + this.state.bibliobanco )
-                          - this.state.descuento_2do_hno
-                          - this.state.descuento_3er_hno
-                          - this.state.descuento_4to_hno
-                          - this.state.empleado
-                          - this.state.santa_barbara
-                          - this.state.convenio
-                          - this.state.otros),
-       // Sumamos el total de servicios seleccionados
-       total_servicios: Number( this.state.seguro_accidentes + 
-                                this.state.anuario_impreso +
-                                this.state.asopadres +
-                                this.state.club )
-    });
+      // Sumamos las tarifas y restamos los descuentos
+      total_descuentos: Number( (this.state.tarifa_plena
+                               + this.state.tarifa_reducida_7_5
+                               + this.state.tarifa_reducida_15
+                               + this.state.bibliobanco )
+                              - 
+                                (this.state.descuento_exalumno
+                               + this.state.descuento_2do_hno
+                               + this.state.descuento_3er_hno
+                               + this.state.descuento_4to_hno
+                               + this.state.empleado
+                               + this.state.santa_barbara
+                               + this.state.convenio
+                               + this.state.otros) 
+                              ),
+
+      total_matricula: Number(this.state.tarifa_plena
+                            + this.state.tarifa_reducida_7_5
+                            + this.state.tarifa_reducida_15
+                            + this.state.bibliobanco ),
+
+      total_dtos_matr: Number(this.state.descuento_exalumno
+                            + this.state.descuento_2do_hno
+                            + this.state.descuento_3er_hno
+                            + this.state.descuento_4to_hno
+                            + this.state.empleado
+                            + this.state.santa_barbara
+                            + this.state.convenio
+                            + this.state.otros),
+                            
+      // Sumamos el total de servicios seleccionados
+      total_servicios: Number(this.state.seguro_accidentes + 
+                              this.state.anuario_impreso +
+                              this.state.asopadres +
+                              this.state.club )
+    });               
 
     console.log("===> Total for discounts: " + this.state.total_descuentos );
+    console.log("===> Total matricula: " + this.state.total_matricula );
+    console.log("===> Total dtos: " + this.state.total_dtos_matr );
     console.log("===> Total for services: " + this.state.total_servicios );
     // Calling the method for totalize
     this.handleGetTotalToPay("fromSearch");
@@ -292,11 +313,11 @@ class Services extends Component {
             break;
         case "fromStart":
             this.setState({
-              total_pagar : Number(this.state.total_descuentos 
+              total_pagar : Number( this.state.total_descuentos 
                                   + this.state.seguro_seleccionado
                                   + this.state.anuario_seleccionado
                                   + this.state.asopadres_seleccionado
-                                  + this.state.club_seleccionado)
+                                  + this.state.club_seleccionado )
             })
             break;
         
@@ -380,9 +401,7 @@ class Services extends Component {
   //////// Rendering UI ///////////
   /////////////////////////////////
   render() {
-
     return (
-      
       <div className="bg-light">
         <Header />
 
@@ -453,9 +472,8 @@ class Services extends Component {
 
             <div className="shadow-sm p-3 mb-5 bg-white rounded">
               <div className="row">
-                <div className="col-md-8">
-                {/*<td></td>*/}
 
+                <div className="col-md-8">
                   <table className="table table-hover">
                     <thead>
                       <tr className="table-success">
@@ -537,8 +555,23 @@ class Services extends Component {
                 <div className="col-md-4">
                   <div className="card">
                       <div className="card-header bg-primary" >
-                        <h5 id="card_title_color" className="mb-0 text-center">Selección de servicios</h5>
+                        <h6 id="card_title_color" className="mb-0 text-center">Total Matrículas + Bibliobanco</h6>
                       </div>
+
+                      <ul className="list-group list-group-flush">
+                        <li className="list-group-item" id="line_color">
+                            <div>
+                                <h5 className="mb-0 text-center">
+                                    <NumberFormat value={this.state.total_descuentos} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </h5>
+                            </div>
+                            
+                        </li>
+                        <li className="list-group-item"><br /></li>
+                        <li className="list-group-item bg-primary">
+                            <h6 id="card_title_color" className="mb-0 text-center">Servicios adicionales</h6>
+                        </li>
+                      </ul>
                       
                       <div className="card-body">
                           <p className="" >A continuación seleccione los servicios que desea adicionar:</p>
@@ -602,7 +635,7 @@ class Services extends Component {
                       <div className="card-footer bg-success text-white">
                         <div className="row">
                           <div className="col-12">
-                            <center><h5>Total Matrícula</h5></center>
+                            <center><h5>Total a Pagar</h5></center>
                           </div>
                         </div>
                         <div className="row">
@@ -642,13 +675,13 @@ class Services extends Component {
                       </div>
                       
                   </div>  
-
+                  <br/ >
                   <div className="row">
                     <div className="col-12">
                       <button type="button" 
                               className="btn btn-primary btn-lg btn-block"
                               onClick={() => this.nextPath()}
-                              disabled={this.state.isDisableSelect}>Imprimir</button>
+                              disabled={this.state.isDisableSelect}>Imprimir y Pagar</button>
                     </div>
                   </div>
 
