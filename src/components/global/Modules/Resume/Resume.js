@@ -180,6 +180,23 @@ class Resume extends Component {
                                   <button type="button" className="btn btn-success btn-lg">
                                     Pagar en línea
                                   </button>
+                                  <form method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/" target="_blank">
+                                    <input name="merchantId"    type="hidden"  value="508029"   ></input>
+                                    <input name="accountId"     type="hidden"  value="581164" ></input>
+                                    <input name="description"   type="hidden"  value="Test pago matricula"  ></input>
+                                    <input name="referenceCode" type="hidden"  value="PGMAT2019" ></input>
+                                    <input name="amount"        type="hidden"  value="20000"   ></input>
+                                    <input name="tax"           type="hidden"  value="3193"  ></input>
+                                    <input name="taxReturnBase" type="hidden"  value="16806" ></input>
+                                    <input name="currency"      type="hidden"  value="COP" ></input>
+                                    <input name="signature"     type="hidden"  value="2eb60dabf9dd1214dfa747927afdecba"  ></input>
+                                    <input name="test"          type="hidden"  value="15" ></input>
+                                    <input name="buyerEmail"    type="hidden"  value="maguilera@rochester.edu.co" ></input>
+                                    <input name="responseUrl"    type="hidden"  value="http://www.test.com/response" ></input>
+                                    <input name="confirmationUrl"    type="hidden"  value="http://www.test.com/confirmation" ></input>
+                                    <input name="Submit" type="submit"  value="Enviar" ></input>
+                                  </form>
+
                               </div>
                             </div>      
                           </div>
