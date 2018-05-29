@@ -192,6 +192,34 @@ class Services extends Component {
     }       
   }
 
+  handleGetTotals(){
+    this.setState({
+        // Sumamos las tarifas y restamos los descuentos
+       total_descuentos:  Number(
+                          ( this.state.tarifa_plena
+                          + this.state.tarifa_reducida_7_5
+                          + this.state.tarifa_reducida_15
+                          + this.state.bibliobanco )
+                          - this.state.descuento_2do_hno
+                          - this.state.descuento_3er_hno
+                          - this.state.descuento_4to_hno
+                          - this.state.empleado
+                          - this.state.santa_barbara
+                          - this.state.convenio
+                          - this.state.otros),
+       // Sumamos el total de servicios seleccionados
+       total_servicios: Number( this.state.seguro_accidentes + 
+                                this.state.anuario_impreso +
+                                this.state.asopadres +
+                                this.state.club )
+    });
+
+    console.log("===> Total for discounts: " + this.state.total_descuentos );
+    console.log("===> Total for services: " + this.state.total_servicios );
+    // Calling the method for totalize
+    this.handleGetTotalToPay("fromSearch");
+  }
+
   handleOnChange(e){
     if(e.target.id === 'student_code_input'){
       this.setState({
@@ -245,31 +273,7 @@ class Services extends Component {
      }
 
   }
-
-  handleGetTotals(){
-    this.setState({
-        // Sumamos las tarifas y restamos los descuentos
-       total_descuentos:  Number((this.state.tarifa_plena
-                          + this.state.tarifa_reducida_7_5
-                          + this.state.tarifa_reducida_15)
-                          - this.state.descuento_2do_hno
-                          - this.state.descuento_3er_hno
-                          - this.state.empleado
-                          - this.state.santa_barbara
-                          - this.state.convenio),
-       // Sumamos el total de servicios seleccionados
-       total_servicios: Number( this.state.seguro_accidentes + 
-                                this.state.anuario_impreso +
-                                this.state.asopadres +
-                                this.state.club )
-    });
-
-    console.log("===> Total for discounts: " + this.state.total_descuentos );
-    console.log("===> Total for services: " + this.state.total_servicios );
-    // Calling the method for totalize
-    this.handleGetTotalToPay("fromSearch");
-  }
-
+  
   handleGetTotalToPay(action){
       switch(action) {
         case "fromSearch":
@@ -465,6 +469,11 @@ class Services extends Component {
                         <td>Derecho de Matrícula Pleno</td>
                         <td></td>
                         <td><NumberFormat value={this.state.tarifa_plena} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                      </tr>
+                      <tr>
+                        <td>Bibliobanco</td>
+                        <td></td>
+                        <td><NumberFormat value={this.state.bibliobanco} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
                         <td>Derecho de Matrícula -7.5% por pago de anualidades futuras</td>
