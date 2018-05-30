@@ -180,20 +180,24 @@ class Resume extends Component {
                                   <button type="button" className="btn btn-success btn-lg">
                                     Pagar en línea
                                   </button>
-                                  <form method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/" target="_blank">
+                                  <form method="post" action="https://checkout.payulatam.com/ppp-web-gateway-payu/" target="_blank">
                                     <input name="merchantId"    type="hidden"  value="508029"   ></input>
-                                    <input name="accountId"     type="hidden"  value="581164" ></input>
-                                    <input name="description"   type="hidden"  value="Test pago matricula"  ></input>
-                                    <input name="referenceCode" type="hidden"  value="PGMAT2019" ></input>
+                                    <input name="referenceCode" type="hidden"  value="PAGOMAT15000" ></input>
+                                    <input name="description"   type="hidden"  value="PAGO MATRICULA 15000"  ></input>
                                     <input name="amount"        type="hidden"  value="20000"   ></input>
-                                    <input name="tax"           type="hidden"  value="3193"  ></input>
-                                    <input name="taxReturnBase" type="hidden"  value="16806" ></input>
+                                    <input name="tax"           type="hidden"  value="0"  ></input>
+                                    <input name="taxReturnBase" type="hidden"  value="0" ></input>
+                                    <input name="signature"     type="hidden"  value="69da1cab4786ef9832d69ac3a0ced507"  ></input>
+                                    <input name="accountId"     type="hidden"  value="581164" ></input>
                                     <input name="currency"      type="hidden"  value="COP" ></input>
-                                    <input name="signature"     type="hidden"  value="2eb60dabf9dd1214dfa747927afdecba"  ></input>
-                                    <input name="test"          type="hidden"  value="15" ></input>
+                                    <input name="buyerFullName"    type="hidden"  value="Marcos Aguilera Ely" ></input>
                                     <input name="buyerEmail"    type="hidden"  value="maguilera@rochester.edu.co" ></input>
-                                    <input name="responseUrl"    type="hidden"  value="http://www.test.com/response" ></input>
-                                    <input name="confirmationUrl"    type="hidden"  value="http://www.test.com/confirmation" ></input>
+                                    <input name="shippingAddress"    type="hidden"  value="Calle 152 N 9 57" ></input>
+                                    <input name="shippingCity"    type="hidden"  value="Bogotá" ></input>
+                                    <input name="shippingCountry"    type="hidden"  value="CO" ></input>
+                                    <input name="telephone"    type="hidden"  value="3185309380" ></input>
+                                   
+                                    <input name="test" type="hidden" value="1" ></input>
                                     <input name="Submit" type="submit"  value="Enviar" ></input>
                                   </form>
 
