@@ -181,13 +181,13 @@ class Resume extends Component {
                                     Pagar en línea
                                   </button>
                                   <form method="post" action="https://checkout.payulatam.com/ppp-web-gateway-payu/" target="_blank">
-                                    <input name="merchantId"    type="hidden"  value="508029"   ></input>
-                                    <input name="referenceCode" type="hidden"  value="PAGOMAT15000" ></input>
+                                    <input name="merchantId"    type="hidden"  value="578320"   ></input>
+                                    <input name="referenceCode" type="hidden"  value="pagomattest12" ></input>
                                     <input name="description"   type="hidden"  value="PAGO MATRICULA 15000"  ></input>
-                                    <input name="amount"        type="hidden"  value="20000"   ></input>
+                                    <input name="amount"        type="hidden"  value="18000"   ></input>
                                     <input name="tax"           type="hidden"  value="0"  ></input>
                                     <input name="taxReturnBase" type="hidden"  value="0" ></input>
-                                    <input name="signature"     type="hidden"  value="69da1cab4786ef9832d69ac3a0ced507"  ></input>
+                                    <input name="signature"     type="hidden"  value="13f6cc6a9a4fb5bcb3e3bccf14fa6675"  ></input>
                                     <input name="accountId"     type="hidden"  value="581164" ></input>
                                     <input name="currency"      type="hidden"  value="COP" ></input>
                                     <input name="buyerFullName"    type="hidden"  value="Marcos Aguilera Ely" ></input>
