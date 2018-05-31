@@ -1,6 +1,7 @@
 // Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import md5gen from 'md5';
 import NumberFormat from 'react-number-format';
 
 // Assets
@@ -14,9 +15,15 @@ class Resume extends Component {
   constructor(){
     super();
 
-    this.handleCalculateTotalPayFee    = this.handleCalculateTotalPayFee.bind(this);
+    this.handleCalculateTotalPayFee = this.handleCalculateTotalPayFee.bind(this);
+    this.handleMd5Generator         = this.handleMd5Generator.bind(this);
+    this.handlePayment              = this.handlePayment.bind(this);
+    this.handleTotalPay             = this.handleTotalPay.bind(this);
 
     this.state = {
+      // Form values
+      payuIdMerchant: '578320',
+      // payment data
       seguro        : 0,
       anuario       : 0,
       asopadres     : 0,
@@ -24,14 +31,19 @@ class Resume extends Component {
       tot_matricula : 0,
       tot_servicios : 0,
       tot_pagar     : 0,
-      fee           : 2.9,
+      fee           : 3.49,
       fee_cop       : 900,
       tot_tarifa    : 0,
       codigo        : '',
       nombres       : '',
       apellidos     : '',
       grado         : '',
-      objectId      : '' 
+      objectId      : '',
+      // PayU Parameter
+      monto            : 0,
+      codigoReferencia : '',
+      firmaMd5         : ''
+
     }
   }
 
@@ -56,19 +68,67 @@ class Resume extends Component {
         
 
     }, () => {
-        console.log("Calculating fee value");
         this.handleCalculateTotalPayFee();
     });
   }
 
   handleCalculateTotalPayFee = () =>{
     this.setState({
-      tot_tarifa    : Number((this.state.tot_pagar * this.state.fee)/100)+this.state.fee_cop
+      tot_tarifa    : Number((this.state.tot_pagar * this.state.fee)/100) + this.state.fee_cop
+    }, () => {
+      console.log("Total Fee: " + Math.round(this.state.tot_tarifa));
+      this.handleTotalPay();
     })
+  }
+
+  handleTotalPay(){
+    this.setState({
+      monto : Number(this.state.tot_tarifa + this.state.tot_pagar)
+
+    }, () => {
+      console.log("Total amount: " + Math.round(this.state.monto));
+      this.handleMd5Generator();
+    })
+  }
+
+  handleMd5Generator = () =>{
+      var referencecod = this.handleReferencecode(this.state.codigo);
+      var monto_pagar = Math.round(this.state.monto);
+      console.log("=====> " + referencecod + " --- " + monto_pagar);
+      var md5string = md5gen( "BZRTxRkjDDYBuXHE2V52d56iWN" + "~" + 
+                              "578320" + "~" +
+                              referencecod + "~" +
+                              monto_pagar + "~" +
+                              "COP" );
+
+      this.setState({
+        firmaMd5: md5string
+      }, () => {
+        console.log("MD5 =>" + md5string);
+      })
+  }
+
+  handleReferencecode = (inDatum) =>{
+      var today = new Date();
+      var date = today.getFullYear() +""+ (today.getMonth() + 1) +""+ today.getDate();
+      var time = + today.getHours() +""+ today.getMinutes();
+      //var time = + today.getHours();
+      var referenceCode = "MAT" + inDatum +"-"+ date + "" + time;
+      console.log(referenceCode);
+
+      this.setState({
+        codigoReferencia: referenceCode
+      })
+
+      return referenceCode;
   }
 
   nextPath = () => {
     this.props.history.push('/print');
+  }
+
+  handlePayment = () =>{
+      this.handleMd5Generator();
   }
 
   // Props definitions
@@ -78,13 +138,9 @@ class Resume extends Component {
 
   render() {
     console.log(this.props)
-
-    /*if(this.props.show === 'none') {
-      return null;
-    }    */
     
     return (
-        <div className="Resume" > {/*style={{display: this.props.show }} >*/}
+        <div className="Resume" >
           <main>  
             <div className="album py-3 bg-light" >
               <div className="container">
@@ -147,9 +203,13 @@ class Resume extends Component {
                                       <td>Afiliación Club Deportivo</td>
                                       <td><NumberFormat value={this.state.club} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
-                                    <tr className="table-primary">
+                                    <tr id="total-pay">
                                       <td ><b>Total a pagar</b></td>
                                       <td><b><NumberFormat value={this.state.tot_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
+                                    </tr>
+                                    <tr id="payu-fee">
+                                      <td ><b>Valor transacción en línea</b></td>
+                                      <td><b><NumberFormat value={Math.round(this.state.tot_tarifa)} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
                                     </tr>
                                     <tr>
                                         <td colSpan="2" id="base_table">
@@ -181,13 +241,13 @@ class Resume extends Component {
                                     Pagar en línea
                                   </button>
                                   <form method="post" action="https://checkout.payulatam.com/ppp-web-gateway-payu/" target="_blank">
-                                    <input name="merchantId"    type="hidden"  value="578320"   ></input>
-                                    <input name="referenceCode" type="hidden"  value="pagomattest12" ></input>
-                                    <input name="description"   type="hidden"  value="PAGO MATRICULA 15000"  ></input>
-                                    <input name="amount"        type="hidden"  value="18000"   ></input>
-                                    <input name="tax"           type="hidden"  value="0"  ></input>
+                                    <input name="merchantId"    type="hidden"  value={this.state.payuIdMerchant} ></input>
+                                    <input name="referenceCode" type="hidden"  value={this.state.codigoReferencia} ></input>
+                                    <input name="description"   type="hidden"  value="PAGO MATRICULA 15000" ></input>
+                                    <input name="amount"        type="hidden"  value={Math.round(this.state.monto)} ></input>
+                                    <input name="tax"           type="hidden"  value="0" ></input>
                                     <input name="taxReturnBase" type="hidden"  value="0" ></input>
-                                    <input name="signature"     type="hidden"  value="13f6cc6a9a4fb5bcb3e3bccf14fa6675"  ></input>
+                                    <input name="signature"     type="hidden"  value={this.state.firmaMd5} ></input>
                                     <input name="accountId"     type="hidden"  value="581164" ></input>
                                     <input name="currency"      type="hidden"  value="COP" ></input>
                                     <input name="buyerFullName"    type="hidden"  value="Marcos Aguilera Ely" ></input>
@@ -198,7 +258,7 @@ class Resume extends Component {
                                     <input name="telephone"    type="hidden"  value="3185309380" ></input>
                                    
                                     <input name="test" type="hidden" value="1" ></input>
-                                    <input name="Submit" type="submit"  value="Enviar" ></input>
+                                    <input name="Submit" type="submit"  value="Enviar"></input>
                                   </form>
 
                               </div>

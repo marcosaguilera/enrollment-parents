@@ -3,3 +3,11 @@
     border-radius: 0 0 5px 5px;
     font-size: smaller;
 }
+
+#total-pay{
+    background-color: #54bbab !important;
+}
+
+#payu-fee{
+    background-color: #b9e8e9 !important;
+}
