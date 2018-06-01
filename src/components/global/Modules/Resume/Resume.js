@@ -237,9 +237,6 @@ class Resume extends Component {
                               <div className="col"></div>
                               <div className="col"></div>
                               <div className="col">
-                                  <button type="button" className="btn btn-success btn-lg">
-                                    Pagar en línea
-                                  </button>
                                   <form method="post" action="https://checkout.payulatam.com/ppp-web-gateway-payu/" target="_blank">
                                     <input name="merchantId"    type="hidden"  value={this.state.payuIdMerchant} ></input>
                                     <input name="referenceCode" type="hidden"  value={this.state.codigoReferencia} ></input>
@@ -258,7 +255,7 @@ class Resume extends Component {
                                     <input name="telephone"    type="hidden"  value="3185309380" ></input>
                                    
                                     <input name="test" type="hidden" value="1" ></input>
-                                    <input name="Submit" type="submit"  value="Enviar"></input>
+                                    <input name="Submit" type="submit"  value="Pagar en línea" className="btn btn-success btn-lg"></input>
                                   </form>
 
                               </div>
