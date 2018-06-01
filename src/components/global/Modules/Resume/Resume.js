@@ -203,19 +203,23 @@ class Resume extends Component {
                                       <td>Afiliación Club Deportivo</td>
                                       <td><NumberFormat value={this.state.club} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
-                                    <tr id="total-pay">
-                                      <td ><b>Total a pagar</b></td>
-                                      <td><b><NumberFormat value={this.state.tot_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
+                                    <tr id="">
+                                      <td >Subtotal a pagar</td>
+                                      <td><NumberFormat value={this.state.tot_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
                                     <tr id="payu-fee">
-                                      <td ><b>Valor transacción en línea</b></td>
-                                      <td><b><NumberFormat value={Math.round(this.state.tot_tarifa)} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
+                                      <td >Valor transacción en línea</td>
+                                      <td><NumberFormat value={Math.round(this.state.tot_tarifa)} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                    </tr>
+                                    <tr id="total-pay">
+                                      <td ><b>Total a pagar</b></td>
+                                      <td><b><NumberFormat value={Math.round(this.state.tot_pagar + this.state.tot_tarifa)} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
                                     </tr>
                                     <tr>
                                         <td colSpan="2" id="base_table">
                                             <div>
                                               <p> <b>Imprimir (sin costo adicional):</b> Usted podrá descargar e imprimir su recibo de pago y acercarse a la ventanilla del banco a realizar el pago.</p>
-                                              <p> <b>Pagar en línea (con costo adicional):</b>  Ofrecemos la facilidad de pago en línea con PayU (3.49% + $900). Agíl, seguro y desde la comodidad de su casa.</p>
+                                              <p> <b>Pagar en línea (con costo adicional):</b>  Ofrecemos la facilidad de pago en línea con PayU (<a href="https://www.payulatam.com/co/tarifas/" target="_blank">tarifas PayU</a>). Agíl, seguro y desde la comodidad de su casa.</p>
                                             </div>
                                         </td>        
                                     </tr>
@@ -255,7 +259,7 @@ class Resume extends Component {
                                     <input name="telephone"    type="hidden"  value="3185309380" ></input>
                                    
                                     <input name="test" type="hidden" value="1" ></input>
-                                    <input name="Submit" type="submit"  value="Pagar en línea" className="btn btn-success btn-lg"></input>
+                                    <input name="Submit" type="submit"  value="Pagar en línea" className="btn btn-success btn-lg" id="button_payu"></input>
                                   </form>
 
                               </div>

@@ -5,9 +5,17 @@
 }
 
 #total-pay{
-    background-color: #54bbab !important;
+    background-color: #A6C307 !important;
 }
 
 #payu-fee{
     background-color: #b9e8e9 !important;
+}
+
+#button_payu{
+    background-color: #A6C307 !important;
+    text-align: center;
+    outline: 0;
+    color: #FFF;
+    border: none;
 }
