@@ -19,3 +19,12 @@
     color: #FFF;
     border: none;
 }
+
+#wow {
+    padding-left: 0px !important;
+}
+
+#little-text {
+    font-size: 12px;
+    text-align: justify;
+}

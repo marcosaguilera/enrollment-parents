@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import md5gen from 'md5';
 import NumberFormat from 'react-number-format';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Collapse, CardBody, Card } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 
 // Assets
 import '../../Modules/Resume/Resume.css';
@@ -21,10 +21,13 @@ class Resume extends Component {
     this.handlePayment              = this.handlePayment.bind(this);
     this.handleTotalPay             = this.handleTotalPay.bind(this);
     this.toggle                     = this.toggle.bind(this);
+    this.handleOnChangeBuyer        = this.handleOnChangeBuyer.bind(this);
 
     this.state = {
+
       // Form values
       payuIdMerchant: '578320',
+
       // payment data
       seguro        : 0,
       anuario       : 0,
@@ -41,6 +44,7 @@ class Resume extends Component {
       apellidos     : '',
       grado         : '',
       objectId      : '',
+
       // PayU Parameter
       monto            : 0,
       codigoReferencia : '',
@@ -48,7 +52,20 @@ class Resume extends Component {
 
       // UI States
       modal: false,
-      collapse: false
+      collapse: false,
+      isPayButtonDisabled: true,
+
+      // Form UI Filled?
+      isFilledName : false,
+      isFilledEmail : false,
+      isFilledAddress : false,
+      isFilledPhone : false,
+
+      // BuyerData
+      buyerName: '',
+      buyerPhone: '',
+      buyerEmail: '',
+      buyerAddress: ''
 
     }
   }
@@ -100,7 +117,7 @@ class Resume extends Component {
   handleMd5Generator = () =>{
       var referencecod = this.handleReferencecode(this.state.codigo);
       var monto_pagar = Math.round(this.state.monto);
-      console.log("=====> " + referencecod + " --- " + monto_pagar);
+      //console.log("=====> " + referencecod + " --- " + monto_pagar);
       var md5string = md5gen( "BZRTxRkjDDYBuXHE2V52d56iWN" + "~" + 
                               "578320" + "~" +
                               referencecod + "~" +
@@ -138,7 +155,111 @@ class Resume extends Component {
   }
 
   toggle() {
-    this.setState({ collapse: !this.state.collapse });
+    this.setState({ modal: !this.state.modal });
+  }
+
+  toggleEnablePaymentButton = () =>{
+      //console.log("Filled: Name " + this.state.isFilledName + " Email: " + this.state.isFilledEmail + " Phone: " + this.state.isFilledPhone + " Address: " + this.state.isFilledAddress);     
+      if(    this.state.isFilledName === true 
+          && this.state.isFilledEmail === true 
+          && this.state.isFilledAddress === true 
+          && this.state.isFilledPhone === true ){
+          
+          this.setState({
+            isPayButtonDisabled : false
+          })  
+
+      }else{
+          this.setState({
+            isPayButtonDisabled : true
+          })
+      }
+  }
+
+  handleOnChangeBuyer = (e) =>{
+    if(e.target.id === 'inputBuyerName'){
+      this.setState({
+        buyerName: String(e.target.value)
+      }, () => {
+        console.log(this.state.buyerName)
+        if(this.state.buyerName.length > 0){
+            this.setState({
+              isFilledName: true
+            }, () => {
+              this.toggleEnablePaymentButton();
+            })
+        }else{
+            this.setState({
+              isFilledName: false
+            }, () => {
+              this.toggleEnablePaymentButton();
+            })
+        }
+      })
+    }
+    
+    if(e.target.id === 'inputBuyerEmail'){
+      this.setState({
+        buyerEmail: String(e.target.value)
+      }, () => {
+        console.log(this.state.buyerEmail)
+        if(this.state.buyerEmail.length > 0){
+          this.setState({
+            isFilledEmail: true
+          }, () => {
+            this.toggleEnablePaymentButton();
+          })
+        }else{
+            this.setState({
+              isFilledEmail: false
+            }, () => {
+              this.toggleEnablePaymentButton();
+            })
+        }
+      })
+    }
+    
+    if(e.target.id === 'inputBuyerPhone'){
+      this.setState({
+        buyerPhone: String(e.target.value)
+      }, () => {
+        console.log(this.state.buyerPhone)
+        if(this.state.buyerPhone.length > 0){
+          this.setState({
+            isFilledPhone: true
+          }, () => {
+            this.toggleEnablePaymentButton();
+          })
+        }else{
+            this.setState({
+              isFilledPhone: false
+            }, () => {
+              this.toggleEnablePaymentButton();
+            })
+        }
+      })
+    }
+    
+    if(e.target.id === 'inputBuyerAddress'){
+      this.setState({
+        buyerAddress: String(e.target.value)
+      }, () => {
+        console.log(this.state.buyerAddress)
+        if(this.state.buyerAddress.length > 0){
+          this.setState({
+            isFilledAddress: true
+          }, () => {
+            this.toggleEnablePaymentButton();
+          })
+        }else{
+            this.setState({
+              isFilledAddress: false
+            }, () => {
+              this.toggleEnablePaymentButton();
+            })
+        }
+      })
+    }  
   }
 
   // Props definitions
@@ -169,50 +290,20 @@ class Resume extends Component {
                             <div className="py-3">
                               <div className="container">
                                 <div className="row">
-                                  <div class="col-2"><b>Código:</b></div>
-                                  <div class="col-4">{this.state.codigo}</div>
-                                  <div class="col-2"><b>Grado:</b></div>
-                                  <div class="col-4">{this.state.grado}</div>
+                                  <div className="col-2"><b>Código:</b></div>
+                                  <div className="col-4">{this.state.codigo}</div>
+                                  <div className="col-2"><b>Grado:</b></div>
+                                  <div className="col-4">{this.state.grado}</div>
                                 </div>
                                 <div className="row">
-                                  <div class="col-2"><b>Nombres:</b></div>
-                                  <div class="col-4">{this.state.nombres}</div>
-                                  <div class="col-2"><b>Apellidos:</b></div>
-                                  <div class="col-4">{this.state.apellidos}</div>
+                                  <div className="col-2"><b>Nombres:</b></div>
+                                  <div className="col-4">{this.state.nombres}</div>
+                                  <div className="col-2"><b>Apellidos:</b></div>
+                                  <div className="col-4">{this.state.apellidos}</div>
                                 </div>
                               </div>
                             </div>
                           </div>
-
-                          <div className="col-md-12">
-                            <Button color="primary" size="sm" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Adicionar pagador</Button>
-                            <Collapse isOpen={this.state.collapse}>
-                              <Card>
-                                <CardBody>
-                                <form action="">
-                                  <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                      <input type="text" class="form-control" id="inputEmail4" placeholder="Nombre completo"/>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                      <input type="email" class="form-control" id="inputEmail4" placeholder="Correo electrónico"/>
-                                    </div>
-                                  </div>
-                                  <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                      <input type="text" class="form-control" id="inputEmail4" placeholder="Dirección"/>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                      <input type="text" class="form-control" id="inputEmail4" placeholder="Teléfono/Móvil"/>
-                                    </div>
-                                  </div>
-                                  <button type="submit" class="btn btn-primary">Guardar</button>
-                                </form>
-                                </CardBody>
-                              </Card>
-                            </Collapse>
-                          </div>
-
                         </div>
 
                         <div className="py-5">
@@ -241,17 +332,9 @@ class Resume extends Component {
                                       <td>Afiliación Club Deportivo</td>
                                       <td><NumberFormat value={this.state.club} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
-                                    <tr id="">
-                                      <td >Subtotal a pagar</td>
-                                      <td><NumberFormat value={this.state.tot_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                                    </tr>
-                                    <tr id="payu-fee">
-                                      <td >Valor transacción en línea</td>
-                                      <td><NumberFormat value={Math.round(this.state.tot_tarifa)} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                                    </tr>
-                                    <tr id="total-pay">
+                                    <tr className="table-active">
                                       <td ><b>Total a pagar</b></td>
-                                      <td><b><NumberFormat value={Math.round(this.state.tot_pagar + this.state.tot_tarifa)} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
+                                      <td><b><NumberFormat value={this.state.tot_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
                                     </tr>
                                     <tr>
                                         <td colSpan="2" id="base_table">
@@ -279,27 +362,87 @@ class Resume extends Component {
                               <div className="col"></div>
                               <div className="col"></div>
                               <div className="col">
-                                  <form method="post" action="https://checkout.payulatam.com/ppp-web-gateway-payu/" target="_blank">
-                                    <input name="merchantId"       type="hidden"  value={this.state.payuIdMerchant} ></input>
-                                    <input name="referenceCode"    type="hidden"  value={this.state.codigoReferencia} ></input>
-                                    <input name="description"      type="hidden"  value="PAGO MATRICULA 15000" ></input>
-                                    <input name="amount"           type="hidden"  value={Math.round(this.state.monto)} ></input>
-                                    <input name="tax"              type="hidden"  value="0" ></input>
-                                    <input name="taxReturnBase"    type="hidden"  value="0" ></input>
-                                    <input name="signature"        type="hidden"  value={this.state.firmaMd5} ></input>
-                                    <input name="accountId"        type="hidden"  value="581164" ></input>
-                                    <input name="currency"         type="hidden"  value="COP" ></input>
-                                    <input name="buyerFullName"    type="hidden"  value="Marcos Aguilera Ely" ></input>
-                                    <input name="buyerEmail"       type="hidden"  value="maguilera@rochester.edu.co" ></input>
-                                    <input name="shippingAddress"  type="hidden"  value="Calle 152 N 9 57" ></input>
-                                    <input name="telephone"        type="hidden"  value="3185309380" ></input>
-                                    <input name="shippingCity"     type="hidden"  value="Bogotá" ></input>
-                                    <input name="shippingCountry"  type="hidden"  value="CO" ></input>
-                                   
-                                    <input name="test" type="hidden" value="1" ></input>
-                                    <input name="Submit" type="submit"  value="Pagar en línea" className="btn btn-success btn-lg" id="button_payu"></input>
-                                  </form>
+                                  <Button type="button" 
+                                          color="success"
+                                          size="lg"
+                                          onClick={this.toggle} style={{ marginBottom: '1rem' }}>Pagar en línea</Button>
 
+                                  <Modal isOpen={this.state.modal} size="lg" toggle={this.toggle} className={this.props.className}>
+                                    <ModalHeader toggle={this.toggle}>Resumen de pago en línea</ModalHeader>
+                                    <ModalBody>
+                                        <div id="wow" className="col-md-12">
+                                            <h6 >Información del pagador</h6>
+                                            <p id="little-text">
+                                                *Antes de continuar con el pago es importante que diligencie la información del pagador.
+                                            </p>
+                                        </div>
+                                        <div className="form-row">
+                                          <div className="col">
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerName" placeholder="Nombre completo" />
+                                          </div>
+                                          <div className="col">
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerEmail" placeholder="Correo eletrónico" />
+                                          </div>
+                                        </div>
+                                        <div className="form-row py-3">
+                                          <div className="col">
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerPhone" placeholder="Teléfono" />
+                                          </div>
+                                          <div className="col">
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerAddress" placeholder="Dirección" />
+                                          </div>
+                                        </div>
+                                         
+                                        <div className="py-3">
+                                          <h6 >Detalle del pago</h6>
+                                          <div className="row">
+                                            <div className="col-md-12">
+                                              <table className="table table-bordered">
+                                                <tbody>
+                                                    <tr>
+                                                      <td >Subtotal a pagar</td>
+                                                      <td><NumberFormat value={this.state.tot_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td >Valor transacción en línea</td>
+                                                      <td><NumberFormat value={Math.round(this.state.tot_tarifa)} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                                    </tr>
+                                                    <tr id="total-pay">
+                                                      <td ><b>Total a pagar</b></td>
+                                                      <td><b><NumberFormat value={Math.round(this.state.tot_pagar + this.state.tot_tarifa)} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
+                                                    </tr>
+                                                </tbody>
+                                              </table>
+                                            </div>
+                                          </div> 
+                                          <div className="row"> 
+                                                <div className="col-sm"></div>
+                                                <div className="col-sm"></div>
+                                                <div className="col-sm text-right">
+                                                    {/*PayU form*/}
+                                                    <form method="post" action="https://checkout.payulatam.com/ppp-web-gateway-payu/" target="_blank">
+                                                      <input name="merchantId"       type="hidden"  value={this.state.payuIdMerchant} ></input>
+                                                      <input name="referenceCode"    type="hidden"  value={this.state.codigoReferencia} ></input>
+                                                      <input name="description"      type="hidden"  value="PAGO MATRICULA 15000" ></input>
+                                                      <input name="amount"           type="hidden"  value={Math.round(this.state.monto)} ></input>
+                                                      <input name="tax"              type="hidden"  value="0" ></input>
+                                                      <input name="taxReturnBase"    type="hidden"  value="0" ></input>
+                                                      <input name="signature"        type="hidden"  value={this.state.firmaMd5} ></input>
+                                                      <input name="accountId"        type="hidden"  value="581164" ></input>
+                                                      <input name="currency"         type="hidden"  value="COP" ></input>
+                                                      <input name="buyerFullName"    type="hidden"  value={this.state.buyerName} ></input>
+                                                      <input name="buyerEmail"       type="hidden"  value={this.state.buyerEmail} ></input>
+                                                      <input name="shippingAddress"  type="hidden"  value={this.state.buyerAddress} ></input>
+                                                      <input name="telephone"        type="hidden"  value={this.state.buyerPhone} ></input>
+                                                      <input name="shippingCountry"  type="hidden"  value="CO" ></input>
+                                                      <input name="test" type="hidden" value="1" ></input>
+                                                      <input name="Submit" disabled={this.state.isPayButtonDisabled} type="submit"  value="Pagar en línea" className="btn btn-success btn-lg" id="button_payu"></input>
+                                                    </form>
+                                                </div>
+                                          </div>
+                                        </div>   
+                                    </ModalBody>
+                                  </Modal>
                               </div>
                             </div>      
                           </div>
