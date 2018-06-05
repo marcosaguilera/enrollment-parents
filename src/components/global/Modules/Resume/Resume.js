@@ -52,6 +52,7 @@ class Resume extends Component {
 
       // UI States
       modal: false,
+      modal_print: false,
       collapse: false,
       isPayButtonDisabled: true,
 
@@ -99,7 +100,7 @@ class Resume extends Component {
     this.setState({
       tot_tarifa    : Number((this.state.tot_pagar * this.state.fee)/100) + this.state.fee_cop
     }, () => {
-      console.log("Total Fee: " + Math.round(this.state.tot_tarifa));
+      //console.log("Total Fee: " + Math.round(this.state.tot_tarifa));
       this.handleTotalPay();
     })
   }
@@ -109,7 +110,7 @@ class Resume extends Component {
       monto : Number(this.state.tot_tarifa + this.state.tot_pagar)
 
     }, () => {
-      console.log("Total amount: " + Math.round(this.state.monto));
+      //console.log("Total amount: " + Math.round(this.state.monto));
       this.handleMd5Generator();
     })
   }
@@ -127,7 +128,7 @@ class Resume extends Component {
       this.setState({
         firmaMd5: md5string
       }, () => {
-        console.log("MD5 =>" + md5string);
+        //console.log("MD5 =>" + md5string);
       })
   }
 
@@ -137,7 +138,7 @@ class Resume extends Component {
       var time = + today.getHours() +""+ today.getMinutes();
       //var time = + today.getHours();
       var referenceCode = "MAT" + inDatum +"-"+ date + "" + time;
-      console.log(referenceCode);
+      //console.log(referenceCode);
 
       this.setState({
         codigoReferencia: referenceCode
@@ -156,6 +157,10 @@ class Resume extends Component {
 
   toggle() {
     this.setState({ modal: !this.state.modal });
+  }
+  
+  toggle_modal() {
+    this.setState({ modal_print: !this.state.modal_print });
   }
 
   toggleEnablePaymentButton = () =>{
@@ -356,8 +361,16 @@ class Resume extends Component {
                               <div className="col">
                                   <button type="button" 
                                           className="btn btn-primary btn-lg"
-                                          onClick={() => this.nextPath()}>
-                                  Imprimir</button>
+                                          onClick={this.toggle_modal}>
+                                          Imprimir recibo para bancos
+                                  </button>
+                                  <Modal isOpen={this.state.modal_print} size="lg" toggle={this.modal_print} className={this.props.className}>
+                                      <ModalHeader toggle={this.toggle_modal}>Formato de Recaudo - Banco de Bogotá</ModalHeader>
+                                      <ModalBody>
+                                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                          <img src="https://i.imgur.com/Q5NFVHK.jpg" class="img-fluid" alt="Responsive image" />
+                                      </ModalBody>
+                                  </Modal>
                               </div>
                               <div className="col"></div>
                               <div className="col"></div>
@@ -423,7 +436,7 @@ class Resume extends Component {
                                                     <form method="post" action="https://checkout.payulatam.com/ppp-web-gateway-payu/" target="_blank">
                                                       <input name="merchantId"       type="hidden"  value={this.state.payuIdMerchant} ></input>
                                                       <input name="referenceCode"    type="hidden"  value={this.state.codigoReferencia} ></input>
-                                                      <input name="description"      type="hidden"  value="PAGO MATRICULA 15000" ></input>
+                                                      <input name="description"      type="hidden"  value="PAGO MATRICULA ROCHESTER 2018-19" ></input>
                                                       <input name="amount"           type="hidden"  value={Math.round(this.state.monto)} ></input>
                                                       <input name="tax"              type="hidden"  value="0" ></input>
                                                       <input name="taxReturnBase"    type="hidden"  value="0" ></input>
@@ -435,7 +448,7 @@ class Resume extends Component {
                                                       <input name="shippingAddress"  type="hidden"  value={this.state.buyerAddress} ></input>
                                                       <input name="telephone"        type="hidden"  value={this.state.buyerPhone} ></input>
                                                       <input name="shippingCountry"  type="hidden"  value="CO" ></input>
-                                                      <input name="test" type="hidden" value="1" ></input>
+                                                      {/*<input name="test" type="hidden" value="1" ></input>*/}
                                                       <input name="Submit" disabled={this.state.isPayButtonDisabled} type="submit"  value="Pagar en línea" className="btn btn-success btn-lg" id="button_payu"></input>
                                                     </form>
                                                 </div>
