@@ -7,8 +7,30 @@
 }
 
 .Print-logo {
-    width: 176;
-    height: 164px;
+    width: auto;
+    height: 200px;
     padding: 20px;
     color: white;
-  }
+}
+
+h5 {
+    font-size: 1.65rem !important;
+}
+
+h4 {
+    font-size: 1.75rem !important;
+}
+
+.general-text{
+    font-size: 1.25rem;
+    margin: 0px 0px 0px 0px;
+}
+
+.signs-text {
+    font-size: 1.25rem;
+    margin: 0px 0px 0px 0px;
+}
+
+.hr-custom{
+    border-top: 1px solid #343a40;
+}

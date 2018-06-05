@@ -136,8 +136,6 @@ class Services extends Component {
     let studentCodeSize = this.state.student_code.length;
     console.log("Student code size: " + studentCodeSize);
 
-    
-
     if(studentCodeSize === 5 ){
       
         this.toggleModalLoader(); 
