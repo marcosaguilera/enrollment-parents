@@ -276,7 +276,7 @@ class Resume extends Component {
             <div className="album py-3 bg-light" >
               <div className="container">
                 <div className="row">
-                  <div className="col-md-2"> </div>
+                  <div className="col-md-1"> </div>
                   <div className="col-md-10">
                     <div className="card p-5 bg-light text-dark">
                       <div className="card-body">
@@ -451,6 +451,7 @@ class Resume extends Component {
                       </div>
                     </div>
                   </div>
+                  <div className="col-md-1"> </div>
                 </div>
               </div>
             </div>
