@@ -1,5 +1,6 @@
 // Dependencies
 import React, { Component } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import md5gen from 'md5';
 import NumberFormat from 'react-number-format';
@@ -24,6 +25,8 @@ class Resume extends Component {
     this.toggle                     = this.toggle.bind(this);
     this.toggle_modal               = this.toggle_modal.bind(this);
     this.handleOnChangeBuyer        = this.handleOnChangeBuyer.bind(this);
+    this.handlePrintData            = this.handlePrintData.bind(this);
+    this.handlePayOnlineData        = this.handlePayOnlineData.bind(this);
 
     this.state = {
 
@@ -41,6 +44,7 @@ class Resume extends Component {
       tot_pagar     : 0,
       fee           : 3.49,
       fee_cop       : 900,
+      fee_iva       : 0.19,
       tot_tarifa    : 0,
       codigo        : '',
       nombres       : '',
@@ -102,9 +106,12 @@ class Resume extends Component {
 
   handleCalculateTotalPayFee = () =>{
     this.setState({
-      tot_tarifa    : Number((this.state.tot_pagar * this.state.fee)/100) + this.state.fee_cop
+      tot_tarifa : Number(
+                          (((this.state.tot_pagar * this.state.fee)/100) + this.state.fee_cop) 
+                         +((((this.state.tot_pagar * this.state.fee)/100) + this.state.fee_cop) * this.state.fee_iva)
+                         )
     }, () => {
-      //console.log("Total Fee: " + Math.round(this.state.tot_tarifa));
+      console.log("Total Fee: " + Math.round(this.state.tot_tarifa));
       this.handleTotalPay();
     })
   }
@@ -169,6 +176,7 @@ class Resume extends Component {
     services.uid              = this.state.objectId;
 
     this.props.history.push('/print', services);
+    this.handlePrintData();
   }
 
   handlePayment = () =>{
@@ -177,6 +185,7 @@ class Resume extends Component {
 
   toggle() {
     this.setState({ modal: !this.state.modal });
+    this.handlePayOnlineData();
   }
   
   toggle_modal() {
@@ -285,6 +294,82 @@ class Resume extends Component {
         }
       })
     }  
+  }
+
+  handlePrintData(){
+    var servicesSelected                 = new Object();
+    var data                             = new Object();
+
+    // Data Object
+    data.codigo                          = this.state.codigo;
+    data.total_matricula_biblio          = this.state.tot_matricula,
+    data.total_servicios                 = this.state.tot_servicios,
+    data.total_pagar                     = this.state.tot_pagar,
+    data.anuario                         = this.state.anuario;
+    data.seguro_accidentes               = this.state.seguro;
+    data.asopadres                       = this.state.asopadres;
+    data.afiliacion_club                 = this.state.club;
+    // Log Object
+    servicesSelected.action              = "Print";
+    servicesSelected.codigo              = this.state.codigo;
+    servicesSelected.data                = data;
+
+    let axiosConfig = {
+      headers: {
+          'X-Parse-Application-Id': 'U8jcs4wAuoOvBeCUCy4tAQTApcfUjiGmso98wM9h',
+          'X-Parse-Master-Key'    : 'vN7hMK7QknCPf2xeazTaILtaskHFAveqnh6NDwi6',
+          'Content-Type'          : 'application/json;charset=UTF-8'
+      },
+    };
+
+    axios.post('https://parseapi.back4app.com/classes/EventsLog', servicesSelected, axiosConfig)
+         .then(res => {   
+             console.log(res);      
+         })
+         .catch(error => {
+            console.log(error);
+         });
+
+  }
+
+  handlePayOnlineData(){
+    var servicesSelected                 = new Object();
+    var data                             = new Object();
+
+    // Data Object
+    data.codigo                          = this.state.codigo;
+    data.total_matricula_biblio          = this.state.tot_matricula,
+    data.total_servicios                 = this.state.tot_servicios,
+    data.total_pagar                     = this.state.tot_pagar,
+    data.monto                           = this.state.monto,
+    data.codigoReferencia                = this.state.codigoReferencia,
+    data.tot_tarifa                      = this.state.tot_tarifa,
+    
+    data.anuario                         = this.state.anuario;
+    data.seguro_accidentes               = this.state.seguro;
+    data.asopadres                       = this.state.asopadres;
+    data.afiliacion_club                 = this.state.club;
+    // Log Object
+    servicesSelected.action              = "Pay Online";
+    servicesSelected.codigo              = this.state.codigo;
+    servicesSelected.data                = data;
+
+    let axiosConfig = {
+      headers: {
+          'X-Parse-Application-Id': 'U8jcs4wAuoOvBeCUCy4tAQTApcfUjiGmso98wM9h',
+          'X-Parse-Master-Key'    : 'vN7hMK7QknCPf2xeazTaILtaskHFAveqnh6NDwi6',
+          'Content-Type'          : 'application/json;charset=UTF-8'
+      },
+    };
+
+    axios.post('https://parseapi.back4app.com/classes/EventsLog', servicesSelected, axiosConfig)
+         .then(res => {   
+             console.log(res);      
+         })
+         .catch(error => {
+            console.log(error);
+         });
+
   }
 
   // Props definitions
