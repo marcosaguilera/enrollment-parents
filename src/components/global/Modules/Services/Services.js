@@ -27,6 +27,7 @@ class Services extends Component {
     this.handleClickSearchStudent  = this.handleClickSearchStudent.bind(this);
     this.handleOnChange            = this.handleOnChange.bind(this);
     this.handleOnChangeServices    = this.handleOnChangeServices.bind(this);
+    this.handleSaveServices        = this.handleSaveServices.bind(this);
 
     this.state = {
         count                 : 0,
@@ -137,7 +138,6 @@ class Services extends Component {
     console.log("Student code size: " + studentCodeSize);
 
     if(studentCodeSize === 5 ){
-      
         this.toggleModalLoader(); 
         
         //axios.get('https://parseapi.back4app.com/classes/Enrollment?where={"CODIGO":"' + this.state.student_code + '"}', axiosConfig)
@@ -394,11 +394,53 @@ class Services extends Component {
     });
 
     this.props.history.push('/resume', services);
+    this.handleSaveServices();
+  }
+
+  handleSaveServices(){
+    var servicesSelected                 = new Object();
+    var data                             = new Object();
+
+    // Data Object
+    data.codigo                          = this.state.codigo;
+    data.bibliobanco                     = this.state.bibliobanco;
+    data.matricula                       = this.state.tarifa_plena;
+    data.total_matricula                 = this.state.total_matricula,
+    data.total_dto_matricula             = this.state.total_dtos_matr,
+    data.total_descuentos                = this.state.total_descuentos,
+    data.total_servicios                 = this.state.total_servicios,
+    data.total_pagar                     = this.state.total_pagar,
+    data.anuario                         = this.state.anuario_seleccionado;
+    data.seguro_accidentes               = this.state.seguro_seleccionado;
+    data.asopadres                       = this.state.asopadres_seleccionado;
+    data.afiliacion_club                 = this.state.club_seleccionado;
+    // Log Object
+    servicesSelected.action              = "Service Selection";
+    servicesSelected.codigo              = this.state.codigo;
+    servicesSelected.data                = data;
+
+    let axiosConfig = {
+      headers: {
+          'X-Parse-Application-Id': 'U8jcs4wAuoOvBeCUCy4tAQTApcfUjiGmso98wM9h',
+          'X-Parse-Master-Key'    : 'vN7hMK7QknCPf2xeazTaILtaskHFAveqnh6NDwi6',
+          'Content-Type'          : 'application/json;charset=UTF-8'
+      },
+    };
+
+    axios.post('https://parseapi.back4app.com/classes/EventsLog', servicesSelected, axiosConfig)
+         .then(res => {   
+             console.log(res);      
+         })
+         .catch(error => {
+            console.log(error);
+         });
+
   }
   
   /////////////////////////////////
   //////// Rendering UI ///////////
   /////////////////////////////////
+
   render() {
     return (
       <div className="bg-light">
