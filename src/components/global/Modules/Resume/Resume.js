@@ -448,7 +448,7 @@ class Resume extends Component {
                                     <tr>
                                         <td colSpan="2" id="base_table">
                                             <div>
-                                              <p> <b>Pagar en banco (sin costo adicional):</b> Usted podrá descargar e imprimir su recibo de pago y acercarse a la ventanilla del banco a realizar el pago.</p>
+                                              <p> <b>Pagar en banco (sin costo adicional):</b> Imprima su recibo de pago y acercarse a la ventanilla del banco a realizar el pago.</p>
                                               <p> <b>Pagar en línea (con costo adicional):</b> Ofrecemos la facilidad de pago en línea con PayU. Agíl, seguro y desde la comodidad de tu casa. (<a href="https://www.payulatam.com/co/tarifas/" target="_blank">Conoce las tarifas de PayU</a>)</p>
                                             </div>
                                         </td>        
