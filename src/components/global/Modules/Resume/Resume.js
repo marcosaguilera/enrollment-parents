@@ -129,7 +129,6 @@ class Resume extends Component {
   handleMd5Generator = () =>{
       var referencecod = this.handleReferencecode(this.state.codigo);
       var monto_pagar = Math.round(this.state.monto);
-      //console.log("=====> " + referencecod + " --- " + monto_pagar);
       var md5string = md5gen( "BZRTxRkjDDYBuXHE2V52d56iWN" + "~" + 
                               "578320" + "~" +
                               referencecod + "~" +
