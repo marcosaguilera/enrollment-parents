@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import md5gen from 'md5';
 import NumberFormat from 'react-number-format';
-import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 // Assets
 import '../../Modules/Resume/Resume.css';
@@ -21,6 +21,7 @@ class Resume extends Component {
     this.handlePayment              = this.handlePayment.bind(this);
     this.handleTotalPay             = this.handleTotalPay.bind(this);
     this.toggle                     = this.toggle.bind(this);
+    this.toggle_modal               = this.toggle_modal.bind(this);
     this.handleOnChangeBuyer        = this.handleOnChangeBuyer.bind(this);
 
     this.state = {
@@ -33,6 +34,7 @@ class Resume extends Component {
       anuario       : 0,
       asopadres     : 0,
       club          : 0,
+      biblio        : 0,
       tot_matricula : 0,
       tot_servicios : 0,
       tot_pagar     : 0,
@@ -76,6 +78,7 @@ class Resume extends Component {
     console.log("Services data: " + JSON.stringify(servicesObj));
 
     this.setState({
+        biblio        : servicesObj.bibliobanco,
         anuario       : servicesObj.anuario,
         asopadres     : servicesObj.asopadres,
         club          : servicesObj.club,
@@ -148,7 +151,23 @@ class Resume extends Component {
   }
 
   nextPath = () => {
-    this.props.history.push('/print');
+    var services              = new Object();
+    services.matricula        = this.state.tot_matricula;
+    services.bibliobanco      = this.state.biblio;
+    services.asopadres        = this.state.asopadres;
+    services.anuario          = this.state.anuario;
+    services.seguro           = this.state.seguro;
+    services.club             = this.state.club;
+    services.total_servicios  = this.state.tot_servicios;
+    services.total_pagar      = this.state.tot_pagar;
+    // Student data
+    services.codigo           = this.state.codigo;
+    services.nombres          = this.state.nombres;
+    services.apellidos        = this.state.apellidos;
+    services.grado            = this.state.grado;
+    services.uid              = this.state.objectId;
+
+    this.props.history.push('/print', services);
   }
 
   handlePayment = () =>{
@@ -295,15 +314,15 @@ class Resume extends Component {
                             <div className="py-3">
                               <div className="container">
                                 <div className="row">
-                                  <div className="col-2"><b>Código:</b></div>
+                                  <div className="col-2"><b>Código</b></div>
                                   <div className="col-4">{this.state.codigo}</div>
-                                  <div className="col-2"><b>Grado:</b></div>
+                                  <div className="col-2"><b>Grado</b></div>
                                   <div className="col-4">{this.state.grado}</div>
                                 </div>
                                 <div className="row">
-                                  <div className="col-2"><b>Nombres:</b></div>
+                                  <div className="col-2"><b>Nombres</b></div>
                                   <div className="col-4">{this.state.nombres}</div>
-                                  <div className="col-2"><b>Apellidos:</b></div>
+                                  <div className="col-2"><b>Apellidos</b></div>
                                   <div className="col-4">{this.state.apellidos}</div>
                                 </div>
                               </div>
@@ -318,7 +337,7 @@ class Resume extends Component {
                                   
                                   <tbody>
                                     <tr>
-                                      <td>Matrícula</td>
+                                      <td>Matrícula + bibliobanco</td>
                                       <td><NumberFormat value={this.state.tot_matricula} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
                                     <tr>
@@ -344,7 +363,7 @@ class Resume extends Component {
                                     <tr>
                                         <td colSpan="2" id="base_table">
                                             <div>
-                                              <p> <b>Imprimir (sin costo adicional):</b> Usted podrá descargar e imprimir su recibo de pago y acercarse a la ventanilla del banco a realizar el pago.</p>
+                                              <p> <b>Pagar en banco (sin costo adicional):</b> Usted podrá descargar e imprimir su recibo de pago y acercarse a la ventanilla del banco a realizar el pago.</p>
                                               <p> <b>Pagar en línea (con costo adicional):</b> Ofrecemos la facilidad de pago en línea con PayU. Agíl, seguro y desde la comodidad de tu casa. (<a href="https://www.payulatam.com/co/tarifas/" target="_blank">Conoce las tarifas de PayU</a>)</p>
                                             </div>
                                         </td>        
@@ -362,14 +381,18 @@ class Resume extends Component {
                                   <button type="button" 
                                           className="btn btn-primary btn-lg"
                                           onClick={this.toggle_modal}>
-                                          Imprimir recibo para bancos
+                                          Pagar en banco
                                   </button>
-                                  <Modal isOpen={this.state.modal_print} size="lg" toggle={this.modal_print} className={this.props.className}>
+                                  <Modal isOpen={this.state.modal_print} size="lg" toggle={this.toggle_modal} className={this.props.className}>
                                       <ModalHeader toggle={this.toggle_modal}>Formato de Recaudo - Banco de Bogotá</ModalHeader>
                                       <ModalBody>
-                                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                          <img src="https://i.imgur.com/Q5NFVHK.jpg" class="img-fluid" alt="Responsive image" />
+                                          El siguiente es un ejemplo del <b>Formato Sistema Nacional de Recaudos Comprobante de Pago Universal Nacional</b> que usted debe solicitar en la sucursal bancaría para realizar el pago. Asegúrese de diligenciar los campos de acuerdo a las indicaciones.
+                                          <img src="https://i.imgur.com/Q5NFVHK.jpg" className="img-fluid" alt="Responsive image" />
                                       </ModalBody>
+                                      <ModalFooter>
+                                        <Button color="primary" onClick={() => this.nextPath()}>Imprimir</Button>
+                                        <Button color="secondary" onClick={this.toggle_modal}>Cancelar</Button>
+                                      </ModalFooter>
                                   </Modal>
                               </div>
                               <div className="col"></div>

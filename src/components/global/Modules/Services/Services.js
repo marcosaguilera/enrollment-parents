@@ -373,10 +373,11 @@ class Services extends Component {
   }
 
   nextPath = () => {
-    var services = new Object();
+    var services              = new Object();
     services.seguro           = this.state.seguro_seleccionado;
     services.anuario          = this.state.anuario_seleccionado;
     services.asopadres        = this.state.asopadres_seleccionado;
+    services.bibliobanco      = this.state.bibliobanco;
     services.club             = this.state.club_seleccionado;
     services.total_descuentos = this.state.total_descuentos;
     services.total_servicios  = this.state.total_servicios;

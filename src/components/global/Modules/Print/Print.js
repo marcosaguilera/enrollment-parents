@@ -1,7 +1,7 @@
 // Dependencies
 import React, { Component } from 'react';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import PropTypes from 'prop-types';
+import NumberFormat from 'react-number-format';
 
 //Assets
 import logo_black from '../../images/logo_black_2.jpg';
@@ -10,32 +10,71 @@ import './Print.css';
 class Print extends Component {
   constructor(props) {
     super(props);
+
+    this.generateReference = this.generateReference.bind(this);
+
+    this.state={
+        nombres     : '',
+        apellidos   : '',
+        grado       : '',
+        codigo      : '',
+        matricula   : 0,
+        bibliobanco : 0,
+        asopadres   : 0,
+        anuario     : 0,
+        seguro      : 0,
+        club        : 0,
+        total       : 0,
+        num_recibo  : '',
+        fecha       : ''
+    }
   }
 
   componentDidMount(){
-      const now   = new Date()
-      console.log(now);
-      setTimeout(function() {
-        window.print();
-      }, 2000)
-      //this.printDocument(now);
+      
+      var servicesObj = this.props.location.state;
+      console.log("Services data: " + JSON.stringify(servicesObj));
+
+      this.setState({
+        // Student Data
+        codigo        : servicesObj.codigo,
+        nombres       : servicesObj.nombres,
+        apellidos     : servicesObj.apellidos,
+        grado         : servicesObj.grado,
+        objectId      : servicesObj.uid,
+        // services data
+        bibliobanco   : servicesObj.bibliobanco,
+        matricula     : servicesObj.matricula,
+        anuario       : servicesObj.anuario,
+        asopadres     : servicesObj.asopadres,
+        club          : servicesObj.club,
+        seguro        : servicesObj.seguro,
+        tot_servicios : servicesObj.total_servicios,
+        total         : servicesObj.total_pagar
+
+      }, () => {
+        this.generateReference();
+      });      
   }
 
-  printDocument(inDatum) {
-    const input = document.getElementById('divToPrint');
-    html2canvas(input)
-      .then((canvas) => {
-          const ctx = canvas.getContext('2d');
-                ctx.webkitImageSmoothingEnabled = false;
-                ctx.mozImageSmoothingEnabled = false;
-                ctx.imageSmoothingEnabled = false;
+  generateReference = () => {
+        var now   = new Date();
+        var day   = now.getDate();
+        var year  = now.getFullYear();
+        var month = now.getMonth()+1;
+        const today = year + "/" + month + "/" + day;
 
-          const imgData = canvas.toDataURL('image/jpeg,1.0');
-          const pdf = new jsPDF();
+        console.log(today);
 
-          pdf.addImage(imgData, 'JPEG', 0, 0);
-          pdf.save(inDatum + ".pdf");
-      });
+        const reference = "MAT201819-";
+        this.setState({
+            num_recibo : reference + this.state.codigo,
+            fecha : today
+        }, () => {
+            setTimeout(function() {
+              window.print();
+            }, 2000)
+        })
   }
 
   render() {
@@ -64,7 +103,7 @@ class Print extends Component {
                                                     </tr>
                                                     <tr>
                                                         <td style={{width: '80.6162%', textAlign: 'center'}}>
-                                                            <p style={{fontSize: 'small'}}>RECIBO DE PAGO EN BANCOS N&ordm;. xxxxxxxxxx
+                                                            <p style={{fontSize: 'small'}}>RECIBO DE PAGO EN BANCOS N&ordm;. {this.state.num_recibo}
                                                             <br />Actividad comercial 8512. Tarifa I.C.A 0.4%.
                                                             <br />Responsables ICA Municipio de Chía, Cundinamarca
                                                             <br />NO RESPONSABLE DE I.V.A&nbsp;</p></td>
@@ -77,19 +116,19 @@ class Print extends Component {
                                                 <tbody>
                                                     <tr>
                                                         <td style={{width: '16.2234%'}}><strong><p className="general-text">Fecha:</p></strong></td>
-                                                        <td style={{width: '80.7766%'}}><p className="general-text">2018/03/01</p></td>
+                                                        <td style={{width: '80.7766%'}}><p className="general-text">{this.state.fecha}</p></td>
                                                     </tr>
                                                     <tr>
                                                         <td style={{width: '16.2234%'}}><strong><p className="general-text">Alumno:</p></strong></td>
-                                                        <td style={{width: '80.7766%'}}><p className="general-text">Marcos Antonio Aguilera Ely</p></td>
+                                                        <td style={{width: '80.7766%'}}><p className="general-text">{this.state.nombres} {this.state.apellidos}</p></td>
                                                     </tr>
                                                     <tr>
                                                         <td style={{width: '16.2234%'}}><strong><p className="general-text">C&oacute;digo:</p></strong></td>
-                                                        <td style={{width: '80.7766%'}}><p className="general-text">05012</p></td>
+                                                        <td style={{width: '80.7766%'}}><p className="general-text">{this.state.codigo}</p></td>
                                                     </tr>
                                                     <tr>
                                                         <td style={{width: '16.2234%'}}><strong><p className="general-text">Grado:</p></strong></td>
-                                                        <td style={{width: '80.7766%'}}><p className="general-text">D&eacute;cimo</p></td>
+                                                        <td style={{width: '80.7766%'}}><p className="general-text">{this.state.grado}</p></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -102,34 +141,67 @@ class Print extends Component {
                                                         <td style={{width: '21%', textAlign: 'right'}}><strong><p className="general-text">Valor a pagar</p></strong></td>
                                                     </tr>
                                                     <tr>
-                                                        <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Matr&iacute;cula</p></td>
+                                                        <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Matrícula + bibliobanco</p></td>
                                                         <td style={{width: '23.7908%'}}>&nbsp;</td>
-                                                        <td style={{width: '21%', textAlign: 'right'}}><p className="general-text">$1.352.221</p></td>
+                                                        <td style={{width: '21%', textAlign: 'right'}}>
+                                                            <p className="general-text">
+                                                                <NumberFormat value={this.state.matricula} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                                            </p>
+                                                        </td>
                                                     </tr>
-                                                    <tr>
+                                                    {/*<tr>
                                                         <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Bibliobanco</p></td>
                                                         <td style={{width: '23.7908%'}}>&nbsp;</td>
-                                                        <td style={{width: '21%', textAlign: 'right'}}><p className="general-text">$850.000</p></td>
-                                                    </tr>
+                                                        <td style={{width: '21%', textAlign: 'right'}}>
+                                                            <p className="general-text">
+                                                                <NumberFormat value={this.state.bibliobanco} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                                            </p>
+                                                        </td>
+                                                    </tr>*/}
                                                     <tr>
                                                         <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Afiliaci&oacute;n asopadres</p></td>
                                                         <td style={{width: '23.7908%'}}>&nbsp;</td>
-                                                        <td style={{width: '21%', textAlign: 'right'}}><p className="general-text">$158.000</p></td>
+                                                        <td style={{width: '21%', textAlign: 'right'}}>
+                                                            <p className="general-text">
+                                                                <NumberFormat value={this.state.asopadres} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                                            </p>
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Anuario</p></td>
                                                         <td style={{width: '23.7908%'}}>&nbsp;</td>
-                                                        <td style={{width: '21%', textAlign: 'right'}}><p className="general-text">$89.000</p></td>
+                                                        <td style={{width: '21%', textAlign: 'right'}}>
+                                                            <p className="general-text">
+                                                                <NumberFormat value={this.state.anuario} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                                            </p>
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Seguro de accidentes</p></td>
                                                         <td style={{width: '23.7908%'}}>&nbsp;</td>
-                                                        <td style={{width: '21%', textAlign: 'right'}}><p className="general-text">$55.000</p></td>
+                                                        <td style={{width: '21%', textAlign: 'right'}}>
+                                                            <p className="general-text">
+                                                            <NumberFormat value={this.state.seguro} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Afiliación Club Deportivo</p></td>
+                                                        <td style={{width: '23.7908%'}}>&nbsp;</td>
+                                                        <td style={{width: '21%', textAlign: 'right'}}>
+                                                            <p className="general-text">
+                                                            <NumberFormat value={this.state.club} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                                            </p>
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text"><strong>TOTAL A PAGAR</strong></p></td>
                                                         <td style={{width: '23.7908%'}}>&nbsp;</td>
-                                                        <td style={{width: '21%', textAlign: 'right'}}><p className="general-text"><strong>$2.504.221</strong></p></td>
+                                                        <td style={{width: '21%', textAlign: 'right'}}>
+                                                            <p className="general-text">
+                                                                <strong><NumberFormat value={this.state.total} displayType={'text'} thousandSeparator={true} prefix={'$'} /></strong>
+                                                            </p>
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
