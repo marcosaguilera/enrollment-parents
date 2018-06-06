@@ -557,7 +557,7 @@ class Resume extends Component {
                                                       <input name="telephone"        type="hidden"  value={this.state.buyerPhone} ></input>
                                                       <input name="shippingCountry"  type="hidden"  value="CO" ></input>
                                                       {/*<input name="test" type="hidden" value="1" ></input>*/}
-                                                      <input name="Submit" disabled={this.state.isPayButtonDisabled} type="submit"  value="Pagar en línea" className="btn btn-success btn-lg" id="button_payu"></input>
+                                                      <input name="Submit" disabled={this.state.isPayButtonDisabled} type="submit"  value="Ir a Pagar" className="btn btn-success btn-lg" id="button_payu"></input>
                                                     </form>
                                                 </div>
                                           </div>
