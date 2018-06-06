@@ -7,6 +7,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 // Assets
 import '../../Modules/Resume/Resume.css';
+import formato from '../../images/formato_consignacion.jpg';
 
 //Components declaration
 import Footer from '../../Footer'
@@ -387,7 +388,7 @@ class Resume extends Component {
                                       <ModalHeader toggle={this.toggle_modal}>Formato de Recaudo - Banco de Bogotá</ModalHeader>
                                       <ModalBody>
                                           El siguiente es un ejemplo del <b>Formato Sistema Nacional de Recaudos Comprobante de Pago Universal Nacional</b> que usted debe solicitar en la sucursal bancaría para realizar el pago. Asegúrese de diligenciar los campos de acuerdo a las indicaciones.
-                                          <img src="https://i.imgur.com/Q5NFVHK.jpg" className="img-fluid" alt="Responsive image" />
+                                          <img src={formato} className="img-fluid" alt="Responsive image" />
                                       </ModalBody>
                                       <ModalFooter>
                                         <Button color="primary" onClick={() => this.nextPath()}>Imprimir</Button>

@@ -57,7 +57,7 @@ class Services extends Component {
         anuario_impreso       : 110000,
         anuario_digital       : 46000,
         anuario_combo         : 156000,
-        asopadres             : 190000,
+        asopadres             : 172000,
         club                  : 375000,
         
         // zero values,
@@ -99,7 +99,7 @@ class Services extends Component {
         label_anuario_digital : 'Digital - $46.000',
         label_anuario_combo   : 'Impreso y digital - $156.000',
         label_anuario_cero    : 'No - $0.0',
-        label_asopadres       : 'Si - $190.000',
+        label_asopadres       : 'Si - $172.000',
         label_asopadres_cero  : 'No - $0.0',
         label_club            : 'Si - $375.000',
         label_club_cero       : 'No - $0.0'
@@ -634,7 +634,7 @@ class Services extends Component {
                       <div className="card-footer bg-success text-white">
                         <div className="row">
                           <div className="col-12">
-                            <center><h5>Total a Pagar</h5></center>
+                            <center><h5>Total a pagar</h5></center>
                           </div>
                         </div>
                         <div className="row">

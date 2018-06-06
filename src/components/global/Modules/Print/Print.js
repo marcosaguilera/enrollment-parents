@@ -230,6 +230,7 @@ class Print extends Component {
                                                     </tr>
                                                     <tr>
                                                         <td style={{width: '45%'}}>
+                                                            <br />
                                                             <hr className="hr-custom"/>
                                                             <p className="signs-text"><strong>Acudiente</strong><br />
                                                             <strong>
