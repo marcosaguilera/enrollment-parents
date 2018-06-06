@@ -85,7 +85,8 @@ class Services extends Component {
         isOpen                : false,  // Modal windows state
         isOpenLoader          : false,  // Modal windows state
         isDisableSelect       : true, 
-        isShowingResume       : 'none',  
+        isShowingResume       : 'none',
+        popoverOpen           : true,  
 
         // Modal message
         message               : '',
@@ -405,11 +406,11 @@ class Services extends Component {
     data.codigo                          = this.state.codigo;
     data.bibliobanco                     = this.state.bibliobanco;
     data.matricula                       = this.state.tarifa_plena;
-    data.total_matricula                 = this.state.total_matricula,
-    data.total_dto_matricula             = this.state.total_dtos_matr,
-    data.total_descuentos                = this.state.total_descuentos,
-    data.total_servicios                 = this.state.total_servicios,
-    data.total_pagar                     = this.state.total_pagar,
+    data.total_matricula                 = this.state.total_matricula;
+    data.total_dto_matricula             = this.state.total_dtos_matr;
+    data.total_descuentos                = this.state.total_descuentos;
+    data.total_servicios                 = this.state.total_servicios;
+    data.total_pagar                     = this.state.total_pagar;
     data.anuario                         = this.state.anuario_seleccionado;
     data.seguro_accidentes               = this.state.seguro_seleccionado;
     data.asopadres                       = this.state.asopadres_seleccionado;
@@ -468,9 +469,10 @@ class Services extends Component {
                         </input>
                         <div className="input-group-append">
                           <button 
-                            className="btn btn-primary" 
+                            className="btn btn-primary"
+                            id="Popover1"
                             onClick={this.handleClickSearchStudent}
-                            type="button">Buscar</button>
+                            type="button">Buscar</button> 
                         </div>
                     </div>
                   </div>
