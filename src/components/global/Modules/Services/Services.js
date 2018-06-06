@@ -86,7 +86,6 @@ class Services extends Component {
         isOpenLoader          : false,  // Modal windows state
         isDisableSelect       : true, 
         isShowingResume       : 'none',
-        popoverOpen           : true,  
 
         // Modal message
         message               : '',
