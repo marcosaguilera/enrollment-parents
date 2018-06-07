@@ -484,7 +484,7 @@ class Services extends Component {
 
             <div className="row">
                   <div className="col-md-12">
-                      <h4 className="d-flex justify-content-between mb-3" >Información del Estudiante</h4>
+                      <h4 className="d-flex justify-content-between mb-3" >Información del estudiante</h4>
                       <div className="row">
                         <div className="col-md-6 mb-3">
                         <label htmlFor="firstName">Código</label>
@@ -526,7 +526,7 @@ class Services extends Component {
                     </thead>
                     <tbody>
                       <tr>
-                        <td>Derecho de Matrícula Pleno</td>
+                        <td>Derecho de matrícula plena</td>
                         <td></td>
                         <td><NumberFormat value={this.state.tarifa_plena} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
@@ -536,12 +536,12 @@ class Services extends Component {
                         <td><NumberFormat value={this.state.bibliobanco} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
-                        <td>Derecho de Matrícula -7.5% por pago de anualidades futuras</td>
+                        <td>Derecho de matrícula -7.5% por pago de anualidades futuras</td>
                         <td></td>
                         <td><NumberFormat value={this.state.tarifa_reducida_7_5} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
-                        <td>Derecho de Matrícula -15% por pago de anualidades futuras</td>
+                        <td>Derecho de matrícula -15% por pago de anualidades futuras</td>
                         <td></td>
                         <td><NumberFormat value={this.state.tarifa_reducida_15} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
@@ -597,7 +597,7 @@ class Services extends Component {
                 <div className="col-md-4">
                   <div className="card">
                       <div className="card-header bg-primary" >
-                        <h6 id="card_title_color" className="mb-0 text-center">Total Matrículas + Bibliobanco</h6>
+                        <h6 id="card_title_color" className="mb-0 text-center">Total Matrícula + Bibliobanco</h6>
                       </div>
 
                       <ul className="list-group list-group-flush">
@@ -616,7 +616,7 @@ class Services extends Component {
                       </ul>
                       
                       <div className="card-body">
-                          <p className="" >A continuación seleccione los servicios que desea adicionar:</p>
+                          <p className="" >Seleccione los servicios que desea adicionar:</p>
                           {/*Select Seguro Accidentes*/}
                           <div className="row">
                               <div className="col-md-12 mb-3" >
@@ -723,7 +723,7 @@ class Services extends Component {
                       <button type="button" 
                               className="btn btn-primary btn-lg btn-block"
                               onClick={() => this.nextPath()}
-                              disabled={this.state.isDisableSelect}>Imprimir y Pagar</button>
+                              disabled={this.state.isDisableSelect}>Imprimir y pagar</button>
                     </div>
                   </div>
 

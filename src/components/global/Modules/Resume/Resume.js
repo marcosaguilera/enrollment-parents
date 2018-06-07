@@ -422,11 +422,11 @@ class Resume extends Component {
                                   
                                   <tbody>
                                     <tr>
-                                      <td>Matrícula + bibliobanco</td>
+                                      <td>Matrícula + Bibliobanco</td>
                                       <td><NumberFormat value={this.state.tot_matricula} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
                                     <tr>
-                                      <td>Seguro Accidentes</td>
+                                      <td>Seguro de accidentes</td>
                                       <td><NumberFormat value={this.state.seguro} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
                                     <tr>
@@ -438,18 +438,22 @@ class Resume extends Component {
                                       <td><NumberFormat value={this.state.asopadres} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
                                     <tr>
-                                      <td>Afiliación Club Deportivo</td>
+                                      <td>Afiliación a club deportivo</td>
                                       <td><NumberFormat value={this.state.club} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
-                                    <tr className="table-active">
+                                    <tr className="alert-secondary">
                                       <td ><b>Total a pagar</b></td>
                                       <td><b><NumberFormat value={this.state.tot_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
+                                    </tr>
+                                    <tr className="">
+                                      <td ><b>Imprimir Recibo de Matrículas</b><br/>Este documento debe ser firmado y entregado en día de la matrícula</td>
+                                      <td><Button color="primary" onClick={() => this.nextPath()}>Imprimir</Button></td>
                                     </tr>
                                     <tr>
                                         <td colSpan="2" id="base_table">
                                             <div className="alert alert-primary" role="alert">
-                                              <p> <b>Pagar en banco (sin costo adicional):</b> Imprima su recibo de pago y acercarse a la ventanilla del banco a realizar el pago.</p>
-                                              <p> <b>Pagar en línea (con costo adicional):</b> Ofrecemos la facilidad de pago en línea con PayU. Agíl, seguro y desde la comodidad de tu casa. (<a href="https://www.payulatam.com/co/tarifas/" rel="noopener noreferrer" target="_blank">Conoce las tarifas de PayU</a>)</p>
+                                              <p> <b>Pagar en banco (sin costo adicional):</b> Imprima su recibo y acerquese a la sucursal del <b>Banco de Bogotá</b> más cercana para realizar el pago. </p>
+                                              <p> <b>Pagar en línea (con costo adicional):</b> Ofrecemos la facilidad de pago en línea con PayU. Agíl, seguro y desde la comodidad de su casa. (<a href="https://www.payulatam.com/co/tarifas/" rel="noopener noreferrer" target="_blank">Conoce las tarifas de PayU - 3.49% + $900</a>)</p>
                                             </div>
                                         </td>        
                                     </tr>
@@ -477,7 +481,6 @@ class Resume extends Component {
                                           <img src={formato} className="img-fluid" alt="Responsive image" />
                                       </ModalBody>
                                       <ModalFooter>
-                                        <Button color="primary" onClick={() => this.nextPath()}>Imprimir</Button>
                                         <Button color="secondary" onClick={this.toggle_modal}>Cancelar</Button>
                                       </ModalFooter>
                                   </Modal>
