@@ -16,7 +16,7 @@ class Footer extends Component {
       <div className="Footer bg-light text-dark">
         <footer className="footer">
             <div className="container">
-              <p>{copyright} | <a href="https://rochester.edu.co/politica-proteccion-datos/" target="_blank">Protección de Datos</a> </p> 
+              <p>{copyright} | <a href="https://rochester.edu.co/politica-proteccion-datos/" rel="noopener noreferrer" target="_blank">Protección de Datos</a> </p> 
             </div>
         </footer>
       </div>

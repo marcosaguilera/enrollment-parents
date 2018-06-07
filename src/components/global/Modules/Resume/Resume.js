@@ -80,7 +80,7 @@ class Resume extends Component {
 
   componentDidMount(){
     var servicesObj = this.props.location.state;
-    console.log("Services data: " + JSON.stringify(servicesObj));
+    //console.log("Services data: " + JSON.stringify(servicesObj));
 
     this.setState({
         biblio        : servicesObj.bibliobanco,
@@ -111,7 +111,7 @@ class Resume extends Component {
                          +((((this.state.tot_pagar * this.state.fee)/100) + this.state.fee_cop) * this.state.fee_iva)
                          )
     }, () => {
-      console.log("Total Fee: " + Math.round(this.state.tot_tarifa));
+      //console.log("Total Fee: " + Math.round(this.state.tot_tarifa));
       this.handleTotalPay();
     })
   }
@@ -447,9 +447,9 @@ class Resume extends Component {
                                     </tr>
                                     <tr>
                                         <td colSpan="2" id="base_table">
-                                            <div>
+                                            <div className="alert alert-primary" role="alert">
                                               <p> <b>Pagar en banco (sin costo adicional):</b> Imprima su recibo de pago y acercarse a la ventanilla del banco a realizar el pago.</p>
-                                              <p> <b>Pagar en línea (con costo adicional):</b> Ofrecemos la facilidad de pago en línea con PayU. Agíl, seguro y desde la comodidad de tu casa. (<a href="https://www.payulatam.com/co/tarifas/" target="_blank">Conoce las tarifas de PayU</a>)</p>
+                                              <p> <b>Pagar en línea (con costo adicional):</b> Ofrecemos la facilidad de pago en línea con PayU. Agíl, seguro y desde la comodidad de tu casa. (<a href="https://www.payulatam.com/co/tarifas/" rel="noopener noreferrer" target="_blank">Conoce las tarifas de PayU</a>)</p>
                                             </div>
                                         </td>        
                                     </tr>
@@ -471,7 +471,9 @@ class Resume extends Component {
                                   <Modal isOpen={this.state.modal_print} size="lg" toggle={this.toggle_modal} className={this.props.className}>
                                       <ModalHeader toggle={this.toggle_modal}>Formato de Recaudo - Banco de Bogotá</ModalHeader>
                                       <ModalBody>
-                                          El siguiente es un ejemplo del <b>Formato Sistema Nacional de Recaudos Comprobante de Pago Universal Nacional</b> que usted debe solicitar en la sucursal bancaría para realizar el pago. Asegúrese de diligenciar los campos de acuerdo a las indicaciones.
+                                          <div className="alert alert-primary" role="alert">
+                                              El siguiente es un ejemplo del <b>Formato Sistema Nacional de Recaudos Comprobante de Pago Universal Nacional</b> que usted debe solicitar en la sucursal bancaría para realizar el pago. Asegúrese de diligenciar los campos de acuerdo a las indicaciones.
+                                          </div>
                                           <img src={formato} className="img-fluid" alt="Responsive image" />
                                       </ModalBody>
                                       <ModalFooter>
