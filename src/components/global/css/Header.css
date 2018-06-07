@@ -9,14 +9,14 @@
 
 .Header-header {
   background-color: #222;
-  height: 185px;
+  height: 200px;
   padding: 20px;
   color: white;
 }
 
 .Header-title {
   font-size: 1.3em;
-  font-weight: lighter;
+  font-weight: normal;
 }
 
 .Header-intro {
