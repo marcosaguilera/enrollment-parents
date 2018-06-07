@@ -441,7 +441,7 @@ class Resume extends Component {
                                       <td>Afiliación a club deportivo</td>
                                       <td><NumberFormat value={this.state.club} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
-                                    <tr className="alert-secondary">
+                                    <tr className="bg-primary text-white">
                                       <td ><b>Total a pagar</b></td>
                                       <td><b><NumberFormat value={this.state.tot_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
                                     </tr>
