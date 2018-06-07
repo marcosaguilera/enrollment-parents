@@ -468,7 +468,7 @@ class Resume extends Component {
                             <div className="row">
                               <div className="col">
                                   <button type="button" 
-                                          className="btn btn-primary btn-lg"
+                                          className="btn btn-secondary btn-lg"
                                           onClick={this.toggle_modal}>
                                           Pagar en banco
                                   </button>
@@ -498,9 +498,9 @@ class Resume extends Component {
                                     <ModalBody>
                                         <div id="wow" className="col-md-12">
                                             <h6 >Información del pagador</h6>
-                                            <p id="little-text">
+                                            <div id="little-text" class="alert alert-primary" role="alert">
                                                 *Antes de continuar con el pago es importante que diligencie la información del pagador.
-                                            </p>
+                                            </div>
                                         </div>
                                         <div className="form-row">
                                           <div className="col">
