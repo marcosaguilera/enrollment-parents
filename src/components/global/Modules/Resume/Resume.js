@@ -392,7 +392,7 @@ class Resume extends Component {
                         <div className="row">
                           
                           <div className="col-md-12">
-                              <h1 className="">Resumen de servicios</h1>
+                              <h2 className="">Resumen de costos de matrícula y otros servicios</h2>
                           </div>
                           
                           <div className="col-md-12"> 
