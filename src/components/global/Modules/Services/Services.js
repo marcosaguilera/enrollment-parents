@@ -661,7 +661,7 @@ class Services extends Component {
                           {/*Select Afiliación Club Deportivo*/}
                           <div className="row">
                               <div className="col-md-12 mb-3" >
-                                <label htmlFor="country">Afiliación Club Deportivo<br /> (solo estudiante de 5º a 11º)</label>
+                                <label htmlFor="country">Afiliación Club Deportivo<br /> <b>(solo estudiante de 5º a 11º)</b></label>
                                 <select className="custom-select d-block w-100" 
                                         onChange={this.handleOnChangeServices} 
                                         id="afiliacion-club"
