@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 //// Other dependencies
+import {geolocated} from 'react-geolocated';
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
 
@@ -103,7 +104,10 @@ class Services extends Component {
         label_asopadres       : 'Si - $172.000',
         label_asopadres_cero  : 'No - $0.0',
         label_club            : 'Si - $375.000',
-        label_club_cero       : 'No - $0.0'
+        label_club_cero       : 'No - $0.0',
+
+        // Visitors Data
+        ip_addr               : ''
     }
   }
 
@@ -661,7 +665,7 @@ class Services extends Component {
                           {/*Select Afiliación Club Deportivo*/}
                           <div className="row">
                               <div className="col-md-12 mb-3" >
-                                <label htmlFor="country">Afiliación Club Deportivo<br /> <b>(solo estudiante de 5º a 11º)</b></label>
+                                <label htmlFor="country">Afiliación Club Deportivo<br /> <b>(solo estudiantes de 5º a 11º)</b></label>
                                 <select className="custom-select d-block w-100" 
                                         onChange={this.handleOnChangeServices} 
                                         id="afiliacion-club"
