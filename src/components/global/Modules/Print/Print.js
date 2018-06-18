@@ -13,19 +13,20 @@ class Print extends Component {
     this.generateReference = this.generateReference.bind(this);
 
     this.state={
-        nombres     : '',
-        apellidos   : '',
-        grado       : '',
-        codigo      : '',
-        matricula   : 0,
-        bibliobanco : 0,
-        asopadres   : 0,
-        anuario     : 0,
-        seguro      : 0,
-        club        : 0,
-        total       : 0,
-        num_recibo  : '',
-        fecha       : ''
+        nombres          : '',
+        apellidos        : '',
+        grado            : '',
+        codigo           : '',
+        matricula        : 0,
+        bibliobanco      : 0,
+        matricula_tarifa : 0,
+        asopadres        : 0,
+        anuario          : 0,
+        seguro           : 0,
+        club             : 0,
+        total            : 0,
+        num_recibo       : '',
+        fecha            : ''
     }
   }
 
@@ -36,20 +37,20 @@ class Print extends Component {
 
       this.setState({
         // Student Data
-        codigo        : servicesObj.codigo,
-        nombres       : servicesObj.nombres,
-        apellidos     : servicesObj.apellidos,
-        grado         : servicesObj.grado,
-        objectId      : servicesObj.uid,
+        codigo           : servicesObj.codigo,
+        nombres          : servicesObj.nombres,
+        apellidos        : servicesObj.apellidos,
+        grado            : servicesObj.grado,
+        objectId         : servicesObj.uid,
         // services data
-        bibliobanco   : servicesObj.bibliobanco,
-        matricula     : servicesObj.matricula,
-        anuario       : servicesObj.anuario,
-        asopadres     : servicesObj.asopadres,
-        club          : servicesObj.club,
-        seguro        : servicesObj.seguro,
-        tot_servicios : servicesObj.total_servicios,
-        total         : servicesObj.total_pagar
+        bibliobanco      : servicesObj.bibliobanco,
+        matricula_tarifa : servicesObj.tarifa_matricula,
+        anuario          : servicesObj.anuario,
+        asopadres        : servicesObj.asopadres,
+        club             : servicesObj.club,
+        seguro           : servicesObj.seguro,
+        tot_servicios    : servicesObj.total_servicios,
+        total            : servicesObj.total_pagar
 
       }, () => {
         this.generateReference();
@@ -140,15 +141,15 @@ class Print extends Component {
                                                         <td style={{width: '21%', textAlign: 'right'}}><strong><p className="general-text">Valor a pagar</p></strong></td>
                                                     </tr>
                                                     <tr>
-                                                        <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Matrícula + bibliobanco</p></td>
+                                                        <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Matrícula</p></td>
                                                         <td style={{width: '23.7908%'}}>&nbsp;</td>
                                                         <td style={{width: '21%', textAlign: 'right'}}>
                                                             <p className="general-text">
-                                                                <NumberFormat value={this.state.matricula} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                                                <NumberFormat value={this.state.matricula_tarifa} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                                             </p>
                                                         </td>
                                                     </tr>
-                                                    {/*<tr>
+                                                   <tr>
                                                         <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Bibliobanco</p></td>
                                                         <td style={{width: '23.7908%'}}>&nbsp;</td>
                                                         <td style={{width: '21%', textAlign: 'right'}}>
@@ -156,7 +157,7 @@ class Print extends Component {
                                                                 <NumberFormat value={this.state.bibliobanco} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                                             </p>
                                                         </td>
-                                                    </tr>*/}
+                                                    </tr>
                                                     <tr>
                                                         <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Afiliaci&oacute;n asopadres</p></td>
                                                         <td style={{width: '23.7908%'}}>&nbsp;</td>
