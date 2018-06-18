@@ -34,23 +34,24 @@ class Resume extends Component {
       payuIdMerchant: '578320',
 
       // payment data
-      seguro        : 0,
-      anuario       : 0,
-      asopadres     : 0,
-      club          : 0,
-      biblio        : 0,
-      tot_matricula : 0,
-      tot_servicios : 0,
-      tot_pagar     : 0,
-      fee           : 3.49,
-      fee_cop       : 900,
-      fee_iva       : 0.19,
-      tot_tarifa    : 0,
-      codigo        : '',
-      nombres       : '',
-      apellidos     : '',
-      grado         : '',
-      objectId      : '',
+      seguro           : 0,
+      anuario          : 0,
+      asopadres        : 0,
+      club             : 0,
+      biblio           : 0,
+      matricula_tarifa : 0,
+      tot_matricula    : 0,
+      tot_servicios    : 0,
+      tot_pagar        : 0,
+      fee              : 3.49,
+      fee_cop          : 900,
+      fee_iva          : 0.19,
+      tot_tarifa       : 0,
+      codigo           : '',
+      nombres          : '',
+      apellidos        : '',
+      grado            : '',
+      objectId         : '',
 
       // PayU Parameter
       monto            : 0,
@@ -83,20 +84,21 @@ class Resume extends Component {
     //console.log("Services data: " + JSON.stringify(servicesObj));
 
     this.setState({
-        biblio        : servicesObj.bibliobanco,
-        anuario       : servicesObj.anuario,
-        asopadres     : servicesObj.asopadres,
-        club          : servicesObj.club,
-        seguro        : servicesObj.seguro,
-        tot_matricula : servicesObj.total_descuentos,
-        tot_servicios : servicesObj.total_servicios,
-        tot_pagar     : servicesObj.total_pagar,
+        biblio           : servicesObj.bibliobanco,
+        matricula_tarifa : servicesObj.matricula,
+        anuario          : servicesObj.anuario,
+        asopadres        : servicesObj.asopadres,
+        club             : servicesObj.club,
+        seguro           : servicesObj.seguro,
+        tot_matricula    : servicesObj.total_descuentos,
+        tot_servicios    : servicesObj.total_servicios,
+        tot_pagar        : servicesObj.total_pagar,
         // Student Data
-        codigo        : servicesObj.codigo,
-        nombres       : servicesObj.nombres,
-        apellidos     : servicesObj.apellidos,
-        grado         : servicesObj.grado,
-        objectId      : servicesObj.uid,
+        codigo           : servicesObj.codigo,
+        nombres          : servicesObj.nombres,
+        apellidos        : servicesObj.apellidos,
+        grado            : servicesObj.grado,
+        objectId         : servicesObj.uid,
         
 
     }, () => {
@@ -111,7 +113,6 @@ class Resume extends Component {
                          +((((this.state.tot_pagar * this.state.fee)/100) + this.state.fee_cop) * this.state.fee_iva)
                          )
     }, () => {
-      //console.log("Total Fee: " + Math.round(this.state.tot_tarifa));
       this.handleTotalPay();
     })
   }
@@ -161,6 +162,7 @@ class Resume extends Component {
     var services              = new Object();
     services.matricula        = this.state.tot_matricula;
     services.bibliobanco      = this.state.biblio;
+    services.tarifa_matricula = this.state.matricula_tarifa,
     services.asopadres        = this.state.asopadres;
     services.anuario          = this.state.anuario;
     services.seguro           = this.state.seguro;
@@ -299,15 +301,20 @@ class Resume extends Component {
     var servicesSelected                 = new Object();
     var data                             = new Object();
 
+    console.log("==> " + this.state.matricula_tarifa + " - " + this.state.biblio);
+
     // Data Object
     data.codigo                          = this.state.codigo;
     data.total_matricula_biblio          = this.state.tot_matricula,
     data.total_servicios                 = this.state.tot_servicios,
+    data.tarifa_matricula                = this.state.matricula_tarifa,
+    data.tarifa_biblio                   = this.state.biblio,
     data.total_pagar                     = this.state.tot_pagar,
     data.anuario                         = this.state.anuario;
     data.seguro_accidentes               = this.state.seguro;
     data.asopadres                       = this.state.asopadres;
     data.afiliacion_club                 = this.state.club;
+
     // Log Object
     servicesSelected.action              = "Print";
     servicesSelected.codigo              = this.state.codigo;
@@ -478,7 +485,7 @@ class Resume extends Component {
                                           <div className="alert alert-primary" role="alert">
                                               El siguiente es un ejemplo del <b>Formato Sistema Nacional de Recaudos Comprobante de Pago Universal Nacional</b> que usted debe solicitar en la sucursal bancaría para realizar el pago. Asegúrese de diligenciar los campos de acuerdo a las indicaciones.
                                           </div>
-                                          <img src={formato} className="img-fluid" alt="Responsive image" />
+                                          <img src={formato} className="img-fluid" />
                                       </ModalBody>
                                       <ModalFooter>
                                         <Button color="secondary" onClick={this.toggle_modal}>Cancelar</Button>
