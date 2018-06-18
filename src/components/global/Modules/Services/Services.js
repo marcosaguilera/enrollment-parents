@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 //// Other dependencies
-import {geolocated} from 'react-geolocated';
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
 
@@ -382,6 +381,7 @@ class Services extends Component {
     services.anuario          = this.state.anuario_seleccionado;
     services.asopadres        = this.state.asopadres_seleccionado;
     services.bibliobanco      = this.state.bibliobanco;
+    services.matricula        = this.state.tarifa_plena;
     services.club             = this.state.club_seleccionado;
     services.total_descuentos = this.state.total_descuentos;
     services.total_servicios  = this.state.total_servicios;
