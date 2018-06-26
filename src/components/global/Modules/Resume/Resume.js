@@ -34,24 +34,26 @@ class Resume extends Component {
       payuIdMerchant: '578320',
 
       // payment data
-      seguro           : 0,
-      anuario          : 0,
-      asopadres        : 0,
-      club             : 0,
-      biblio           : 0,
-      matricula_tarifa : 0,
-      tot_matricula    : 0,
-      tot_servicios    : 0,
-      tot_pagar        : 0,
-      fee              : 3.49,
-      fee_cop          : 900,
-      fee_iva          : 0.19,
-      tot_tarifa       : 0,
-      codigo           : '',
-      nombres          : '',
-      apellidos        : '',
-      grado            : '',
-      objectId         : '',
+      seguro               : 0,
+      anuario              : 0,
+      asopadres            : 0,
+      club                 : 0,
+      biblio               : 0,
+      matricula_tarifa     : 0,
+      matricula_tarifa_15  : 0,
+      matricula_tarifa_7_5 : 0,
+      tot_matricula        : 0,
+      tot_servicios        : 0,
+      tot_pagar            : 0,
+      fee                  : 3.49,
+      fee_cop              : 900,
+      fee_iva              : 0.19,
+      tot_tarifa           : 0,
+      codigo               : '',
+      nombres              : '',
+      apellidos            : '',
+      grado                : '',
+      objectId             : '',
 
       // PayU Parameter
       monto            : 0,
@@ -81,18 +83,20 @@ class Resume extends Component {
 
   componentDidMount(){
     var servicesObj = this.props.location.state;
-    //console.log("Services data: " + JSON.stringify(servicesObj));
+    console.log("Services data: " + JSON.stringify(servicesObj));
 
     this.setState({
-        biblio           : servicesObj.bibliobanco,
-        matricula_tarifa : servicesObj.matricula,
-        anuario          : servicesObj.anuario,
-        asopadres        : servicesObj.asopadres,
-        club             : servicesObj.club,
-        seguro           : servicesObj.seguro,
-        tot_matricula    : servicesObj.total_descuentos,
-        tot_servicios    : servicesObj.total_servicios,
-        tot_pagar        : servicesObj.total_pagar,
+        biblio               : servicesObj.bibliobanco,
+        matricula_tarifa     : servicesObj.matricula,
+        matricula_tarifa_15  : servicesObj.matricula_15,
+        matricula_tarifa_7_5 : servicesObj.matricula_7_5,
+        anuario              : servicesObj.anuario,
+        asopadres            : servicesObj.asopadres,
+        club                 : servicesObj.club,
+        seguro               : servicesObj.seguro,
+        tot_matricula        : servicesObj.total_descuentos,
+        tot_servicios        : servicesObj.total_servicios,
+        tot_pagar            : servicesObj.total_pagar,
         // Student Data
         codigo           : servicesObj.codigo,
         nombres          : servicesObj.nombres,
@@ -161,6 +165,8 @@ class Resume extends Component {
   nextPath = () => {
     var services              = new Object();
     services.matricula        = this.state.tot_matricula;
+    services.matricula_15     = this.state.matricula_tarifa_15;
+    services.matricula_7_5    = this.state.matricula_tarifa_7_5;
     services.bibliobanco      = this.state.biblio;
     services.tarifa_matricula = this.state.matricula_tarifa,
     services.asopadres        = this.state.asopadres;

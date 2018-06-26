@@ -18,6 +18,8 @@ class Print extends Component {
         grado            : '',
         codigo           : '',
         matricula        : 0,
+        matricula_7_5    : 0,
+        matricula_15     : 0,
         bibliobanco      : 0,
         matricula_tarifa : 0,
         asopadres        : 0,
@@ -45,6 +47,8 @@ class Print extends Component {
         // services data
         bibliobanco      : servicesObj.bibliobanco,
         matricula_tarifa : servicesObj.tarifa_matricula,
+        matricula_15     : servicesObj.matricula_15,
+        matricula_7_5    : servicesObj.matricula_7_5,
         anuario          : servicesObj.anuario,
         asopadres        : servicesObj.asopadres,
         club             : servicesObj.club,
@@ -145,7 +149,7 @@ class Print extends Component {
                                                         <td style={{width: '23.7908%'}}>&nbsp;</td>
                                                         <td style={{width: '21%', textAlign: 'right'}}>
                                                             <p className="general-text">
-                                                                <NumberFormat value={this.state.matricula_tarifa} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                                                <NumberFormat value={this.state.matricula_tarifa + this.state.matricula_15 + this.state.matricula_7_5} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                                             </p>
                                                         </td>
                                                     </tr>

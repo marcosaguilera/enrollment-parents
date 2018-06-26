@@ -382,6 +382,8 @@ class Services extends Component {
     services.asopadres        = this.state.asopadres_seleccionado;
     services.bibliobanco      = this.state.bibliobanco;
     services.matricula        = this.state.tarifa_plena;
+    services.matricula_15     = this.state.tarifa_reducida_15;
+    services.matricula_7_5    = this.state.tarifa_reducida_7_5;
     services.club             = this.state.club_seleccionado;
     services.total_descuentos = this.state.total_descuentos;
     services.total_servicios  = this.state.total_servicios;
