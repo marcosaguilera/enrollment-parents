@@ -45,6 +45,7 @@ class Resume extends Component {
       tot_matricula        : 0,
       tot_servicios        : 0,
       tot_pagar            : 0,
+      tot_solo_dto         : 0,
       fee                  : 3.49,
       fee_cop              : 900,
       fee_iva              : 0.19,
@@ -97,6 +98,8 @@ class Resume extends Component {
         tot_matricula        : servicesObj.total_descuentos,
         tot_servicios        : servicesObj.total_servicios,
         tot_pagar            : servicesObj.total_pagar,
+        tot_solo_dto         : servicesObj.total_solo_dtos,
+        
         // Student Data
         codigo           : servicesObj.codigo,
         nombres          : servicesObj.nombres,
@@ -104,7 +107,6 @@ class Resume extends Component {
         grado            : servicesObj.grado,
         objectId         : servicesObj.uid,
         
-
     }, () => {
         this.handleCalculateTotalPayFee();
     });
@@ -175,6 +177,7 @@ class Resume extends Component {
     services.club             = this.state.club;
     services.total_servicios  = this.state.tot_servicios;
     services.total_pagar      = this.state.tot_pagar;
+    services.total_solo_dtos  = this.state.tot_solo_dto;
     // Student data
     services.codigo           = this.state.codigo;
     services.nombres          = this.state.nombres;
@@ -390,6 +393,7 @@ class Resume extends Component {
   }
 
   render() {
+    console.log("Here props: ");
     console.log(this.props)
     
     return (
@@ -459,7 +463,7 @@ class Resume extends Component {
                                       <td><b><NumberFormat value={this.state.tot_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
                                     </tr>
                                     <tr className="">
-                                      <td ><b>Imprimir Recibo de Matrículas</b><br/>Este documento debe ser firmado y entregado en día de la matrícula</td>
+                                      <td ><b>Imprimir Recibo de Matrícula</b><br/>Este documento debe ser firmado y entregado en día de la matrícula</td>
                                       <td><Button color="primary" onClick={() => this.nextPath()}>Imprimir</Button></td>
                                     </tr>
                                     <tr>

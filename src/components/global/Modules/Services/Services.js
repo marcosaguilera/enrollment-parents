@@ -79,6 +79,7 @@ class Services extends Component {
         total_descuentos      : 0,
         total_servicios       : 0,
         total_pagar           : 0,
+        total_solo_descuentos : 0,
 
         // Addons states
         loading               : false, // will be true when ajax request is running
@@ -212,6 +213,16 @@ class Services extends Component {
                                + this.state.convenio
                                + this.state.otros) 
                               ),
+      
+      total_solo_descuentos:  Number( this.state.descuento_exalumno
+                                    + this.state.descuento_2do_hno
+                                    + this.state.descuento_3er_hno
+                                    + this.state.descuento_4to_hno
+                                    + this.state.empleado
+                                    + this.state.santa_barbara
+                                    + this.state.convenio
+                                    + this.state.otros 
+                                  ),                       
 
       total_matricula: Number(this.state.tarifa_plena
                             + this.state.tarifa_reducida_7_5
@@ -238,6 +249,7 @@ class Services extends Component {
     console.log("===> Total matricula: " + this.state.total_matricula );
     console.log("===> Total dtos: " + this.state.total_dtos_matr );
     console.log("===> Total for services: " + this.state.total_servicios );
+    console.log("===> Total only discounts: " + this.state.total_solo_descuentos );
     // Calling the method for totalize
     this.handleGetTotalToPay("fromSearch");
   }
@@ -388,6 +400,7 @@ class Services extends Component {
     services.total_descuentos = this.state.total_descuentos;
     services.total_servicios  = this.state.total_servicios;
     services.total_pagar      = this.state.total_pagar;
+    services.total_solo_dtos  = this.state.total_solo_descuentos;
     // Student data
     services.codigo           = this.state.codigo;
     services.nombres          = this.state.nombres;

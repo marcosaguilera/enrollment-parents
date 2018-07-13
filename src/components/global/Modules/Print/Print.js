@@ -22,6 +22,7 @@ class Print extends Component {
         matricula_15     : 0,
         bibliobanco      : 0,
         matricula_tarifa : 0,
+        solo_descuento   : 0,
         asopadres        : 0,
         anuario          : 0,
         seguro           : 0,
@@ -54,9 +55,11 @@ class Print extends Component {
         club             : servicesObj.club,
         seguro           : servicesObj.seguro,
         tot_servicios    : servicesObj.total_servicios,
-        total            : servicesObj.total_pagar
+        total            : servicesObj.total_pagar,
+        solo_descuento   : servicesObj.total_solo_dtos
 
       }, () => {
+        console.log("================>"+ this.state.solo_descuento);
         this.generateReference();
       });      
   }
@@ -159,6 +162,15 @@ class Print extends Component {
                                                         <td style={{width: '21%', textAlign: 'right'}}>
                                                             <p className="general-text">
                                                                 <NumberFormat value={this.state.bibliobanco} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                   <tr>
+                                                        <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Descuento</p></td>
+                                                        <td style={{width: '23.7908%'}}>&nbsp;</td>
+                                                        <td style={{width: '21%', textAlign: 'right'}}>
+                                                            <p className="general-text">
+                                                                -<NumberFormat value={this.state.solo_descuento} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                                             </p>
                                                         </td>
                                                     </tr>
