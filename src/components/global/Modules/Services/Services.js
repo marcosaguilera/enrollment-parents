@@ -477,7 +477,7 @@ class Services extends Component {
                     <div className="input-group input-group-lg mb-3">
                         <input
                           id="student_code_input"
-                          onChange={this.handleOnChange}
+                          onChange={ this.handleOnChange }
                           type="text" 
                           className="form-control" 
                           placeholder=""
