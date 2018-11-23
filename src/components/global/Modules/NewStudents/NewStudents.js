@@ -98,13 +98,13 @@ class NewStudents extends Component {
         }
         {/* Q3 OnChange setState value */}
         if(e.target.id === 'siblings_yes'){
-            this.setState({ siblings: e.target.value
+            this.setState({ siblings: e.target.value, q3_show: 'initial'
             }, () => {
               console.log("=> siblings_yes: " + this.state.siblings)
             });
         }
         if(e.target.id === 'siblings_no'){
-            this.setState({ siblings: e.target.value
+            this.setState({ siblings: e.target.value, q3_show: 'none'
             }, () => {
               console.log("=> siblings_no: " + this.state.siblings)
             });
@@ -252,7 +252,6 @@ class NewStudents extends Component {
                                         <FormGroup>
                                             <Label>¿Pago de anualidades futuras?</Label>
                                             <div className="form-inline">
-                                                
 
                                                 <input className="form-check-input" type="radio" name="inlineRadioOptions_annual_payments" id="annual_payments_yes" value="YES" onChange={this.handleInputChange}></input>
                                                     <label className="form-check-label" >Si</label> &nbsp;&nbsp;&nbsp;
@@ -264,7 +263,7 @@ class NewStudents extends Component {
                                         </FormGroup>
                                         <FormGroup>
                                             <Label>¿Alguno de los padres es exalumno?</Label>
-                                            <div>
+                                            <div className="form-inline">
                                                 <div className="form-check form-check-inline">
                                                     <input className="form-check-input" type="radio" name="inlineRadioOptions_alumni" id="alumni_yes" value="YES" onChange={this.handleInputChange}></input>
                                                     <label className="form-check-label" >Si</label>
@@ -286,6 +285,7 @@ class NewStudents extends Component {
                                                     <input className="form-check-input" type="radio" name="inlineRadioOptions_siblings" id="siblings_no" value="NO" onChange={this.handleInputChange}></input>
                                                     <label className="form-check-label" >No</label>
                                                 </div>
+                                                <input type="text" name="inlineRadioOptions_annual_payments" id="alumni_select" className="form-control" style={{ display: this.state.q3_show }} /> 
                                             </div>
                                         </FormGroup>
                                         <FormGroup>
