@@ -137,26 +137,26 @@ class NewStudents extends Component {
         }
         {/* Q6 OnChange setState value */}
         if(e.target.id === 'roch_employee_yes'){
-            this.setState({ roch_employee: e.target.value
+            this.setState({ roch_employee: e.target.value, q6_show: 'initial'
             }, () => {
               console.log("=> roch_employee_yes: " + this.state.roch_employee)
             });
         }
         if(e.target.id === 'roch_employee_no'){
-            this.setState({ roch_employee: e.target.value
+            this.setState({ roch_employee: e.target.value, q6_show: 'none'
             }, () => {
               console.log("=> roch_employee_no: " + this.state.roch_employee)
             });
         }
         {/* Q7 OnChange setState value */}
         if(e.target.id === 'prepaid_yes'){
-            this.setState({ prepaid: e.target.value
+            this.setState({ prepaid: e.target.value, q7_show: 'initial'
             }, () => {
               console.log("=> prepaid_yes: " + this.state.prepaid)
             });
         }
         if(e.target.id === 'prepaid_no'){
-            this.setState({ prepaid: e.target.value
+            this.setState({ prepaid: e.target.value, q7_show: 'none'
             }, () => {
               console.log("=> prepaid_no: " + this.state.prepaid)
             });
@@ -174,7 +174,7 @@ class NewStudents extends Component {
                         
                         {/* <p className="lead">This is a simple hero unit, a simple Jumbotron-style component for calling extra attention to featured content or information.</p>
                         <hr className="my-2" /> */}
-                        
+                        {/* Fisrt form ::: student demographics data */}
                         <Row>
                             <Col md={4}>
                                 <FormGroup>
@@ -195,7 +195,7 @@ class NewStudents extends Component {
                                 </FormGroup>
                             </Col>
                         </Row>
-
+                        
                         <Row>
                             <Col md={4}>
                                 <FormGroup>
@@ -213,8 +213,9 @@ class NewStudents extends Component {
                                 <Button color="primary">Consultar</Button>            
                             </Col>
                         </Row>
-
-                        <div className="py-3"></div>
+                        { /*End Fisrt form ::: student demographics data */ }
+                        
+                        <div className="py-2"></div>
                         <h3>Tarifas base</h3>
                         
                         {/* Base rates table */}
@@ -252,13 +253,18 @@ class NewStudents extends Component {
                                         <FormGroup>
                                             <Label>¿Pago de anualidades futuras?</Label>
                                             <div className="form-inline">
-
-                                                <input className="form-check-input" type="radio" name="inlineRadioOptions_annual_payments" id="annual_payments_yes" value="YES" onChange={this.handleInputChange}></input>
-                                                    <label className="form-check-label" >Si</label> &nbsp;&nbsp;&nbsp;
-                                                <input className="form-check-input" type="radio" name="inlineRadioOptions_annual_payments" id="annual_payments_no" value="NO" onChange={this.handleInputChange}></input>
-                                                    <label className="form-check-label" >No</label>&nbsp;&nbsp;&nbsp;
-                                                <input type="text" name="inlineRadioOptions_annual_payments" id="annual_payments_select" className="form-control" style={{ display: this.state.q1_show }} /> 
-                                                
+                                                < div className = "form-check form-check-inline" >
+                                                    <input className="form-check-input" type="radio" name="inlineRadioOptions_annual_payments" id="annual_payments_yes" value="YES" onChange={this.handleInputChange}></input>
+                                                    <label className="form-check-label" >Si</label>
+                                                </div>
+                                                < div className = "form-check form-check-inline" >
+                                                    <input className="form-check-input" type="radio" name="inlineRadioOptions_annual_payments" id="annual_payments_no" value="NO" onChange={this.handleInputChange}></input>
+                                                    <label className="form-check-label" >No</label>
+                                                </div>   
+                                                <CustomInput type="select" name="inlineRadioOptions_annual_payments" id="annual_payments_select" className="form-control" style={{ display: this.state.q1_show }} >
+                                                    <option>32000000</option>
+                                                    <option>16000000</option>
+                                                </CustomInput>
                                             </div>
                                         </FormGroup>
                                         <FormGroup>
@@ -276,7 +282,7 @@ class NewStudents extends Component {
                                         </FormGroup>
                                         <FormGroup>
                                             <Label>¿Tiene hermanos en el colegio?</Label>
-                                            <div>
+                                            < div className = "form-inline">
                                                 <div className="form-check form-check-inline">
                                                     <input className="form-check-input" type="radio" name="inlineRadioOptions_siblings" id="siblings_yes" value="YES" onChange={this.handleInputChange}></input>
                                                     <label className="form-check-label" >Si</label>
@@ -285,7 +291,12 @@ class NewStudents extends Component {
                                                     <input className="form-check-input" type="radio" name="inlineRadioOptions_siblings" id="siblings_no" value="NO" onChange={this.handleInputChange}></input>
                                                     <label className="form-check-label" >No</label>
                                                 </div>
-                                                <input type="text" name="inlineRadioOptions_annual_payments" id="alumni_select" className="form-control" style={{ display: this.state.q3_show }} /> 
+                                                <CustomInput type="select" name="inlineRadioOptions_annual_payments" id="siblings_select" className="form-control" style={{ display: this.state.q3_show }}>
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                    <option>3</option>
+                                                    <option>4</option>
+                                                </CustomInput> 
                                             </div>
                                         </FormGroup>
                                         <FormGroup>
@@ -316,7 +327,7 @@ class NewStudents extends Component {
                                         </FormGroup>
                                         <FormGroup>
                                             <Label>¿Alguno de los padres es empleado del Colegio Rochester?</Label>
-                                            <div>
+                                            <div className = "form-inline" >
                                                 <div className="form-check form-check-inline">
                                                     <input className="form-check-input" type="radio" name="inlineRadioOptions_roch_employee" id="roch_employee_yes" value="YES" onChange={this.handleInputChange}></input>
                                                     <label className="form-check-label" >Si</label>
@@ -325,11 +336,15 @@ class NewStudents extends Component {
                                                     <input className="form-check-input" type="radio" name="inlineRadioOptions_roch_employee" id="roch_employee_no" value="NO" onChange={this.handleInputChange}></input>
                                                     <label className="form-check-label" >No</label>
                                                 </div>
+                                                <CustomInput type="select" name="inlineRadioOptions_annual_payments" id="roch_employee_select" className="form-control" style={{ display: this.state.q6_show }}>
+                                                    <option>Docente</option>
+                                                    <option>No docente</option>
+                                                </CustomInput>
                                             </div>
                                         </FormGroup>
                                         <FormGroup>
                                             <Label>¿Realizará pago anticipado?</Label>
-                                            <div>
+                                            <div className="form-inline">
                                                 <div className="form-check form-check-inline">
                                                     <input className="form-check-input" type="radio" name="inlineRadioOptions_prepaid" id="prepaid_yes" value="YES" onChange={this.handleInputChange}></input>
                                                     <label className="form-check-label" >Si</label>
@@ -338,6 +353,10 @@ class NewStudents extends Component {
                                                     <input className="form-check-input" type="radio" name="inlineRadioOptions_prepaid" id="prepaid_no" value="NO" onChange={this.handleInputChange}></input>
                                                     <label className="form-check-label" >No</label>
                                                 </div>
+                                                <CustomInput type="select" name="inlineRadioOptions_annual_payments" id="prepaid_select" className="form-control" style={{ display: this.state.q7_show }}>
+                                                    <option>5 meses</option>
+                                                    <option>20 meses</option>
+                                                </CustomInput>
                                             </div>
                                         </FormGroup>
                                     </Jumbotron>
