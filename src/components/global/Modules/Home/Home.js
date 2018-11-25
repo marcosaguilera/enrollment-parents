@@ -51,7 +51,7 @@ class Home extends Component {
           <div className="py-1" />
           <Row>
             <Col sm="6" style={{ paddingTop: 10 }} >
-              <Card>
+              <Card className="mx-auto" style={{ maxWidth: 320 }}>
                 <CardBody>
                   <CardTitle style={{ fontWeight: 300, fontSize: '1.25rem' }}>Estudiantes nuevos</CardTitle>
                   <CardSubtitle style={{ fontWeight: 300}}>Ingreso para padres de estudiantes nuevos</CardSubtitle>
@@ -64,7 +64,7 @@ class Home extends Component {
             </Col>
 
             <Col sm="6" style={{ paddingTop: 10 }} >
-              <Card>
+              <Card className="mx-auto" style={{ maxWidth: 320 }}>
                 <CardBody>
                   <CardTitle style={{ fontWeight: 300, fontSize: '1.25rem' }}>Estudiantes antiguos</CardTitle>
                   <CardSubtitle style={{ fontWeight: 300}}>Ingreso para padres de estudiantes antiguos</CardSubtitle>
