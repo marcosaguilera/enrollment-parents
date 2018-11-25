@@ -1,14 +1,13 @@
 // Dependencies
 import React, { Component } from 'react';
-import PropType from 'prop-types';
+//import PropType from 'prop-types';
 
 /// UI Elements
 import { Container, Row, Col, Card, CardImg, CardText, CardBody,
-         CardTitle, CardSubtitle, Button } from 'reactstrap';
+         CardTitle, Button, CardSubtitle, CardLink, CardFooter } from 'reactstrap';
 
 /// Components
 import Header from '../../Header';
-
 
 //// Assets
 import student1 from '../../images/aaron-burden-60068-unsplash.jpg'
@@ -39,41 +38,41 @@ class Home extends Component {
 
   render() {
 
-    const { children } = this.props;
+    //const { children } = this.props;
 
     return (
       <div className="Home">
         <Header />
         
         <Container>
-          <br />
           <Row>
-            <h1 style={{ margin: 'auto' }}>Bienvenidos</h1>
+            <h2 className="py-2" style={{ margin: 'auto', fontWeight: 300 }}>Bienvenidos</h2>
           </Row>
-          <br />
-          <br />
+          <div className="py-1" />
           <Row>
             <Col sm="6" style={{ paddingTop: 10 }} >
-              <Card className="mx-auto" style={{ maxWidth: 320 }}>
-                  <CardImg top width="100%" src={student1} alt="Card image cap" />
-                  <CardBody>
-                    <CardTitle>Estudiantes Nuevos</CardTitle>
-                    {/* <CardSubtitle>Card subtitle</CardSubtitle> */}
-                    <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                    <Button color="primary" onClick={this.nextPath_NewStudents}>Ingresar</Button>
-                  </CardBody>
+              <Card>
+                <CardBody>
+                  <CardTitle style={{ fontWeight: 300, fontSize: '1.25rem' }}>Estudiantes nuevos</CardTitle>
+                  <CardSubtitle style={{ fontWeight: 300}}>Ingreso para padres de estudiantes nuevos</CardSubtitle>
+                </CardBody>
+                <img width="100%" src={student1} alt="Imagen acceso estudiantes nuevos" />
+                <CardFooter>
+                  <Button color="primary" onClick={this.nextPath_NewStudents}>Ingresar</Button>
+                </CardFooter>
               </Card>
             </Col>
 
             <Col sm="6" style={{ paddingTop: 10 }} >
-              <Card className="mx-auto" style={{ maxWidth: 320 }}>
-                <CardImg top width="100%" src={student2} alt="Card image cap" />
+              <Card>
                 <CardBody>
-                  <CardTitle>Estudiantes Antiguos</CardTitle>
-                  {/* <CardSubtitle>Card subtitle</CardSubtitle> */}
-                  <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                  <Button color="primary" onClick={this.nextPath_OldStudents}>Ingresar</Button>
+                  <CardTitle style={{ fontWeight: 300, fontSize: '1.25rem' }}>Estudiantes antiguos</CardTitle>
+                  <CardSubtitle style={{ fontWeight: 300}}>Ingreso para padres de estudiantes antiguos</CardSubtitle>
                 </CardBody>
+                <img width="100%" src={student2} alt="Imagen acceso estudiantes antiguos" />
+                <CardFooter>
+                  <Button color="primary" onClick={this.nextPath_OldStudents}>Ingresar</Button>
+                </CardFooter>
               </Card>
             </Col>
 

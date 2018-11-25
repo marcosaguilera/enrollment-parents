@@ -1,10 +1,10 @@
 // Dependencies
 import React, { Component } from 'react';
-import PropType from 'prop-types';
+//import PropType from 'prop-types';
 
 /// UI Elements
-import { Container, Row, Col, Card, CardImg, CardText, CardBody, CustomInput,
-         CardTitle, CardSubtitle, Button, Jumbotron, FormGroup, Label, Input, Table } from 'reactstrap';
+import { Container, Row, Col, CustomInput,
+         Button, Jumbotron, FormGroup, Label, Input, Table } from 'reactstrap';
 
 /// Components
 //import NewStudents from '../../Header';

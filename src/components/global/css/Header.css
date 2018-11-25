@@ -3,17 +3,20 @@
 }
 
 .Header-logo {
-  height: 200px;
+  height: 145px;
   image-rendering: initial;
   text-align: center;
   object-fit: cover;
 }
 
 .Header-header {
-  background-color: #222;
-  height: 250px;
+  /*background-color: #222;*/
+  /*background-color: #fafafa;*/
+  background-image: url(../images/pattern.a3f159ba.svg);
+  height: 185px;
   padding: 20px;
-  color: white;
+  /*color: white;*/
+  color: black;
 }
 
 .Header-title {

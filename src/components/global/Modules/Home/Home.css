@@ -3,3 +3,9 @@
     float: none; /* Added */
     margin-bottom: 10px; /* Added */
 }
+
+.titleCustom .h5{
+    font-weight: 300 !important;
+    font-size: 1.25rem !important;
+
+}
