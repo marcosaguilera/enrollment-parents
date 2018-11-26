@@ -250,7 +250,7 @@ class NewStudents extends Component {
                                 <h4>Preguntas</h4>
                                 <Container style={{ paddingLeft: 0, paddingRight: 0 }}>
                                     <Jumbotron>
-                                        <FormGroup>
+                                        <FormGroup style={{ marginBottom: '2rem' }}>
                                             <Label>¿Pago de anualidades futuras?</Label>
                                             <div className="form-inline">
                                                 < div className = "form-check form-check-inline" >
@@ -267,7 +267,7 @@ class NewStudents extends Component {
                                                 </CustomInput>
                                             </div>
                                         </FormGroup>
-                                        <FormGroup>
+                                        <FormGroup style={{ marginBottom: '2rem' }}>
                                             <Label>¿Alguno de los padres es exalumno?</Label>
                                             <div className="form-inline">
                                                 <div className="form-check form-check-inline">
@@ -280,7 +280,7 @@ class NewStudents extends Component {
                                                 </div>
                                             </div>
                                         </FormGroup>
-                                        <FormGroup>
+                                        <FormGroup style={{ marginBottom: '2rem' }}>
                                             <Label>¿Tiene hermanos en el colegio?</Label>
                                             < div className = "form-inline">
                                                 <div className="form-check form-check-inline">
@@ -302,7 +302,7 @@ class NewStudents extends Component {
                                                 </div>
                                             </div>
                                         </FormGroup>
-                                        <FormGroup>
+                                        <FormGroup style={{ marginBottom: '2rem' }}>
                                             <Label>¿El aplicante es exalumno del Sta. Barbara Prescchool?</Label>
                                             <div>
                                                 <div className="form-check form-check-inline">
@@ -315,7 +315,7 @@ class NewStudents extends Component {
                                                 </div>
                                             </div>
                                         </FormGroup>
-                                        <FormGroup>
+                                        <FormGroup style={{ marginBottom: '2rem' }}>
                                             <Label>¿El aplicante es exalumno de Jardín o Colegio aliado?</Label>
                                             <div>
                                                 <div className="form-check form-check-inline">
@@ -328,7 +328,7 @@ class NewStudents extends Component {
                                                 </div>
                                             </div>
                                         </FormGroup>
-                                        <FormGroup>
+                                        <FormGroup style={{ marginBottom: '2rem' }}>
                                             <Label>¿Alguno de los padres es empleado del Colegio Rochester?</Label>
                                             <div className = "form-inline" >
                                                 <div className="form-check form-check-inline">
@@ -348,7 +348,7 @@ class NewStudents extends Component {
                                                 </div>
                                             </div>
                                         </FormGroup>
-                                        <FormGroup>
+                                        <FormGroup style={{ marginBottom: '2rem' }}>
                                             <Label>¿Realizará pago anticipado?</Label>
                                             <div className="form-inline">
                                                 <div className="form-check form-check-inline">
