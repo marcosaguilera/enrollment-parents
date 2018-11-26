@@ -291,12 +291,15 @@ class NewStudents extends Component {
                                                     <input className="form-check-input" type="radio" name="inlineRadioOptions_siblings" id="siblings_no" value="NO" onChange={this.handleInputChange}></input>
                                                     <label className="form-check-label" >No</label>
                                                 </div>
-                                                <CustomInput type="select" name="inlineRadioOptions_annual_payments" id="siblings_select" className="form-control" style={{ display: this.state.q3_show }}>
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                </CustomInput> 
+                                                <div className="form-check form-check-inline">
+                                                    <label className="form-check-label" style={{ marginRight: 10, display: this.state.q3_show }} >¿Cuantos?</label>
+                                                    <CustomInput type="select" name="inlineRadioOptions_annual_payments" id="siblings_select" className="form-control" style={{ display: this.state.q3_show }}>
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                    </CustomInput> 
+                                                </div>
                                             </div>
                                         </FormGroup>
                                         <FormGroup>
