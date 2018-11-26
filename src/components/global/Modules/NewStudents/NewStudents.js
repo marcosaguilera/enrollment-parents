@@ -210,7 +210,7 @@ class NewStudents extends Component {
                                 </FormGroup>
                             </Col>
                             <Col md={4}>
-                                <Button color="primary">Consultar</Button>            
+                                <Button id="b1_consultar" color="primary">Consultar</Button>            
                             </Col>
                         </Row>
                         { /*End Fisrt form ::: student demographics data */ }
