@@ -168,7 +168,7 @@ class NewStudents extends Component {
     
     render() {
         return(
-            <div>
+            <div className="mainContent">
                 <Container>
                     <Jumbotron style={{ marginTop: 15 }} className="shadow-sm p-3 mb-5 bg-white rounded">
                         
@@ -199,14 +199,21 @@ class NewStudents extends Component {
                         <Row>
                             <Col md={4}>
                                 <FormGroup>
-                                <Label for="sy">Periodo escolar</Label>
-                                <Input type="text" name="sy" id="sy" placeholder="" onChange={this.handleInputChange} />
+                                    <Label for="sy">Periodo escolar</Label>
+                                    <Input type="text" name="sy" id="sy" placeholder="" onChange={this.handleInputChange} />
                                 </FormGroup>
                             </Col>
                             <Col md={4}>
                                 <FormGroup>
-                                <Label for="grade">Grado</Label>
-                                <Input type="text" name="grade" id="grade" placeholder="" onChange={this.handleInputChange} />
+                                    <Label for="grade">Grado</Label>
+                                    {/* <Input type="text" name="grade" id="grade" placeholder="" onChange={this.handleInputChange} /> */}
+                                    <CustomInput type="select" name="grade" id="grade" onChange={this.handleInputChange} >
+                                        <option value="PK">Prekindergarten</option>
+                                        <option value="K">Kindergarten</option>
+                                        <option value="1st">First Grade</option>
+                                        <option value="2nd">Second Grade</option>
+                                        <option value="3rd">Third Grade</option>
+                                    </CustomInput>
                                 </FormGroup>
                             </Col>
                             <Col md={4}>
@@ -249,7 +256,7 @@ class NewStudents extends Component {
                             <Col md="6">
                                 <h4>Preguntas</h4>
                                 <Container style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                    <Jumbotron>
+                                    <Jumbotron style={{ backgroundColor : '#fafafa' }}>
                                         <FormGroup style={{ marginBottom: '2rem' }}>
                                             <Label>¿Pago de anualidades futuras?</Label>
                                             <div className="form-inline">
@@ -374,7 +381,7 @@ class NewStudents extends Component {
                             <Col md="6">
                                 <h4>Selección</h4>
                                 <Container style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                    <Jumbotron>
+                                    <Jumbotron style={{ backgroundColor : '#fafafa' }}>
                                         hello
                                     </Jumbotron>
                                 </Container>
