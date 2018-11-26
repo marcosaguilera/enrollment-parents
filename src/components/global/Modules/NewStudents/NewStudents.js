@@ -339,10 +339,13 @@ class NewStudents extends Component {
                                                     <input className="form-check-input" type="radio" name="inlineRadioOptions_roch_employee" id="roch_employee_no" value="NO" onChange={this.handleInputChange}></input>
                                                     <label className="form-check-label" >No</label>
                                                 </div>
-                                                <CustomInput type="select" name="inlineRadioOptions_annual_payments" id="roch_employee_select" className="form-control" style={{ display: this.state.q6_show }}>
-                                                    <option>Docente</option>
-                                                    <option>No docente</option>
-                                                </CustomInput>
+                                                <div className="form-check form-check-inline">
+                                                <label className="form-check-label" style={{ marginRight: 10, display: this.state.q6_show }} >Seleccione una opción</label> 
+                                                    <CustomInput type="select" name="inlineRadioOptions_annual_payments" id="roch_employee_select" className="form-control" style={{ display: this.state.q6_show }}>
+                                                        <option>Docente</option>
+                                                        <option>No docente</option>
+                                                    </CustomInput>
+                                                </div>
                                             </div>
                                         </FormGroup>
                                         <FormGroup>
@@ -356,10 +359,13 @@ class NewStudents extends Component {
                                                     <input className="form-check-input" type="radio" name="inlineRadioOptions_prepaid" id="prepaid_no" value="NO" onChange={this.handleInputChange}></input>
                                                     <label className="form-check-label" >No</label>
                                                 </div>
-                                                <CustomInput type="select" name="inlineRadioOptions_annual_payments" id="prepaid_select" className="form-control" style={{ display: this.state.q7_show }}>
-                                                    <option>5 meses</option>
-                                                    <option>20 meses</option>
-                                                </CustomInput>
+                                                <div className="form-check form-check-inline">
+                                                    <label className="form-check-label" style={{ marginRight: 10, display: this.state.q7_show }} >Seleccione una opción</label> 
+                                                    <CustomInput type="select" name="inlineRadioOptions_annual_payments" id="prepaid_select" className="form-control" style={{ display: this.state.q7_show }}>
+                                                        <option>5 meses</option>
+                                                        <option>20 meses</option>
+                                                    </CustomInput>
+                                                </div>
                                             </div>
                                         </FormGroup>
                                     </Jumbotron>
