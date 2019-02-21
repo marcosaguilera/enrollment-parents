@@ -382,7 +382,7 @@ class NewStudents extends Component {
                                 <h4>Selección</h4>
                                 <Container style={{ paddingLeft: 0, paddingRight: 0 }}>
                                     <Jumbotron style={{ backgroundColor : '#fafafa' }}>
-                                        hello
+                                        
                                     </Jumbotron>
                                 </Container>
                             </Col>
