@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import logo from './images/logo_spanish.png';
+
+///// Assets
+//import logo from './images/logo_spanish.png';
+//import logo2 from './images/logo_ingles-compressor.a196d20c.png';
+import logo3 from './images/logo_black_new.png';
 import './css/Header.css';
 
 class Header extends Component {
@@ -7,9 +11,11 @@ class Header extends Component {
     return (
       <div className="Header">
         <header className="Header-header">
-          <img src={logo} className="Header-logo" alt="logo" />
-          <h4 className="Header-title">Colegio Rochester</h4>
-          <h6 className="Header-title">Liquidador de Matrícula - 2018</h6>
+          <div className="Login-bigAvatar-78">
+              <img src={logo3} className="Header-logo" alt="rochester logo" />
+          </div>
+          {/* <h4 className="Header-title">Rochester School © 2018</h4> */}
+          {/* <h6 className="Header-title">Liquidador de Matrícula - 2018</h6> */}
         </header>
       </div>
     );
