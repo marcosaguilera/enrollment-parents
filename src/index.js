@@ -8,6 +8,7 @@ import registerServiceWorker from './registerServiceWorker';
 import AppRoutes from './routes'
 
 // Assets
+import "antd/dist/antd.css";
 import './index.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
