@@ -170,7 +170,7 @@ class Resume extends Component {
     services.matricula_15     = this.state.matricula_tarifa_15;
     services.matricula_7_5    = this.state.matricula_tarifa_7_5;
     services.bibliobanco      = this.state.biblio;
-    services.tarifa_matricula = this.state.matricula_tarifa,
+    services.tarifa_matricula = this.state.matricula_tarifa;
     services.asopadres        = this.state.asopadres;
     services.anuario          = this.state.anuario;
     services.seguro           = this.state.seguro;
@@ -314,11 +314,11 @@ class Resume extends Component {
 
     // Data Object
     data.codigo                          = this.state.codigo;
-    data.total_matricula_biblio          = this.state.tot_matricula,
-    data.total_servicios                 = this.state.tot_servicios,
-    data.tarifa_matricula                = this.state.matricula_tarifa,
-    data.tarifa_biblio                   = this.state.biblio,
-    data.total_pagar                     = this.state.tot_pagar,
+    data.total_matricula_biblio          = this.state.tot_matricula;
+    data.total_servicios                 = this.state.tot_servicios;
+    data.tarifa_matricula                = this.state.matricula_tarifa;
+    data.tarifa_biblio                   = this.state.biblio;
+    data.total_pagar                     = this.state.tot_pagar;
     data.anuario                         = this.state.anuario;
     data.seguro_accidentes               = this.state.seguro;
     data.asopadres                       = this.state.asopadres;
@@ -353,12 +353,12 @@ class Resume extends Component {
 
     // Data Object
     data.codigo                          = this.state.codigo;
-    data.total_matricula_biblio          = this.state.tot_matricula,
-    data.total_servicios                 = this.state.tot_servicios,
-    data.total_pagar                     = this.state.tot_pagar,
-    data.monto                           = this.state.monto,
-    data.codigoReferencia                = this.state.codigoReferencia,
-    data.tot_tarifa                      = this.state.tot_tarifa,
+    data.total_matricula_biblio          = this.state.tot_matricula;
+    data.total_servicios                 = this.state.tot_servicios;
+    data.total_pagar                     = this.state.tot_pagar;
+    data.monto                           = this.state.monto;
+    data.codigoReferencia                = this.state.codigoReferencia;
+    data.tot_tarifa                      = this.state.tot_tarifa;
     
     data.anuario                         = this.state.anuario;
     data.seguro_accidentes               = this.state.seguro;
