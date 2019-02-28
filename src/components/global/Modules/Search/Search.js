@@ -4,6 +4,9 @@ import { DatePicker, Steps, Icon, Layout, Menu, Breadcrumb, Input, Row, Col } fr
 import 'antd/lib/date-picker/style/css';        // for css
 import './Search.css';
 
+// Components
+import EnrolmentServices from '../StepsComponents/Enrolment/EnrolmentServices';
+
 const Step = Steps.Step;
 const Search = Input.Search;
 const { SubMenu } = Menu;
@@ -68,12 +71,14 @@ class SearchUI extends Component{
                         </Breadcrumb>
                         <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
                             <Steps size="small" current={1}>
-                                <Step status="process" title="Matrícula" description="Resumen de matrícula" icon={<Icon type="bars" />} />
-                                <Step status="wait" title="Mensualidades"  description="Selección de servicion mensuales" icon={<Icon type="bars" />} />
-                                <Step status="wait" title="Confirmación" description="Confirmar selección" icon={<Icon type="like-o" />} />
-                                <Step status="wait" title="Impresión y pago" description="Imprime o paga" icon={<Icon type="credit-card" />} />
-                                <Step status="wait" title="Finalizar" description="Hemos terminado" icon={<Icon type="smile-o" />} />
+                                <Step status="process" title="Matrícula" icon={<Icon type="bars" />} />
+                                <Step status="wait" title="Mensualidades" icon={<Icon type="bars" />} />
+                                <Step status="wait" title="Confirmación" icon={<Icon type="like-o" />} />
+                                <Step status="wait" title="Impresión y pago" icon={<Icon type="credit-card" />} />
+                                <Step status="wait" title="Finalizar" icon={<Icon type="smile-o" />} />
                             </Steps>
+                            <hr/>
+                            <EnrolmentServices />
                         </Content>
                     </Layout>
                     </Layout>
