@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { List, Switch } from 'antd';
+import NumberFormat from 'react-number-format';
 
 // Import data and assets
 import './EnrolmentServices.css'
@@ -26,7 +27,9 @@ class EnrollmentServices extends Component{
                                 <div className="flowDiv">
                                     <Switch checkedChildren="Si" unCheckedChildren="No" defaultChecked/>
                                 </div>
-                                <div className="flowDiv">{item.value}</div>
+                                <div className="flowDiv" id="currencyAmmount">
+                                <NumberFormat value={item.value} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </div>
                             </div>
                         </List.Item>
                         )}
