@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { DatePicker, Steps, Icon, Layout, Menu, Breadcrumb, Input, Row, Col } from 'antd';
+import axios from 'axios';
 
 import 'antd/lib/date-picker/style/css';        // for css
 import './Search.css';
@@ -14,6 +15,58 @@ const { Header, Content, Sider } = Layout;
 
 
 class SearchUI extends Component{
+    
+    constructor(){
+        super();
+        
+        this.getOpenApplyUuid = this.getOpenApplyUuid.bind(this);
+
+        this.state = {
+            // Global States
+            studentCode: '', openApplyId: 0, customId: '',
+            enrollment_year: '', first_name: '', last_name: '', gender: '', grade: '', name_full: '',
+            serial_number: 0, student_id: ''
+
+            // UI/UX states
+        }
+    }
+    
+    componentDidMount(){
+
+    }
+    
+    handleOnChange = (e) => {
+        if(e.target.id === 'search-student-input'){
+            this.setState({
+                studentCode: String(e.target.value)
+            }, () => {
+                //console.log(this.state.studentCode);
+            })
+        }
+    }
+    
+    getOpenApplyUuid(){
+        console.log(this.state.studentCode);
+        const url = "https://rcis-backend.herokuapp.com/openapply/student/getopenapplybystudentcode/" + this.state.studentCode;
+        console.log(url);
+        axios.get(url)
+            .then( res => {
+                console.log(res.data)
+                this.setState({
+                    openApplyId: res.data.id,
+                    customId: res.data.custom_id,
+                    enrollment_year: res.data.enrollment_year,
+                    gender: res.data.gender,
+                    first_name: res.data.first_name,
+                    last_name: res.data.last_name,
+                    name_full: res.data.name,
+                    serial_number: res.data.serial_number,
+                    student_id: res.data.student_id
+                }, () => {
+                    console.log("=>" + this.state.openApplyId)
+                })
+            })
+    }
 
     render(){
 
@@ -58,16 +111,19 @@ class SearchUI extends Component{
                                 placeholder="Código del estudiante"
                                 enterButton="Buscar"
                                 size="large"
-                                onSearch={value => console.log(value)}
+                                allowClear
+                                maxLength={5}
+                                id="search-student-input"
+                                onChange={this.handleOnChange}
+                                onSearch={this.getOpenApplyUuid}
                             />
                             </Col>
                             <Col span={12}></Col>
                         </Row>
                          <br />
                         <Breadcrumb style={{ margin: '16px 0' }}>
-                            <Breadcrumb.Item>Home</Breadcrumb.Item>
-                            <Breadcrumb.Item>List</Breadcrumb.Item>
-                            <Breadcrumb.Item>App</Breadcrumb.Item>
+                            <Breadcrumb.Item>Rochester</Breadcrumb.Item>
+                            <Breadcrumb.Item>Enrollment</Breadcrumb.Item>
                         </Breadcrumb>
                         <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
                             <Steps size="small" current={1}>
