@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { List, Switch } from 'antd';
+import { List, Switch, Divider } from 'antd';
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
 
@@ -30,11 +30,11 @@ class EnrollmentServices extends Component{
     render(){
         return(
             <div className="mainCustom">
-                <h3 style={{ marginBottom: 16 }}>Servicios de Matrículas</h3>
+                <Divider orientation="left">Servicios de Matrículas</Divider>
                 <List
                     bordered
                     dataSource={data}
-                    footer={<div style={{ textAlign: 'right' }}>
+                    footer={<div id="totalPayAmmount" >
                                 <NumberFormat value={1230000} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                             </div>}
                     renderItem={
