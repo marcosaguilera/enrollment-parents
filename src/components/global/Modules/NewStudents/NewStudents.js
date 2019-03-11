@@ -32,35 +32,35 @@ class NewStudents extends Component {
     }
 
     handleInputChange(e){
-        {/* Code OnChange setState value */}
+        // Code OnChange setState value
         if(e.target.id === 'code'){
             this.setState({ student_code: String(e.target.value)
             }, () => {
               console.log("=> code: " + this.state.student_code)
             });
         }
-        {/* Name OnChange setState value */}
+        // Name OnChange setState value 
         if(e.target.id === 'first_name'){
             this.setState({ name: String(e.target.value)
             }, () => {
               console.log("=> first_name: " + this.state.name)
             });
         }
-        {/* Lastname OnChange setState value */}
+        // Lastname OnChange setState value
         if(e.target.id === 'last_name'){
             this.setState({ last_name: String(e.target.value)
             }, () => {
               console.log("=> last name: " + this.state.last_name)
             });
         }
-        {/* School year OnChange setState value */}
+        // School year OnChange setState value
         if(e.target.id === 'sy'){
             this.setState({ schoolar_year: String(e.target.value)
             }, () => {
               console.log("=> sy: " + this.state.schoolar_year)
             });
         }
-        {/* Grade OnChange setState value */}
+        // Grade OnChange setState value
         if(e.target.id === 'grade'){
             this.setState({
                 grade: String(e.target.value)
@@ -68,7 +68,7 @@ class NewStudents extends Component {
               console.log("=> grade: " + this.state.grade)
             });
         }
-        {/* Q1 OnChange setState value */}
+        // Q1 OnChange setState value
         if(e.target.id === 'annual_payments_yes'){
             this.setState({ annual_payments: e.target.value, q1_show: 'initial'
             }, () => {
@@ -81,7 +81,7 @@ class NewStudents extends Component {
               console.log("=> annual_payments_no: " + this.state.annual_payments)
             });
         }
-        {/* Q2 OnChange setState value */}
+        // Q2 OnChange setState value
         if(e.target.id === 'alumni_yes'){
             this.setState({
                 parent_alumni: e.target.value
@@ -96,7 +96,7 @@ class NewStudents extends Component {
               console.log("=> parent_alumni_yes: " + this.state.parent_alumni)
             });
         }
-        {/* Q3 OnChange setState value */}
+        // Q3 OnChange setState value
         if(e.target.id === 'siblings_yes'){
             this.setState({ siblings: e.target.value, q3_show: 'initial'
             }, () => {
@@ -109,7 +109,7 @@ class NewStudents extends Component {
               console.log("=> siblings_no: " + this.state.siblings)
             });
         }
-        {/* Q4 OnChange setState value */}
+        // Q4 OnChange setState value
         if(e.target.id === 'sta_barbara_alumni_yes'){
             this.setState({ sta_barbara_alumni: e.target.value
             }, () => {
@@ -122,7 +122,7 @@ class NewStudents extends Component {
               console.log("=> alumni_yes: " + this.state.sta_barbara_alumni)
             });
         }
-        {/* Q5 OnChange setState value */}
+        // Q5 OnChange setState value
         if(e.target.id === 'allied_school_yes'){
             this.setState({ allied_school: e.target.value
             }, () => {
@@ -135,7 +135,7 @@ class NewStudents extends Component {
               console.log("=> allied_school_no: " + this.state.allied_school)
             });
         }
-        {/* Q6 OnChange setState value */}
+        // Q6 OnChange setState value
         if(e.target.id === 'roch_employee_yes'){
             this.setState({ roch_employee: e.target.value, q6_show: 'initial'
             }, () => {
@@ -148,7 +148,7 @@ class NewStudents extends Component {
               console.log("=> roch_employee_no: " + this.state.roch_employee)
             });
         }
-        {/* Q7 OnChange setState value */}
+        // Q7 OnChange setState value
         if(e.target.id === 'prepaid_yes'){
             this.setState({ prepaid: e.target.value, q7_show: 'initial'
             }, () => {
@@ -382,7 +382,7 @@ class NewStudents extends Component {
                                 <h4>Selección</h4>
                                 <Container style={{ paddingLeft: 0, paddingRight: 0 }}>
                                     <Jumbotron style={{ backgroundColor : '#fafafa' }}>
-                                        
+
                                     </Jumbotron>
                                 </Container>
                             </Col>

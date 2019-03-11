@@ -5,7 +5,8 @@
         "value": 1250000,
         "img": "https://static1.squarespace.com/static/59673a8d4c8b03c8de50dd66/t/5bda612521c67c69e6b593e8/1541038381668/_31A0375.jpg",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
-        "required": true
+        "required": true,
+        "serviceRegistered": true
     },
     {
         "id": 2,
@@ -14,7 +15,8 @@
         "value": 850000,
         "img": "https://4.imimg.com/data4/PS/EX/MY-11350062/school-book-printing-services-500x500.jpg",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
-        "required": true
+        "required": true,
+        "serviceRegistered": true
     },
     {
         "id": 3,
@@ -23,7 +25,8 @@
         "value": 46000,
         "img": "https://www.partesdel.com/wp-content/uploads/anuario-y-sus-partes.jpg",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
-        "required": false
+        "required": false,
+        "serviceRegistered": true
     },
     {
         "id": 4,
@@ -32,7 +35,8 @@
         "value": 110000,
         "img": "https://www.partesdel.com/wp-content/uploads/anuario-y-sus-partes.jpg",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
-        "required": false
+        "required": false,
+        "serviceRegistered": true
     },
     {
         "id": 5,
@@ -41,7 +45,8 @@
         "value": 172000,
         "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRts2lpOKf-3v5WQJwg0DXxrA620yw-ghB6-cD26uNnfMXBbuPwxg",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
-        "required": false
+        "required": false,
+        "serviceRegistered": true
     },
     {
         "id": 6,
@@ -50,6 +55,7 @@
         "value": 55000,
         "img": "http://losseguros.com.ar/wp-content/uploads/Seguro-Accidentes-Personales-de-Tarjeta-Nevada-450x250.jpg",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
-        "required": false
+        "required": false,
+        "serviceRegistered": false
     }
 ]

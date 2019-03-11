@@ -388,7 +388,7 @@ class Services extends Component {
   }
 
   nextPath = () => {
-    var services              = new Object();
+    var services              = {};
     services.seguro           = this.state.seguro_seleccionado;
     services.anuario          = this.state.anuario_seleccionado;
     services.asopadres        = this.state.asopadres_seleccionado;
@@ -417,8 +417,8 @@ class Services extends Component {
   }
 
   handleSaveServices(){
-    var servicesSelected                 = new Object();
-    var data                             = new Object();
+    var servicesSelected                 = {};
+    var data                             = {};
 
     // Data Object
     data.codigo                          = this.state.codigo;

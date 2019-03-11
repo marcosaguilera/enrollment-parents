@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DatePicker, Steps, Icon, Layout, Menu, Breadcrumb, Input, Row, Col } from 'antd';
+import { Steps, Icon, Layout, Menu, Breadcrumb, Input, Row, Col } from 'antd';
 import axios from 'axios';
 
 import 'antd/lib/date-picker/style/css';        // for css
@@ -10,8 +10,8 @@ import EnrolmentServices from '../StepsComponents/Enrolment/EnrolmentServices';
 
 const Step = Steps.Step;
 const Search = Input.Search;
-const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
+//const { SubMenu } = Menu;
+const { Header, Content, /*Sider*/ } = Layout;
 
 
 class SearchUI extends Component{
