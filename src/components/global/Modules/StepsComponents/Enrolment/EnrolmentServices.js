@@ -54,10 +54,12 @@ class EnrollmentServices extends Component{
             item.serviceRegistered = checked;
             console.log(item)
             this.setState({ totalPay :  this.state.totalPay - item.value}, () => { console.log("- New total pay: " + this.state.totalPay) } ) // When the switch is "No" -> make a substraction
+            console.log(data)
         }else{
             item.serviceRegistered = checked;
             console.log(item)
             this.setState({ totalPay :  this.state.totalPay + item.value}, () => { console.log("+ New total pay: " + this.state.totalPay) } ) // When the switch is "Yes" -> make a addition
+            console.log(data)
         }
     }
 
