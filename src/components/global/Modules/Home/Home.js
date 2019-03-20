@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 //import PropType from 'prop-types';
 
 /// UI Elements
-import { Container, Row, Col, Card, CardImg, CardText, CardBody,
-         CardTitle, Button, CardSubtitle, CardLink, CardFooter } from 'reactstrap';
+import { Container, Row, Col, Card, CardBody,
+         CardTitle, Button, CardSubtitle, CardFooter } from 'reactstrap';
 
 /// Components
 import Header from '../../Header';

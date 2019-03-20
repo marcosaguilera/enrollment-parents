@@ -136,11 +136,7 @@ class Resume extends Component {
   handleMd5Generator = () =>{
       var referencecod = this.handleReferencecode(this.state.codigo);
       var monto_pagar = Math.round(this.state.monto);
-      var md5string = md5gen( "BZRTxRkjDDYBuXHE2V52d56iWN" + "~" + 
-                              "578320" + "~" +
-                              referencecod + "~" +
-                              monto_pagar + "~" +
-                              "COP" );
+      var md5string = md5gen( "BZRTxRkjDDYBuXHE2V52d56iWN" + "~" + "578320" + "~" + referencecod + "~" + monto_pagar + "~" + "COP" );
 
       this.setState({
         firmaMd5: md5string
@@ -165,7 +161,7 @@ class Resume extends Component {
   }
 
   nextPath = () => {
-    var services              = new Object();
+    var services              = {};
     services.matricula        = this.state.tot_matricula;
     services.matricula_15     = this.state.matricula_tarifa_15;
     services.matricula_7_5    = this.state.matricula_tarifa_7_5;
@@ -307,10 +303,10 @@ class Resume extends Component {
   }
 
   handlePrintData(){
-    var servicesSelected                 = new Object();
-    var data                             = new Object();
+    var servicesSelected                 = {};
+    var data                             = {};
 
-    console.log("==> " + this.state.matricula_tarifa + " - " + this.state.biblio);
+    //console.log("==> " + this.state.matricula_tarifa + " - " + this.state.biblio);
 
     // Data Object
     data.codigo                          = this.state.codigo;
@@ -338,18 +334,18 @@ class Resume extends Component {
     };
 
     axios.post('https://parseapi.back4app.com/classes/EventsLog', servicesSelected, axiosConfig)
-         .then(res => {   
-             console.log(res);      
+         .then(res => {
+             //console.log(res);
          })
          .catch(error => {
-            console.log(error);
+            //console.log(error);
          });
 
   }
 
   handlePayOnlineData(){
-    var servicesSelected                 = new Object();
-    var data                             = new Object();
+    var servicesSelected                 = {};
+    var data                             = {};
 
     // Data Object
     data.codigo                          = this.state.codigo;
@@ -495,7 +491,7 @@ class Resume extends Component {
                                           <div className="alert alert-primary" role="alert">
                                               El siguiente es un ejemplo del <b>Formato Sistema Nacional de Recaudos Comprobante de Pago Universal Nacional</b> que usted debe solicitar en la sucursal bancaría para realizar el pago. Asegúrese de diligenciar los campos de acuerdo a las indicaciones.
                                           </div>
-                                          <img src={formato} className="img-fluid" />
+                                          <img src={formato} className="img-fluid" alt="img_formato"/>
                                       </ModalBody>
                                       <ModalFooter>
                                         <Button color="secondary" onClick={this.toggle_modal}>Cancelar</Button>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DatePicker, Steps, Icon, Layout, Menu, Breadcrumb, Input, Row, Col } from 'antd';
+import { Steps, Icon, Layout, Menu, Breadcrumb, Input, Row, Col } from 'antd';
 import axios from 'axios';
 
 import 'antd/lib/date-picker/style/css';        // for css
@@ -10,15 +10,13 @@ import EnrolmentServices from '../StepsComponents/Enrolment/EnrolmentServices';
 
 const Step = Steps.Step;
 const Search = Input.Search;
-const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
+//const { SubMenu } = Menu;
+const { Header, Content, /*Sider*/ } = Layout;
 
 
 class SearchUI extends Component{
-    
     constructor(){
         super();
-        
         this.getOpenApplyUuid = this.getOpenApplyUuid.bind(this);
 
         this.state = {
@@ -30,11 +28,9 @@ class SearchUI extends Component{
             // UI/UX states
         }
     }
-    
     componentDidMount(){
 
     }
-    
     handleOnChange = (e) => {
         if(e.target.id === 'search-student-input'){
             this.setState({
@@ -44,24 +40,22 @@ class SearchUI extends Component{
             })
         }
     }
-    
     getOpenApplyUuid(){
-        console.log(this.state.studentCode);
         const url = "https://rcis-backend.herokuapp.com/openapply/student/getopenapplybystudentcode/" + this.state.studentCode;
-        console.log(url);
         axios.get(url)
             .then( res => {
-                console.log(res.data)
+                console.log(res.data[0])
+                const data = res.data[0];
                 this.setState({
-                    openApplyId: res.data.id,
-                    customId: res.data.custom_id,
-                    enrollment_year: res.data.enrollment_year,
-                    gender: res.data.gender,
-                    first_name: res.data.first_name,
-                    last_name: res.data.last_name,
-                    name_full: res.data.name,
-                    serial_number: res.data.serial_number,
-                    student_id: res.data.student_id
+                    openApplyId: data.id,
+                    customId: data.custom_id,
+                    enrollment_year: data.enrollment_year,
+                    gender: data.gender,
+                    first_name: data.first_name,
+                    last_name: data.last_name,
+                    name_full: data.name,
+                    serial_number: data.serial_number,
+                    student_id: data.student_id
                 }, () => {
                     console.log("=>" + this.state.openApplyId)
                 })
@@ -69,7 +63,6 @@ class SearchUI extends Component{
     }
 
     render(){
-
         return(
             <div className="SearchUI">
                 <Layout>
@@ -79,30 +72,18 @@ class SearchUI extends Component{
                         theme=""
                         mode="horizontal"
                         defaultSelectedKeys={['2']}
-                        style={{ lineHeight: '64px' }}
-                    >
-                        <Menu.Item key="1">nav 1</Menu.Item>
-                        <Menu.Item key="2">nav 2</Menu.Item>
-                        <Menu.Item key="3">nav 3</Menu.Item>
+                        style={{ lineHeight: '64px' }} >
+                        <Menu.Item key="1">
+                                <Icon type="solution" />
+                                <span>Matrículas</span>
+                        </Menu.Item>
+                        <Menu.Item key="2">
+                                <Icon type="rocket" />
+                                <span>Eco</span>
+                        </Menu.Item>
                     </Menu>
                     </Header>
                     <Layout>
-                    <Sider width={200} style={{ background: '#fff' }}>
-                        <Menu
-                        mode="inline"
-                        defaultSelectedKeys={['1']}
-                        defaultOpenKeys={['sub1']}
-                        style={{ height: '100%', borderRight: 0 }} >
-                            <Menu.Item key="1">
-                                <Icon type="solution" />
-                                <span>Matrículas</span>
-                            </Menu.Item>
-                            <Menu.Item key="2">
-                                <Icon type="rocket" />
-                                <span>Eco</span>
-                            </Menu.Item>
-                        </Menu>
-                    </Sider>
                     <Layout style={{ padding: '0 24px 24px' }}>
                         <br />
                         <Row>
@@ -133,7 +114,6 @@ class SearchUI extends Component{
                                 <Step status="wait" title="Impresión y pago" icon={<Icon type="credit-card" />} />
                                 <Step status="wait" title="Finalizar" icon={<Icon type="smile-o" />} />
                             </Steps>
-                            <hr/>
                             <EnrolmentServices />
                         </Content>
                     </Layout>
