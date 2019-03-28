@@ -28,6 +28,8 @@ class Services extends Component {
     this.handleOnChange            = this.handleOnChange.bind(this);
     this.handleOnChangeServices    = this.handleOnChangeServices.bind(this);
     this.handleSaveServices        = this.handleSaveServices.bind(this);
+    this.getOpenApplyUuid         = this.getOpenApplyUuid.bind(this);
+    this.getOpenApplyUuid         = this.getOpenApplyUuid.bind(this);
 
     this.state = {
         count                 : 0,
@@ -60,13 +62,13 @@ class Services extends Component {
         anuario_combo         : 156000,
         asopadres             : 172000,
         club                  : 375000,
-        
+
         // zero values,
         seguro_cero           : 0,
         anuario_cero          : 0,
         asopadres_cero        : 0,
         club_cero             : 0,
-        
+
         // Seleccionado
         seguro_seleccionado   : 0,
         anuario_seleccionado  : 0,
@@ -82,15 +84,15 @@ class Services extends Component {
         total_solo_descuentos : 0,
 
         // Addons states
-        loading               : false, // will be true when ajax request is running
+        loading               : false,  // will be true when ajax request is running
         isOpen                : false,  // Modal windows state
         isOpenLoader          : false,  // Modal windows state
-        isDisableSelect       : true, 
+        isDisableSelect       : true,
         isShowingResume       : 'none',
 
         // Modal message
         message               : '',
-        
+
         // Data PropTypes to Resume
         resumeData            : 0,
 
@@ -107,18 +109,23 @@ class Services extends Component {
         label_club_cero       : 'No - $0.0',
 
         // Visitors Data
-        ip_addr               : ''
+        ip_addr               : '',
+        
+        // OpenApply data
+        studentCode: '', openApplyId: 0, customId: '',
+        enrollment_year: '', first_name: '', last_name: '', gender: '', grade: '', name_full: '',
+        serial_number: 0, student_id: ''
+
     }
   }
 
   componentDidMount(){
 
       this.setState({
-          seguro_seleccionado: this.state.seguro_accidentes,
-          anuario_seleccionado: this.state.anuario_impreso,
-          asopadres_seleccionado: this.state.asopadres,
-          club_seleccionado: this.state.club
-
+          seguro_seleccionado    : this.state.seguro_accidentes,
+          anuario_seleccionado   : this.state.anuario_impreso,
+          asopadres_seleccionado : this.state.asopadres,
+          club_seleccionado      : this.state.club
       }, () => {
         /*console.log("didMount action: " + this.state.seguro_seleccionado + ", " 
                                         + this.state.anuario_seleccionado + ", " 
@@ -129,8 +136,11 @@ class Services extends Component {
   }
 
   handleClickSearchStudent(){
+    let student_code = this.state.student_code;
+    console.log("Student code:" + student_code)
+    this.getOpenApplyUuid(student_code);
 
-    let axiosConfig = {
+    /*let axiosConfig = {
       headers: {
           'X-Parse-Application-Id': 'U8jcs4wAuoOvBeCUCy4tAQTApcfUjiGmso98wM9h',
           'X-Parse-Master-Key': 'vN7hMK7QknCPf2xeazTaILtaskHFAveqnh6NDwi6',
@@ -143,7 +153,7 @@ class Services extends Component {
 
     if(studentCodeSize === 5 ){
         this.toggleModalLoader(); 
-        
+
         //axios.get('https://parseapi.back4app.com/classes/Enrollment?where={"CODIGO":"' + this.state.student_code + '"}', axiosConfig)
         axios.get('https://parseapi.back4app.com/classes/EnrollmentData?where={"Codigo":"' + this.state.student_code + '"}', axiosConfig)
           .then(res => {
@@ -153,7 +163,7 @@ class Services extends Component {
             console.log(res.data.results);
             console.log("Item object:");
             let item = res.data.results[0];
-            
+
             // jsonLenght gets the number of objects in the response
             let jsonLenght = Object.keys(res.data.results).length;
             console.log("Response size:" + jsonLenght);
@@ -193,7 +203,49 @@ class Services extends Component {
     }else{
         //this.loaderStatusChange();
         this.toggleModalWrongCode(); // If the code size is not equals to 5, then show a message
-    }       
+    }*/
+  }
+
+  getOpenApplyUuid(std_code){
+    const url = "https://rcis-backend.herokuapp.com/openapply/student/getopenapplybystudentcode/" + std_code;
+    axios.get(url)
+        .then( res => {
+            console.log(res.data[0])
+            const data = res.data[0];
+            this.setState({
+                openApplyId       : data.id,
+                customId          : data.custom_id,
+                enrollment_year   : data.enrollment_year,
+                gender            : data.gender,
+                first_name        : data.first_name,
+                last_name         : data.last_name,
+                name_full         : data.name,
+                serial_number     : data.serial_number,
+                student_id        : data.student_id
+            }, () => {
+                console.log("=>" + this.state.openApplyId)
+                this.getEnrolmentAuth(this.state.openApplyId)
+            })
+        })
+  }
+  //#endregion
+
+  getEnrolmentAuth(std_openapply_uid){
+    const url = "https://rcis-backend.herokuapp.com/enrollment/authorization/" + std_openapply_uid;
+    axios.get(url)
+         .then(res =>{
+           let isAuth = this.authChecker(res.data.academic) && this.authChecker(res.data.financial) && this.authChecker(res.data.cra);
+           
+           if(isAuth){
+             //to-do something
+           }else {
+             // to-do something if else
+            }
+         })
+  }
+
+  authChecker(authData){
+    return authData === "Si" ? true : false
   }
 
   handleGetTotals(){
@@ -307,7 +359,7 @@ class Services extends Component {
      }
 
   }
-  
+
   handleGetTotalToPay(action){
       switch(action) {
         case "fromSearch":
@@ -447,15 +499,15 @@ class Services extends Component {
     };
 
     axios.post('https://parseapi.back4app.com/classes/EventsLog', servicesSelected, axiosConfig)
-         .then(res => {   
-             console.log(res);      
+         .then(res => {
+             console.log(res);
          })
          .catch(error => {
             console.log(error);
          });
 
   }
-  
+
   /////////////////////////////////
   //////// Rendering UI ///////////
   /////////////////////////////////
@@ -468,7 +520,7 @@ class Services extends Component {
         <main role="main"  className="container">
           <div className="shadow-sm p-3 mb-5 bg-white rounded">
             <div className="starter-template">
-              
+
               <p id="help-text" className="lead">Ingrese el código del estudiante</p>
 
               <div className="row">
@@ -479,7 +531,7 @@ class Services extends Component {
                           id="student_code_input"
                           onChange={ this.handleOnChange }
                           type="text" 
-                          className="form-control" 
+                          className="form-control"
                           placeholder=""
                           aria-label="Recipient's username" 
                           aria-describedby="basic-addon2"
@@ -496,7 +548,7 @@ class Services extends Component {
                   </div>
                   <div className="col-sm"></div>
               </div>
-              
+
             </div>
 
             <hr />
@@ -526,7 +578,7 @@ class Services extends Component {
                     </div>
 
                   </div>
-                  
+
             </div>
 
             <hr />
