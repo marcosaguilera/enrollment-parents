@@ -5,20 +5,32 @@ const reducer = (state, action) => {
     console.log("=> Action: " + action.type)
 
     switch(action.type){
-        case "ADD_TO_CART":
+        case "SAVE_STUDENT_ESSENTIAL_DATA":
             return{
                 ...state,
-                cart: state.cart.concat(action.product)
+                essential_data: action.data
             }
 
-        case "REMOVE_FROM_CART":
+        case "SAVE_STUDENT_AUTHORIZATION":
             return{
                 ...state,
-                cart: state.cart.filter( product => product.id !== action.product.id )
+                is_student_authorize: action.isAuth
             }
-        case "default":
+
+        case "SAVE_SERVICE_DATA":
+            return{
+                ...state,
+                service_data: action.service_data
+            }
+
+        default:
             return state;
     }
 }
 
-export default createStore(reducer, { cart: [] });
+export default createStore(
+        reducer, {
+            essential_data : [],
+            is_student_authorize: false,
+            service_data   : []
+        });

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 //// Other dependencies
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
+import store from '../../../../ReduxStore/store'
 
 //// Addons
 import LoadingModal from '../../Addons/LoadSpinner';
@@ -13,11 +14,10 @@ import ModalUI2 from '../../Addons/Modal';
 import '../../Modules/Services/Services.css';
 
 //Components declaration
-import Header from '../../Header'
 import Footer from '../../Footer'
+import ServiceTbale from '../ServiceTable/ServiceTable'
 
 class Services extends Component {
-//////// Controller
 
   constructor(props){
     super(props);
@@ -110,7 +110,7 @@ class Services extends Component {
 
         // Visitors Data
         ip_addr               : '',
-        
+
         // OpenApply data
         studentCode: '', openApplyId: 0, customId: '',
         enrollment_year: '', first_name: '', last_name: '', gender: '', grade: '', name_full: '',
@@ -122,15 +122,11 @@ class Services extends Component {
   componentDidMount(){
 
       this.setState({
-          seguro_seleccionado    : this.state.seguro_accidentes,
-          anuario_seleccionado   : this.state.anuario_impreso,
-          asopadres_seleccionado : this.state.asopadres,
-          club_seleccionado      : this.state.club
+        seguro_seleccionado    : this.state.seguro_accidentes,
+        anuario_seleccionado   : this.state.anuario_impreso,
+        asopadres_seleccionado : this.state.asopadres,
+        club_seleccionado      : this.state.club
       }, () => {
-        /*console.log("didMount action: " + this.state.seguro_seleccionado + ", " 
-                                        + this.state.anuario_seleccionado + ", " 
-                                        + this.state.asopadres_seleccionado + ", " 
-      + this.state.club_seleccionado);*/
         this.handleGetTotalToPay("fromStart");
       });
   }
@@ -152,8 +148,16 @@ class Services extends Component {
     const url = "https://rcis-backend.herokuapp.com/openapply/student/getopenapplybystudentcode/" + std_code;
     axios.get(url)
         .then( res => {
-            console.log(res.data[0])
+
+          console.log(res.data[0])
             const data = res.data[0];
+
+            store.dispatch({
+              type: "SAVE_STUDENT_ESSENTIAL_DATA",
+              essential_data: data
+            }, () => {
+              //this.getEnrolmentAuth(this.state.openApplyId)
+            })
             this.setState({
                 openApplyId       : data.id,
                 customId          : data.custom_id,
@@ -176,9 +180,14 @@ class Services extends Component {
     axios.get(url)
          .then(res =>{
            let isAuth = this.authChecker(res.data.academic) && this.authChecker(res.data.financial) && this.authChecker(res.data.cra);
-           console.log(res.data)
-           console.log(" -> " + res.data.academic + " - " + res.data.financial + " - " + res.data.cra);
+           //console.log(res.data)
+           //console.log(" -> " + res.data.academic + " - " + res.data.financial + " - " + res.data.cra);
            console.log("isAuthorized: " + isAuth);
+
+           store.dispatch({
+             type: "SAVE_STUDENT_AUTHORIZATION",
+             isAuth
+           })
 
            if(isAuth){
              //to-do something
@@ -186,6 +195,11 @@ class Services extends Component {
                   .then(res => {
 
                     let item = res.data[0];
+
+                    store.dispatch({
+                      type: "SAVE_SERVICE_DATA",
+                      service_data : item
+                    })
 
                     // jsonLenght gets the number of objects in the response
                     let jsonLenght = Object.keys(item).length;
@@ -239,7 +253,7 @@ class Services extends Component {
                                + this.state.tarifa_reducida_7_5
                                + this.state.tarifa_reducida_15
                                + this.state.bibliobanco )
-                              - 
+                              -
                                 (this.state.descuento_exalumno
                                + this.state.descuento_2do_hno
                                + this.state.descuento_3er_hno
@@ -247,9 +261,9 @@ class Services extends Component {
                                + this.state.empleado
                                + this.state.santa_barbara
                                + this.state.convenio
-                               + this.state.otros) 
+                               + this.state.otros)
                               ),
-      
+
       total_solo_descuentos:  Number( this.state.descuento_exalumno
                                     + this.state.descuento_2do_hno
                                     + this.state.descuento_3er_hno
@@ -257,8 +271,8 @@ class Services extends Component {
                                     + this.state.empleado
                                     + this.state.santa_barbara
                                     + this.state.convenio
-                                    + this.state.otros 
-                                  ),                       
+                                    + this.state.otros
+                                  ),
 
       total_matricula: Number(this.state.tarifa_plena
                             + this.state.tarifa_reducida_7_5
@@ -273,13 +287,13 @@ class Services extends Component {
                             + this.state.santa_barbara
                             + this.state.convenio
                             + this.state.otros),
-                            
+
       // Sumamos el total de servicios seleccionados
-      total_servicios: Number(this.state.seguro_accidentes + 
+      total_servicios: Number(this.state.seguro_accidentes +
                               this.state.anuario_impreso +
                               this.state.asopadres +
                               this.state.club )
-    });               
+    });
 
     console.log("===> Total for discounts: " + this.state.total_descuentos );
     console.log("===> Total matricula: " + this.state.total_matricula );
@@ -301,7 +315,7 @@ class Services extends Component {
   }
 
   handleOnChangeServices(e){
-     
+
     if(e.target.id === 'seguro-accidentes'){
         console.log("Seguro: " + e.target.value); 
         this.setState({
@@ -309,9 +323,9 @@ class Services extends Component {
         }, () => {
             console.log("Seguro updated: " + this.state.seguro_seleccionado);
             this.handleGetTotalToPay("fromSelection");
-        })     
+        })
      }
-     
+
      if(e.target.id === 'anuario'){
         console.log("Anuario: " + e.target.value); 
         this.setState({
@@ -321,7 +335,7 @@ class Services extends Component {
             this.handleGetTotalToPay("fromSelection");
         })
      }
-     
+
      if(e.target.id === 'asopadres'){
         console.log("Asopadres: " + e.target.value); 
         this.setState({
@@ -331,7 +345,7 @@ class Services extends Component {
           this.handleGetTotalToPay("fromSelection");
         })
      }
-     
+
      if(e.target.id === 'afiliacion-club'){
         console.log("Club: " + e.target.value);
         this.setState({
@@ -369,14 +383,13 @@ class Services extends Component {
                                   + this.state.club_seleccionado )
             })
             break;
-        
+
         default:
             console.log("Default action coming: " + action);
       }
   }
 
   toggleModal = () => {
-      
       this.setState({
         isOpen: !this.state.isOpen,
       });
@@ -456,7 +469,6 @@ class Services extends Component {
     var servicesSelected                 = {};
     var data                             = {};
 
-    // Data Object
     data.codigo                          = this.state.codigo;
     data.bibliobanco                     = this.state.bibliobanco;
     data.matricula                       = this.state.tarifa_plena;
@@ -495,7 +507,6 @@ class Services extends Component {
   /////////////////////////////////
   //////// Rendering UI ///////////
   /////////////////////////////////
-
   render() {
     return (
       <div className="bg-light">
@@ -514,19 +525,19 @@ class Services extends Component {
                         <input
                           id="student_code_input"
                           onChange={ this.handleOnChange }
-                          type="text" 
+                          type="text"
                           className="form-control"
-                          placeholder=""
-                          aria-label="Recipient's username" 
+                          placeholder="Código estudiante o Token"
+                          aria-label="Recipient's username"
                           aria-describedby="basic-addon2"
                           maxLength="5">
                         </input>
                         <div className="input-group-append">
-                          <button 
+                          <button
                             className="btn btn-primary"
                             id="Popover1"
                             onClick={this.handleClickSearchStudent}
-                            type="button">Buscar</button> 
+                            type="button"> Buscar </button>
                         </div>
                     </div>
                   </div>
@@ -569,82 +580,7 @@ class Services extends Component {
               <div className="row">
 
                 <div className="col-md-8">
-                  <table className="table table-hover">
-                    <thead>
-                      <tr className="table-success">
-                        <th scope="col">Conceptos</th>
-                        <th scope="col"></th>
-                        <th scope="col">Valor</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Derecho de matrícula plena</td>
-                        <td></td>
-                        <td><NumberFormat value={this.state.tarifa_plena} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>Bibliobanco</td>
-                        <td></td>
-                        <td><NumberFormat value={this.state.bibliobanco} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>Derecho de matrícula -7.5% por pago de anualidades futuras</td>
-                        <td></td>
-                        <td><NumberFormat value={this.state.tarifa_reducida_7_5} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>Derecho de matrícula -15% por pago de anualidades futuras</td>
-                        <td></td>
-                        <td><NumberFormat value={this.state.tarifa_reducida_15} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr className="table-secondary">
-                        <td colSpan="2"><b>Descuentos</b></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <td>&emsp;&emsp;Hijo de ex-alumno</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.descuento_exalumno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>&emsp;&emsp;Ex alumno Santa Barbara Preschool</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.santa_barbara} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>&emsp;&emsp;Ex alumno Jardín Convenio</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.convenio} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>&emsp;&emsp;2do Hijo</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.descuento_2do_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>&emsp;&emsp;3er Hijo</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.descuento_3er_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>&emsp;&emsp;4to Hijo</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.descuento_4to_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>&emsp;&emsp;Empleado</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.empleado} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>&emsp;&emsp;Otros</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.otros} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                    </tbody>
-                  </table>
-
+                  <ServiceTbale>  </ServiceTbale>
                 </div>
 
                 <div className="col-md-4">
@@ -723,7 +659,7 @@ class Services extends Component {
                                 </select>
                               </div>
                           </div>
-                    
+
                       </div>
 
                       <div className="card-footer bg-success text-white">
@@ -743,7 +679,7 @@ class Services extends Component {
                         </div>
                         <div className="row">
                           <div className="col-12">
-                            
+
                             {/*Modal for no results from cloud data*/}
                             <ModalUI title="Important message" 
                                       show={this.state.isOpen} 
@@ -757,22 +693,22 @@ class Services extends Component {
                                       onClose={this.toggleModalWrongCode} 
                                       msn={this.state.message}>
                             </ModalUI2>
-                            
+
                             {/*Modal for Loading...*/}
                             <LoadingModal title="Cargando datos. Espere ..." 
                                           show={this.state.isOpenLoader} 
                                           onClose={this.toggleModalLoader} >
                             </LoadingModal>
-                          
+
                           </div>
                         </div>
                       </div>
-                      
-                  </div>  
+
+                  </div>
                   <br/ >
                   <div className="row">
                     <div className="col-12">
-                      <button type="button" 
+                      <button type="button"
                               className="btn btn-primary btn-lg btn-block"
                               onClick={() => this.nextPath()}
                               disabled={this.state.isDisableSelect}>Imprimir y pagar</button>
@@ -781,13 +717,13 @@ class Services extends Component {
 
                 </div>
               </div>
-            </div>          
+            </div>
           </div>
 
-        </main>  
+        </main>
 
         <Footer copyright="&copy; Colegio Rochester " />
-        
+
       </div>
     );
   }
