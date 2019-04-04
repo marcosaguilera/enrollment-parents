@@ -136,74 +136,16 @@ class Services extends Component {
   }
 
   handleClickSearchStudent(){
-    let student_code = this.state.student_code;
-    console.log("Student code:" + student_code)
-    this.getOpenApplyUuid(student_code);
+    if(this.state.student_code.length === 5 ){
+        this.toggleModalLoader();
 
-    /*let axiosConfig = {
-      headers: {
-          'X-Parse-Application-Id': 'U8jcs4wAuoOvBeCUCy4tAQTApcfUjiGmso98wM9h',
-          'X-Parse-Master-Key': 'vN7hMK7QknCPf2xeazTaILtaskHFAveqnh6NDwi6',
-          'Content-Type': 'application/json;charset=UTF-8'
-      }
-    };
+        let student_code = this.state.student_code;
+        this.getOpenApplyUuid(student_code);
 
-    let studentCodeSize = this.state.student_code.length;
-    console.log("Student code size: " + studentCodeSize);
-
-    if(studentCodeSize === 5 ){
-        this.toggleModalLoader(); 
-
-        //axios.get('https://parseapi.back4app.com/classes/Enrollment?where={"CODIGO":"' + this.state.student_code + '"}', axiosConfig)
-        axios.get('https://parseapi.back4app.com/classes/EnrollmentData?where={"Codigo":"' + this.state.student_code + '"}', axiosConfig)
-          .then(res => {
-            console.log("Full object:");
-            console.log(res.data);
-            console.log("Node object:");
-            console.log(res.data.results);
-            console.log("Item object:");
-            let item = res.data.results[0];
-
-            // jsonLenght gets the number of objects in the response
-            let jsonLenght = Object.keys(res.data.results).length;
-            console.log("Response size:" + jsonLenght);
-            console.log(item);
-
-            if(jsonLenght > 0){ 
-                //Setting Parse Data to states
-                this.setState({
-                    objectId:            item.objectId, 
-                    createdAt:           item.createdAt,
-                    updatedAt:           item.updatedAt,
-                    codigo:              item.Codigo,
-                    nombres:             item.Nombres,
-                    apellidos:           item.Apellidos,
-                    grado:               item.Grado,
-                    tarifa_plena:        Number(item.Derecho_Matricula_Plena),
-                    bibliobanco:         Number(item.Bibliobanco),
-                    tarifa_reducida_7_5: Number(item.Derecho_por_pago_anualidades_7_5),
-                    tarifa_reducida_15:  Number(item.Derecho_por_pago_anualidades_15),
-                    descuento_exalumno:  Number(item.Hijo_Exalumno),
-                    descuento_2do_hno:   Number(item.Hijo_2),
-                    descuento_3er_hno:   Number(item.Hijo_3),
-                    descuento_4to_hno:   Number(item.Hijo_4),
-                    empleado:            Number(item.Empleado),
-                    santa_barbara:       Number(item.SantaBarbara),
-                    convenio:            Number(item.Jardin_Convenio),
-                    otros:               Number(item.Otros)
-                });
-                this.handleGetTotals();
-                this.toggleSelectorsActivation();
-                this.loaderStatusChange();
-            }else{
-              this.loaderStatusChange();
-              this.toggleModalNoResults();
-            }
-        })
     }else{
         //this.loaderStatusChange();
         this.toggleModalWrongCode(); // If the code size is not equals to 5, then show a message
-    }*/
+    }
   }
 
   getOpenApplyUuid(std_code){
@@ -223,21 +165,63 @@ class Services extends Component {
                 serial_number     : data.serial_number,
                 student_id        : data.student_id
             }, () => {
-                console.log("=>" + this.state.openApplyId)
+                //console.log("=>" + this.state.openApplyId)
                 this.getEnrolmentAuth(this.state.openApplyId)
             })
         })
   }
-  //#endregion
 
   getEnrolmentAuth(std_openapply_uid){
     const url = "https://rcis-backend.herokuapp.com/enrollment/authorization/" + std_openapply_uid;
     axios.get(url)
          .then(res =>{
            let isAuth = this.authChecker(res.data.academic) && this.authChecker(res.data.financial) && this.authChecker(res.data.cra);
-           
+           console.log(res.data)
+           console.log(" -> " + res.data.academic + " - " + res.data.financial + " - " + res.data.cra);
+           console.log("isAuthorized: " + isAuth);
+
            if(isAuth){
              //to-do something
+             axios.get('https://rcis-backend.herokuapp.com/student/getservicesbystudentcode/' + this.state.student_code)
+                  .then(res => {
+
+                    let item = res.data[0];
+
+                    // jsonLenght gets the number of objects in the response
+                    let jsonLenght = Object.keys(item).length;
+                    console.log("object size: " + jsonLenght);
+
+                    if(jsonLenght > 0){
+                        //Setting Parse Data to states
+                        this.setState({
+                            objectId:            item.objectId, 
+                            createdAt:           item.createdAt,
+                            updatedAt:           item.updatedAt,
+                            codigo:              item.Codigo,
+                            nombres:             item.Nombres,
+                            apellidos:           item.Apellidos,
+                            grado:               item.Grado,
+                            tarifa_plena:        Number(item.Derecho_Matricula_Plena),
+                            bibliobanco:         Number(item.Bibliobanco),
+                            tarifa_reducida_7_5: Number(item.Derecho_por_pago_anualidades_7_5),
+                            tarifa_reducida_15:  Number(item.Derecho_por_pago_anualidades_15),
+                            descuento_exalumno:  Number(item.Hijo_Exalumno),
+                            descuento_2do_hno:   Number(item.Hijo_2),
+                            descuento_3er_hno:   Number(item.Hijo_3),
+                            descuento_4to_hno:   Number(item.Hijo_4),
+                            empleado:            Number(item.Empleado),
+                            santa_barbara:       Number(item.SantaBarbara),
+                            convenio:            Number(item.Jardin_Convenio),
+                            otros:               Number(item.Otros)
+                        });
+                        this.handleGetTotals();
+                        this.toggleSelectorsActivation();
+                        this.loaderStatusChange();
+                    }else{
+                      this.loaderStatusChange();
+                      this.toggleModalNoResults();
+                    }
+                })
            }else {
              // to-do something if else
             }
@@ -311,7 +295,7 @@ class Services extends Component {
       this.setState({
         student_code: String(e.target.value)
       }, () => {
-        console.log("=> code: " + this.state.student_code)
+        //console.log("=> code: " + this.state.student_code)
       });
     }
   }
@@ -515,9 +499,9 @@ class Services extends Component {
   render() {
     return (
       <div className="bg-light">
-        <Header />
+        {/*<Header />*/}
 
-        <main role="main"  className="container">
+        <main role="main"  className="container" id="customStyle">
           <div className="shadow-sm p-3 mb-5 bg-white rounded">
             <div className="starter-template">
 
@@ -576,9 +560,7 @@ class Services extends Component {
                         <input type="text" className="form-control" id="lastName" placeholder="" value={this.state.apellidos} required="" readOnly="readonly"></input>
                       </div>
                     </div>
-
                   </div>
-
             </div>
 
             <hr />
@@ -678,14 +660,13 @@ class Services extends Component {
                                     <NumberFormat value={this.state.total_descuentos} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                 </h5>
                             </div>
-                            
                         </li>
                         <li className="list-group-item"><br /></li>
                         <li className="list-group-item bg-primary">
                             <h6 id="card_title_color" className="mb-0 text-center">Servicios adicionales</h6>
                         </li>
                       </ul>
-                      
+
                       <div className="card-body">
                           <p className="" >Seleccione los servicios que desea adicionar:</p>
                           {/*Select Seguro Accidentes*/}
@@ -805,7 +786,7 @@ class Services extends Component {
 
         </main>  
 
-        <Footer copyright="&copy;Colegio Rochester 2018" />
+        <Footer copyright="&copy; Colegio Rochester " />
         
       </div>
     );
