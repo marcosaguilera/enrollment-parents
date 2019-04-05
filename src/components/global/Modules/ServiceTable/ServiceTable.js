@@ -5,6 +5,7 @@ import NumberFormat from 'react-number-format';
 import store from '../../../../ReduxStore/store'
 
 //Styles
+import "./ServiceTable.css"
 
 class ServiceTable extends Component {
 
@@ -28,80 +29,72 @@ class ServiceTable extends Component {
     render() {
         return (
             <div>
-                <table className="table table-hover">
+                <table className="table table-bordered table-hover" >
                     <thead>
                       <tr className="table-success">
                         <th scope="col">Conceptos</th>
-                        <th scope="col"></th>
                         <th scope="col">Valor</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <td>Derecho de matrícula plena</td>
-                        <td></td>
                         <td><NumberFormat value={this.state.services.Derecho_Matricula_Plena} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
                         <td>Bibliobanco</td>
-                        <td></td>
-                        <td><NumberFormat value={this.state.bibliobanco} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                        <td><NumberFormat value={this.state.services.Bibliobanco} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
                         <td>Derecho de matrícula -7.5% por pago de anualidades futuras</td>
-                        <td></td>
-                        <td><NumberFormat value={this.state.tarifa_reducida_7_5} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                        <td><NumberFormat value={this.state.services.Derecho_por_pago_anualidades_7_5} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
                         <td>Derecho de matrícula -15% por pago de anualidades futuras</td>
-                        <td></td>
-                        <td><NumberFormat value={this.state.tarifa_reducida_15} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                        <td><NumberFormat value={this.state.services.Derecho_por_pago_anualidades_15} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr className="table-secondary">
                         <td colSpan="2"><b>Descuentos</b></td>
-                        <td></td>
                       </tr>
                       <tr>
                         <td>&emsp;&emsp;Hijo de ex-alumno</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.descuento_exalumno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                        <td> - <NumberFormat value={this.state.services.Hijo_Exalumno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
                         <td>&emsp;&emsp;Ex alumno Santa Barbara Preschool</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.santa_barbara} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                        <td> - <NumberFormat value={this.state.services.SantaBarbara} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
                         <td>&emsp;&emsp;Ex alumno Jardín Convenio</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.convenio} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                        <td> - <NumberFormat value={this.state.services.Jardin_Convenio} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
                         <td>&emsp;&emsp;2do Hijo</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.descuento_2do_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                        <td> - <NumberFormat value={this.state.services.Hijo_2} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
                         <td>&emsp;&emsp;3er Hijo</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.descuento_3er_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                        <td> - <NumberFormat value={this.state.services.Hijo_3} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
                         <td>&emsp;&emsp;4to Hijo</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.descuento_4to_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                        <td> - <NumberFormat value={this.state.services.Hijo_4} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
                         <td>&emsp;&emsp;Empleado</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.empleado} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                        <td> - <NumberFormat value={this.state.services.Empleado} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
                         <td>&emsp;&emsp;Otros</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.otros} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                        <td> - <NumberFormat value={this.state.services.Otros} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                     </tbody>
+                    <tfoot>
+                      <tr style={{ backgroundColor: 'rgba(0,0,0,.03)' }}>
+                        <td><h5 className="customTotalValue">Total</h5></td>
+                        <td><h5 className="customTotalValue"><NumberFormat value={this.state.services.total_descuentos} displayType={'text'} thousandSeparator={true} prefix={'$'} /></h5></td>
+                      </tr>
+                    </tfoot>
                   </table>
             </div>
         );

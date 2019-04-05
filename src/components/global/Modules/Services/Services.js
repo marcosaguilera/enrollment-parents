@@ -195,20 +195,18 @@ class Services extends Component {
                   .then(res => {
 
                     let item = res.data[0];
-
-                    store.dispatch({
-                      type: "SAVE_SERVICE_DATA",
-                      service_data : item
-                    })
-
-                    // jsonLenght gets the number of objects in the response
                     let jsonLenght = Object.keys(item).length;
-                    console.log("object size: " + jsonLenght);
 
                     if(jsonLenght > 0){
+                        //After checked json elemento is comming with data
+                        store.dispatch({
+                          type: "SAVE_SERVICE_DATA",
+                          service_data : item
+                        })
+
                         //Setting Parse Data to states
                         this.setState({
-                            objectId:            item.objectId, 
+                            objectId:            item.objectId,
                             createdAt:           item.createdAt,
                             updatedAt:           item.updatedAt,
                             codigo:              item.Codigo,
@@ -543,7 +541,6 @@ class Services extends Component {
                   </div>
                   <div className="col-sm"></div>
               </div>
-
             </div>
 
             <hr />
@@ -580,16 +577,16 @@ class Services extends Component {
               <div className="row">
 
                 <div className="col-md-8">
-                  <ServiceTbale>  </ServiceTbale>
+                  <ServiceTbale />
                 </div>
 
                 <div className="col-md-4">
                   <div className="card">
                       <div className="card-header bg-primary" >
-                        <h6 id="card_title_color" className="mb-0 text-center">Total Matrícula + Bibliobanco</h6>
+                        <h6 id="card_title_color" className="mb-0 text-center">Servicios adicionales</h6>
                       </div>
 
-                      <ul className="list-group list-group-flush">
+                      {/*<ul className="list-group list-group-flush">
                         <li className="list-group-item" id="line_color">
                             <div>
                                 <h5 className="mb-0 text-center">
@@ -601,7 +598,7 @@ class Services extends Component {
                         <li className="list-group-item bg-primary">
                             <h6 id="card_title_color" className="mb-0 text-center">Servicios adicionales</h6>
                         </li>
-                      </ul>
+                      </ul>*/}
 
                       <div className="card-body">
                           <p className="" >Seleccione los servicios que desea adicionar:</p>
