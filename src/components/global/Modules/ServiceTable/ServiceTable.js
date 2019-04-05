@@ -23,7 +23,7 @@ class ServiceTable extends Component {
     }
 
     componentWillReceiveProps(){
-        console.log(this.state.services.Derecho_Matricula_Plena)
+        //console.log(this.state.services.Derecho_Matricula_Plena)
     }
 
     render() {
@@ -92,7 +92,7 @@ class ServiceTable extends Component {
                     <tfoot>
                       <tr style={{ backgroundColor: 'rgba(0,0,0,.03)' }}>
                         <td><h5 className="customTotalValue">Total</h5></td>
-                        <td><h5 className="customTotalValue"><NumberFormat value={this.state.services.total_descuentos} displayType={'text'} thousandSeparator={true} prefix={'$'} /></h5></td>
+                        <td><h5 className="customTotalValue"><NumberFormat value={this.state.services.total_conceptos_matricula_descuentos} displayType={'text'} thousandSeparator={true} prefix={'$'} /></h5></td>
                       </tr>
                     </tfoot>
                   </table>
