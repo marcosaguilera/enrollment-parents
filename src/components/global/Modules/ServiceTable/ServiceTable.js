@@ -31,7 +31,7 @@ class ServiceTable extends Component {
             <div>
                 <table className="table table-bordered table-hover" >
                     <thead>
-                      <tr className="table-success">
+                      <tr className="tableHeader">
                         <th scope="col">Conceptos</th>
                         <th scope="col">Valor</th>
                       </tr>
@@ -57,35 +57,35 @@ class ServiceTable extends Component {
                         <td colSpan="2"><b>Descuentos</b></td>
                       </tr>
                       <tr>
-                        <td>&emsp;&emsp;Hijo de ex-alumno</td>
+                        <td className="indentLeftText">Hijo de ex-alumno</td>
                         <td> - <NumberFormat value={this.state.services.Hijo_Exalumno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
-                        <td>&emsp;&emsp;Ex alumno Santa Barbara Preschool</td>
+                        <td className="indentLeftText">Ex alumno Santa Barbara Preschool</td>
                         <td> - <NumberFormat value={this.state.services.SantaBarbara} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
-                        <td>&emsp;&emsp;Ex alumno Jardín Convenio</td>
+                        <td className="indentLeftText">Ex alumno Jardín Convenio</td>
                         <td> - <NumberFormat value={this.state.services.Jardin_Convenio} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
-                        <td>&emsp;&emsp;2do Hijo</td>
+                        <td className="indentLeftText">2do Hijo</td>
                         <td> - <NumberFormat value={this.state.services.Hijo_2} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
-                        <td>&emsp;&emsp;3er Hijo</td>
+                        <td className="indentLeftText">3er Hijo</td>
                         <td> - <NumberFormat value={this.state.services.Hijo_3} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
-                        <td>&emsp;&emsp;4to Hijo</td>
+                        <td className="indentLeftText">4to Hijo</td>
                         <td> - <NumberFormat value={this.state.services.Hijo_4} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
-                        <td>&emsp;&emsp;Empleado</td>
+                        <td className="indentLeftText">Empleado</td>
                         <td> - <NumberFormat value={this.state.services.Empleado} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
-                        <td>&emsp;&emsp;Otros</td>
+                        <td className="indentLeftText">Otros</td>
                         <td> - <NumberFormat value={this.state.services.Otros} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                     </tbody>

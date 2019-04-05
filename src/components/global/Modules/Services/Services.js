@@ -28,8 +28,8 @@ class Services extends Component {
     this.handleOnChange            = this.handleOnChange.bind(this);
     this.handleOnChangeServices    = this.handleOnChangeServices.bind(this);
     this.handleSaveServices        = this.handleSaveServices.bind(this);
-    this.getOpenApplyUuid         = this.getOpenApplyUuid.bind(this);
-    this.getOpenApplyUuid         = this.getOpenApplyUuid.bind(this);
+    this.getOpenApplyUuid          = this.getOpenApplyUuid.bind(this);
+    this.getOpenApplyUuid          = this.getOpenApplyUuid.bind(this);
 
     this.state = {
         count                 : 0,
@@ -180,8 +180,6 @@ class Services extends Component {
     axios.get(url)
          .then(res =>{
            let isAuth = this.authChecker(res.data.academic) && this.authChecker(res.data.financial) && this.authChecker(res.data.cra);
-           //console.log(res.data)
-           //console.log(" -> " + res.data.academic + " - " + res.data.financial + " - " + res.data.cra);
            console.log("isAuthorized: " + isAuth);
 
            store.dispatch({
@@ -573,7 +571,7 @@ class Services extends Component {
 
             <hr />
 
-            <div className="shadow-sm p-3 mb-5 bg-white rounded">
+            <div className="p-3 mb-5 bg-white rounded">
               <div className="row">
 
                 <div className="col-md-8">
@@ -582,7 +580,7 @@ class Services extends Component {
 
                 <div className="col-md-4">
                   <div className="card">
-                      <div className="card-header bg-primary" >
+                      <div className="card-header bg-primary" style={{ padding: '.95rem 1.25rem' }}>
                         <h6 id="card_title_color" className="mb-0 text-center">Servicios adicionales</h6>
                       </div>
 
