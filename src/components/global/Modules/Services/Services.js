@@ -225,7 +225,8 @@ class Services extends Component {
                             otros                                : Number(item.Otros),
                             total_conceptos_matricula_descuentos : Number(item.total_conceptos_matricula_descuentos),
                             total_solo_descuentos                : Number(item.total_conceptos_descuentos),
-
+                            total_matricula                      : Number(item.total_conceptos_matricula),
+                            total_dtos_matr                      : Number(item.total_conceptos_descuentos),
                         });
                         this.handleGetTotals();
                         this.toggleSelectorsActivation();
@@ -273,19 +274,19 @@ class Services extends Component {
                                     + this.state.otros
                                   ),*/
 
-      total_matricula: Number(this.state.tarifa_plena
+      /*total_matricula: Number(this.state.tarifa_plena
                             + this.state.tarifa_reducida_7_5
                             + this.state.tarifa_reducida_15
-                            + this.state.bibliobanco ),
+                            + this.state.bibliobanco ),*/
 
-      total_dtos_matr: Number(this.state.descuento_exalumno
+      /*total_dtos_matr: Number(this.state.descuento_exalumno
                             + this.state.descuento_2do_hno
                             + this.state.descuento_3er_hno
                             + this.state.descuento_4to_hno
                             + this.state.empleado
                             + this.state.santa_barbara
                             + this.state.convenio
-                            + this.state.otros),
+                            + this.state.otros),*/
 
       // Sumamos el total de servicios seleccionados
       total_servicios: Number(this.state.seguro_accidentes +
