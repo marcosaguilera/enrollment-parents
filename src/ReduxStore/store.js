@@ -6,7 +6,7 @@ const reducer = (state, action) => {
 
     switch(action.type){
         case "SAVE_STUDENT_ESSENTIAL_DATA":
-            return{
+            return{ 
                 ...state,
                 essential_data: action.data
             }
