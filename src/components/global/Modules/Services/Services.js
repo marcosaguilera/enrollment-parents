@@ -120,7 +120,6 @@ class Services extends Component {
   }
 
   componentDidMount(){
-
       this.setState({
         seguro_seleccionado    : this.state.seguro_accidentes,
         anuario_seleccionado   : this.state.anuario_impreso,
@@ -148,30 +147,31 @@ class Services extends Component {
     const url = "https://rcis-backend.herokuapp.com/openapply/student/getopenapplybystudentcode/" + std_code;
     axios.get(url)
         .then( res => {
+          //console.log(res.data[0])
+          const data = res.data[0];
 
-          console.log(res.data[0])
-            const data = res.data[0];
+          store.dispatch({
+            type: "SAVE_STUDENT_ESSENTIAL_DATA",
+            essential_data: data
+          }, () => {
+            //this.getEnrolmentAuth(this.state.openApplyId)
+          })
 
-            store.dispatch({
-              type: "SAVE_STUDENT_ESSENTIAL_DATA",
-              essential_data: data
-            }, () => {
-              //this.getEnrolmentAuth(this.state.openApplyId)
-            })
-            this.setState({
-                openApplyId       : data.id,
-                customId          : data.custom_id,
-                enrollment_year   : data.enrollment_year,
-                gender            : data.gender,
-                first_name        : data.first_name,
-                last_name         : data.last_name,
-                name_full         : data.name,
-                serial_number     : data.serial_number,
-                student_id        : data.student_id
-            }, () => {
-                //console.log("=>" + this.state.openApplyId)
-                this.getEnrolmentAuth(this.state.openApplyId)
-            })
+          this.setState({
+              openApplyId       : data.id,
+              customId          : data.custom_id,
+              enrollment_year   : data.enrollment_year,
+              gender            : data.gender,
+              first_name        : data.first_name,
+              last_name         : data.last_name,
+              name_full         : data.name,
+              serial_number     : data.serial_number,
+              student_id        : data.student_id
+          }, () => {
+              //console.log("=>" + this.state.openApplyId)
+              this.getEnrolmentAuth(this.state.openApplyId)
+          })
+
         })
   }
 
@@ -211,7 +211,7 @@ class Services extends Component {
                             nombres                              : item.Nombres,
                             apellidos                            : item.Apellidos,
                             grado                                : item.Grado,
-                            tarifa_plena                         : Number(item.Derecho_Matricula_Plena),
+                            /*tarifa_plena                         : Number(item.Derecho_Matricula_Plena),
                             bibliobanco                          : Number(item.Bibliobanco),
                             tarifa_reducida_7_5                  : Number(item.Derecho_por_pago_anualidades_7_5),
                             tarifa_reducida_15                   : Number(item.Derecho_por_pago_anualidades_15),
@@ -222,7 +222,7 @@ class Services extends Component {
                             empleado                             : Number(item.Empleado),
                             santa_barbara                        : Number(item.SantaBarbara),
                             convenio                             : Number(item.Jardin_Convenio),
-                            otros                                : Number(item.Otros),
+                            otros                                : Number(item.Otros),*/
                             total_conceptos_matricula_descuentos : Number(item.total_conceptos_matricula_descuentos),
                             total_solo_descuentos                : Number(item.total_conceptos_descuentos),
                             total_matricula                      : Number(item.total_conceptos_matricula),
@@ -288,7 +288,6 @@ class Services extends Component {
                             + this.state.convenio
                             + this.state.otros),*/
 
-      // Sumamos el total de servicios seleccionados
       total_servicios: Number(this.state.seguro_accidentes +
                               this.state.anuario_impreso +
                               this.state.asopadres +
@@ -315,34 +314,33 @@ class Services extends Component {
   }
 
   handleOnChangeServices(e){
-
     if(e.target.id === 'seguro-accidentes'){
         console.log("Seguro: " + e.target.value); 
         this.setState({
             seguro_seleccionado: Number(e.target.value)
         }, () => {
-            console.log("Seguro updated: " + this.state.seguro_seleccionado);
+            //console.log("Seguro updated: " + this.state.seguro_seleccionado);
             this.handleGetTotalToPay("fromSelection");
         })
      }
 
      if(e.target.id === 'anuario'){
-        console.log("Anuario: " + e.target.value); 
+        console.log("Anuario: " + e.target.value);
         this.setState({
             anuario_seleccionado: Number(e.target.value)
         }, () => {
-            console.log("Anuario updated: " + this.state.anuario_seleccionado);
+            //console.log("Anuario updated: " + this.state.anuario_seleccionado);
             this.handleGetTotalToPay("fromSelection");
         })
      }
 
      if(e.target.id === 'asopadres'){
-        console.log("Asopadres: " + e.target.value); 
+        console.log("Asopadres: " + e.target.value);
         this.setState({
             asopadres_seleccionado: Number(e.target.value)
         }, () => {
-          console.log("Asopadres updated: " + this.state.asopadres_seleccionado);
-          this.handleGetTotalToPay("fromSelection");
+            //console.log("Asopadres updated: " + this.state.asopadres_seleccionado);
+            this.handleGetTotalToPay("fromSelection");
         })
      }
 
@@ -351,11 +349,10 @@ class Services extends Component {
         this.setState({
             club_seleccionado: Number(e.target.value)
         }, () => {
-          console.log("Club: " + this.state.club_seleccionado);
-          this.handleGetTotalToPay("fromSelection");
+            //console.log("Club: " + this.state.club_seleccionado);
+            this.handleGetTotalToPay("fromSelection");
         })
      }
-
   }
 
   handleGetTotalToPay(action){
@@ -393,47 +390,36 @@ class Services extends Component {
       this.setState({
         isOpen: !this.state.isOpen,
       });
-           
   }
 
   toggleModalNoResults = () => {
-      
     this.setState({
       isOpen: !this.state.isOpen,
       message: 'No se encontraron resultados para el código ingresado. Verifique el código del estudiante e intente nuevamente.'
     });
-         
   }
 
   toggleModalWrongCode = () => {
-      
     this.setState({
       isOpen: !this.state.isOpen,
       message: 'El código del estudiante debe tener una extensión de 5 dígitos. Por favor verifiquelo e intente nuevamente.'
     });
-         
   }
 
   toggleModalLoader = () => {
-      
     this.setState({
       isOpenLoader: !this.state.isOpenLoader
     });
-         
   }
 
-  loaderStatusChange = () =>{
-
+  loaderStatusChange = () => {
     setTimeout(()=> this.setState({isOpenLoader: false}), 0)
-
   }
 
   toggleSelectorsActivation = () =>{
-
     this.setState({
       isDisableSelect: false
     });
-
   }
 
   nextPath = () => {
@@ -461,8 +447,8 @@ class Services extends Component {
       isShowingResume: ''
     });
 
-    this.props.history.push('/resume', services);
-    this.handleSaveServices();
+    this.props.history.push('/enrolment_montly_services', services);
+    //this.handleSaveServices();
   }
 
   handleSaveServices(){
@@ -501,12 +487,8 @@ class Services extends Component {
          .catch(error => {
             console.log(error);
          });
-
   }
 
-  /////////////////////////////////
-  //////// Rendering UI ///////////
-  /////////////////////////////////
   render() {
     return (
       <div className="bg-light">
@@ -553,21 +535,21 @@ class Services extends Component {
                       <div className="row">
                         <div className="col-md-6 mb-3">
                         <label htmlFor="firstName">Código</label>
-                        <input type="text" className="form-control" id="firstName" placeholder="" value={this.state.codigo} required="" readOnly="readonly"></input>
+                        <input type="text" className="form-control onlyReadInput" id="Code" value={this.state.codigo} readOnly="readonly"></input>
                       </div>
                       <div className="col-md-6 mb-3">
                         <label htmlFor="firstName">Grado</label>
-                        <input type="text" className="form-control" id="firstName" placeholder="" value={this.state.grado} required="" readOnly="readonly"></input>
+                        <input type="text" className="form-control onlyReadInput" id="Grade" value={this.state.grado} readOnly="readonly"></input>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-md-6 mb-3">
                         <label htmlFor="firstName">Nombres</label>
-                        <input type="text" className="form-control" id="firstName" placeholder="" value={this.state.nombres} required="" readOnly="readonly"></input>
+                        <input type="text" className="form-control onlyReadInput" id="firstName" value={this.state.nombres} readOnly="readonly"></input>
                       </div>
                       <div className="col-md-6 mb-3">
                         <label htmlFor="lastName">Apellidos</label>
-                        <input type="text" className="form-control" id="lastName" placeholder="" value={this.state.apellidos} required="" readOnly="readonly"></input>
+                        <input type="text" className="form-control onlyReadInput" id="lastName" value={this.state.apellidos} readOnly="readonly"></input>
                       </div>
                     </div>
                   </div>
@@ -710,7 +692,7 @@ class Services extends Component {
                       <button type="button"
                               className="btn btn-primary btn-lg btn-block"
                               onClick={() => this.nextPath()}
-                              disabled={this.state.isDisableSelect}>Imprimir y pagar</button>
+                              disabled={this.state.isDisableSelect}>Siguiente</button>
                     </div>
                   </div>
 
