@@ -33,7 +33,7 @@ class ServiceTable extends Component {
                     <thead>
                       <tr className="tableHeader">
                         <th scope="col">Conceptos</th>
-                        <th scope="col">Valor</th>
+                        <th scope="col">Valor (COP)</th>
                       </tr>
                     </thead>
                     <tbody>
