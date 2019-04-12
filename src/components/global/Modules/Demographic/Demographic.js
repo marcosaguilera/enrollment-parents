@@ -1,26 +1,35 @@
 import React, { Component } from 'react';
 import store from '../../../../ReduxStore/store'
 
-class DemographicInfo extends Component {
+class Demographic extends Component {
 
-    constructor(props) {
-        super(props);
-        
+    constructor() {
+        super();
         this.state = {
-            student_demographic_data : []
+            student_demographic_data : {}
         };
 
         store.subscribe(() => {
             this.setState({
                 student_demographic_data : store.getState().essential_data
+            }, () => {
+              console.log(this.state.student_demographic_data)
             })
         })
     }
 
-    componentWillReceiveProps(){
-        console.log(student_demographic_data)
+    componentWillMount(){
+        console.log(this.state.student_demographic_data)
     }
-    
+
+    componentWillUpdate(){
+        console.log(this.state.student_demographic_data)
+    }
+
+    componentWillReceiveProps(){
+        console.log("hello")
+    }
+
     render() {
         return (
             <div>
@@ -54,4 +63,4 @@ class DemographicInfo extends Component {
     }
 }
 
-export default DemographicInfo;
+export default Demographic;

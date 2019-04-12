@@ -6,7 +6,7 @@ const reducer = (state, action) => {
 
     switch(action.type){
         case "SAVE_STUDENT_ESSENTIAL_DATA":
-            return{ 
+            return{
                 ...state,
                 essential_data: action.data
             }
@@ -30,7 +30,7 @@ const reducer = (state, action) => {
 
 export default createStore(
         reducer, {
-            essential_data : [],
+            essential_data : {},
             is_student_authorize: false,
             service_data   : []
         });

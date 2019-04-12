@@ -15,6 +15,7 @@ import '../../Modules/Services/Services.css';
 
 //Components declaration
 import Footer from '../../Footer'
+import Demographic from '../Demographic/Demographic'
 import ServiceTbale from '../ServiceTable/ServiceTable'
 
 class Services extends Component {
@@ -146,8 +147,8 @@ class Services extends Component {
     const url = "https://rcis-backend.herokuapp.com/openapply/student/getopenapplybystudentcode/" + std_code;
     axios.get(url)
         .then( res => {
-          //console.log(res.data[0])
           const data = res.data[0];
+          console.log(data)
 
           store.dispatch({
             type: "SAVE_STUDENT_ESSENTIAL_DATA",
@@ -528,7 +529,7 @@ class Services extends Component {
 
             <hr />
 
-            
+            <Demographic />
 
             <hr />
 
