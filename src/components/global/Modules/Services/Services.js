@@ -147,26 +147,29 @@ class Services extends Component {
     const url = "https://rcis-backend.herokuapp.com/openapply/student/getopenapplybystudentcode/" + std_code;
     axios.get(url)
         .then( res => {
-          const data = res.data[0];
-          console.log(data)
+
+          let demo_data = res.data[0];
+          //console.log("==> data: " + JSON.stringify(demo_data))
+          let fake_text = 'rayos!!!!'
 
           store.dispatch({
             type: "SAVE_STUDENT_ESSENTIAL_DATA",
-            essential_data: data
+            fake_text,
+            demo_data
           }, () => {
             //this.getEnrolmentAuth(this.state.openApplyId)
           })
 
           this.setState({
-              openApplyId       : data.id,
-              customId          : data.custom_id,
-              enrollment_year   : data.enrollment_year,
-              gender            : data.gender,
-              first_name        : data.first_name,
-              last_name         : data.last_name,
-              name_full         : data.name,
-              serial_number     : data.serial_number,
-              student_id        : data.student_id
+              openApplyId       : demo_data.id,
+              customId          : demo_data.custom_id,
+              enrollment_year   : demo_data.enrollment_year,
+              gender            : demo_data.gender,
+              first_name        : demo_data.first_name,
+              last_name         : demo_data.last_name,
+              name_full         : demo_data.name,
+              serial_number     : demo_data.serial_number,
+              student_id        : demo_data.student_id
           }, () => {
               //console.log("=>" + this.state.openApplyId)
               this.getEnrolmentAuth(this.state.openApplyId)
@@ -294,11 +297,11 @@ class Services extends Component {
                               this.state.club )
     });
 
-    console.log("===> Total for discounts: " + this.state.total_conceptos_matricula_descuentos );
-    console.log("===> Total matricula: " + this.state.total_matricula );
-    console.log("===> Total dtos: " + this.state.total_dtos_matr );
-    console.log("===> Total for services: " + this.state.total_servicios );
-    console.log("===> Total only discounts: " + this.state.total_solo_descuentos );
+    //console.log("===> Total for discounts: " + this.state.total_conceptos_matricula_descuentos );
+    //console.log("===> Total matricula: " + this.state.total_matricula );
+    //console.log("===> Total dtos: " + this.state.total_dtos_matr );
+    //console.log("===> Total for services: " + this.state.total_servicios );
+    //console.log("===> Total only discounts: " + this.state.total_solo_descuentos );
     // Calling the method for totalize
     this.handleGetTotalToPay("fromSearch");
   }
