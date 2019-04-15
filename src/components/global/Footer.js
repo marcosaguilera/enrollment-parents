@@ -6,9 +6,28 @@ import PropTypes from 'prop-types';
 import './css/Footer.css';
 
 class Footer extends Component {
+
   static propTypes = {
     copyright: PropTypes.string
   };
+
+  constructor(){
+    super();
+
+    this.state={
+      year: ''
+    }
+  }
+
+  componentDidMount(){
+    var now = new Date();
+    var nowYear = now.getFullYear();
+    //console.log(now + " /// " + nowYear)
+
+    this.setState({
+        year: nowYear
+    })
+}
 
   render() {
     const { copyright = '&copy; React 2018' } = this.props
@@ -16,7 +35,7 @@ class Footer extends Component {
       <div className="Footer bg-light text-dark">
         <footer className="footer">
             <div className="container">
-              <p> {copyright} | <a href="https://rochester.edu.co/politica-proteccion-datos/" rel="noopener noreferrer" target="_blank">Protección de Datos</a> </p> 
+              <p> {copyright} {this.state.year} | <a href="https://rochester.edu.co/politica-proteccion-datos/" rel="noopener noreferrer" target="_blank"> Protección de Datos</a> </p> 
             </div>
         </footer>
       </div>

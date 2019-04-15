@@ -165,13 +165,13 @@ class NewStudents extends Component {
 
     componentDidMount(){
     }
-    
+
     render() {
         return(
             <div className="mainContent">
                 <Container>
                     <Jumbotron style={{ marginTop: 15 }} className="shadow-sm p-3 mb-5 bg-white rounded">
-                        
+
                         {/* <p className="lead">This is a simple hero unit, a simple Jumbotron-style component for calling extra attention to featured content or information.</p>
                         <hr className="my-2" /> */}
                         {/* Fisrt form ::: student demographics data */}
@@ -195,7 +195,7 @@ class NewStudents extends Component {
                                 </FormGroup>
                             </Col>
                         </Row>
-                        
+
                         <Row>
                             <Col md={4}>
                                 <FormGroup>
@@ -217,14 +217,14 @@ class NewStudents extends Component {
                                 </FormGroup>
                             </Col>
                             <Col md={4}>
-                                <Button id="b1_consultar" color="primary">Consultar</Button>            
+                                <Button id="b1_consultar" color="primary">Consultar</Button>
                             </Col>
                         </Row>
                         { /*End Fisrt form ::: student demographics data */ }
-                        
+
                         <div className="py-2"></div>
                         <h3>Tarifas base</h3>
-                        
+
                         {/* Base rates table */}
                         <Table bordered hover>
                             <thead>
@@ -251,7 +251,7 @@ class NewStudents extends Component {
                         {/* End base rates table */}
 
                         <div className="py-3"></div>
-                        
+
                         <Row>
                             <Col md="6">
                                 <h4>Preguntas</h4>

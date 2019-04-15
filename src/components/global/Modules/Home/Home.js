@@ -14,7 +14,7 @@ import student1 from '../../images/aaron-burden-60068-unsplash.jpg'
 import student2 from '../../images/rawpixel-463437-unsplash.jpg'
 
 class Home extends Component {
-  
+
   constructor(props){
     super(props);
 
@@ -27,10 +27,10 @@ class Home extends Component {
   }
 
   nextPath_OldStudents(){
-    this.props.history.push('/enrollment_old_students');
+    this.props.history.push('/enrolment_annual_services');
     //this.handleSaveServices();
   }
-  
+
   nextPath_NewStudents(){
     this.props.history.push('/enrollment_new_students');
     //this.handleSaveServices();
@@ -43,7 +43,7 @@ class Home extends Component {
     return (
       <div className="Home">
         <Header />
-        
+
         <Container>
           <Row>
             <h2 className="py-2" style={{ margin: 'auto', fontWeight: 300 }}>Bienvenidos</h2>

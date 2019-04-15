@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 //// Other dependencies
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
+import store from '../../../../ReduxStore/store'
 
 //// Addons
 import LoadingModal from '../../Addons/LoadSpinner';
@@ -13,11 +14,11 @@ import ModalUI2 from '../../Addons/Modal';
 import '../../Modules/Services/Services.css';
 
 //Components declaration
-import Header from '../../Header'
 import Footer from '../../Footer'
+import Demographic from '../Demographic/Demographic'
+import ServiceTbale from '../ServiceTable/ServiceTable'
 
 class Services extends Component {
-//////// Controller
 
   constructor(props){
     super(props);
@@ -28,182 +29,234 @@ class Services extends Component {
     this.handleOnChange            = this.handleOnChange.bind(this);
     this.handleOnChangeServices    = this.handleOnChangeServices.bind(this);
     this.handleSaveServices        = this.handleSaveServices.bind(this);
+    this.getOpenApplyUuid          = this.getOpenApplyUuid.bind(this);
+    this.getOpenApplyUuid          = this.getOpenApplyUuid.bind(this);
 
     this.state = {
-        count                 : 0,
-        resultState           : 0,
-        objectId              : '',
-        createdAt             : '',
-        updatedAt             : '',
-        codigo                : '',
-        nombres               : '',
-        apellidos             : '',
-        tarifa_plena          : 0,
-        bibliobanco           : 0,
-        tarifa_reducida_7_5   : 0,
-        tarifa_reducida_15    : 0,
-        descuento_exalumno    : 0,
-        descuento_2do_hno     : 0,
-        descuento_3er_hno     : 0,
-        descuento_4to_hno     : 0,
-        empleado              : 0,
-        santa_barbara         : 0,
-        convenio              : 0,
-        otros                 : 0,
-        grado                 : '',
-        student_code          : '',
+        count                                : 0,
+        resultState                          : 0,
+        objectId                             : '',
+        createdAt                            : '',
+        updatedAt                            : '',
+        codigo                               : '',
+        nombres                              : '',
+        apellidos                            : '',
+        tarifa_plena                         : 0,
+        bibliobanco                          : 0,
+        tarifa_reducida_7_5                  : 0,
+        tarifa_reducida_15                   : 0,
+        descuento_exalumno                   : 0,
+        descuento_2do_hno                    : 0,
+        descuento_3er_hno                    : 0,
+        descuento_4to_hno                    : 0,
+        empleado                             : 0,
+        santa_barbara                        : 0,
+        convenio                             : 0,
+        otros                                : 0,
+        grado                                : '',
+        student_code                         : '',
 
         // Servicios de matrículas
-        seguro_accidentes     : 55000,
-        anuario_impreso       : 110000,
-        anuario_digital       : 46000,
-        anuario_combo         : 156000,
-        asopadres             : 172000,
-        club                  : 375000,
-        
+        seguro_accidentes                    : 55000,
+        anuario_impreso                      : 110000,
+        anuario_digital                      : 46000,
+        anuario_combo                        : 156000,
+        asopadres                            : 172000,
+        club                                 : 375000,
+
         // zero values,
-        seguro_cero           : 0,
-        anuario_cero          : 0,
-        asopadres_cero        : 0,
-        club_cero             : 0,
-        
+        seguro_cero                          : 0,
+        anuario_cero                         : 0,
+        asopadres_cero                       : 0,
+        club_cero                            : 0,
+
         // Seleccionado
-        seguro_seleccionado   : 0,
-        anuario_seleccionado  : 0,
-        asopadres_seleccionado: 0,
-        club_seleccionado     : 0,
+        seguro_seleccionado                  : 0,
+        anuario_seleccionado                 : 0,
+        asopadres_seleccionado               : 0,
+        club_seleccionado                    : 0,
 
         // Total a pagar state
-        total_matricula       : 0,
-        total_dtos_matr       : 0,
-        total_descuentos      : 0,
-        total_servicios       : 0,
-        total_pagar           : 0,
-        total_solo_descuentos : 0,
+        total_matricula                      : 0,
+        total_solo_descuentos                : 0,
+        total_conceptos_matricula_descuentos : 0,
+        total_dtos_matr                      : 0,
+        total_servicios                      : 0,
+        total_pagar                          : 0,
 
         // Addons states
-        loading               : false, // will be true when ajax request is running
-        isOpen                : false,  // Modal windows state
-        isOpenLoader          : false,  // Modal windows state
-        isDisableSelect       : true, 
-        isShowingResume       : 'none',
+        loading                              : false,  // will be true when ajax request is running
+        isOpen                               : false,  // Modal windows state
+        isOpenLoader                         : false,  // Modal windows state
+        isDisableSelect                      : true,
+        isShowingResume                      : 'none',
 
         // Modal message
-        message               : '',
-        
+        message                              : '',
+
         // Data PropTypes to Resume
-        resumeData            : 0,
+        resumeData                           : 0,
 
         // Labels
-        label_seguro          : 'Si - $55.000',
-        label_seguro_cero     : 'No - $0.0',
-        label_anuario_impreso : 'Impreso - $110.000',
-        label_anuario_digital : 'Digital - $46.000',
-        label_anuario_combo   : 'Impreso y digital - $156.000',
-        label_anuario_cero    : 'No - $0.0',
-        label_asopadres       : 'Si - $172.000',
-        label_asopadres_cero  : 'No - $0.0',
-        label_club            : 'Si - $375.000',
-        label_club_cero       : 'No - $0.0',
+        label_seguro                         : 'Si - $55.000',
+        label_seguro_cero                    : 'No - $0.0',
+        label_anuario_impreso                : 'Impreso - $110.000',
+        label_anuario_digital                : 'Digital - $46.000',
+        label_anuario_combo                  : 'Impreso y digital - $156.000',
+        label_anuario_cero                   : 'No - $0.0',
+        label_asopadres                      : 'Si - $172.000',
+        label_asopadres_cero                 : 'No - $0.0',
+        label_club                           : 'Si - $375.000',
+        label_club_cero                      : 'No - $0.0',
 
         // Visitors Data
-        ip_addr               : ''
+        ip_addr                              : '',
+
+        // OpenApply data
+        studentCode: '', openApplyId: 0, customId: '',
+        enrollment_year: '', first_name: '', last_name: '', gender: '', grade: '', name_full: '',
+        serial_number: 0, student_id: ''
+
     }
   }
 
   componentDidMount(){
-
       this.setState({
-          seguro_seleccionado: this.state.seguro_accidentes,
-          anuario_seleccionado: this.state.anuario_impreso,
-          asopadres_seleccionado: this.state.asopadres,
-          club_seleccionado: this.state.club
-
+        seguro_seleccionado    : this.state.seguro_accidentes,
+        anuario_seleccionado   : this.state.anuario_impreso,
+        asopadres_seleccionado : this.state.asopadres,
+        club_seleccionado      : this.state.club
       }, () => {
-        /*console.log("didMount action: " + this.state.seguro_seleccionado + ", " 
-                                        + this.state.anuario_seleccionado + ", " 
-                                        + this.state.asopadres_seleccionado + ", " 
-      + this.state.club_seleccionado);*/
         this.handleGetTotalToPay("fromStart");
       });
   }
 
   handleClickSearchStudent(){
+    if(this.state.student_code.length === 5 ){
+        this.toggleModalLoader();
 
-    let axiosConfig = {
-      headers: {
-          'X-Parse-Application-Id': 'U8jcs4wAuoOvBeCUCy4tAQTApcfUjiGmso98wM9h',
-          'X-Parse-Master-Key': 'vN7hMK7QknCPf2xeazTaILtaskHFAveqnh6NDwi6',
-          'Content-Type': 'application/json;charset=UTF-8'
-      }
-    };
-
-    let studentCodeSize = this.state.student_code.length;
-    console.log("Student code size: " + studentCodeSize);
-
-    if(studentCodeSize === 5 ){
-        this.toggleModalLoader(); 
-        
-        //axios.get('https://parseapi.back4app.com/classes/Enrollment?where={"CODIGO":"' + this.state.student_code + '"}', axiosConfig)
-        axios.get('https://parseapi.back4app.com/classes/EnrollmentData?where={"Codigo":"' + this.state.student_code + '"}', axiosConfig)
-          .then(res => {
-            console.log("Full object:");
-            console.log(res.data);
-            console.log("Node object:");
-            console.log(res.data.results);
-            console.log("Item object:");
-            let item = res.data.results[0];
-            
-            // jsonLenght gets the number of objects in the response
-            let jsonLenght = Object.keys(res.data.results).length;
-            console.log("Response size:" + jsonLenght);
-            console.log(item);
-
-            if(jsonLenght > 0){ 
-                //Setting Parse Data to states
-                this.setState({
-                    objectId:            item.objectId, 
-                    createdAt:           item.createdAt,
-                    updatedAt:           item.updatedAt,
-                    codigo:              item.Codigo,
-                    nombres:             item.Nombres,
-                    apellidos:           item.Apellidos,
-                    grado:               item.Grado,
-                    tarifa_plena:        Number(item.Derecho_Matricula_Plena),
-                    bibliobanco:         Number(item.Bibliobanco),
-                    tarifa_reducida_7_5: Number(item.Derecho_por_pago_anualidades_7_5),
-                    tarifa_reducida_15:  Number(item.Derecho_por_pago_anualidades_15),
-                    descuento_exalumno:  Number(item.Hijo_Exalumno),
-                    descuento_2do_hno:   Number(item.Hijo_2),
-                    descuento_3er_hno:   Number(item.Hijo_3),
-                    descuento_4to_hno:   Number(item.Hijo_4),
-                    empleado:            Number(item.Empleado),
-                    santa_barbara:       Number(item.SantaBarbara),
-                    convenio:            Number(item.Jardin_Convenio),
-                    otros:               Number(item.Otros)
-                });
-                this.handleGetTotals();
-                this.toggleSelectorsActivation();
-                this.loaderStatusChange();
-            }else{
-              this.loaderStatusChange();
-              this.toggleModalNoResults();
-            }
-        })
+        let student_code = this.state.student_code;
+        this.getOpenApplyUuid(student_code);
     }else{
         //this.loaderStatusChange();
         this.toggleModalWrongCode(); // If the code size is not equals to 5, then show a message
-    }       
+    }
+  }
+
+  getOpenApplyUuid(std_code){
+    const url = "https://rcis-backend.herokuapp.com/openapply/student/getopenapplybystudentcode/" + std_code;
+    axios.get(url)
+        .then( res => {
+
+          let demo_data = res.data[0];
+          //console.log("==> data: " + JSON.stringify(demo_data))
+          let fake_text = 'rayos!!!!'
+
+          store.dispatch({
+            type: "SAVE_STUDENT_ESSENTIAL_DATA",
+            fake_text,
+            demo_data
+          }, () => {
+            //this.getEnrolmentAuth(this.state.openApplyId)
+          })
+
+          this.setState({
+              openApplyId       : demo_data.id,
+              customId          : demo_data.custom_id,
+              enrollment_year   : demo_data.enrollment_year,
+              gender            : demo_data.gender,
+              first_name        : demo_data.first_name,
+              last_name         : demo_data.last_name,
+              name_full         : demo_data.name,
+              serial_number     : demo_data.serial_number,
+              student_id        : demo_data.student_id
+          }, () => {
+              //console.log("=>" + this.state.openApplyId)
+              this.getEnrolmentAuth(this.state.openApplyId)
+          })
+
+        })
+  }
+
+  getEnrolmentAuth(std_openapply_uid){
+    const url = "https://rcis-backend.herokuapp.com/enrollment/authorization/" + std_openapply_uid;
+    axios.get(url)
+         .then(res =>{
+           let isAuth = this.authChecker(res.data.academic) && this.authChecker(res.data.financial) && this.authChecker(res.data.cra);
+           console.log("isAuthorized: " + isAuth);
+
+           store.dispatch({
+             type: "SAVE_STUDENT_AUTHORIZATION",
+             isAuth
+           })
+
+           if(isAuth){
+             //to-do something
+             axios.get('https://rcis-backend.herokuapp.com/student/getservicesbystudentcode/' + this.state.student_code)
+                  .then(res => {
+
+                    let item = res.data[0];
+                    let jsonLenght = Object.keys(item).length;
+
+                    if(jsonLenght > 0){
+                        //After checked json elemento is comming with data
+                        store.dispatch({
+                          type: "SAVE_SERVICE_DATA",
+                          service_data : item
+                        })
+
+                        //Setting Parse Data to states
+                        this.setState({
+                            objectId                             : item.objectId,
+                            createdAt                            : item.createdAt,
+                            updatedAt                            : item.updatedAt,
+                            codigo                               : item.Codigo,
+                            nombres                              : item.Nombres,
+                            apellidos                            : item.Apellidos,
+                            grado                                : item.Grado,
+                            /*tarifa_plena                         : Number(item.Derecho_Matricula_Plena),
+                            bibliobanco                          : Number(item.Bibliobanco),
+                            tarifa_reducida_7_5                  : Number(item.Derecho_por_pago_anualidades_7_5),
+                            tarifa_reducida_15                   : Number(item.Derecho_por_pago_anualidades_15),
+                            descuento_exalumno                   : Number(item.Hijo_Exalumno),
+                            descuento_2do_hno                    : Number(item.Hijo_2),
+                            descuento_3er_hno                    : Number(item.Hijo_3),
+                            descuento_4to_hno                    : Number(item.Hijo_4),
+                            empleado                             : Number(item.Empleado),
+                            santa_barbara                        : Number(item.SantaBarbara),
+                            convenio                             : Number(item.Jardin_Convenio),
+                            otros                                : Number(item.Otros),*/
+                            total_conceptos_matricula_descuentos : Number(item.total_conceptos_matricula_descuentos),
+                            total_solo_descuentos                : Number(item.total_conceptos_descuentos),
+                            total_matricula                      : Number(item.total_conceptos_matricula),
+                            total_dtos_matr                      : Number(item.total_conceptos_descuentos),
+                        });
+                        this.handleGetTotals();
+                        this.toggleSelectorsActivation();
+                        this.loaderStatusChange();
+                    }else{
+                      this.loaderStatusChange();
+                      this.toggleModalNoResults();
+                    }
+                })
+           }else {
+             // to-do something if else
+            }
+         })
+  }
+
+  authChecker(authData){
+    return authData === "Si" ? true : false
   }
 
   handleGetTotals(){
     this.setState({
       // Sumamos las tarifas y restamos los descuentos
-      total_descuentos: Number( (this.state.tarifa_plena
+      /*total_conceptos_matricula_descuentos: Number( (this.state.tarifa_plena
                                + this.state.tarifa_reducida_7_5
                                + this.state.tarifa_reducida_15
                                + this.state.bibliobanco )
-                              - 
+                              -
                                 (this.state.descuento_exalumno
                                + this.state.descuento_2do_hno
                                + this.state.descuento_3er_hno
@@ -211,45 +264,44 @@ class Services extends Component {
                                + this.state.empleado
                                + this.state.santa_barbara
                                + this.state.convenio
-                               + this.state.otros) 
-                              ),
-      
-      total_solo_descuentos:  Number( this.state.descuento_exalumno
+                               + this.state.otros)
+                              ),*/
+
+      /*total_solo_descuentos:  Number( this.state.descuento_exalumno
                                     + this.state.descuento_2do_hno
                                     + this.state.descuento_3er_hno
                                     + this.state.descuento_4to_hno
                                     + this.state.empleado
                                     + this.state.santa_barbara
                                     + this.state.convenio
-                                    + this.state.otros 
-                                  ),                       
+                                    + this.state.otros
+                                  ),*/
 
-      total_matricula: Number(this.state.tarifa_plena
+      /*total_matricula: Number(this.state.tarifa_plena
                             + this.state.tarifa_reducida_7_5
                             + this.state.tarifa_reducida_15
-                            + this.state.bibliobanco ),
+                            + this.state.bibliobanco ),*/
 
-      total_dtos_matr: Number(this.state.descuento_exalumno
+      /*total_dtos_matr: Number(this.state.descuento_exalumno
                             + this.state.descuento_2do_hno
                             + this.state.descuento_3er_hno
                             + this.state.descuento_4to_hno
                             + this.state.empleado
                             + this.state.santa_barbara
                             + this.state.convenio
-                            + this.state.otros),
-                            
-      // Sumamos el total de servicios seleccionados
-      total_servicios: Number(this.state.seguro_accidentes + 
+                            + this.state.otros),*/
+
+      total_servicios: Number(this.state.seguro_accidentes +
                               this.state.anuario_impreso +
                               this.state.asopadres +
                               this.state.club )
-    });               
+    });
 
-    console.log("===> Total for discounts: " + this.state.total_descuentos );
-    console.log("===> Total matricula: " + this.state.total_matricula );
-    console.log("===> Total dtos: " + this.state.total_dtos_matr );
-    console.log("===> Total for services: " + this.state.total_servicios );
-    console.log("===> Total only discounts: " + this.state.total_solo_descuentos );
+    //console.log("===> Total for discounts: " + this.state.total_conceptos_matricula_descuentos );
+    //console.log("===> Total matricula: " + this.state.total_matricula );
+    //console.log("===> Total dtos: " + this.state.total_dtos_matr );
+    //console.log("===> Total for services: " + this.state.total_servicios );
+    //console.log("===> Total only discounts: " + this.state.total_solo_descuentos );
     // Calling the method for totalize
     this.handleGetTotalToPay("fromSearch");
   }
@@ -259,65 +311,63 @@ class Services extends Component {
       this.setState({
         student_code: String(e.target.value)
       }, () => {
-        console.log("=> code: " + this.state.student_code)
+        //console.log("=> code: " + this.state.student_code)
       });
     }
   }
 
   handleOnChangeServices(e){
-     
     if(e.target.id === 'seguro-accidentes'){
         console.log("Seguro: " + e.target.value); 
         this.setState({
             seguro_seleccionado: Number(e.target.value)
         }, () => {
-            console.log("Seguro updated: " + this.state.seguro_seleccionado);
+            //console.log("Seguro updated: " + this.state.seguro_seleccionado);
             this.handleGetTotalToPay("fromSelection");
-        })     
+        })
      }
-     
+
      if(e.target.id === 'anuario'){
-        console.log("Anuario: " + e.target.value); 
+        console.log("Anuario: " + e.target.value);
         this.setState({
             anuario_seleccionado: Number(e.target.value)
         }, () => {
-            console.log("Anuario updated: " + this.state.anuario_seleccionado);
+            //console.log("Anuario updated: " + this.state.anuario_seleccionado);
             this.handleGetTotalToPay("fromSelection");
         })
      }
-     
+
      if(e.target.id === 'asopadres'){
-        console.log("Asopadres: " + e.target.value); 
+        console.log("Asopadres: " + e.target.value);
         this.setState({
             asopadres_seleccionado: Number(e.target.value)
         }, () => {
-          console.log("Asopadres updated: " + this.state.asopadres_seleccionado);
-          this.handleGetTotalToPay("fromSelection");
+            //console.log("Asopadres updated: " + this.state.asopadres_seleccionado);
+            this.handleGetTotalToPay("fromSelection");
         })
      }
-     
+
      if(e.target.id === 'afiliacion-club'){
         console.log("Club: " + e.target.value);
         this.setState({
             club_seleccionado: Number(e.target.value)
         }, () => {
-          console.log("Club: " + this.state.club_seleccionado);
-          this.handleGetTotalToPay("fromSelection");
+            //console.log("Club: " + this.state.club_seleccionado);
+            this.handleGetTotalToPay("fromSelection");
         })
      }
-
   }
-  
+
   handleGetTotalToPay(action){
       switch(action) {
         case "fromSearch":
             this.setState({
-              total_pagar : Number(this.state.total_descuentos + this.state.total_servicios)
+              total_pagar : Number(this.state.total_conceptos_matricula_descuentos + this.state.total_servicios)
             })
             break;
         case "fromSelection":
             this.setState({
-              total_pagar : Number( this.state.total_descuentos 
+              total_pagar : Number( this.state.total_conceptos_matricula_descuentos
                                   + this.state.seguro_seleccionado
                                   + this.state.anuario_seleccionado
                                   + this.state.asopadres_seleccionado
@@ -326,65 +376,53 @@ class Services extends Component {
             break;
         case "fromStart":
             this.setState({
-              total_pagar : Number( this.state.total_descuentos 
+              total_pagar : Number( this.state.total_conceptos_matricula_descuentos
                                   + this.state.seguro_seleccionado
                                   + this.state.anuario_seleccionado
                                   + this.state.asopadres_seleccionado
                                   + this.state.club_seleccionado )
             })
             break;
-        
+
         default:
             console.log("Default action coming: " + action);
       }
   }
 
   toggleModal = () => {
-      
       this.setState({
         isOpen: !this.state.isOpen,
       });
-           
   }
 
   toggleModalNoResults = () => {
-      
     this.setState({
       isOpen: !this.state.isOpen,
       message: 'No se encontraron resultados para el código ingresado. Verifique el código del estudiante e intente nuevamente.'
     });
-         
   }
 
   toggleModalWrongCode = () => {
-      
     this.setState({
       isOpen: !this.state.isOpen,
       message: 'El código del estudiante debe tener una extensión de 5 dígitos. Por favor verifiquelo e intente nuevamente.'
     });
-         
   }
 
   toggleModalLoader = () => {
-      
     this.setState({
       isOpenLoader: !this.state.isOpenLoader
     });
-         
   }
 
-  loaderStatusChange = () =>{
-
+  loaderStatusChange = () => {
     setTimeout(()=> this.setState({isOpenLoader: false}), 0)
-
   }
 
   toggleSelectorsActivation = () =>{
-
     this.setState({
       isDisableSelect: false
     });
-
   }
 
   nextPath = () => {
@@ -412,15 +450,14 @@ class Services extends Component {
       isShowingResume: ''
     });
 
-    this.props.history.push('/resume', services);
-    this.handleSaveServices();
+    this.props.history.push('/enrolment_montly_services', services);
+    //this.handleSaveServices();
   }
 
   handleSaveServices(){
     var servicesSelected                 = {};
     var data                             = {};
 
-    // Data Object
     data.codigo                          = this.state.codigo;
     data.bibliobanco                     = this.state.bibliobanco;
     data.matricula                       = this.state.tarifa_plena;
@@ -447,28 +484,23 @@ class Services extends Component {
     };
 
     axios.post('https://parseapi.back4app.com/classes/EventsLog', servicesSelected, axiosConfig)
-         .then(res => {   
-             console.log(res);      
+         .then(res => {
+             console.log(res);
          })
          .catch(error => {
             console.log(error);
          });
-
   }
-  
-  /////////////////////////////////
-  //////// Rendering UI ///////////
-  /////////////////////////////////
 
   render() {
     return (
       <div className="bg-light">
-        <Header />
+        {/*<Header />*/}
 
-        <main role="main"  className="container">
+        <main role="main"  className="container" id="customStyle">
           <div className="shadow-sm p-3 mb-5 bg-white rounded">
             <div className="starter-template">
-              
+
               <p id="help-text" className="lead">Ingrese el código del estudiante</p>
 
               <div className="row">
@@ -478,162 +510,59 @@ class Services extends Component {
                         <input
                           id="student_code_input"
                           onChange={ this.handleOnChange }
-                          type="text" 
-                          className="form-control" 
-                          placeholder=""
-                          aria-label="Recipient's username" 
+                          type="text"
+                          className="form-control"
+                          placeholder="Código estudiante o Token"
+                          aria-label="Recipient's username"
                           aria-describedby="basic-addon2"
                           maxLength="5">
                         </input>
                         <div className="input-group-append">
-                          <button 
+                          <button
                             className="btn btn-primary"
                             id="Popover1"
                             onClick={this.handleClickSearchStudent}
-                            type="button">Buscar</button> 
+                            type="button"> Buscar </button>
                         </div>
                     </div>
                   </div>
                   <div className="col-sm"></div>
               </div>
-              
             </div>
 
             <hr />
 
-            <div className="row">
-                  <div className="col-md-12">
-                      <h4 className="d-flex justify-content-between mb-3" >Información del estudiante</h4>
-                      <div className="row">
-                        <div className="col-md-6 mb-3">
-                        <label htmlFor="firstName">Código</label>
-                        <input type="text" className="form-control" id="firstName" placeholder="" value={this.state.codigo} required="" readOnly="readonly"></input>
-                      </div>
-                      <div className="col-md-6 mb-3">
-                        <label htmlFor="firstName">Grado</label>
-                        <input type="text" className="form-control" id="firstName" placeholder="" value={this.state.grado} required="" readOnly="readonly"></input>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6 mb-3">
-                        <label htmlFor="firstName">Nombres</label>
-                        <input type="text" className="form-control" id="firstName" placeholder="" value={this.state.nombres} required="" readOnly="readonly"></input>
-                      </div>
-                      <div className="col-md-6 mb-3">
-                        <label htmlFor="lastName">Apellidos</label>
-                        <input type="text" className="form-control" id="lastName" placeholder="" value={this.state.apellidos} required="" readOnly="readonly"></input>
-                      </div>
-                    </div>
-
-                  </div>
-                  
-            </div>
+            <Demographic />
 
             <hr />
 
-            <div className="shadow-sm p-3 mb-5 bg-white rounded">
+            <div className="p-3 mb-5 bg-white rounded">
               <div className="row">
 
                 <div className="col-md-8">
-                  <table className="table table-hover">
-                    <thead>
-                      <tr className="table-success">
-                        <th scope="col">Conceptos</th>
-                        <th scope="col"></th>
-                        <th scope="col">Valor</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Derecho de matrícula plena</td>
-                        <td></td>
-                        <td><NumberFormat value={this.state.tarifa_plena} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>Bibliobanco</td>
-                        <td></td>
-                        <td><NumberFormat value={this.state.bibliobanco} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>Derecho de matrícula -7.5% por pago de anualidades futuras</td>
-                        <td></td>
-                        <td><NumberFormat value={this.state.tarifa_reducida_7_5} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>Derecho de matrícula -15% por pago de anualidades futuras</td>
-                        <td></td>
-                        <td><NumberFormat value={this.state.tarifa_reducida_15} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr className="table-secondary">
-                        <td colSpan="2"><b>Descuentos</b></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <td>&emsp;&emsp;Hijo de ex-alumno</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.descuento_exalumno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>&emsp;&emsp;Ex alumno Santa Barbara Preschool</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.santa_barbara} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>&emsp;&emsp;Ex alumno Jardín Convenio</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.convenio} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>&emsp;&emsp;2do Hijo</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.descuento_2do_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>&emsp;&emsp;3er Hijo</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.descuento_3er_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>&emsp;&emsp;4to Hijo</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.descuento_4to_hno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>&emsp;&emsp;Empleado</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.empleado} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                      <tr>
-                        <td>&emsp;&emsp;Otros</td>
-                        <td></td>
-                        <td> - <NumberFormat value={this.state.otros} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                      </tr>
-                    </tbody>
-                  </table>
-
+                  <ServiceTbale />
                 </div>
 
                 <div className="col-md-4">
                   <div className="card">
-                      <div className="card-header bg-primary" >
-                        <h6 id="card_title_color" className="mb-0 text-center">Total Matrícula + Bibliobanco</h6>
+                      <div className="card-header bg-primary" style={{ padding: '.95rem 1.25rem' }}>
+                        <h6 id="card_title_color" className="mb-0 text-center">Servicios adicionales</h6>
                       </div>
 
-                      <ul className="list-group list-group-flush">
+                      {/*<ul className="list-group list-group-flush">
                         <li className="list-group-item" id="line_color">
                             <div>
                                 <h5 className="mb-0 text-center">
                                     <NumberFormat value={this.state.total_descuentos} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                 </h5>
                             </div>
-                            
                         </li>
                         <li className="list-group-item"><br /></li>
                         <li className="list-group-item bg-primary">
                             <h6 id="card_title_color" className="mb-0 text-center">Servicios adicionales</h6>
                         </li>
-                      </ul>
-                      
+                      </ul>*/}
+
                       <div className="card-body">
                           <p className="" >Seleccione los servicios que desea adicionar:</p>
                           {/*Select Seguro Accidentes*/}
@@ -690,7 +619,7 @@ class Services extends Component {
                                 </select>
                               </div>
                           </div>
-                    
+
                       </div>
 
                       <div className="card-footer bg-success text-white">
@@ -710,7 +639,7 @@ class Services extends Component {
                         </div>
                         <div className="row">
                           <div className="col-12">
-                            
+
                             {/*Modal for no results from cloud data*/}
                             <ModalUI title="Important message" 
                                       show={this.state.isOpen} 
@@ -724,37 +653,37 @@ class Services extends Component {
                                       onClose={this.toggleModalWrongCode} 
                                       msn={this.state.message}>
                             </ModalUI2>
-                            
+
                             {/*Modal for Loading...*/}
                             <LoadingModal title="Cargando datos. Espere ..." 
                                           show={this.state.isOpenLoader} 
                                           onClose={this.toggleModalLoader} >
                             </LoadingModal>
-                          
+
                           </div>
                         </div>
                       </div>
-                      
-                  </div>  
+
+                  </div>
                   <br/ >
                   <div className="row">
                     <div className="col-12">
-                      <button type="button" 
+                      <button type="button"
                               className="btn btn-primary btn-lg btn-block"
                               onClick={() => this.nextPath()}
-                              disabled={this.state.isDisableSelect}>Imprimir y pagar</button>
+                              disabled={this.state.isDisableSelect}>Siguiente</button>
                     </div>
                   </div>
 
                 </div>
               </div>
-            </div>          
+            </div>
           </div>
 
-        </main>  
+        </main>
 
-        <Footer copyright="&copy;Colegio Rochester 2018" />
-        
+        <Footer copyright="&copy; Colegio Rochester " />
+
       </div>
     );
   }

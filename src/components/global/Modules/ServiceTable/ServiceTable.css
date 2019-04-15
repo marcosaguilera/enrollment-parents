@@ -1,0 +1,13 @@
+.customTotalValue{
+    font-size: 1.25rem !important;
+    font-weight: 700;
+}
+
+.tableHeader{
+    background-color: #007bff!important;
+    color: white;
+}
+
+.indentLeftText{
+    padding-left: 1.95rem !important;
+}

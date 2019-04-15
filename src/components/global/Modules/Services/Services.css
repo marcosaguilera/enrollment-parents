@@ -1,11 +1,11 @@
 .Content {
     text-align: left;
   }
-  
+
   #help-text{
     text-align: center;
   }
-  
+
   #card_title_color{
     color: #fff;
   }
@@ -14,14 +14,14 @@
     background-color: rgba(0,0,0,.03) !important;
     /*background-color: #d6d8db !important;*/
   }
-  
+
   .tg {
     border-collapse: collapse;
     border-spacing: 0;
     border-color: #ccc;
     width: 500px;
   }
-  
+
   .tg td {
     font-family: Arial, sans-serif;
     font-size: 14px;
@@ -34,7 +34,7 @@
     color: #333;
     background-color: #fff;
   }
-  
+
   .tg th {
     font-family: Arial, sans-serif;
     font-size: 14px;
@@ -48,23 +48,32 @@
     color: #333;
     background-color: #f0f0f0;
   }
-  
+
   .tg .tg-dx8v {
     font-size: 12px;
     vertical-align: top;
     text-align: left;
   }
-  
+
   .tableContainer {
     background-color: aliceblue;
     padding: 0 25%;
   }
-  
+
   .card{
     max-width: 345;
   }
-  
+
   .media{
     height: 0;
     padding-top: 56.25%;
+  }
+
+  #customStyle{
+    padding-top: 15px;
+  }
+
+  .onlyReadInput{
+    background-color: white !important;
+    border: none !important;
   }
