@@ -56,7 +56,7 @@ class ServicesMontly extends Component {
             })
         }
 
-        //Snack onChange Actions
+        //Lunch onChange Actions
         if(e.target.id === 'lunch_yes'){
             this.setState({ lunch: Number(e.target.value) }, () => {
                 console.log("Lunch updated: " + this.state.lunch)
@@ -71,7 +71,7 @@ class ServicesMontly extends Component {
         
         //Snack onChange Actions
         if(e.target.id === 'snack_yes'){
-            this.setState({ snack: Number(e.targe.value) }, () => {
+            this.setState({ snack: Number(e.target.value) }, () => {
                 console.log("Snack updated: " + this.state.snack)
             })
         }
@@ -84,7 +84,7 @@ class ServicesMontly extends Component {
 
         //Breakfast onChange Actions
         if(e.target.id === 'breakFast_yes'){
-            this.setState({ breakFast: Number(e.targe.value) }, () => {
+            this.setState({ breakFast: Number(e.target.value) }, () => {
                 console.log("Breakfast updated: " + this.state.breakFast)
             })
         }
@@ -97,7 +97,7 @@ class ServicesMontly extends Component {
 
         //LifeSecure onChange Actions
         if(e.target.id === 'lifeSecure_yes'){
-            this.setState({ lifeSecure: Number(e.targe.value) }, () => {
+            this.setState({ lifeSecure: Number(e.target.value) }, () => {
                 console.log("lifeSecure updated: " + this.state.lifeSecure)
             })
         }
@@ -110,7 +110,7 @@ class ServicesMontly extends Component {
 
         //jobSecure onChange Actions
         if(e.target.id === 'jobSecure_yes'){
-            this.setState({ jobSecure: Number(e.targe.value) }, () => {
+            this.setState({ jobSecure: Number(e.target.value) }, () => {
                 console.log("jobSecure updated: " + this.state.jobSecure)
             })
         }
@@ -184,11 +184,11 @@ class ServicesMontly extends Component {
                             <td>Medias Nueves</td>
                             <td className="choiceCustomClass">
                                 <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="snackRadioOptions" id="snack_yes" value="111000" defaultChecked /> 
+                                    <input className="form-check-input" type="radio" name="snackRadioOptions" id="snack_yes" value="111000" defaultChecked  onChange={this.handleOnChange}/> 
                                     <label className="form-check-label" htmlFor="snack_yes">Si</label>
                                 </div>
                                 <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="snackRadioOptions" id="snack_no" value="0" />
+                                    <input className="form-check-input" type="radio" name="snackRadioOptions" id="snack_no" value="0" onChange={this.handleOnChange} />
                                     <label className="form-check-label" htmlFor="snack_no">No</label>
                                 </div>
                             </td>
@@ -200,11 +200,11 @@ class ServicesMontly extends Component {
                             <td>Desayuno</td>
                             <td className="choiceCustomClass">
                                 <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="breakFastRadioOptions" id="breakFast_yes" value="450000" defaultChecked /> 
+                                    <input className="form-check-input" type="radio" name="breakFastRadioOptions" id="breakFast_yes" value="450000" defaultChecked  onChange={this.handleOnChange}/> 
                                     <label className="form-check-label" htmlFor="breakFast_yes">Si</label>
                                 </div>
                                 <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="breakFastRadioOptions" id="breakFast_no" value="0" />
+                                    <input className="form-check-input" type="radio" name="breakFastRadioOptions" id="breakFast_no" value="0" onChange={this.handleOnChange} />
                                     <label className="form-check-label" htmlFor="breakFast_no">No</label>
                                 </div>
                             </td>
@@ -216,11 +216,11 @@ class ServicesMontly extends Component {
                             <td>Seguro de vida</td>
                             <td className="choiceCustomClass">
                                 <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="lifeSecureRadioOptions" id="lifeSecure_yes" value="65000" defaultChecked /> 
+                                    <input className="form-check-input" type="radio" name="lifeSecureRadioOptions" id="lifeSecure_yes" value="65000" defaultChecked  onChange={this.handleOnChange}/> 
                                     <label className="form-check-label" htmlFor="lifeSecure_yes">Si</label>
                                 </div>
                                 <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="lifeSecureRadioOptions" id="lifeSecure_no" value="0" />
+                                    <input className="form-check-input" type="radio" name="lifeSecureRadioOptions" id="lifeSecure_no" value="0" onChange={this.handleOnChange} />
                                     <label className="form-check-label" htmlFor="lifeSecure_no">No</label>
                                 </div>
                             </td>
@@ -232,11 +232,11 @@ class ServicesMontly extends Component {
                             <td>Seguro de desempleo</td>
                             <td className="choiceCustomClass">
                                 <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="jobSecureRadioOptions" id="jobSecure_yes" value="89000" defaultChecked /> 
+                                    <input className="form-check-input" type="radio" name="jobSecureRadioOptions" id="jobSecure_yes" value="89000" defaultChecked  onChange={this.handleOnChange}/> 
                                     <label className="form-check-label" htmlFor="jobSecure_yes">Si</label>
                                 </div>
                                 <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="jobSecureRadioOptions" id="jobSecure_no" value="0" />
+                                    <input className="form-check-input" type="radio" name="jobSecureRadioOptions" id="jobSecure_no" value="0" onChange={this.handleOnChange} />
                                     <label className="form-check-label" htmlFor="jobSecure_no">No</label>
                                 </div>
                             </td>
