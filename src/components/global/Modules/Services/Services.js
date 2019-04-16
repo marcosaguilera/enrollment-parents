@@ -192,7 +192,7 @@ class Services extends Component {
 
            if(isAuth){
              //to-do something
-             axios.get('https://rcis-backend.herokuapp.com/student/getservicesbystudentcode/' + this.state.student_code)
+             axios.get('https://rcis-backend.herokuapp.com/student/yearlyservices/' + this.state.student_code)
                   .then(res => {
 
                     let item = res.data[0];

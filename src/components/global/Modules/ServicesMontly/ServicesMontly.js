@@ -23,18 +23,101 @@ class ServicesMontly extends Component {
         this.handleOnChange = this.handleOnChange.bind(this)
 
         this.state = {
-            transporte_seleccionado : 0
+            transport : 0,
+            lunch                   : 0,
+            snack                   : 0,
+            breakFast               : 0,
+            lifeSecure              : 0,
+            jobSecure               : 0,
+
+            //Discounts
+            discountTransport       : 0,
+            discountLunch           : 0,
+            discountSnack           : 0,
+            discountBreakfast       : 0,
+            discountLifeSecure      : 0,
+            discountJobSecure       : 0,
+
+            //Total
+            totalMontlyServices     : 0,
+            totalTransport          : 0,
+            totalLunch              : 0,
+            totalSnack              : 0,
+            totalBreakfast          : 0,
+            totalLifeSecure         : 0,
+            totalJobSecure          : 0
         };
     }
 
     handleOnChange(e){
         if(e.target.id === 'transportSelector'){
-            //console.log("Transporte: " + e.target.value);
-            this.setState({
-                transporte_seleccionado: e.target.value
-            }, () => {
-                console.log("Transporte updated: " + this.state.transporte_seleccionado);
-                //this.handleGetTotalToPay("fromSelection");
+            this.setState({ transport: Number(e.target.value) }, () => {
+                console.log("Transporte updated: " + this.state.transport);
+            })
+        }
+
+        //Snack onChange Actions
+        if(e.target.id === 'lunch_yes'){
+            this.setState({ lunch: Number(e.target.value) }, () => {
+                console.log("Lunch updated: " + this.state.lunch)
+            })
+        }
+        
+        if(e.target.id === 'lunch_no'){
+            this.setState({ lunch: 0 }, () => {
+                console.log("Lunch updated: " + this.state.lunch)
+            })
+        }
+        
+        //Snack onChange Actions
+        if(e.target.id === 'snack_yes'){
+            this.setState({ snack: Number(e.targe.value) }, () => {
+                console.log("Snack updated: " + this.state.snack)
+            })
+        }
+
+        if(e.target.id === 'snack_no'){
+            this.setState({ snack: 0 }, () => {
+                console.log("Snack updated: " + this.state.snack)
+            })
+        }
+
+        //Breakfast onChange Actions
+        if(e.target.id === 'breakFast_yes'){
+            this.setState({ breakFast: Number(e.targe.value) }, () => {
+                console.log("Breakfast updated: " + this.state.breakFast)
+            })
+        }
+
+        if(e.target.id === 'breakFast_no'){
+            this.setState({ breakFast: 0 }, () => {
+                console.log("Breakfast updated: " + this.state.breakFast)
+            })
+        }
+
+        //LifeSecure onChange Actions
+        if(e.target.id === 'lifeSecure_yes'){
+            this.setState({ lifeSecure: Number(e.targe.value) }, () => {
+                console.log("lifeSecure updated: " + this.state.lifeSecure)
+            })
+        }
+
+        if(e.target.id === 'lifeSecure_no'){
+            this.setState({ lifeSecure: 0 }, () => {
+                console.log("lifeSecure updated: " + this.state.lifeSecure)
+            })
+        }
+
+        //jobSecure onChange Actions
+        if(e.target.id === 'jobSecure_yes'){
+            this.setState({ jobSecure: Number(e.targe.value) }, () => {
+                console.log("jobSecure updated: " + this.state.jobSecure)
+            })
+        }
+
+        if(e.target.id === 'jobSecure_no'){
+            this.setState({ jobSecure: 0 }, () => {
+                console.log("jobSecure updated: " + this.state.jobSecure)
             })
         }
     }
@@ -85,11 +168,11 @@ class ServicesMontly extends Component {
                             <td>Almuerzo</td>
                             <td className="choiceCustomClass">
                                 <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="lunchRadioOptions" id="lunch_yes" value="442000" defaultChecked /> 
+                                    <input className="form-check-input" type="radio" name="lunchRadioOptions" id="lunch_yes" value="442000" defaultChecked onChange={this.handleOnChange} /> 
                                     <label className="form-check-label" htmlFor="lunch_yes">Si</label>
                                 </div>
                                 <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="lunchRadioOptions" id="lunch_no" value="0" />
+                                    <input className="form-check-input" type="radio" name="lunchRadioOptions" id="lunch_no" value="0" onChange={this.handleOnChange} />
                                     <label className="form-check-label" htmlFor="lunch_no">No</label>
                                 </div>
                             </td>
