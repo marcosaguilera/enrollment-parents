@@ -29,6 +29,10 @@ class Demographic extends Component {
         })
     }
 
+    componentDidMount(){
+      
+    }
+
     componentWillReceiveProps(){
         //console.log("hello")
     }

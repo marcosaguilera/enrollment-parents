@@ -118,7 +118,7 @@ class Services extends Component {
         serial_number: 0, student_id: ''
 
     }
-  }
+  } 
 
   componentDidMount(){
       this.setState({
@@ -427,7 +427,8 @@ class Services extends Component {
 
   nextPath = () => {
     var services              = {};
-    services.seguro           = this.state.seguro_seleccionado;
+    services.student_code     = this.state.codigo;
+    /*services.seguro           = this.state.seguro_seleccionado;
     services.anuario          = this.state.anuario_seleccionado;
     services.asopadres        = this.state.asopadres_seleccionado;
     services.bibliobanco      = this.state.bibliobanco;
@@ -444,7 +445,7 @@ class Services extends Component {
     services.nombres          = this.state.nombres;
     services.apellidos        = this.state.apellidos;
     services.grado            = this.state.grado;
-    services.uid              = this.state.objectId;
+    services.uid              = this.state.objectId;*/
 
     this.setState({
       isShowingResume: ''
@@ -452,6 +453,7 @@ class Services extends Component {
 
     this.props.history.push('/enrolment_montly_services', services);
     //this.handleSaveServices();
+    //browserHistory.push("/enrolment_montly_services");
   }
 
   handleSaveServices(){
