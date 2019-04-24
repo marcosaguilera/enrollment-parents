@@ -120,7 +120,6 @@ class ServicesMontly extends Component {
     handleOnChange(e){
         if(e.target.id === 'transportSelector'){
             this.setState({ transport: Number(e.target.value) }, () => {
-                console.log("Transporte updated: " + this.state.transport);
                 this.setTotals()
             })
         }
@@ -128,14 +127,12 @@ class ServicesMontly extends Component {
         //Lunch onChange Actions
         if(e.target.id === 'lunch_yes'){
             this.setState({ lunch: Number(e.target.value) }, () => {
-                console.log("Lunch updated: " + this.state.lunch)
                 this.setTotals()
             })
         }
         
         if(e.target.id === 'lunch_no'){
             this.setState({ lunch: 0 }, () => {
-                console.log("Lunch updated: " + this.state.lunch)
                 this.setTotals()
             })
         }
@@ -143,14 +140,12 @@ class ServicesMontly extends Component {
         //Snack onChange Actions
         if(e.target.id === 'snack_yes'){
             this.setState({ snack: Number(e.target.value) }, () => {
-                console.log("Snack updated: " + this.state.snack)
                 this.setTotals()
             })
         }
 
         if(e.target.id === 'snack_no'){
             this.setState({ snack: 0 }, () => {
-                console.log("Snack updated: " + this.state.snack)
                 this.setTotals()
             })
         }
@@ -158,14 +153,12 @@ class ServicesMontly extends Component {
         //Breakfast onChange Actions
         if(e.target.id === 'breakFast_yes'){
             this.setState({ breakFast: Number(e.target.value) }, () => {
-                console.log("Breakfast updated: " + this.state.breakFast)
                 this.setTotals()
             })
         }
 
         if(e.target.id === 'breakFast_no'){
             this.setState({ breakFast: 0 }, () => {
-                console.log("Breakfast updated: " + this.state.breakFast)
                 this.setTotals()
             })
         }
@@ -173,14 +166,12 @@ class ServicesMontly extends Component {
         //LifeSecure onChange Actions
         if(e.target.id === 'lifeSecure_yes'){
             this.setState({ lifeSecure: Number(e.target.value) }, () => {
-                console.log("lifeSecure updated: " + this.state.lifeSecure)
                 this.setTotals()
             })
         }
 
         if(e.target.id === 'lifeSecure_no'){
             this.setState({ lifeSecure: 0 }, () => {
-                console.log("lifeSecure updated: " + this.state.lifeSecure)
                 this.setTotals()
             })
         }
@@ -188,14 +179,12 @@ class ServicesMontly extends Component {
         //jobSecure onChange Actions
         if(e.target.id === 'jobSecure_yes'){
             this.setState({ jobSecure: Number(e.target.value) }, () => {
-                console.log("jobSecure updated: " + this.state.jobSecure)
                 this.setTotals()
             })
         }
 
         if(e.target.id === 'jobSecure_no'){
             this.setState({ jobSecure: 0 }, () => {
-                console.log("jobSecure updated: " + this.state.jobSecure)
                 this.setTotals()
             })
         }
