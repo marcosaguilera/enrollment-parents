@@ -20,9 +20,9 @@ class ServicesMontly extends Component {
 
     constructor() {
         super();
-        this.handleOnChange = this.handleOnChange.bind(this)
-        this.setTotals      = this.setTotals.bind(this)
-        this.setMontlyTotal = this.setMontlyTotal.bind(this)
+        this.handleOnChange      = this.handleOnChange.bind(this)
+        this.setTotals           = this.setTotals.bind(this)
+        this.setMontlyTotal      = this.setMontlyTotal.bind(this)
 
         this.state = {
             demo_data               : [],
@@ -79,7 +79,7 @@ class ServicesMontly extends Component {
                 discountSnack       : montly_data.alimentos_m9_descuento,
                 discountBreakfast   : montly_data.alimentos_desayuno_descuento,
                 discountLifeSecure  : montly_data.seguro_vida_descuento,
-                discountJobSecure   : montly_data.seguro_desempleo_descuento
+                discountJobSecure   : montly_data.seguro_desempleo_descuento,
             }, () => {
                 this.setTotals()
             })
@@ -88,7 +88,7 @@ class ServicesMontly extends Component {
 
     setTotals = () => {
         console.log("-> Pensión: " + this.state.lodgings  )
-        console.log("-> Transporte: " + this.state.transport )
+        console.log("-> Transporte: " + this.state.transport)
         console.log("-> Almuerzo: " + this.state.lunch     )
         console.log("-> M9: " + this.state.snack     )
         console.log("-> Desayuno: " + this.state.breakFast )
@@ -107,13 +107,13 @@ class ServicesMontly extends Component {
 
     setMontlyTotal = () =>{
         this.setState({
-            totalMontlyServices :   this.state.totalLodgings +           
-                                    this.state.totalTransport +          
-                                    this.state.totalLunch +              
-                                    this.state.totalSnack +              
-                                    this.state.totalBreakfast +          
-                                    this.state.totalLifeSecure +         
-                                    this.state.totalJobSecure         
+            totalMontlyServices :   this.state.totalLodgings +
+                                    this.state.totalTransport +
+                                    this.state.totalLunch +
+                                    this.state.totalSnack +
+                                    this.state.totalBreakfast +
+                                    this.state.totalLifeSecure +
+                                    this.state.totalJobSecure
         })
     }
 
@@ -130,13 +130,13 @@ class ServicesMontly extends Component {
                 this.setTotals()
             })
         }
-        
+
         if(e.target.id === 'lunch_no'){
             this.setState({ lunch: 0 }, () => {
                 this.setTotals()
             })
         }
-        
+
         //Snack onChange Actions
         if(e.target.id === 'snack_yes'){
             this.setState({ snack: Number(e.target.value) }, () => {
@@ -222,15 +222,19 @@ class ServicesMontly extends Component {
                         <tr>
                             <td>Transporte</td>
                             <td className="choiceCustomClass">
-                                <select className="form-control" id="transportSelector"  style={{ width: '100%', display: 'inherit' }} onChange={this.handleOnChange}>
-                                    <option value="409000" >Completo Cercano</option>
-                                    <option value="462000" >Completo Intermedio</option>
-                                    <option value="536000" >Completo Lejano</option>
-                                    <option value="259000" >Medio Cercano</option>
-                                    <option value="276000" >Medio Intermedio</option>
-                                    <option value="332000" >Medio Lejano</option>
-                                    <option value="0" >Sin servicio</option>
-                                    {/* Cuando un padre seleccione un transporte seleccionará si desea tomar modalidad extracurricular */}
+                                <select className="form-control"
+                                    id="transportSelector"
+                                    style={{ width: '100%', display: 'inherit' }}
+                                    onChange={this.handleOnChange}
+                                    value={this.state.transport}>
+                                        <option value="409000">Completo Cercano</option>
+                                        <option value="462000">Completo Intermedio</option>
+                                        <option value="536000">Completo Lejano</option>
+                                        <option value="259000">Medio Cercano</option>
+                                        <option value="276000">Medio Intermedio</option>
+                                        <option value="332000">Medio Lejano</option>
+                                        <option value="0" >Sin servicio</option>
+                                        {/* Cuando un padre seleccione un transporte seleccionará si desea tomar modalidad extracurricular */}
                                 </select>
                             </td>
                             <td className="totalAlignment">
