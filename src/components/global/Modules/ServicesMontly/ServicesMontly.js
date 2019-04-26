@@ -14,7 +14,7 @@ import store from '../../../../ReduxStore/store'
 import '../../Modules/ServicesMontly/ServicesMontly.css';
 
 //Components declaration
-
+import Extracurricular from '../ExtracurricularServices/ExtracurricularServices'
 
 class ServicesMontly extends Component {
 
@@ -369,6 +369,8 @@ class ServicesMontly extends Component {
                     </tfoot>
                     </table>
                 </div>
+
+                <Extracurricular />
             </main>
          </div>
         );
