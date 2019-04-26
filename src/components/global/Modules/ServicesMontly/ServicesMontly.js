@@ -195,181 +195,183 @@ class ServicesMontly extends Component {
          <div>
             <main role="main"  className="container" id="customStyle">
                 <div className="shadow-sm p-3 mb-5 bg-white rounded">
-                    <table id="tablePreview" className="table table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Servicio</th>
-                            <th><center>Selección</center></th>
-                            <th className="totalAlignment">Valor</th>
-                            <th><center>Descuento</center></th>
-                            <th className="totalAlignment">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Pensión</td>
-                            <td className="choiceCustomClass"></td>
-                            <td className="totalAlignment">
-                                <NumberFormat value={this.state.lodgings} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                            <td className="discountAlignment">
-                                <NumberFormat value={this.state.discountLodgings} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                            <td className="totalAlignment">
-                                <NumberFormat value={this.state.totalLodgings} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Transporte</td>
-                            <td className="choiceCustomClass">
-                                <select className="form-control"
-                                    id="transportSelector"
-                                    style={{ width: '100%', display: 'inherit' }}
-                                    onChange={this.handleOnChange}
-                                    value={this.state.transport}>
-                                        <option value="409000">Completo Cercano</option>
-                                        <option value="462000">Completo Intermedio</option>
-                                        <option value="536000">Completo Lejano</option>
-                                        <option value="259000">Medio Cercano</option>
-                                        <option value="276000">Medio Intermedio</option>
-                                        <option value="332000">Medio Lejano</option>
-                                        <option value="0" >Sin servicio</option>
-                                        {/* Cuando un padre seleccione un transporte seleccionará si desea tomar modalidad extracurricular */}
-                                </select>
-                            </td>
-                            <td className="totalAlignment">
-                                <NumberFormat value={this.state.transport} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                            <td className="discountAlignment">
-                                <NumberFormat value={this.state.discountTransport} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                            <td className="totalAlignment">
-                                <NumberFormat value={this.state.totalTransport} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Almuerzo</td>
-                            <td className="choiceCustomClass">
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="lunchRadioOptions" id="lunch_yes" value="442000" defaultChecked onChange={this.handleOnChange} /> 
-                                    <label className="form-check-label" htmlFor="lunch_yes">Si</label>
-                                </div>
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="lunchRadioOptions" id="lunch_no" value="0" onChange={this.handleOnChange} />
-                                    <label className="form-check-label" htmlFor="lunch_no">No</label>
-                                </div>
-                            </td>
-                            <td className="totalAlignment">
-                                <NumberFormat value={this.state.lunch} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                            <td className="discountAlignment">
-                                <NumberFormat value={this.state.discountLunch} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                            <td className="totalAlignment">
-                                <NumberFormat value={this.state.totalLunch} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Medias Nueves</td>
-                            <td className="choiceCustomClass">
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="snackRadioOptions" id="snack_yes" value="111000" defaultChecked  onChange={this.handleOnChange}/> 
-                                    <label className="form-check-label" htmlFor="snack_yes">Si</label>
-                                </div>
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="snackRadioOptions" id="snack_no" value="0" onChange={this.handleOnChange} />
-                                    <label className="form-check-label" htmlFor="snack_no">No</label>
-                                </div>
-                            </td>
-                            <td className="totalAlignment">
-                                <NumberFormat value={this.state.snack} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                            <td className="discountAlignment">
-                                <NumberFormat value={this.state.discountSnack} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                            <td className="totalAlignment">
-                                <NumberFormat value={this.state.totalSnack} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Desayuno</td>
-                            <td className="choiceCustomClass">
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="breakFastRadioOptions" id="breakFast_yes" value="450000" defaultChecked  onChange={this.handleOnChange}/> 
-                                    <label className="form-check-label" htmlFor="breakFast_yes">Si</label>
-                                </div>
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="breakFastRadioOptions" id="breakFast_no" value="0" onChange={this.handleOnChange} />
-                                    <label className="form-check-label" htmlFor="breakFast_no">No</label>
-                                </div>
-                            </td>
-                            <td className="totalAlignment">
-                                <NumberFormat value={this.state.breakFast} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                            <td className="discountAlignment">
-                                <NumberFormat value={this.state.discountBreakfast} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                            <td className="totalAlignment">
-                                <NumberFormat value={this.state.totalBreakfast} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Seguro de vida</td>
-                            <td className="choiceCustomClass">
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="lifeSecureRadioOptions" id="lifeSecure_yes" value="65000" defaultChecked  onChange={this.handleOnChange}/> 
-                                    <label className="form-check-label" htmlFor="lifeSecure_yes">Si</label>
-                                </div>
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="lifeSecureRadioOptions" id="lifeSecure_no" value="0" onChange={this.handleOnChange} />
-                                    <label className="form-check-label" htmlFor="lifeSecure_no">No</label>
-                                </div>
-                            </td>
-                            <td className="totalAlignment">
-                                <NumberFormat value={this.state.lifeSecure} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                            <td className="discountAlignment">
-                                <NumberFormat value={this.state.discountLifeSecure} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                            <td className="totalAlignment">
-                                <NumberFormat value={this.state.totalLifeSecure} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Seguro de desempleo</td>
-                            <td className="choiceCustomClass">
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="jobSecureRadioOptions" id="jobSecure_yes" value="89000" defaultChecked  onChange={this.handleOnChange}/> 
-                                    <label className="form-check-label" htmlFor="jobSecure_yes">Si</label>
-                                </div>
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="jobSecureRadioOptions" id="jobSecure_no" value="0" onChange={this.handleOnChange} />
-                                    <label className="form-check-label" htmlFor="jobSecure_no">No</label>
-                                </div>
-                            </td>
-                            <td className="totalAlignment">
-                                <NumberFormat value={this.state.jobSecure} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                            <td className="discountAlignment">
-                                <NumberFormat value={this.state.discountJobSecure} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                            <td className="totalAlignment">
-                                <NumberFormat value={this.state.totalJobSecure} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr style={{ backgroundColor: 'rgba(0,0,0,.03)' }}>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><h5 className="totalAlignment"><NumberFormat value={this.state.totalMontlyServices} displayType={'text'} thousandSeparator={true} prefix={'$'} /></h5></td>
-                        </tr>
-                    </tfoot>
-                    </table>
+                    <div className="table-responsive">
+                        <table id="tablePreview" className="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Servicio</th>
+                                <th><center>Selección</center></th>
+                                <th className="totalAlignment">Valor</th>
+                                <th><center>Descuento</center></th>
+                                <th className="totalAlignment">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Pensión</td>
+                                <td className="choiceCustomClass"></td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.lodgings} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="discountAlignment">
+                                    <NumberFormat value={this.state.discountLodgings} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.totalLodgings} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Transporte</td>
+                                <td className="choiceCustomClass">
+                                    <select className="form-control"
+                                        id="transportSelector"
+                                        style={{ width: '100%', display: 'inherit' }}
+                                        onChange={this.handleOnChange}
+                                        value={this.state.transport}>
+                                            <option value="409000">Completo Cercano</option>
+                                            <option value="462000">Completo Intermedio</option>
+                                            <option value="536000">Completo Lejano</option>
+                                            <option value="259000">Medio Cercano</option>
+                                            <option value="276000">Medio Intermedio</option>
+                                            <option value="332000">Medio Lejano</option>
+                                            <option value="0" >Sin servicio</option>
+                                            {/* Cuando un padre seleccione un transporte seleccionará si desea tomar modalidad extracurricular */}
+                                    </select>
+                                </td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.transport} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="discountAlignment">
+                                    <NumberFormat value={this.state.discountTransport} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.totalTransport} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Almuerzo</td>
+                                <td className="choiceCustomClass">
+                                    <div className="form-check form-check-inline">
+                                        <input className="form-check-input" type="radio" name="lunchRadioOptions" id="lunch_yes" value="442000" defaultChecked onChange={this.handleOnChange} /> 
+                                        <label className="form-check-label" htmlFor="lunch_yes">Si</label>
+                                    </div>
+                                    <div className="form-check form-check-inline">
+                                        <input className="form-check-input" type="radio" name="lunchRadioOptions" id="lunch_no" value="0" onChange={this.handleOnChange} />
+                                        <label className="form-check-label" htmlFor="lunch_no">No</label>
+                                    </div>
+                                </td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.lunch} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="discountAlignment">
+                                    <NumberFormat value={this.state.discountLunch} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.totalLunch} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Medias Nueves</td>
+                                <td className="choiceCustomClass">
+                                    <div className="form-check form-check-inline">
+                                        <input className="form-check-input" type="radio" name="snackRadioOptions" id="snack_yes" value="111000" defaultChecked  onChange={this.handleOnChange}/> 
+                                        <label className="form-check-label" htmlFor="snack_yes">Si</label>
+                                    </div>
+                                    <div className="form-check form-check-inline">
+                                        <input className="form-check-input" type="radio" name="snackRadioOptions" id="snack_no" value="0" onChange={this.handleOnChange} />
+                                        <label className="form-check-label" htmlFor="snack_no">No</label>
+                                    </div>
+                                </td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.snack} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="discountAlignment">
+                                    <NumberFormat value={this.state.discountSnack} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.totalSnack} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Desayuno</td>
+                                <td className="choiceCustomClass">
+                                    <div className="form-check form-check-inline">
+                                        <input className="form-check-input" type="radio" name="breakFastRadioOptions" id="breakFast_yes" value="450000" defaultChecked  onChange={this.handleOnChange}/> 
+                                        <label className="form-check-label" htmlFor="breakFast_yes">Si</label>
+                                    </div>
+                                    <div className="form-check form-check-inline">
+                                        <input className="form-check-input" type="radio" name="breakFastRadioOptions" id="breakFast_no" value="0" onChange={this.handleOnChange} />
+                                        <label className="form-check-label" htmlFor="breakFast_no">No</label>
+                                    </div>
+                                </td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.breakFast} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="discountAlignment">
+                                    <NumberFormat value={this.state.discountBreakfast} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.totalBreakfast} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Seguro de vida</td>
+                                <td className="choiceCustomClass">
+                                    <div className="form-check form-check-inline">
+                                        <input className="form-check-input" type="radio" name="lifeSecureRadioOptions" id="lifeSecure_yes" value="65000" defaultChecked  onChange={this.handleOnChange}/> 
+                                        <label className="form-check-label" htmlFor="lifeSecure_yes">Si</label>
+                                    </div>
+                                    <div className="form-check form-check-inline">
+                                        <input className="form-check-input" type="radio" name="lifeSecureRadioOptions" id="lifeSecure_no" value="0" onChange={this.handleOnChange} />
+                                        <label className="form-check-label" htmlFor="lifeSecure_no">No</label>
+                                    </div>
+                                </td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.lifeSecure} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="discountAlignment">
+                                    <NumberFormat value={this.state.discountLifeSecure} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.totalLifeSecure} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Seguro de desempleo</td>
+                                <td className="choiceCustomClass">
+                                    <div className="form-check form-check-inline">
+                                        <input className="form-check-input" type="radio" name="jobSecureRadioOptions" id="jobSecure_yes" value="89000" defaultChecked  onChange={this.handleOnChange}/> 
+                                        <label className="form-check-label" htmlFor="jobSecure_yes">Si</label>
+                                    </div>
+                                    <div className="form-check form-check-inline">
+                                        <input className="form-check-input" type="radio" name="jobSecureRadioOptions" id="jobSecure_no" value="0" onChange={this.handleOnChange} />
+                                        <label className="form-check-label" htmlFor="jobSecure_no">No</label>
+                                    </div>
+                                </td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.jobSecure} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="discountAlignment">
+                                    <NumberFormat value={this.state.discountJobSecure} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.totalJobSecure} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr style={{ backgroundColor: 'rgba(0,0,0,.03)' }}>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><h5 className="totalAlignment"><NumberFormat value={this.state.totalMontlyServices} displayType={'text'} thousandSeparator={true} prefix={'$'} /></h5></td>
+                            </tr>
+                        </tfoot>
+                        </table>
+                    </div>
                 </div>
-
+                
                 <Extracurricular />
             </main>
          </div>
