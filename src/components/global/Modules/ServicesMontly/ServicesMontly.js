@@ -195,6 +195,7 @@ class ServicesMontly extends Component {
          <div>
             <main role="main"  className="container" id="customStyle">
                 <div className="shadow-sm p-3 mb-5 bg-white rounded">
+                    <h2 className="py-3">Selección de servicios mensuales</h2>
                     <div className="table-responsive">
                         <table id="tablePreview" className="table table-hover table-bordered">
                         <thead>
