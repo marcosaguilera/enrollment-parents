@@ -149,16 +149,22 @@ class Services extends Component {
         .then( res => {
 
           let demo_data = res.data[0];
+          let demo_data2 = res.data[0];
           //console.log("==> data: " + JSON.stringify(demo_data))
           let fake_text = 'rayos!!!!'
 
-          store.dispatch({
-            type: "SAVE_STUDENT_ESSENTIAL_DATA",
-            fake_text,
-            demo_data
-          }, () => {
-            //this.getEnrolmentAuth(this.state.openApplyId)
-          })
+          store.dispatch(
+            {
+              type: "SAVE_STUDENT_ESSENTIAL_DATA",
+              fake_text,
+              demo_data
+            },
+            {
+              type: "EXTRA_EXAMPLE",
+              demo_data2
+            },
+
+          )
 
           this.setState({
               openApplyId       : demo_data.id,

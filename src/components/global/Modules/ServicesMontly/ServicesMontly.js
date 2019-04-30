@@ -190,6 +190,10 @@ class ServicesMontly extends Component {
         }
     }
 
+    nextPath = () => {
+        this.props.history.push('/enrolment_eco_services');
+    }
+
     render() {
         return (
          <div>
@@ -359,8 +363,6 @@ class ServicesMontly extends Component {
                                     <NumberFormat value={this.state.totalJobSecure} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                 </td>
                             </tr>
-                        </tbody>
-                        <tfoot>
                             <tr style={{ backgroundColor: 'rgba(0,0,0,.03)' }}>
                                 <td></td>
                                 <td></td>
@@ -368,12 +370,23 @@ class ServicesMontly extends Component {
                                 <td></td>
                                 <td><h5 className="totalAlignment"><NumberFormat value={this.state.totalMontlyServices} displayType={'text'} thousandSeparator={true} prefix={'$'} /></h5></td>
                             </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr style={{ backgroundColor: 'rgba(0,0,0,.03)' }}>
+                                <td colSpan="4"></td>
+                                <td>
+                                    <button type="button"
+                                        className="btn btn-primary btn-lg btn-block"
+                                        onClick={this.nextPath}
+                                        disabled={this.state.isDisableSelect}>Eco y Club
+                                    </button>
+                                </td>
+                            </tr>
                         </tfoot>
                         </table>
                     </div>
                 </div>
-                
-                <Extracurricular />
+                {/*<Extracurricular />*/}
             </main>
          </div>
         );

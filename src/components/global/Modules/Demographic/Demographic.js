@@ -25,6 +25,7 @@ class Demographic extends Component {
               student_name     : store.getState().demo_data.first_name,
               student_lastname : store.getState().demo_data.last_name,
             }, () => {
+              console.log(this.state.demo_data)
             })
         })
     }

@@ -1,5 +1,10 @@
+.ecoMainContainer{
+
+}
+
 .cardCustom{
-    width: 21rem;
+    /*width: 21rem;*/
+    width: 14rem;
     margin-top: 5px;
     margin-bottom: 5px;
 }
@@ -27,4 +32,16 @@
 
 #addActivityBtn{
     width: 100%;
+}
+
+.cardImgCustom{
+    height: 110px !important;
+}
+
+.cardTitleCustom{
+    font-size: 1.2rem !important;
+}
+
+.cardDescriptionTextCustom{
+    font-size: .75rem !important;
 }
