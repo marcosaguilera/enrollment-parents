@@ -118,7 +118,7 @@ class Services extends Component {
         serial_number: 0, student_id: ''
 
     }
-  }
+  } 
 
   componentDidMount(){
       this.setState({
@@ -149,16 +149,22 @@ class Services extends Component {
         .then( res => {
 
           let demo_data = res.data[0];
+          let demo_data2 = res.data[0];
           //console.log("==> data: " + JSON.stringify(demo_data))
           let fake_text = 'rayos!!!!'
 
-          store.dispatch({
-            type: "SAVE_STUDENT_ESSENTIAL_DATA",
-            fake_text,
-            demo_data
-          }, () => {
-            //this.getEnrolmentAuth(this.state.openApplyId)
-          })
+          store.dispatch(
+            {
+              type: "SAVE_STUDENT_ESSENTIAL_DATA",
+              fake_text,
+              demo_data
+            },
+            {
+              type: "EXTRA_EXAMPLE",
+              demo_data2
+            },
+
+          )
 
           this.setState({
               openApplyId       : demo_data.id,
@@ -427,7 +433,8 @@ class Services extends Component {
 
   nextPath = () => {
     var services              = {};
-    services.seguro           = this.state.seguro_seleccionado;
+    services.student_code     = this.state.codigo;
+    /*services.seguro           = this.state.seguro_seleccionado;
     services.anuario          = this.state.anuario_seleccionado;
     services.asopadres        = this.state.asopadres_seleccionado;
     services.bibliobanco      = this.state.bibliobanco;
@@ -444,7 +451,7 @@ class Services extends Component {
     services.nombres          = this.state.nombres;
     services.apellidos        = this.state.apellidos;
     services.grado            = this.state.grado;
-    services.uid              = this.state.objectId;
+    services.uid              = this.state.objectId;*/
 
     this.setState({
       isShowingResume: ''
@@ -452,6 +459,7 @@ class Services extends Component {
 
     this.props.history.push('/enrolment_montly_services', services);
     //this.handleSaveServices();
+    //browserHistory.push("/enrolment_montly_services");
   }
 
   handleSaveServices(){

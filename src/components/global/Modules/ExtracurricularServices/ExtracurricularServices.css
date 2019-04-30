@@ -1,0 +1,47 @@
+.ecoMainContainer{
+
+}
+
+.cardCustom{
+    /*width: 21rem;*/
+    width: 14rem;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#boxContainer {
+    height: auto;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+#box1 {
+    width: 50%;
+    height: auto;
+}
+
+#box2 {
+    width: 50%;
+    height: auto;
+}
+
+#priceSpan{
+        vertical-align: sub;
+        text-align: center;
+}
+
+#addActivityBtn{
+    width: 100%;
+}
+
+.cardImgCustom{
+    height: 110px !important;
+}
+
+.cardTitleCustom{
+    font-size: 1.2rem !important;
+}
+
+.cardDescriptionTextCustom{
+    font-size: .75rem !important;
+}
