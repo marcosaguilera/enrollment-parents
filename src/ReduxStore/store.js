@@ -11,12 +11,6 @@ const reducer = (state, action) => {
                 demo_data: action.demo_data
             }
 
-            case "EXTRA_EXAMPLE":
-            return{
-                ...state,
-                demo_data2: action.demo_data
-            }
-
         case "SAVE_STUDENT_AUTHORIZATION":
             return{
                 ...state,
@@ -38,7 +32,6 @@ export default createStore(
         reducer, {
             fake_text    : '',
             demo_data    : [],
-            demo_data2   : [],
             service_data : [],
             is_student_authorize: false
         });

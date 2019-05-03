@@ -42,9 +42,7 @@ class ExtracurricularServices extends Component {
             demo_data  : [],
         }
 
-        store.subscribe(() => {
-            console.log(store.getState())
-        }) 
+        
     }
 
     componentWillReceiveProps(){
@@ -53,16 +51,11 @@ class ExtracurricularServices extends Component {
 
     componentDidMount() {
         console.log("hello componentDidMount")
-        this.subscribe();
+        
+        
     }
 
-    subscribe = () => {
-        console.log("hello subscribe")
-        store.subscribe(() => {
-           console.log(store.getState())
-           //this.GetFilteredData();
-        })
-      }
+    
 
     render() {
         return (

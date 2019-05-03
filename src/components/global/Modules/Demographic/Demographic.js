@@ -4,6 +4,8 @@ import store from '../../../../ReduxStore/store'
 import './Demographic.css'
 
 class Demographic extends Component {
+    
+    storeRedux = null;
 
     constructor() {
         super();
@@ -15,23 +17,25 @@ class Demographic extends Component {
             student_name      : '',
             student_lastname  : ''
         };
-
-        store.subscribe(() => {
-            this.setState({
-              hello_fake       : store.getState().fake_text,
-              demo_data        : store.getState().demo_data,
-              student_code     : store.getState().demo_data.custom_id,
-              student_grade    : store.getState().demo_data.grade,
-              student_name     : store.getState().demo_data.first_name,
-              student_lastname : store.getState().demo_data.last_name,
-            }, () => {
-              console.log(this.state.demo_data)
-            })
-        })
     }
 
     componentDidMount(){
-      
+      this.storeRedux = store.subscribe(() => {
+          this.setState({
+            hello_fake       : store.getState().fake_text,
+            demo_data        : store.getState().demo_data,
+            student_code     : store.getState().demo_data.custom_id,
+            student_grade    : store.getState().demo_data.grade,
+            student_name     : store.getState().demo_data.first_name,
+            student_lastname : store.getState().demo_data.last_name,
+          }, () => {
+            console.log("DEMO DATA: " + JSON.stringify(this.state.demo_data))
+          })
+      })
+    }
+
+    componentWillUnmount(){
+       this.storeRedux.unsubscribe()
     }
 
     componentWillReceiveProps(){
