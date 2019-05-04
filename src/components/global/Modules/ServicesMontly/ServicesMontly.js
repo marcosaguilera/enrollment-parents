@@ -13,11 +13,7 @@ import store from '../../../../ReduxStore/store'
 //////// Assets
 import '../../Modules/ServicesMontly/ServicesMontly.css';
 
-//Components declaration
-import Extracurricular from '../ExtracurricularServices/ExtracurricularServices'
-
 class ServicesMontly extends Component {
-
     constructor() {
         super();
         this.handleOnChange      = this.handleOnChange.bind(this)
@@ -386,7 +382,7 @@ class ServicesMontly extends Component {
                         </table>
                     </div>
                 </div>
-                {/*<Extracurricular />*/}
+
             </main>
          </div>
         );

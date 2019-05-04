@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import store from '../../../../ReduxStore/store'
+import PropTypes from 'prop-types';
 
 import './Demographic.css'
 
 class Demographic extends Component {
-    
     storeRedux = null;
+
+    static propTypes = {
+      name     : PropTypes.string.isRequired,
+      lastname : PropTypes.string.isRequired,
+      code     : PropTypes.string.isRequired,
+      grade    : PropTypes.string.isRequired
+    }
 
     constructor() {
         super();
@@ -20,7 +27,7 @@ class Demographic extends Component {
     }
 
     componentDidMount(){
-      this.storeRedux = store.subscribe(() => {
+      /*this.storeRedux = store.subscribe(() => {
           this.setState({
             hello_fake       : store.getState().fake_text,
             demo_data        : store.getState().demo_data,
@@ -29,17 +36,23 @@ class Demographic extends Component {
             student_name     : store.getState().demo_data.first_name,
             student_lastname : store.getState().demo_data.last_name,
           }, () => {
-            console.log("DEMO DATA: " + JSON.stringify(this.state.demo_data))
+            //console.log("DEMO DATA: " + JSON.stringify(this.state.demo_data))
           })
-      })
+      })*/
     }
 
     componentWillUnmount(){
-       this.storeRedux.unsubscribe()
+       //this.storeRedux.unsubscribe()
     }
 
     componentWillReceiveProps(){
-        //console.log("hello")
+        console.log("Demographic data: " + this.props.name + " - " + this.props.lastname)
+        this.setState({
+            student_code     : this.props.code,
+            student_grade    : this.props.grade,
+            student_name     : this.props.name,
+            student_lastname : this.props.lastname,
+        })
     }
 
     render() {

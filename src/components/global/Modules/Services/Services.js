@@ -426,32 +426,34 @@ class Services extends Component {
   }
 
   nextPath = () => {
-    var services              = {};
-    services.student_code     = this.state.codigo;
-    /*services.seguro           = this.state.seguro_seleccionado;
-    services.anuario          = this.state.anuario_seleccionado;
-    services.asopadres        = this.state.asopadres_seleccionado;
-    services.bibliobanco      = this.state.bibliobanco;
-    services.matricula        = this.state.tarifa_plena;
-    services.matricula_15     = this.state.tarifa_reducida_15;
-    services.matricula_7_5    = this.state.tarifa_reducida_7_5;
-    services.club             = this.state.club_seleccionado;
-    services.total_descuentos = this.state.total_descuentos;
-    services.total_servicios  = this.state.total_servicios;
-    services.total_pagar      = this.state.total_pagar;
-    services.total_solo_dtos  = this.state.total_solo_descuentos;
+    var data_step1              = {}
+    data_step1.token            = "KJHASD7657"
+    data_step1.student_code     = this.state.codigo
+    /*data_step1.seguro           = this.state.seguro_seleccionado
+    data_step1.anuario          = this.state.anuario_seleccionado
+    data_step1.asopadres        = this.state.asopadres_seleccionado
+    data_step1.bibliobanco      = this.state.bibliobanco
+    data_step1.matricula        = this.state.tarifa_plena
+    data_step1.matricula_15     = this.state.tarifa_reducida_15
+    data_step1.matricula_7_5    = this.state.tarifa_reducida_7_5
+    data_step1.club             = this.state.club_seleccionado
+    data_step1.total_descuentos = this.state.total_descuentos
+    data_step1.total_servicios  = this.state.total_servicios
+    data_step1.total_pagar      = this.state.total_pagar
+    data_step1.total_solo_dtos  = this.state.total_solo_descuentos
     // Student data
-    services.codigo           = this.state.codigo;
-    services.nombres          = this.state.nombres;
-    services.apellidos        = this.state.apellidos;
-    services.grado            = this.state.grado;
-    services.uid              = this.state.objectId;*/
+    data_step1.codigo           = this.state.codigo
+    data_step1.nombres          = this.state.nombres
+    data_step1.apellidos        = this.state.apellidos
+    data_step1.grado            = this.state.grado
+    data_step1.uid              = this.state.objectId*/
+    console.log(data_step1)
 
     this.setState({
       isShowingResume: ''
     });
 
-    this.props.history.push('/enrolment_montly_services', services);
+    this.props.history.push('/enrolment_montly_services', data_step1);
     //this.handleSaveServices();
     //browserHistory.push("/enrolment_montly_services");
   }
@@ -534,7 +536,7 @@ class Services extends Component {
 
             <hr />
 
-            <Demographic />
+            <Demographic name={this.state.nombres} lastname={this.state.apellidos} code={this.state.codigo} grade={this.state.grado} />
 
             <hr />
 
