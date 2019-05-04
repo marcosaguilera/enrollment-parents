@@ -5,6 +5,9 @@ import axios from 'axios';
 import NumberFormat from 'react-number-format';
 import store from '../../../../ReduxStore/store'
 
+//// Components
+import Demographic from '../Demographic/Demographic'
+
 //// Addons
 //import LoadingModal from '../../Addons/LoadSpinner';
 //import ModalUI from '../../Addons/Modal';
@@ -12,6 +15,8 @@ import store from '../../../../ReduxStore/store'
 
 //////// Assets
 import '../../Modules/ServicesMontly/ServicesMontly.css';
+
+
 
 class ServicesMontly extends Component {
     constructor() {
@@ -21,9 +26,11 @@ class ServicesMontly extends Component {
         this.setMontlyTotal      = this.setMontlyTotal.bind(this)
 
         this.state = {
-            demo_data               : [],
-            lodgings                : 0,
-            transport               : 0,
+            // General Data                     // Demographic data
+            general_object          : {},       code     : '',
+            demo_data               : [],       name     : '',
+            lodgings                : 0,        lastname : '',
+            transport               : 0,        grade    : '',
             lunch                   : 0,
             snack                   : 0,
             breakFast               : 0,
@@ -52,9 +59,16 @@ class ServicesMontly extends Component {
     }
 
     componentDidMount = () => {
-        var servicesObj = this.props.location.state;
+        let servicesObj = this.props.location.state;
         console.log("Services data: " + JSON.stringify(servicesObj));
-        let url = "https://rcis-backend.herokuapp.com/student/monthlyservices/" + servicesObj.student_code
+
+        this.setState({ code: servicesObj.demographic.codigo, 
+                        name: servicesObj.demographic.nombres,
+                        lastname: servicesObj.demographic.apellidos,
+                        grade: servicesObj.demographic.grado
+                     })
+
+        let url = "https://rcis-backend.herokuapp.com/student/monthlyservices/" + servicesObj.demographic.codigo
         axios.get(url)
         .then(res => {
             console.log(res.data[0])
@@ -195,6 +209,13 @@ class ServicesMontly extends Component {
          <div>
             <main role="main"  className="container" id="customStyle">
                 <div className="shadow-sm p-3 mb-5 bg-white rounded">
+                    <Demographic code={this.state.code} 
+                                 grade={this.state.grade} 
+                                 name={this.state.name} 
+                                 lastname={this.state.lastname} />
+
+                    <hr/>   
+
                     <h2 className="py-3">Selección de servicios mensuales</h2>
                     <div className="table-responsive">
                         <table id="tablePreview" className="table table-hover table-bordered">
