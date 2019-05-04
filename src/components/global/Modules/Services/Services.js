@@ -426,28 +426,35 @@ class Services extends Component {
   }
 
   nextPath = () => {
-    var data_step1              = {}
-    data_step1.token            = "KJHASD7657"
-    data_step1.student_code     = this.state.codigo
-    /*data_step1.seguro           = this.state.seguro_seleccionado
-    data_step1.anuario          = this.state.anuario_seleccionado
-    data_step1.asopadres        = this.state.asopadres_seleccionado
-    data_step1.bibliobanco      = this.state.bibliobanco
-    data_step1.matricula        = this.state.tarifa_plena
-    data_step1.matricula_15     = this.state.tarifa_reducida_15
-    data_step1.matricula_7_5    = this.state.tarifa_reducida_7_5
-    data_step1.club             = this.state.club_seleccionado
-    data_step1.total_descuentos = this.state.total_descuentos
-    data_step1.total_servicios  = this.state.total_servicios
-    data_step1.total_pagar      = this.state.total_pagar
-    data_step1.total_solo_dtos  = this.state.total_solo_descuentos
+    let data_step1                   = { token:'', demographic:{}, annual_services: {}, montly_services:{}, eco:{}, payment:{} }
+    let demographic_data             = {}
+    let annual_services              = {}
+
     // Student data
-    data_step1.codigo           = this.state.codigo
-    data_step1.nombres          = this.state.nombres
-    data_step1.apellidos        = this.state.apellidos
-    data_step1.grado            = this.state.grado
-    data_step1.uid              = this.state.objectId*/
-    console.log(data_step1)
+    demographic_data.codigo          = this.state.codigo
+    demographic_data.nombres         = this.state.nombres
+    demographic_data.apellidos       = this.state.apellidos
+    demographic_data.grado           = this.state.grado
+    demographic_data.uid             = this.state.objectId
+    
+    // Yearly selected services
+    annual_services.seguro           = this.state.seguro_seleccionado
+    annual_services.anuario          = this.state.anuario_seleccionado
+    annual_services.asopadres        = this.state.asopadres_seleccionado
+    annual_services.bibliobanco      = this.state.bibliobanco
+    annual_services.matricula        = this.state.tarifa_plena
+    annual_services.matricula_15     = this.state.tarifa_reducida_15
+    annual_services.matricula_7_5    = this.state.tarifa_reducida_7_5
+    annual_services.club             = this.state.club_seleccionado
+    annual_services.total_descuentos = this.state.total_descuentos
+    annual_services.total_servicios  = this.state.total_servicios
+    annual_services.total_pagar      = this.state.total_pagar
+    annual_services.total_solo_dtos  = this.state.total_solo_descuentos
+    
+    // Populating object
+    data_step1['token']              = "KJHASD7657"
+    data_step1['demographic']        = demographic_data
+    data_step1['annual_services']    = annual_services
 
     this.setState({
       isShowingResume: ''
