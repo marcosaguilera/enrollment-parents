@@ -8,6 +8,9 @@ import store from '../../../../ReduxStore/store'
 //// Components
 import Demographic from '../Demographic/Demographic'
 
+//// Functions
+import Utils from '../../../../Utils/Utils.js'
+
 //// Addons
 //import LoadingModal from '../../Addons/LoadSpinner';
 //import ModalUI from '../../Addons/Modal';
@@ -27,23 +30,23 @@ class ServicesMontly extends Component {
 
         this.state = {
             // General Data                     // Demographic data
-            general_object          : {},       code     : '',
+            step2_data              : {},       code     : '',
             demo_data               : [],       name     : '',
             lodgings                : 0,        lastname : '',
             transport               : 0,        grade    : '',
-            lunch                   : 0,
-            snack                   : 0,
+            lunch                   : 0,        
+            snack                   : 0,        
             breakFast               : 0,
             lifeSecure              : 0,
             jobSecure               : 0,
 
-            //Discounts
-            discountLodgings        : 0,
-            discountTransport       : 0,
-            discountLunch           : 0,
-            discountSnack           : 0,
-            discountBreakfast       : 0,
-            discountLifeSecure      : 0,
+            //Discounts                         // Selection values
+            discountLodgings        : 0,        transportSel  : 'Si',
+            discountTransport       : 0,        lunchSel      : 'Si',
+            discountLunch           : 0,        snackSel      : 'Si',
+            discountSnack           : 0,        breakFastSel  : 'Si',
+            discountBreakfast       : 0,        lifeSecureSel : 'Si',
+            discountLifeSecure      : 0,        jobSecureSel  : 'Si',
             discountJobSecure       : 0,
 
             //Total
@@ -62,25 +65,27 @@ class ServicesMontly extends Component {
         let servicesObj = this.props.location.state;
         console.log("Services data: " + JSON.stringify(servicesObj));
 
-        this.setState({ code: servicesObj.demographic.codigo, 
-                        name: servicesObj.demographic.nombres,
-                        lastname: servicesObj.demographic.apellidos,
-                        grade: servicesObj.demographic.grado
+        this.setState({ 
+                        step2_data : servicesObj,
+                        code       : servicesObj.demographic.codigo, 
+                        name       : servicesObj.demographic.nombres,
+                        lastname   : servicesObj.demographic.apellidos,
+                        grade      : servicesObj.demographic.grado
                      })
 
         let url = "https://rcis-backend.herokuapp.com/student/monthlyservices/" + servicesObj.demographic.codigo
         axios.get(url)
         .then(res => {
-            console.log(res.data[0])
+            //console.log(res.data[0])
             let montly_data = res.data[0]
             this.setState({
-                lodgings    : montly_data.pension,
-                transport   : montly_data.transporte,
-                lunch       : montly_data.alimentos_almuerzo,
-                snack       : montly_data.alimentos_m9,
-                breakFast   : montly_data.alimentos_desayuno,
-                lifeSecure  : montly_data.seguro_vida,
-                jobSecure   : montly_data.seguro_desempleo,
+                lodgings            : montly_data.pension,
+                transport           : montly_data.transporte,
+                lunch               : montly_data.alimentos_almuerzo,
+                snack               : montly_data.alimentos_m9,
+                breakFast           : montly_data.alimentos_desayuno,
+                lifeSecure          : montly_data.seguro_vida,
+                jobSecure           : montly_data.seguro_desempleo,
 
                 //discounts
                 discountLodgings    : montly_data.pension_descuento,
@@ -97,13 +102,13 @@ class ServicesMontly extends Component {
     };
 
     setTotals = () => {
-        console.log("-> Pensión: " + this.state.lodgings  )
+        /*console.log("-> Pensión: " + this.state.lodgings  )
         console.log("-> Transporte: " + this.state.transport)
         console.log("-> Almuerzo: " + this.state.lunch     )
         console.log("-> M9: " + this.state.snack     )
         console.log("-> Desayuno: " + this.state.breakFast )
         console.log("-> Seguro de vida: " + this.state.lifeSecure)
-        console.log("-> Seguro empleo: " + this.state.jobSecure )
+        console.log("-> Seguro empleo: " + this.state.jobSecure )*/
         this.setState({
             totalLodgings           : Number(this.state.lodgings - this.state.discountLodgings),
             totalTransport          : Number(this.state.transport - this.state.discountTransport),
@@ -136,71 +141,144 @@ class ServicesMontly extends Component {
 
         //Lunch onChange Actions
         if(e.target.id === 'lunch_yes'){
-            this.setState({ lunch: Number(e.target.value) }, () => {
+            this.setState({ lunch: Number(e.target.value), lunchSel : 'Si' }, () => {
                 this.setTotals()
             })
         }
 
         if(e.target.id === 'lunch_no'){
-            this.setState({ lunch: 0 }, () => {
+            this.setState({ lunch: 0, lunchSel : 'No' }, () => {
                 this.setTotals()
             })
         }
 
         //Snack onChange Actions
         if(e.target.id === 'snack_yes'){
-            this.setState({ snack: Number(e.target.value) }, () => {
+            this.setState({ snack: Number(e.target.value), snackSel : 'Si' }, () => {
                 this.setTotals()
             })
         }
 
         if(e.target.id === 'snack_no'){
-            this.setState({ snack: 0 }, () => {
+            this.setState({ snack: 0, snackSel : 'No' }, () => {
                 this.setTotals()
             })
         }
 
         //Breakfast onChange Actions
         if(e.target.id === 'breakFast_yes'){
-            this.setState({ breakFast: Number(e.target.value) }, () => {
+            this.setState({ breakFast: Number(e.target.value), breakFastSel : 'Si' }, () => {
                 this.setTotals()
             })
         }
 
         if(e.target.id === 'breakFast_no'){
-            this.setState({ breakFast: 0 }, () => {
+            this.setState({ breakFast: 0, breakFastSel : 'No' }, () => {
                 this.setTotals()
             })
         }
 
         //LifeSecure onChange Actions
         if(e.target.id === 'lifeSecure_yes'){
-            this.setState({ lifeSecure: Number(e.target.value) }, () => {
+            this.setState({ lifeSecure: Number(e.target.value), lifeSecureSel : 'Si' }, () => {
                 this.setTotals()
             })
         }
 
         if(e.target.id === 'lifeSecure_no'){
-            this.setState({ lifeSecure: 0 }, () => {
+            this.setState({ lifeSecure: 0, lifeSecureSel : 'No' }, () => {
                 this.setTotals()
             })
         }
 
         //jobSecure onChange Actions
         if(e.target.id === 'jobSecure_yes'){
-            this.setState({ jobSecure: Number(e.target.value) }, () => {
+            this.setState({ jobSecure: Number(e.target.value), jobSecureSel : 'Si' }, () => {
                 this.setTotals()
             })
         }
 
         if(e.target.id === 'jobSecure_no'){
-            this.setState({ jobSecure: 0 }, () => {
+            this.setState({ jobSecure: 0, jobSecureSel : 'No' }, () => {
                 this.setTotals()
             })
         }
     }
 
     nextPath = () => {
+        let data_step2      = this.state.step2_data
+        let montly_services = []
+        let lodgings        = {}
+        let transport       = {}
+        let lunch           = {}
+        let snack           = {}
+        let breakFast       = {}
+        let lifeSecure      = {}
+        let jobSecure       = {}
+
+        //////SERIALIZNG SELECTIONS///////
+        /// PENSIÓN
+        lodgings.name        = 'Pension'
+        lodgings.code        = Utils.getServiceCode('Pension')
+        lodgings.select      = 'Si'
+        lodgings.value       = this.state.lodgings
+        lodgings.discount    = this.state.discountLodgings
+        lodgings.total       = this.state.totalLodgings
+        /// TRANSPORTE
+        transport.name       = "Transporte"
+        transport.code       = Utils.getServiceCode('Transporte')
+        transport.select     = Utils.getTransportServiceName(this.state.transport)
+        transport.value      = this.state.transport
+        transport.discount   = this.state.discountTransport
+        transport.total      = this.state.totalTransport
+        /// ALMUERZO
+        lunch.name           = 'Almuerzo'
+        lunch.code           = Utils.getServiceCode('Almuerzo')
+        lunch.select         = this.state.lunchSel
+        lunch.value          = this.state.lunch
+        lunch.discount       = this.state.discountLunch
+        lunch.total          = this.state.totalLunch
+        /// M9
+        snack.name           = 'Medias Nueves'
+        snack.code           = Utils.getServiceCode('Medias Nueves')
+        snack.select         = this.state.snackSel
+        snack.value          = this.state.snack
+        snack.discount       = this.state.discountSnack
+        snack.total          = this.state.totalSnack
+        /// DESAYUNO
+        breakFast.name       = 'Desayuno'
+        breakFast.code       = Utils.getServiceCode('Desayuno')
+        breakFast.select     = this.state.breakFastSel
+        breakFast.value      = this.state.breakFast
+        breakFast.discount   = this.state.discountBreakfast
+        breakFast.total      = this.state.totalBreakfast
+        /// SEGURO VIDA
+        lifeSecure.name      = 'Seguro de vida'
+        lifeSecure.code      = Utils.getServiceCode('Seguro de vida')
+        lifeSecure.select    = this.state.lifeSecureSel
+        lifeSecure.value     = this.state.lifeSecure
+        lifeSecure.discount  = this.state.discountLifeSecure
+        lifeSecure.total     = this.state.totalLifeSecure
+        /// SEGURO DESEMPLEO
+        jobSecure.name       = 'Seguro desempleo'
+        jobSecure.code       = Utils.getServiceCode('Seguro desempleo')
+        jobSecure.select     = this.state.jobSecureSel
+        jobSecure.value      = this.state.jobSecure
+        jobSecure.discount   = this.state.discountJobSecure
+        jobSecure.total      = this.state.totalJobSecure
+
+        montly_services.push(lodgings)
+        montly_services.push(transport)
+        montly_services.push(lunch)
+        montly_services.push(snack)
+        montly_services.push(breakFast)
+        montly_services.push(lifeSecure)
+        montly_services.push(jobSecure)
+
+        data_step2['montly_services'].push(montly_services)
+        console.log(data_step2)
+
+
         this.props.history.push('/enrolment_eco_services');
     }
 

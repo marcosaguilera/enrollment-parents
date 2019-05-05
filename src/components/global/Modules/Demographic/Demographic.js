@@ -46,7 +46,7 @@ class Demographic extends Component {
     }
 
     componentWillReceiveProps(){
-        console.log("Demographic data: " + this.props.name + " - " + this.props.lastname)
+        //console.log("Demographic data: " + this.props.name + " - " + this.props.lastname)
         this.setState({
             student_code     : this.props.code,
             student_grade    : this.props.grade,

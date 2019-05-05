@@ -426,7 +426,7 @@ class Services extends Component {
   }
 
   nextPath = () => {
-    let data_step1                   = { token:'', demographic:{}, annual_services: {}, montly_services:{}, eco:{}, payment:{} }
+    let data_step1                   = { token:'', demographic:{}, annual_services: {}, montly_services:[], eco:[], payment:{} }
     let demographic_data             = {}
     let annual_services              = {}
 
