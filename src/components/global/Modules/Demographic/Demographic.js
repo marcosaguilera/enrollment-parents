@@ -27,6 +27,7 @@ class Demographic extends Component {
     }
 
     componentDidMount(){
+      console.log("Demographic component DidMount")
       /*this.storeRedux = store.subscribe(() => {
           this.setState({
             hello_fake       : store.getState().fake_text,
@@ -41,12 +42,8 @@ class Demographic extends Component {
       })*/
     }
 
-    componentWillUnmount(){
-       //this.storeRedux.unsubscribe()
-    }
-
     componentWillReceiveProps(){
-        //console.log("Demographic data: " + this.props.name + " - " + this.props.lastname)
+        console.log("Demographic component WillReceiveProps")
         this.setState({
             student_code     : this.props.code,
             student_grade    : this.props.grade,

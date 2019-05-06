@@ -19,8 +19,6 @@ import Utils from '../../../../Utils/Utils.js'
 //////// Assets
 import '../../Modules/ServicesMontly/ServicesMontly.css';
 
-
-
 class ServicesMontly extends Component {
     constructor() {
         super();
@@ -34,8 +32,8 @@ class ServicesMontly extends Component {
             demo_data               : [],       name     : '',
             lodgings                : 0,        lastname : '',
             transport               : 0,        grade    : '',
-            lunch                   : 0,        
-            snack                   : 0,        
+            lunch                   : 0,
+            snack                   : 0,
             breakFast               : 0,
             lifeSecure              : 0,
             jobSecure               : 0,
@@ -63,7 +61,8 @@ class ServicesMontly extends Component {
 
     componentDidMount = () => {
         let servicesObj = this.props.location.state;
-        console.log("Services data: " + JSON.stringify(servicesObj));
+        console.log("===> Montly Services Step");
+        console.log(servicesObj);
 
         this.setState({ 
                         step2_data : servicesObj,
@@ -279,7 +278,7 @@ class ServicesMontly extends Component {
         console.log(data_step2)
 
 
-        this.props.history.push('/enrolment_eco_services');
+        this.props.history.push('/enrolment_eco_services', data_step2);
     }
 
     render() {
@@ -292,7 +291,7 @@ class ServicesMontly extends Component {
                                  name={this.state.name} 
                                  lastname={this.state.lastname} />
 
-                    <hr/>   
+                    <hr/>
 
                     <h2 className="py-3">Selección de servicios mensuales</h2>
                     <div className="table-responsive">

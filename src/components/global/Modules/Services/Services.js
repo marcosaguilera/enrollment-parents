@@ -436,7 +436,7 @@ class Services extends Component {
     demographic_data.apellidos       = this.state.apellidos
     demographic_data.grado           = this.state.grado
     demographic_data.uid             = this.state.objectId
-    
+
     // Yearly selected services
     annual_services.seguro           = this.state.seguro_seleccionado
     annual_services.anuario          = this.state.anuario_seleccionado
@@ -450,7 +450,7 @@ class Services extends Component {
     annual_services.total_servicios  = this.state.total_servicios
     annual_services.total_pagar      = this.state.total_pagar
     annual_services.total_solo_dtos  = this.state.total_solo_descuentos
-    
+
     // Populating object
     data_step1['token']              = "KJHASD7657"
     data_step1['demographic']        = demographic_data

@@ -5,6 +5,9 @@ import store from '../../../../ReduxStore/store'
 
 import { Button, Card } from 'react-bootstrap';
 
+//// Components
+import Demographic from '../Demographic/Demographic'
+
 //Styles
 import "./ExtracurricularServices.css"
 
@@ -27,6 +30,10 @@ class ExtracurricularServices extends Component {
         super(props);
 
         this.state = {
+            code     : '',
+            name     : '',
+            lastname : '',
+            grade    : '',
             products: [
                 { id: 1, name: "Hipster Ultimate", description: "These quality short-sleeve crew-neck t-shirts are 100% pre-shrunk cotton. Fit is unisex standard (size up in doubt). S, M, L, XL, XLT, 2XL, 2XLT, 3XL, 3XLT available.", price: 299, image: "https://s3.amazonaws.com/makeitreal/projects/e-commerce/camiseta-1.jpg" },
                 { id: 2, name: "On Motion Live", description: "These quality short-sleeve crew-neck t-shirts are 100% pre-shrunk cotton. Fit is unisex standard (size up in doubt). S, M, L, XL, XLT, 2XL, 2XLT, 3XL, 3XLT available.", price: 99, image: "https://s3.amazonaws.com/makeitreal/projects/e-commerce/camiseta-2.jpg" },
@@ -39,29 +46,39 @@ class ExtracurricularServices extends Component {
                 { id: 9, name: "Underground Max", description: "These quality short-sleeve crew-neck t-shirts are 100% pre-shrunk cotton. Fit is unisex standard (size up in doubt). S, M, L, XL, XLT, 2XL, 2XLT, 3XL, 3XLT available.", price: 149, image: "https://s3.amazonaws.com/makeitreal/projects/e-commerce/camiseta-3.jpg" },
             ],
             ecoServices: [],
-            demo_data  : [],
+            step3_data: {},
+            isReadyDemographicComponent : false
         }
-
-        
-    }
-
-    componentWillReceiveProps(){
-        console.log("hello componentWillReceiveProps")
     }
 
     componentDidMount() {
-        console.log("hello componentDidMount")
-        
-        
-    }
+        let servicesObj = this.props.location.state;
+        console.log("===> Extracurricular Step");
+        console.log(servicesObj);
 
-    
+        this.setState({
+            code       : servicesObj.demographic.codigo,
+            name       : servicesObj.demographic.nombres,
+            lastname   : servicesObj.demographic.apellidos,
+            grade      : servicesObj.demographic.grado,
+            step3_data : servicesObj,
+        }, () => { this.setState({ isReadyDemographicComponent : true }) })
+    }
 
     render() {
         return (
             <div className="ecoMainContainer">
              <main role="main"  className="container" id="customStyle">
-             <div className="p-3 mb-5 bg-white rounded">
+                <div className="p-3 mb-5 bg-white rounded">
+
+                    if(this.state.isReadyDemographicComponent){
+                       <Demographic code={"--"+this.state.code}
+                       grade={this.state.grade}
+                       name={this.state.name}
+                       lastname={this.state.lastname} />
+                    }
+
+                    <hr/>
                     <div className="row">
                         <div className="col-md-8">
                             <div style={styles.products}>
