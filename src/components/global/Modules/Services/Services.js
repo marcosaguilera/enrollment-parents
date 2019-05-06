@@ -182,9 +182,9 @@ class Services extends Component {
     const url = "https://rcis-backend.herokuapp.com/enrollment/authorization/" + std_openapply_uid;
     axios.get(url)
          .then(res =>{
-           let isAuth = this.authChecker(res.data.academic) && this.authChecker(res.data.financial) && this.authChecker(res.data.cra);
+           let isAuth = this.authChecker(res.data.financial)
            console.log("isAuthorized: " + isAuth);
-
+           
            store.dispatch({
              type: "SAVE_STUDENT_AUTHORIZATION",
              isAuth
