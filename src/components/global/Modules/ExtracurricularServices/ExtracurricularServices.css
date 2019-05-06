@@ -39,9 +39,12 @@
 }
 
 .cardTitleCustom{
-    font-size: 1.2rem !important;
+    font-size: 1.1rem !important;
 }
 
 .cardDescriptionTextCustom{
     font-size: .75rem !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
