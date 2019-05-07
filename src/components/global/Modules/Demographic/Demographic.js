@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import store from '../../../../ReduxStore/store'
 import PropTypes from 'prop-types';
 
 import './Demographic.css'
@@ -27,7 +26,7 @@ class Demographic extends Component {
     }
 
     componentDidMount(){
-      console.log("Demographic component DidMount")
+      //console.log("Demographic component DidMount")
       /*this.storeRedux = store.subscribe(() => {
           this.setState({
             hello_fake       : store.getState().fake_text,
@@ -43,7 +42,7 @@ class Demographic extends Component {
     }
 
     componentWillReceiveProps(){
-        console.log("Demographic component WillReceiveProps")
+        //console.log("Demographic component WillReceiveProps")
         this.setState({
             student_code     : this.props.code,
             student_grade    : this.props.grade,

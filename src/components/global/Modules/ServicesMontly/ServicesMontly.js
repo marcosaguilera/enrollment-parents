@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 //// Other dependencies
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
-import store from '../../../../ReduxStore/store'
 
 //// Components
 import Demographic from '../Demographic/Demographic'

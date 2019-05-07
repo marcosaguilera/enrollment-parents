@@ -9,7 +9,6 @@ import Content from './global/Content'
 import './global/css/App.css';
 
 class App extends Component {
-
   static propTypes = {
     children : PropType.object.isRequired
   }

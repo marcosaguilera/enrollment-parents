@@ -63,4 +63,16 @@
 #li-right {
     width: 30%;
     height: auto;
+    text-align: right;
+}
+
+.pillsCustom{
+    margin-left: 2px !important;
+    width: 20px !important;
+    padding-left: 3px !important;
+    cursor: pointer;
+}
+
+svg {
+    height: 10px;
 }

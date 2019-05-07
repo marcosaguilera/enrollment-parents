@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 
 // Depencies
 import axios from 'axios';
-import PropTypes from 'prop-types';
 import NumberFormat from 'react-number-format';
-import store from '../../../../ReduxStore/store'
 import {ToastsContainer, ToastsStore} from 'react-toasts';
-
-import { Button, Card } from 'react-bootstrap';
+import changeCase from 'change-case';
+import Truncate from 'react-truncate';
+import { FaTrashAlt, FaInfo } from "react-icons/fa";
 
 //// Components
 import Demographic from '../Demographic/Demographic'
@@ -35,6 +34,7 @@ class ExtracurricularServices extends Component {
 
         this.addEcoService    = this.addEcoService.bind(this);
         this.removeEcoService = this.removeEcoService.bind(this);
+        this.showInfo         = this.showInfo.bind(this);
 
         this.state = {
             code     : '',
@@ -58,7 +58,6 @@ class ExtracurricularServices extends Component {
             step3_data: {},
             isReadyDemographicComponent : false,
             showingAlert: false
-
         }
     }
 
@@ -107,12 +106,16 @@ class ExtracurricularServices extends Component {
         let substractValue = this.state.totalAmmountCart
         if(cart.length >= 0){
             let pos = cart.indexOf(data);
-            console.log(pos)
+            //console.log(pos)
             cart.splice(pos,1)
             substractValue = this.state.totalAmmountCart - data.value
             //cart.pop(data)
             this.setState({ cartServices : cart, totalAmmountCart : substractValue })
-        }  
+        }
+    }
+
+    showInfo(data){
+        console.log(data)
     }
 
     render() {
@@ -136,8 +139,13 @@ class ExtracurricularServices extends Component {
                                     <div className="card cardCustom" key={service.id}>
                                         {/*<img src={service.image} className="card-img-top cardImgCustom" alt="Service image" />*/}
                                         <div className="card-body">
-                                            <h5 className="card-title cardTitleCustom">{service.name}</h5>
-                                            <p className="card-text cardDescriptionTextCustom">{service.description}</p>
+                                            <h5 className="card-title cardTitleCustom">
+                                                {changeCase.sentenceCase(service.name)}
+                                                <span class="badge badge-secondary badge-pill pillsCustom" onClick={ () => this.showInfo(service)} ><FaInfo /></span>
+                                            </h5>
+                                            <p className="card-text cardDescriptionTextCustom">
+                                                <Truncate lines={3} ellipsis={'...'}>{service.description}</Truncate>
+                                            </p>
                                         </div>
                                         <div className="card-footer">
                                             <div id="boxContainer">
@@ -167,7 +175,7 @@ class ExtracurricularServices extends Component {
                                         {this.state.cartServices.map(cart =>
                                             <li id="listContainer" className="list-group-item d-flex justify-content-between align-items-center" key={cart.id} style={{ borderRadius: 0 }}> 
                                                 <div id="li-left">
-                                                    {cart.name}
+                                                    {changeCase.sentenceCase(cart.name)}
                                                     <p>
                                                         <span class="badge badge-primary badge-pill">
                                                             <NumberFormat value={cart.value} displayType={'text'} thousandSeparator={true} prefix={'$'} />
@@ -175,10 +183,10 @@ class ExtracurricularServices extends Component {
                                                     </p>
                                                 </div>
                                                 <div id="li-right">
-                                                    <button 
-                                                        type="button" 
-                                                        className="btn btn-light btn-sm"
-                                                        onClick={ () => this.removeEcoService(cart) }>Remove</button>
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-danger btn-sm"
+                                                        onClick={ () => this.removeEcoService(cart) }><FaTrashAlt /></button>
                                                 </div>
                                             </li>
                                         )}
