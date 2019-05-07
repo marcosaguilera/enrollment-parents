@@ -33,7 +33,8 @@ class ExtracurricularServices extends Component {
     constructor(props) {
         super(props);
 
-        this.addEcoService = this.addEcoService.bind(this);
+        this.addEcoService    = this.addEcoService.bind(this);
+        this.removeEcoService = this.removeEcoService.bind(this);
 
         this.state = {
             code     : '',
@@ -53,6 +54,7 @@ class ExtracurricularServices extends Component {
             ],
             services: [],
             cartServices : [],
+            totalAmmountCart : 0,
             step3_data: {},
             isReadyDemographicComponent : false,
             showingAlert: false
@@ -87,30 +89,31 @@ class ExtracurricularServices extends Component {
     }
 
     addEcoService(data){
-        let cartArray = this.state.cartServices
-        if(cartArray.length < 2){
-            cartArray.push(data)
-            console.log(cartArray)
-            this.setState({ cartServices : cartArray }, () => { console.log(this.state.cartServices.length) })
+        let cart = this.state.cartServices
+        let additionValue = this.state.totalAmmountCart
+        if(cart.length < 2){
+            cart.push(data)
+            additionValue += data.value
+            console.log(cart)
+            this.setState({ cartServices : cart, totalAmmountCart : additionValue }, () => { console.log(this.state.cartServices.length) })
         }else{
-            console.log("No puedes agregar mas")
             //alert("No puedes agregar mas actividades.")
             ToastsStore.warning("No puedes agregar mas actividades.")
-            //this.handleClickShowAlert()
         }
     }
 
-    handleClickShowAlert() {
-        this.setState({
-          showingAlert: true
-        });
-
-        setTimeout(() => {
-          this.setState({
-            showingAlert: false
-          });
-        }, 2000);
-      }
+    removeEcoService(data){
+        let cart = this.state.cartServices
+        let substractValue = this.state.totalAmmountCart
+        if(cart.length >= 0){
+            let pos = cart.indexOf(data);
+            console.log(pos)
+            cart.splice(pos,1)
+            substractValue = this.state.totalAmmountCart - data.value
+            //cart.pop(data)
+            this.setState({ cartServices : cart, totalAmmountCart : substractValue })
+        }  
+    }
 
     render() {
         return (
@@ -140,9 +143,9 @@ class ExtracurricularServices extends Component {
                                             <div id="boxContainer">
                                                 <div id="box1">
                                                     <button
-                                                           id="addActivityBtn"
-                                                           className="btn btn-primary"
-                                                           onClick={ () => this.addEcoService(service) }>Inscribir</button>
+                                                        id="addActivityBtn"
+                                                        className="btn btn-primary"
+                                                        onClick={ () => this.addEcoService(service) }>Inscribir</button>
                                                 </div>
                                                 <div id="box2">
                                                     <NumberFormat id="priceSpan" value={service.value} displayType={'text'} thousandSeparator={true} prefix={'$'} />
@@ -157,14 +160,30 @@ class ExtracurricularServices extends Component {
                         <div className="col-md-4">
                             <div className="card">
                                 <div className="card-header bg-primary" style={{ padding: '.95rem 1.25rem' }}>
-                                    <h6 id="card_title_color" className="mb-0 text-center">Actividades Eco inscritas</h6>
+                                    <h6 id="card_title_color" className="mb-0 text-center">Actividades inscritas</h6>
                                 </div>
-                                <div className="card-body">
+                                <div className="card-body" style={{ padding: '0px' }}>
                                     <ul className="list-group">
                                         {this.state.cartServices.map(cart =>
-                                            <li className="list-group-item" key={cart.id}> {cart.name} </li>
+                                            <li id="listContainer" className="list-group-item d-flex justify-content-between align-items-center" key={cart.id} style={{ borderRadius: 0 }}> 
+                                                <div id="li-left">
+                                                    {cart.name}
+                                                    <p>
+                                                        <span class="badge badge-primary badge-pill">
+                                                            <NumberFormat value={cart.value} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <div id="li-right">
+                                                    <button 
+                                                        type="button" 
+                                                        className="btn btn-light btn-sm"
+                                                        onClick={ () => this.removeEcoService(cart) }>Remove</button>
+                                                </div>
+                                            </li>
                                         )}
                                     </ul>
+                                    <div className="row" style={{ height: 90 }}/>
                                 </div>
                                 <div className="card-footer bg-success text-white">
                                     <div className="row">
@@ -175,7 +194,7 @@ class ExtracurricularServices extends Component {
                                     <div className="row">
                                         <div className="col-12">
                                             <center>
-                                                <h5><NumberFormat value={890000} displayType={'text'} thousandSeparator={true} prefix={'$'} /></h5>
+                                                <h5><NumberFormat value={this.state.totalAmmountCart} displayType={'text'} thousandSeparator={true} prefix={'$'} /></h5>
                                             </center>
                                         </div>
                                     </div>
