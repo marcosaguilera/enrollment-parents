@@ -36,7 +36,18 @@ let getTransportServiceName = function(transportValue){
     if(transportValue === 0){ return "Sin servicion" }
 }
 
+let existTextMatch = function(textBase, textFind){
+    if(textBase === undefined){
+        return false
+    }if(textBase.includes(textFind)){
+        return true
+    }if(!textBase.includes(textFind)){
+        return false
+    }
+}
+
 module.exports = {
     getServiceCode,
-    getTransportServiceName
+    getTransportServiceName,
+    existTextMatch
 }

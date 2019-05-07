@@ -7,6 +7,7 @@ import {ToastsContainer, ToastsStore} from 'react-toasts';
 import changeCase from 'change-case';
 import Truncate from 'react-truncate';
 import { FaTrashAlt, FaInfo } from "react-icons/fa";
+import Utils from '../../../../Utils/Utils.js'
 
 //// Components
 import Demographic from '../Demographic/Demographic'
@@ -32,9 +33,10 @@ class ExtracurricularServices extends Component {
     constructor(props) {
         super(props);
 
-        this.addEcoService    = this.addEcoService.bind(this);
-        this.removeEcoService = this.removeEcoService.bind(this);
-        this.showInfo         = this.showInfo.bind(this);
+        this.addEcoService     = this.addEcoService.bind(this);
+        this.removeEcoService  = this.removeEcoService.bind(this);
+        this.showInfo          = this.showInfo.bind(this);
+        this.step3_dataSetData = this.step3_dataSetData.bind(this);
 
         this.state = {
             code     : '',
@@ -52,12 +54,13 @@ class ExtracurricularServices extends Component {
                 { id: 8, name: "On Motion Live", description: "These quality short-sleeve crew-neck t-shirts are 100% pre-shrunk cotton. Fit is unisex standard (size up in doubt). S, M, L, XL, XLT, 2XL, 2XLT, 3XL, 3XLT available.", price: 99, image: "https://s3.amazonaws.com/makeitreal/projects/e-commerce/camiseta-2.jpg" },
                 { id: 9, name: "Underground Max", description: "These quality short-sleeve crew-neck t-shirts are 100% pre-shrunk cotton. Fit is unisex standard (size up in doubt). S, M, L, XL, XLT, 2XL, 2XLT, 3XL, 3XLT available.", price: 149, image: "https://s3.amazonaws.com/makeitreal/projects/e-commerce/camiseta-3.jpg" },
             ],
-            services: [],
-            cartServices : [],
+            services         : [],
+            cartServices     : [],
             totalAmmountCart : 0,
-            step3_data: {},
-            isReadyDemographicComponent : false,
-            showingAlert: false
+            step3_data       : {},
+            cartData         : [],
+            showingAlert     : false,
+            isReadyDemographicComponent : false
         }
     }
 
@@ -87,17 +90,29 @@ class ExtracurricularServices extends Component {
             })
     }
 
-    addEcoService(data){
+    async addEcoService(data){
         let cart = this.state.cartServices
         let additionValue = this.state.totalAmmountCart
-        if(cart.length < 2){
-            cart.push(data)
-            additionValue += data.value
-            console.log(cart)
-            this.setState({ cartServices : cart, totalAmmountCart : additionValue }, () => { console.log(this.state.cartServices.length) })
+
+        let exist = await Utils.existTextMatch(JSON.stringify(cart), data.name)
+        console.log("Exist eco?: " + exist)
+        if(!exist){
+            if(cart.length < 2){
+                cart.push(data)
+                additionValue += data.value
+                console.log(cart)
+                this.setState({ cartServices : cart, totalAmmountCart : additionValue },
+                    () => {
+                        console.log(this.state.cartServices.length)
+                        //this.step3_dataSetData(cart)
+                    }
+                )
+            }else{
+                //alert("No puedes agregar mas actividades.")
+                ToastsStore.warning("No puedes agregar mas actividades. Son permitidas máximo dos(2) actividades por estudiante.")
+            }
         }else{
-            //alert("No puedes agregar mas actividades.")
-            ToastsStore.warning("No puedes agregar mas actividades.")
+            ToastsStore.warning("La actividad que intenta inscribir ya ha sido agregada.")
         }
     }
 
@@ -112,6 +127,20 @@ class ExtracurricularServices extends Component {
             //cart.pop(data)
             this.setState({ cartServices : cart, totalAmmountCart : substractValue })
         }
+    }
+
+    step3_dataSetData(data){
+        let eco_services = this.state.cartData
+        let item         = {}
+        item.code        = data.sap_code
+        item.discount    = 0
+        item.name        = data.name
+        item.select      = "Si"
+        item.total       = data.value
+        item.value       = data.value
+
+        eco_services.push(item)
+        this.setState({ cartData : eco_services }, () => { console.log(this.state.cartData) })
     }
 
     showInfo(data){
@@ -141,7 +170,7 @@ class ExtracurricularServices extends Component {
                                         <div className="card-body">
                                             <h5 className="card-title cardTitleCustom">
                                                 {changeCase.sentenceCase(service.name)}
-                                                <span class="badge badge-secondary badge-pill pillsCustom" onClick={ () => this.showInfo(service)} ><FaInfo /></span>
+                                                <span className="badge badge-secondary badge-pill pillsCustom" onClick={ () => this.showInfo(service)} ><FaInfo /></span>
                                             </h5>
                                             <p className="card-text cardDescriptionTextCustom">
                                                 <Truncate lines={3} ellipsis={'...'}>{service.description}</Truncate>
@@ -177,7 +206,7 @@ class ExtracurricularServices extends Component {
                                                 <div id="li-left">
                                                     {changeCase.sentenceCase(cart.name)}
                                                     <p>
-                                                        <span class="badge badge-primary badge-pill">
+                                                        <span className="badge badge-primary badge-pill">
                                                             <NumberFormat value={cart.value} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                                         </span>
                                                     </p>
