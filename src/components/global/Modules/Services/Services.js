@@ -18,6 +18,9 @@ import Footer from '../../Footer'
 import Demographic from '../Demographic/Demographic'
 import ServiceTbale from '../ServiceTable/ServiceTable'
 
+//// Functions
+import Utils from '../../../../Utils/Utils.js'
+
 class Services extends Component {
 
   constructor(props){
@@ -77,6 +80,7 @@ class Services extends Component {
         club_seleccionado                    : 0,
 
         // Total a pagar state
+        total_tarifas_mat                    : 0,
         total_matricula                      : 0,
         total_solo_descuentos                : 0,
         total_conceptos_matricula_descuentos : 0,
@@ -109,14 +113,10 @@ class Services extends Component {
         label_club                           : 'Si - $375.000',
         label_club_cero                      : 'No - $0.0',
 
-        // Visitors Data
-        ip_addr                              : '',
-
         // OpenApply data
         studentCode: '', openApplyId: 0, customId: '',
         enrollment_year: '', first_name: '', last_name: '', gender: '', grade: '', name_full: '',
         serial_number: 0, student_id: ''
-
     }
   } 
 
@@ -181,18 +181,17 @@ class Services extends Component {
   getEnrolmentAuth(std_openapply_uid){
     const url = "https://rcis-backend.herokuapp.com/enrollment/authorization/" + std_openapply_uid;
     axios.get(url)
-         .then(res =>{
-           let isAuth = this.authChecker(res.data.financial)
-           console.log("isAuthorized: " + isAuth);
-           
-           store.dispatch({
-             type: "SAVE_STUDENT_AUTHORIZATION",
-             isAuth
-           })
+        .then(res =>{
+          let isAuth = this.authChecker(res.data.financial)
+          console.log("isAuthorized: " + isAuth);
+          
+          store.dispatch({
+            type: "SAVE_STUDENT_AUTHORIZATION",
+            isAuth
+          })
 
-           if(isAuth){
-             //to-do something
-             axios.get('https://rcis-backend.herokuapp.com/student/yearlyservices/' + this.state.student_code)
+          if(isAuth){
+            axios.get('https://rcis-backend.herokuapp.com/student/yearlyservices/' + this.state.student_code)
                   .then(res => {
 
                     let item = res.data[0];
@@ -214,7 +213,7 @@ class Services extends Component {
                             nombres                              : item.Nombres,
                             apellidos                            : item.Apellidos,
                             grado                                : item.Grado,
-                            /*tarifa_plena                         : Number(item.Derecho_Matricula_Plena),
+                            tarifa_plena                         : Number(item.Derecho_Matricula_Plena),
                             bibliobanco                          : Number(item.Bibliobanco),
                             tarifa_reducida_7_5                  : Number(item.Derecho_por_pago_anualidades_7_5),
                             tarifa_reducida_15                   : Number(item.Derecho_por_pago_anualidades_15),
@@ -225,7 +224,7 @@ class Services extends Component {
                             empleado                             : Number(item.Empleado),
                             santa_barbara                        : Number(item.SantaBarbara),
                             convenio                             : Number(item.Jardin_Convenio),
-                            otros                                : Number(item.Otros),*/
+                            otros                                : Number(item.Otros),
                             total_conceptos_matricula_descuentos : Number(item.total_conceptos_matricula_descuentos),
                             total_solo_descuentos                : Number(item.total_conceptos_descuentos),
                             total_matricula                      : Number(item.total_conceptos_matricula),
@@ -239,10 +238,10 @@ class Services extends Component {
                       this.toggleModalNoResults();
                     }
                 })
-           }else {
+          }else {
              // to-do something if else
             }
-         })
+        })
   }
 
   authChecker(authData){
@@ -252,22 +251,22 @@ class Services extends Component {
   handleGetTotals(){
     this.setState({
       // Sumamos las tarifas y restamos los descuentos
-      /*total_conceptos_matricula_descuentos: Number( (this.state.tarifa_plena
-                               + this.state.tarifa_reducida_7_5
-                               + this.state.tarifa_reducida_15
-                               + this.state.bibliobanco )
-                              -
-                                (this.state.descuento_exalumno
-                               + this.state.descuento_2do_hno
-                               + this.state.descuento_3er_hno
-                               + this.state.descuento_4to_hno
-                               + this.state.empleado
-                               + this.state.santa_barbara
-                               + this.state.convenio
-                               + this.state.otros)
-                              ),*/
+      total_conceptos_matricula_descuentos: Number( (this.state.tarifa_plena
+                                + this.state.tarifa_reducida_7_5
+                                + this.state.tarifa_reducida_15
+                                + this.state.bibliobanco )
+                                -
+                                  (this.state.descuento_exalumno
+                                + this.state.descuento_2do_hno
+                                + this.state.descuento_3er_hno
+                                + this.state.descuento_4to_hno
+                                + this.state.empleado
+                                + this.state.santa_barbara
+                                + this.state.convenio
+                                + this.state.otros)
+                              ),
 
-      /*total_solo_descuentos:  Number( this.state.descuento_exalumno
+      total_solo_descuentos:  Number( this.state.descuento_exalumno
                                     + this.state.descuento_2do_hno
                                     + this.state.descuento_3er_hno
                                     + this.state.descuento_4to_hno
@@ -275,21 +274,25 @@ class Services extends Component {
                                     + this.state.santa_barbara
                                     + this.state.convenio
                                     + this.state.otros
-                                  ),*/
+                                  ),
 
-      /*total_matricula: Number(this.state.tarifa_plena
+      total_matricula: Number(this.state.tarifa_plena
                             + this.state.tarifa_reducida_7_5
                             + this.state.tarifa_reducida_15
-                            + this.state.bibliobanco ),*/
+                            + this.state.bibliobanco ),
+      
+      total_tarifas_mat: Number(this.state.tarifa_plena
+                            + this.state.tarifa_reducida_7_5
+                            + this.state.tarifa_reducida_15),
 
-      /*total_dtos_matr: Number(this.state.descuento_exalumno
+      total_dtos_matr: Number(this.state.descuento_exalumno
                             + this.state.descuento_2do_hno
                             + this.state.descuento_3er_hno
                             + this.state.descuento_4to_hno
                             + this.state.empleado
                             + this.state.santa_barbara
                             + this.state.convenio
-                            + this.state.otros),*/
+                            + this.state.otros),
 
       total_servicios: Number(this.state.seguro_accidentes +
                               this.state.anuario_impreso +
@@ -297,11 +300,11 @@ class Services extends Component {
                               this.state.club )
     });
 
-    //console.log("===> Total for discounts: " + this.state.total_conceptos_matricula_descuentos );
-    //console.log("===> Total matricula: " + this.state.total_matricula );
-    //console.log("===> Total dtos: " + this.state.total_dtos_matr );
-    //console.log("===> Total for services: " + this.state.total_servicios );
-    //console.log("===> Total only discounts: " + this.state.total_solo_descuentos );
+    console.log("===> Total for discounts: " + this.state.total_conceptos_matricula_descuentos );
+    console.log("===> Total matricula: " + this.state.total_matricula );
+    console.log("===> Total dtos: " + this.state.total_dtos_matr );
+    console.log("===> Total for services: " + this.state.total_servicios );
+    console.log("===> Total only discounts: " + this.state.total_solo_descuentos );
     // Calling the method for totalize
     this.handleGetTotalToPay("fromSearch");
   }
@@ -426,30 +429,79 @@ class Services extends Component {
   }
 
   nextPath = () => {
-    let data_step1                   = { token:'', demographic:{}, annual_services: {}, montly_services:[], eco:[], payment:{} }
-    let demographic_data             = {}
-    let annual_services              = {}
+    let data_step1       = { token:'', demographic:{}, annual_services: [], montly_services:[], eco:[], payment:{} }
+    let demographic_data = {}
+    let annual_services  = []
+    let enrollment       = {}
+    let bookSeries       = {}
+    let accidentalSecure = {}
+    let annuaryBook      = {}
+    let asopadres        = {}
+    let sportsClub       = {}
 
     // Student data
-    demographic_data.codigo          = this.state.codigo
-    demographic_data.nombres         = this.state.nombres
-    demographic_data.apellidos       = this.state.apellidos
-    demographic_data.grado           = this.state.grado
-    demographic_data.uid             = this.state.objectId
+    demographic_data.codigo    = this.state.codigo
+    demographic_data.nombres   = this.state.nombres
+    demographic_data.apellidos = this.state.apellidos
+    demographic_data.grado     = this.state.grado
+    demographic_data.uid       = this.state.objectId
 
-    // Yearly selected services
-    annual_services.seguro           = this.state.seguro_seleccionado
-    annual_services.anuario          = this.state.anuario_seleccionado
-    annual_services.asopadres        = this.state.asopadres_seleccionado
-    annual_services.bibliobanco      = this.state.bibliobanco
-    annual_services.matricula        = this.state.tarifa_plena
-    annual_services.matricula_15     = this.state.tarifa_reducida_15
-    annual_services.matricula_7_5    = this.state.tarifa_reducida_7_5
-    annual_services.club             = this.state.club_seleccionado
-    annual_services.total_descuentos = this.state.total_descuentos
-    annual_services.total_servicios  = this.state.total_servicios
-    annual_services.total_pagar      = this.state.total_pagar
-    annual_services.total_solo_dtos  = this.state.total_solo_descuentos
+    //////SERIALIZNG SELECTIONS///////
+    /// MATRICULA
+    enrollment.type           = 'Anual'
+    enrollment.name           = 'Matricula'
+    enrollment.code           = Utils.getServiceCode('Matricula')
+    enrollment.select         = 'Si'
+    enrollment.value          = this.state.total_tarifas_mat
+    enrollment.discount       = this.state.total_solo_descuentos
+    enrollment.total          = Number(this.state.total_tarifas_mat - this.state.total_solo_descuentos)
+    /// BIBLIOBANCO
+    bookSeries.type           = 'Anual'
+    bookSeries.name           = 'Bibliobanco'
+    bookSeries.code           = Utils.getServiceCode('Bibliobanco')
+    bookSeries.select         = 'Si'
+    bookSeries.value          = this.state.bibliobanco
+    bookSeries.discount       = 0
+    bookSeries.total          = this.state.bibliobanco
+    /// SEGURO ACCIDENTES
+    accidentalSecure.type     = 'Anual'
+    accidentalSecure.name     = 'Seguro accidentes'
+    accidentalSecure.code     = Utils.getServiceCode('Seguro accidentes')
+    accidentalSecure.select   = Utils.checkSelection(this.state.seguro_seleccionado)
+    accidentalSecure.value    = this.state.seguro_seleccionado
+    accidentalSecure.discount = 0
+    accidentalSecure.total    = this.state.seguro_seleccionado
+    /// ANUARIO
+    annuaryBook.type          = 'Anual'
+    annuaryBook.name          = 'Anuario'
+    annuaryBook.code          = Utils.getServiceCode(this.state.label_anuario_impreso)
+    annuaryBook.select        = Utils.checkSelection(this.state.anuario_seleccionado)
+    annuaryBook.value         = this.state.anuario_seleccionado
+    annuaryBook.discount      = 0
+    annuaryBook.total         = this.state.anuario_seleccionado
+    /// ASOPADRES
+    asopadres.type            = 'Anual'
+    asopadres.name            = 'Asopadres'
+    asopadres.code            = Utils.getServiceCode('Asopadres')
+    asopadres.select          = Utils.checkSelection(this.state.asopadres_seleccionado)
+    asopadres.value           = this.state.asopadres_seleccionado
+    asopadres.discount        = 0
+    asopadres.total           = this.state.asopadres_seleccionado
+    /// CLUB DEPORTIVO
+    sportsClub.type           = 'Anual'
+    sportsClub.name           = 'Club deportivo'
+    sportsClub.code           = Utils.getServiceCode('Club deportivo')
+    sportsClub.select         = Utils.checkSelection(this.state.club_seleccionado)
+    sportsClub.value          = this.state.club_seleccionado
+    sportsClub.discount       = 0
+    sportsClub.total          = this.state.club_seleccionado
+
+    annual_services.push(enrollment)
+    annual_services.push(bookSeries)
+    annual_services.push(accidentalSecure)
+    annual_services.push(annuaryBook)
+    annual_services.push(asopadres)
+    annual_services.push(sportsClub)
 
     // Populating object
     data_step1['token']              = "KJHASD7657"
@@ -460,9 +512,8 @@ class Services extends Component {
       isShowingResume: ''
     });
 
-    this.props.history.push('/enrolment_montly_services', data_step1);
-    //this.handleSaveServices();
-    //browserHistory.push("/enrolment_montly_services");
+    console.log(data_step1)
+    this.props.history.push('/enrolment_montly_services', data_step1)
   }
 
   handleSaveServices(){
@@ -543,7 +594,11 @@ class Services extends Component {
 
             <hr />
 
-            <Demographic name={this.state.nombres} lastname={this.state.apellidos} code={this.state.codigo} grade={this.state.grado} />
+            <Demographic 
+                name={this.state.nombres} 
+                lastname={this.state.apellidos} 
+                code={this.state.codigo} 
+                grade={this.state.grado} />
 
             <hr />
 
