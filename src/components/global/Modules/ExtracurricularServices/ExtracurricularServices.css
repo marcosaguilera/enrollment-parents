@@ -13,7 +13,7 @@
     height: auto;
     display: flex;
     flex-direction: row-reverse;
-  }
+}
 
 #box1 {
     width: 50%;
@@ -39,9 +39,40 @@
 }
 
 .cardTitleCustom{
-    font-size: 1.2rem !important;
+    font-size: 1.1rem !important;
 }
 
 .cardDescriptionTextCustom{
     font-size: .75rem !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#listContainer {
+    height: auto;
+    display: flex;
+    flex-direction: row;
+}
+
+#li-left {
+    width: 70%;
+    height: auto;
+}
+
+#li-right {
+    width: 30%;
+    height: auto;
+    text-align: right;
+}
+
+.pillsCustom{
+    margin-left: 2px !important;
+    width: 20px !important;
+    padding-left: 3px !important;
+    cursor: pointer;
+}
+
+svg {
+    height: 10px;
 }

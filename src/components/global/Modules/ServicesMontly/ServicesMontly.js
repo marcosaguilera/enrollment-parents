@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 //// Other dependencies
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
-import store from '../../../../ReduxStore/store'
 
 //// Components
 import Demographic from '../Demographic/Demographic'
@@ -19,8 +18,6 @@ import Utils from '../../../../Utils/Utils.js'
 //////// Assets
 import '../../Modules/ServicesMontly/ServicesMontly.css';
 
-
-
 class ServicesMontly extends Component {
     constructor() {
         super();
@@ -34,8 +31,8 @@ class ServicesMontly extends Component {
             demo_data               : [],       name     : '',
             lodgings                : 0,        lastname : '',
             transport               : 0,        grade    : '',
-            lunch                   : 0,        
-            snack                   : 0,        
+            lunch                   : 0,
+            snack                   : 0,
             breakFast               : 0,
             lifeSecure              : 0,
             jobSecure               : 0,
@@ -63,7 +60,8 @@ class ServicesMontly extends Component {
 
     componentDidMount = () => {
         let servicesObj = this.props.location.state;
-        console.log("Services data: " + JSON.stringify(servicesObj));
+        //console.log("===> Montly Services Step");
+        //console.log(servicesObj);
 
         this.setState({ 
                         step2_data : servicesObj,
@@ -71,7 +69,7 @@ class ServicesMontly extends Component {
                         name       : servicesObj.demographic.nombres,
                         lastname   : servicesObj.demographic.apellidos,
                         grade      : servicesObj.demographic.grado
-                     })
+                    })
 
         let url = "https://rcis-backend.herokuapp.com/student/monthlyservices/" + servicesObj.demographic.codigo
         axios.get(url)
@@ -218,6 +216,7 @@ class ServicesMontly extends Component {
 
         //////SERIALIZNG SELECTIONS///////
         /// PENSIÓN
+        lodgings.type        = 'Mensual'
         lodgings.name        = 'Pension'
         lodgings.code        = Utils.getServiceCode('Pension')
         lodgings.select      = 'Si'
@@ -225,6 +224,7 @@ class ServicesMontly extends Component {
         lodgings.discount    = this.state.discountLodgings
         lodgings.total       = this.state.totalLodgings
         /// TRANSPORTE
+        lodgings.type        = 'Mensual'
         transport.name       = "Transporte"
         transport.code       = Utils.getServiceCode('Transporte')
         transport.select     = Utils.getTransportServiceName(this.state.transport)
@@ -232,6 +232,7 @@ class ServicesMontly extends Component {
         transport.discount   = this.state.discountTransport
         transport.total      = this.state.totalTransport
         /// ALMUERZO
+        lodgings.type        = 'Mensual'
         lunch.name           = 'Almuerzo'
         lunch.code           = Utils.getServiceCode('Almuerzo')
         lunch.select         = this.state.lunchSel
@@ -239,6 +240,7 @@ class ServicesMontly extends Component {
         lunch.discount       = this.state.discountLunch
         lunch.total          = this.state.totalLunch
         /// M9
+        lodgings.type        = 'Mensual'
         snack.name           = 'Medias Nueves'
         snack.code           = Utils.getServiceCode('Medias Nueves')
         snack.select         = this.state.snackSel
@@ -246,6 +248,7 @@ class ServicesMontly extends Component {
         snack.discount       = this.state.discountSnack
         snack.total          = this.state.totalSnack
         /// DESAYUNO
+        lodgings.type        = 'Mensual'
         breakFast.name       = 'Desayuno'
         breakFast.code       = Utils.getServiceCode('Desayuno')
         breakFast.select     = this.state.breakFastSel
@@ -253,6 +256,7 @@ class ServicesMontly extends Component {
         breakFast.discount   = this.state.discountBreakfast
         breakFast.total      = this.state.totalBreakfast
         /// SEGURO VIDA
+        lodgings.type        = 'Mensual'
         lifeSecure.name      = 'Seguro de vida'
         lifeSecure.code      = Utils.getServiceCode('Seguro de vida')
         lifeSecure.select    = this.state.lifeSecureSel
@@ -260,6 +264,7 @@ class ServicesMontly extends Component {
         lifeSecure.discount  = this.state.discountLifeSecure
         lifeSecure.total     = this.state.totalLifeSecure
         /// SEGURO DESEMPLEO
+        lodgings.type        = 'Mensual'
         jobSecure.name       = 'Seguro desempleo'
         jobSecure.code       = Utils.getServiceCode('Seguro desempleo')
         jobSecure.select     = this.state.jobSecureSel
@@ -275,24 +280,22 @@ class ServicesMontly extends Component {
         montly_services.push(lifeSecure)
         montly_services.push(jobSecure)
 
-        data_step2['montly_services'].push(montly_services)
+        data_step2['montly_services'] = montly_services
         console.log(data_step2)
-
-
-        this.props.history.push('/enrolment_eco_services');
+        this.props.history.push('/enrolment_eco_services', data_step2);
     }
 
     render() {
         return (
-         <div>
+        <div>
             <main role="main"  className="container" id="customStyle">
                 <div className="shadow-sm p-3 mb-5 bg-white rounded">
                     <Demographic code={this.state.code} 
-                                 grade={this.state.grade} 
-                                 name={this.state.name} 
-                                 lastname={this.state.lastname} />
+                                grade={this.state.grade} 
+                                name={this.state.name} 
+                                lastname={this.state.lastname} />
 
-                    <hr/>   
+                    <hr/>
 
                     <h2 className="py-3">Selección de servicios mensuales</h2>
                     <div className="table-responsive">
@@ -483,7 +486,7 @@ class ServicesMontly extends Component {
                 </div>
 
             </main>
-         </div>
+        </div>
         );
     }
 }
