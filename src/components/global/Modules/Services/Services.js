@@ -630,7 +630,6 @@ class Services extends Component {
                                 </select>
                               </div>
                           </div>
-
                       </div>
 
                       <div className="card-footer bg-success text-white">

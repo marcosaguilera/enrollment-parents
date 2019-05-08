@@ -69,7 +69,7 @@ class ServicesMontly extends Component {
                         name       : servicesObj.demographic.nombres,
                         lastname   : servicesObj.demographic.apellidos,
                         grade      : servicesObj.demographic.grado
-                     })
+                    })
 
         let url = "https://rcis-backend.herokuapp.com/student/monthlyservices/" + servicesObj.demographic.codigo
         axios.get(url)
@@ -275,20 +275,18 @@ class ServicesMontly extends Component {
 
         data_step2['montly_services'].push(montly_services)
         console.log(data_step2)
-
-
         this.props.history.push('/enrolment_eco_services', data_step2);
     }
 
     render() {
         return (
-         <div>
+        <div>
             <main role="main"  className="container" id="customStyle">
                 <div className="shadow-sm p-3 mb-5 bg-white rounded">
                     <Demographic code={this.state.code} 
-                                 grade={this.state.grade} 
-                                 name={this.state.name} 
-                                 lastname={this.state.lastname} />
+                                grade={this.state.grade} 
+                                name={this.state.name} 
+                                lastname={this.state.lastname} />
 
                     <hr/>
 
@@ -481,7 +479,7 @@ class ServicesMontly extends Component {
                 </div>
 
             </main>
-         </div>
+        </div>
         );
     }
 }
