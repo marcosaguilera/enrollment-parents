@@ -213,6 +213,7 @@ class ServicesMontly extends Component {
         let breakFast       = {}
         let lifeSecure      = {}
         let jobSecure       = {}
+        let totals_montly   = {}
 
         //////SERIALIZNG SELECTIONS///////
         /// PENSIÓN
@@ -280,7 +281,11 @@ class ServicesMontly extends Component {
         montly_services.push(lifeSecure)
         montly_services.push(jobSecure)
 
+        totals_montly.montly_total_pay = this.state.totalMontlyServices
+
         data_step2['montly_services'] = montly_services
+        data_step2['payments'].push(totals_montly)
+        console.log("Final data Step 2: ");
         console.log(data_step2)
         this.props.history.push('/enrolment_eco_services', data_step2);
     }

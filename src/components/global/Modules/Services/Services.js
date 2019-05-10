@@ -538,7 +538,8 @@ class Services extends Component {
       isShowingResume: ''
     });
 
-    //console.log(data_step1)
+    console.log("Final data Step 1: ");
+    console.log(data_step1)
     this.props.history.push('/enrolment_montly_services', data_step1)
   }
 
