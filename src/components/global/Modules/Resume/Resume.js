@@ -86,7 +86,7 @@ class Resume extends Component {
     var servicesObj = this.props.location.state;
     console.log("Services data: " + JSON.stringify(servicesObj));
 
-    this.setState({
+    /*this.setState({
         biblio               : servicesObj.bibliobanco,
         matricula_tarifa     : servicesObj.matricula,
         matricula_tarifa_15  : servicesObj.matricula_15,
@@ -108,8 +108,8 @@ class Resume extends Component {
         objectId         : servicesObj.uid,
         
     }, () => {
-        this.handleCalculateTotalPayFee();
-    });
+        //this.handleCalculateTotalPayFee();
+    });*/
   }
 
   handleCalculateTotalPayFee = () =>{
@@ -117,7 +117,7 @@ class Resume extends Component {
       tot_tarifa : Number(
                           (((this.state.tot_pagar * this.state.fee)/100) + this.state.fee_cop) 
                          +((((this.state.tot_pagar * this.state.fee)/100) + this.state.fee_cop) * this.state.fee_iva)
-                         )
+                        )
     }, () => {
       this.handleTotalPay();
     })
@@ -374,12 +374,12 @@ class Resume extends Component {
     };
 
     axios.post('https://parseapi.back4app.com/classes/EventsLog', servicesSelected, axiosConfig)
-         .then(res => {   
-             console.log(res);      
-         })
-         .catch(error => {
+        .then(res => {   
+            console.log(res);      
+        })
+        .catch(error => {
             console.log(error);
-         });
+        });
 
   }
 

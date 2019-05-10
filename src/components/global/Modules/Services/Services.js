@@ -87,6 +87,7 @@ class Services extends Component {
         total_dtos_matr                      : 0,
         total_servicios                      : 0,
         total_pagar                          : 0,
+        total_selecciones                    : 0,
 
         // Addons states
         loading                              : false,  // will be true when ajax request is running
@@ -374,7 +375,11 @@ class Services extends Component {
                                   + this.state.seguro_seleccionado
                                   + this.state.anuario_seleccionado
                                   + this.state.asopadres_seleccionado
-                                  + this.state.club_seleccionado )
+                                  + this.state.club_seleccionado ),
+              total_selecciones: Number(this.state.seguro_seleccionado
+                                  + this.state.anuario_seleccionado
+                                  + this.state.asopadres_seleccionado
+                                  + this.state.club_seleccionado)
             })
             break;
         case "fromStart":
@@ -429,7 +434,7 @@ class Services extends Component {
   }
 
   nextPath = () => {
-    let data_step1       = { token:'', demographic:{}, annual_services: [], montly_services:[], eco:[], payment:{} }
+    let data_step1       = { token:'', demographic:{}, annual_services: [], montly_services:[], eco:[], payments:[] }
     let demographic_data = {}
     let annual_services  = []
     let enrollment       = {}
@@ -438,6 +443,7 @@ class Services extends Component {
     let annuaryBook      = {}
     let asopadres        = {}
     let sportsClub       = {}
+    let totals_annual    = {}
 
     // Student data
     demographic_data.codigo    = this.state.codigo
@@ -503,6 +509,15 @@ class Services extends Component {
     annual_services.push(asopadres)
     annual_services.push(sportsClub)
 
+    /*totals_annual.annual_total_enrollment = this.state.total_matricula
+    totals_annual.annual_total_discounts  = this.state.total_solo_descuentos
+    totals_annual.annual_total_to_pay     = this.state.total_conceptos_matricula_descuentos*/
+
+    console.log("===> Total enrollment + bookstore: " + this.state.total_matricula );
+    console.log("===> Total only discounts: " + this.state.total_solo_descuentos );
+    console.log("===> Total (enrollment + bookstore) - discounts: " + this.state.total_conceptos_matricula_descuentos );
+    console.log("===> Total selected services: " + this.state.total_servicios +" -- " + this.state.total_selecciones );
+
     // Populating object
     data_step1['token']              = "KJHASD7657"
     data_step1['demographic']        = demographic_data
@@ -513,7 +528,7 @@ class Services extends Component {
     });
 
     console.log(data_step1)
-    this.props.history.push('/enrolment_montly_services', data_step1)
+    //this.props.history.push('/enrolment_montly_services', data_step1)
   }
 
   handleSaveServices(){

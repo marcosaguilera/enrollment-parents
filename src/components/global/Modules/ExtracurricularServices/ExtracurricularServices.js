@@ -134,6 +134,8 @@ class ExtracurricularServices extends Component {
 		console.log(eco_services)
 		step3_data['eco'] = eco_services
 		console.log(step3_data)
+
+		this.props.history.push('/resume', step3_data);
 	}
 
 	render() {
