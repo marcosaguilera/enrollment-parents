@@ -366,7 +366,11 @@ class Services extends Component {
       switch(action) {
         case "fromSearch":
             this.setState({
-              total_pagar : Number(this.state.total_conceptos_matricula_descuentos + this.state.total_servicios)
+              total_pagar : Number(this.state.total_conceptos_matricula_descuentos + this.state.total_servicios),
+              total_selecciones: Number(this.state.seguro_seleccionado
+                                  + this.state.anuario_seleccionado
+                                  + this.state.asopadres_seleccionado
+                                  + this.state.club_seleccionado)
             })
             break;
         case "fromSelection":
@@ -388,7 +392,11 @@ class Services extends Component {
                                   + this.state.seguro_seleccionado
                                   + this.state.anuario_seleccionado
                                   + this.state.asopadres_seleccionado
-                                  + this.state.club_seleccionado )
+                                  + this.state.club_seleccionado ),
+              total_selecciones: Number(this.state.seguro_seleccionado
+                                  + this.state.anuario_seleccionado
+                                  + this.state.asopadres_seleccionado
+                                  + this.state.club_seleccionado)
             })
             break;
 
@@ -509,26 +517,29 @@ class Services extends Component {
     annual_services.push(asopadres)
     annual_services.push(sportsClub)
 
-    /*totals_annual.annual_total_enrollment = this.state.total_matricula
-    totals_annual.annual_total_discounts  = this.state.total_solo_descuentos
-    totals_annual.annual_total_to_pay     = this.state.total_conceptos_matricula_descuentos*/
-
     console.log("===> Total enrollment + bookstore: " + this.state.total_matricula );
     console.log("===> Total only discounts: " + this.state.total_solo_descuentos );
+    console.log("===> Total selected services: " + this.state.total_selecciones );
     console.log("===> Total (enrollment + bookstore) - discounts: " + this.state.total_conceptos_matricula_descuentos );
-    console.log("===> Total selected services: " + this.state.total_servicios +" -- " + this.state.total_selecciones );
+
+    totals_annual.annual_total_enrollment_bookstore      = this.state.total_matricula
+    totals_annual.annual_total_discounts                 = this.state.total_solo_descuentos
+    totals_annual.annual_total_enrollment_with_discounts = this.state.total_conceptos_matricula_descuentos
+    totals_annual.annual_total_seleted_services          = this.state.total_selecciones
+    totals_annual.annual_total_to_pay                    = this.state.total_pagar
 
     // Populating object
     data_step1['token']              = "KJHASD7657"
     data_step1['demographic']        = demographic_data
     data_step1['annual_services']    = annual_services
+    data_step1['payments'].push(totals_annual)
 
     this.setState({
       isShowingResume: ''
     });
 
-    console.log(data_step1)
-    //this.props.history.push('/enrolment_montly_services', data_step1)
+    //console.log(data_step1)
+    this.props.history.push('/enrolment_montly_services', data_step1)
   }
 
   handleSaveServices(){
@@ -561,12 +572,12 @@ class Services extends Component {
     };
 
     axios.post('https://parseapi.back4app.com/classes/EventsLog', servicesSelected, axiosConfig)
-         .then(res => {
-             console.log(res);
-         })
-         .catch(error => {
+        .then(res => {
+            console.log(res);
+        })
+        .catch(error => {
             console.log(error);
-         });
+        });
   }
 
   render() {
