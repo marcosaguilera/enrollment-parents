@@ -31,12 +31,16 @@ class Resume extends Component {
     this.handleOnChange             = this.handleOnChange.bind(this);
     this.confirmEnrollment          = this.confirmEnrollment.bind(this);
     this.confirmModal               = this.confirmModal.bind(this);
+    this.tuCompraPayment            = this.tuCompraPayment.bind(this);
 
     this.state = {
 
       // Form values
-      payuIdMerchant: '578320',
-
+      payuIdMerchant: '578320',      usuario            : 'cctjt208e6j40fdp',
+                                     factura_numero     : '',
+                                     descripcionFactura : 'MAT-',
+                                     tokenSeguridad     : '39639af8a6ef4eae9c998b82ed2c5666',
+                                     payment_token      : '',
       // payment data
       seguro               : 0,
       anuario              : 0,
@@ -104,19 +108,18 @@ class Resume extends Component {
     var servicesObj = this.props.location.state;
     console.log(servicesObj);
 
-
     this.setState({
-        //Student Data
-        codigo           : servicesObj.demographic.codigo,
-        nombres          : servicesObj.demographic.nombres,
-        apellidos        : servicesObj.demographic.apellidos,
-        grado            : servicesObj.demographic.grado,
+        enrollment_token        : servicesObj.token,
+        codigo                  : servicesObj.demographic.codigo,
+        nombres                 : servicesObj.demographic.nombres,
+        apellidos               : servicesObj.demographic.apellidos,
+        grado                   : servicesObj.demographic.grado,
 
         total_yearly_services   : servicesObj.payments[0].annual_total_to_pay,
         total_montly_services   : servicesObj.payments[1].montly_total_pay,
         total_eco_club_services : servicesObj.payments[2].eco_total_pay
-    }, () => { 
-        this.setState({ 
+    }, () => {
+        this.setState({
           sub_total_annual : this.state.total_yearly_services + ( (this.state.total_montly_services + this.state.total_eco_club_services)*10 )
         }, () => { this.calculateTotalPay(this.state.payment_selection) })
     })
@@ -128,21 +131,21 @@ class Resume extends Component {
       case "unico":
         let total_one_payment       = this.state.total_yearly_services + (( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.95 )
         let total_one_payment_saves = ( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.05
-        console.log("Total one payment: " + total_one_payment + ", Total saves: " + total_one_payment_saves)
+        //console.log("Total one payment: " + total_one_payment + ", Total saves: " + total_one_payment_saves)
         this.setState({ bigTotalPayment : total_one_payment, bigTotalPaymentSavings: total_one_payment_saves })
 
         break;
       case "dos":
         let total_two_payment       = this.state.total_yearly_services + ((( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.975) / 2)
         let total_two_payment_saves = ( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.025
-        console.log("Total one payment: " + total_two_payment + ", Total saves: " + total_two_payment_saves)
+        //console.log("Total one payment: " + total_two_payment + ", Total saves: " + total_two_payment_saves)
         this.setState({ bigTotalPayment : total_two_payment, bigTotalPaymentSavings: total_two_payment_saves })
 
         break;
       case "once":
         let total_eleven_payment       = this.state.total_yearly_services
         let total_eleven_payment_saves = 0
-        console.log("Total one payment: " + total_eleven_payment + ", Total saves: " + total_eleven_payment_saves)
+        //console.log("Total one payment: " + total_eleven_payment + ", Total saves: " + total_eleven_payment_saves)
         this.setState({ bigTotalPayment : total_eleven_payment, bigTotalPaymentSavings: total_eleven_payment_saves })
         break;
 
@@ -234,7 +237,18 @@ class Resume extends Component {
 
   toggle() {
     this.setState({ modal: !this.state.modal });
-    this.handlePayOnlineData();
+    //this.handlePayOnlineData();
+    this.tuCompraPayment()
+  }
+
+  tuCompraPayment(){
+      let now         = new Date();
+      let now_string  = now.getFullYear()+now.getMonth()+now.getDate()+'-'+now.getHours()+now.getMinutes()+now.getMilliseconds();
+
+      this.setState({
+          factura_numero    : this.state.enrollment_token,
+          payment_date:       now_string
+      })
   }
 
   toggle_modal() {
@@ -446,7 +460,6 @@ class Resume extends Component {
         .catch(error => {
             console.log(error);
         });
-
   }
 
   confirmEnrollment(){
@@ -478,7 +491,6 @@ class Resume extends Component {
                           <div className="col-md-12">
                               <h2 className="">Resumen total servicios seleccionados</h2>
                           </div>
-
                           <div className="col-md-12">
                             <div className="py-3">
                               <div className="container">
@@ -503,7 +515,6 @@ class Resume extends Component {
                             <div className="row">
                               <div className="col-md-12">
                                 <table className="table">
-
                                   <tbody>
                                     <tr>
                                       <td>Total Matrícula</td>
@@ -580,9 +591,7 @@ class Resume extends Component {
                                     </tr>
                                     <tr className="" style={{ visibility: this.state.confirmAction }}>
                                       <td ><b>Pagar el línea con TUCompra <u>sin costo adicional</u></b><br/>Ofrecemos la facilidad de pago en línea con TuCompra. Agíl, seguro y desde la comodidad de su casa.</td>
-                                      <td><Button type="button"
-                                          color="success"
-                                          onClick={this.toggle} style={{ marginBottom: '1rem' }}>Pagar en línea</Button>
+                                      <td><Button color="success" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Pagar en línea</Button>
                                       </td>
                                     </tr>
                                     {/*<tr>
@@ -658,16 +667,8 @@ class Resume extends Component {
                                               <table className="table table-bordered">
                                                 <tbody>
                                                     <tr>
-                                                      <td >Subtotal a pagar</td>
-                                                      <td><NumberFormat value={this.state.tot_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                                                    </tr>
-                                                    <tr>
-                                                      <td >Valor transacción en línea</td>
-                                                      <td><NumberFormat value={Math.round(this.state.tot_tarifa)} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                                                    </tr>
-                                                    <tr id="total-pay">
-                                                      <td ><b>Total a pagar</b></td>
-                                                      <td><b><NumberFormat value={Math.round(this.state.tot_pagar + this.state.tot_tarifa)} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
+                                                      <td >Total a pagar</td>
+                                                      <td><NumberFormat value={this.state.bigTotalPayment} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                                     </tr>
                                                 </tbody>
                                               </table>
@@ -694,7 +695,31 @@ class Resume extends Component {
                                                       <input name="telephone"        type="hidden"  value={this.state.buyerPhone} ></input>
                                                       <input name="shippingCountry"  type="hidden"  value="CO" ></input>
                                                       {/*<input name="test" type="hidden" value="1" ></input>*/}
-                                                      <input name="Submit" disabled={this.state.isPayButtonDisabled} type="submit"  value="Ir a Pagar" className="btn btn-success btn-lg" id="button_payu"></input>
+                                                      <input name="Submit" disabled={this.state.isPayButtonDisabled} hidden={true} type="submit"  value="Pagar con PayU" className="btn btn-success btn-lg" id="button_payu"></input>
+                                                    </form>
+                                                </div>
+                                          </div>
+                                          <div className="row">
+                                                <div className="col-sm"></div>
+                                                <div className="col-sm"></div>
+                                                <div className="col-sm text-right">
+                                                    {/*PayU form*/}
+                                                    <form method="post" action="https://gateway2.tucompra.com.co/tc/app/inputs/compra.jsp" target="_blank">
+                                                      <input name="usuario"             type="hidden" value={this.state.usuario} />
+                                                      <input name="factura"             type="hidden" value={this.state.factura_numero} />
+                                                      <input name="valor"               type="hidden" value={this.state.total_pagar} />
+                                                      <input name="descripcionFactura"  type="hidden" value={this.state.descripcionFactura} />
+                                                      <input name="tokenSeguridad"      type="hidden" value={this.state.tokenSeguridad} />
+                                                      <input name="documentoComprador"  type="hidden" value={this.state.dni_pagador} />
+                                                      <input name="nombreComprador"     type="hidden" value={this.state.nombre_pagador} />
+                                                      <input name="apellidoComprador"   type="hidden" value={this.state.apellidos_pagador} />
+                                                      <input name="correoComprador"     type="hidden" value={this.state.correo_pagador} />
+                                                      <input name="telefonoComprador"   type="hidden" value={this.state.telefono_pagador1} />
+                                                      <input name="celularComprador"    type="hidden" value={this.state.telefono_pagador2} />
+                                                      <input name="campoExtra1"         type="hidden" value={this.state.documents_array} />
+                                                      <input name="campoExtra2"         type="hidden" value={this.state.payment_date} />
+
+                                                      <input name="Submit" disabled={this.state.isPayButtonDisabled} type="submit"  value="Pagar con TUCompra" className="btn btn-success" id="button_payu"></input>
                                                     </form>
                                                 </div>
                                           </div>
@@ -705,7 +730,6 @@ class Resume extends Component {
                             </div>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -714,9 +738,8 @@ class Resume extends Component {
               </div>
             </div>
             <ToastsContainer store={ToastsStore} timer={5000}/>
-          </main> 
-
-          <Footer copyright="&copy;Colegio Rochester 2018" />  
+          </main>
+          <Footer copyright="&copy;Colegio Rochester 2019" />
         </div>
     );
   }
