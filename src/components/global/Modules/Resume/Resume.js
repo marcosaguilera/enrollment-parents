@@ -35,12 +35,16 @@ class Resume extends Component {
 
     this.state = {
 
-      // Form values
-      payuIdMerchant: '578320',      usuario            : 'cctjt208e6j40fdp',
-                                     factura_numero     : '',
-                                     descripcionFactura : 'MAT-',
-                                     tokenSeguridad     : '39639af8a6ef4eae9c998b82ed2c5666',
-                                     payment_token      : '',
+      // PayU states
+      payuIdMerchant: '578320',
+      
+      //TuCompra states
+      usuario            : 'cctjt208e6j40fdp',
+      factura_numero     : '',
+      descripcionFactura : 'MAT201920-',
+      tokenSeguridad     : '39639af8a6ef4eae9c998b82ed2c5666',
+      payment_token      : '',
+
       // payment data
       seguro               : 0,
       anuario              : 0,
@@ -82,7 +86,10 @@ class Resume extends Component {
       isFilledPhone : false,
 
       // BuyerData
+      buyerDni: '',
+      buyerDocType: '',
       buyerName: '',
+      buyerLastName: '',
       buyerPhone: '',
       buyerEmail: '',
       buyerAddress: '',
@@ -246,8 +253,9 @@ class Resume extends Component {
       let now_string  = now.getFullYear()+now.getMonth()+now.getDate()+'-'+now.getHours()+now.getMinutes()+now.getMilliseconds();
 
       this.setState({
-          factura_numero    : this.state.enrollment_token,
-          payment_date:       now_string
+          factura_numero     : this.state.enrollment_token,
+          descripcionFactura : 'MAT201920-' + this.state.enrollment_token +"-"+ this.state.codigo + "-"+,
+          payment_date       : now_string
       })
   }
 
@@ -379,6 +387,10 @@ class Resume extends Component {
             })
         }
       })
+    }
+
+    if(e.target.id === 'docTypeSelector'){
+      this.setState({ payment_selection: e.target.value })
     }
   }
 
@@ -645,7 +657,26 @@ class Resume extends Component {
                                         </div>
                                         <div className="form-row">
                                           <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerName" placeholder="Nombre completo" />
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerName" placeholder="Nombre(s)" />
+                                          </div>
+                                          <div className="col">
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerLastName" placeholder="Apellidos" />
+                                          </div>
+                                          <div className="col">
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerEmail" placeholder="Correo eletrónico" />
+                                          </div>
+                                        </div>
+                                        <div className="form-row">
+                                          <div className="col">
+                                              <select className="form-control"
+                                                id="docTypeSelector"
+                                                style={{ width: 'auto', display: 'inherit' }}
+                                                onChange={this.handleOnChange}>
+                                                    <option value="CC">Cédula de Ciudadanía</option>
+                                                    <option value="CE">Cédula de Extranjería</option>
+                                                    <option value="PAS">Pasaporte</option>
+                                                    <option value="NIT">NIT</option>
+                                              </select>
                                           </div>
                                           <div className="col">
                                               <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerEmail" placeholder="Correo eletrónico" />
@@ -707,7 +738,7 @@ class Resume extends Component {
                                                     <form method="post" action="https://gateway2.tucompra.com.co/tc/app/inputs/compra.jsp" target="_blank">
                                                       <input name="usuario"             type="hidden" value={this.state.usuario} />
                                                       <input name="factura"             type="hidden" value={this.state.factura_numero} />
-                                                      <input name="valor"               type="hidden" value={this.state.total_pagar} />
+                                                      <input name="valor"               type="hidden" value={this.state.bigTotalPayment} />
                                                       <input name="descripcionFactura"  type="hidden" value={this.state.descripcionFactura} />
                                                       <input name="tokenSeguridad"      type="hidden" value={this.state.tokenSeguridad} />
                                                       <input name="documentoComprador"  type="hidden" value={this.state.dni_pagador} />
@@ -716,8 +747,7 @@ class Resume extends Component {
                                                       <input name="correoComprador"     type="hidden" value={this.state.correo_pagador} />
                                                       <input name="telefonoComprador"   type="hidden" value={this.state.telefono_pagador1} />
                                                       <input name="celularComprador"    type="hidden" value={this.state.telefono_pagador2} />
-                                                      <input name="campoExtra1"         type="hidden" value={this.state.documents_array} />
-                                                      <input name="campoExtra2"         type="hidden" value={this.state.payment_date} />
+                                                      <input name="campoExtra1"         type="hidden" value={this.state.payment_date} />
 
                                                       <input name="Submit" disabled={this.state.isPayButtonDisabled} type="submit"  value="Pagar con TUCompra" className="btn btn-success" id="button_payu"></input>
                                                     </form>
