@@ -31,7 +31,8 @@ class Resume extends Component {
     this.handleOnChange             = this.handleOnChange.bind(this);
     this.confirmEnrollment          = this.confirmEnrollment.bind(this);
     this.confirmModal               = this.confirmModal.bind(this);
-    this.tuCompraPayment            = this.tuCompraPayment.bind(this);
+    this.getDescripcionFactura      = this.getDescripcionFactura.bind(this);
+    this.getNowDate                 = this.getNowDate.bind(this);
 
     this.state = {
 
@@ -80,19 +81,22 @@ class Resume extends Component {
       isPayButtonDisabled: true,
 
       // Form UI Filled?
-      isFilledName : false,
-      isFilledEmail : false,
-      isFilledAddress : false,
-      isFilledPhone : false,
+      isFilledName     : false,
+      isFilledLastName : false,
+      isFilledEmail    : false,
+      isFilledAddress  : false,
+      isFilledPhone    : false,
+      isFilledDoctype  : false,
+      isFilledDni      : false,
 
       // BuyerData
-      buyerDni: '',
-      buyerDocType: '',
-      buyerName: '',
-      buyerLastName: '',
-      buyerPhone: '',
-      buyerEmail: '',
-      buyerAddress: '',
+      buyerDni         : '',
+      buyerDocType     : 'CC',
+      buyerName        : '',
+      buyerLastName    : '',
+      buyerPhone       : '',
+      buyerEmail       : '',
+      buyerAddress     : '',
 
       // Totals from big object
       total_yearly_services   : 0,
@@ -245,18 +249,19 @@ class Resume extends Component {
   toggle() {
     this.setState({ modal: !this.state.modal });
     //this.handlePayOnlineData();
-    this.tuCompraPayment()
+    //this.tuCompraPayment()
   }
 
-  tuCompraPayment(){
+  getNowDate(){
       let now         = new Date();
-      let now_string  = now.getFullYear()+now.getMonth()+now.getDate()+'-'+now.getHours()+now.getMinutes()+now.getMilliseconds();
+      let now_string  = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate()+"-"+now.getHours()+":"+now.getMinutes()+":"+now.getMilliseconds();
+      return now_string
+  }
 
-      this.setState({
-          factura_numero     : this.state.enrollment_token,
-          descripcionFactura : 'MAT201920-' + this.state.enrollment_token +"-"+ this.state.codigo + "-"+,
-          payment_date       : now_string
-      })
+  getDescripcionFactura(){
+    let now = new Date()
+    let descripcionFactura = 'MAT201920-' + this.state.enrollment_token +"-"+ this.state.codigo + "-" + this.state.buyerDni + "-" + now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate()+"-"+now.getHours()+":"+now.getMinutes()   
+    return descripcionFactura
   }
 
   toggle_modal() {
@@ -264,20 +269,24 @@ class Resume extends Component {
   }
 
   toggleEnablePaymentButton = () =>{
-      //console.log("Filled: Name " + this.state.isFilledName + " Email: " + this.state.isFilledEmail + " Phone: " + this.state.isFilledPhone + " Address: " + this.state.isFilledAddress);
-      if(    this.state.isFilledName === true
-          && this.state.isFilledEmail === true
-          && this.state.isFilledAddress === true
-          && this.state.isFilledPhone === true ){
+    console.log("Name: " + this.state.isFilledName)
+    console.log("Lastname: " + this.state.isFilledLastName)
+    console.log("Doc type: " + this.state.isFilledDoctype)
+    console.log("Doc dni: " + this.state.isFilledDni)
+    console.log("Phone: " + this.state.isFilledPhone)
+    console.log("Email: " + this.state.isFilledEmail)
+    console.log("Address: " + this.state.isFilledAddress)
+      if(    this.state.isFilledName     === true
+          && this.state.isFilledLastName === true
+          && this.state.isFilledDoctype  === true
+          && this.state.isFilledDni      === true
+          && this.state.isFilledEmail    === true
+          && this.state.isFilledAddress  === true
+          && this.state.isFilledPhone    === true ){
 
-          this.setState({
-            isPayButtonDisabled : false
-          })
-
+          this.setState({ isPayButtonDisabled : false })
       }else{
-          this.setState({
-            isPayButtonDisabled : true
-          })
+          this.setState({ isPayButtonDisabled : true })
       }
   }
 
@@ -319,6 +328,27 @@ class Resume extends Component {
         }else{
             this.setState({
               isFilledName: false
+            }, () => {
+              this.toggleEnablePaymentButton();
+            })
+        }
+      })
+    }
+
+    if(e.target.id === 'inputBuyerLastName'){
+      this.setState({
+        buyerLastName: String(e.target.value)
+      }, () => {
+        console.log(this.state.buyerLastName)
+        if(this.state.buyerLastName.length > 0){
+            this.setState({
+              isFilledLastName: true
+            }, () => {
+              this.toggleEnablePaymentButton();
+            })
+        }else{
+            this.setState({
+              isFilledLastName: false
             }, () => {
               this.toggleEnablePaymentButton();
             })
@@ -389,8 +419,46 @@ class Resume extends Component {
       })
     }
 
+    if(e.target.id === 'inputBuyerDni'){
+      this.setState({
+        buyerDni: String(e.target.value)
+      }, () => {
+        console.log(this.state.buyerDni)
+        if(this.state.buyerDni.length > 0){
+          this.setState({
+            isFilledDni: true
+          }, () => {
+            this.toggleEnablePaymentButton();
+          })
+        }else{
+            this.setState({
+              isFilledDni: false
+            }, () => {
+              this.toggleEnablePaymentButton();
+            })
+        }
+      })
+    }
+
     if(e.target.id === 'docTypeSelector'){
-      this.setState({ payment_selection: e.target.value })
+      this.setState({ 
+        buyerDocType: e.target.value 
+      }, () => {
+        console.log(this.state.buyerDocType)
+        if(this.state.buyerDocType.length > 0){
+          this.setState({
+            isFilledDoctype: true
+          }, () => {
+            this.toggleEnablePaymentButton();
+          })
+        }else{
+            this.setState({
+              isFilledDoctype: false
+            }, () => {
+              this.toggleEnablePaymentButton();
+            })
+        }
+      })
     }
   }
 
@@ -655,23 +723,21 @@ class Resume extends Component {
                                                 *Antes de continuar con el pago es importante que diligencie la información del pagador.
                                             </div>
                                         </div>
-                                        <div className="form-row">
+                                        <div className="form-row py-2">
                                           <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerName" placeholder="Nombre(s)" />
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerName} id="inputBuyerName" placeholder="Nombre(s)" />
                                           </div>
                                           <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerLastName" placeholder="Apellidos" />
-                                          </div>
-                                          <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerEmail" placeholder="Correo eletrónico" />
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerLastName} id="inputBuyerLastName" placeholder="Apellidos" />
                                           </div>
                                         </div>
-                                        <div className="form-row">
+                                        <div className="form-row py-2">
                                           <div className="col">
                                               <select className="form-control"
                                                 id="docTypeSelector"
-                                                style={{ width: 'auto', display: 'inherit' }}
-                                                onChange={this.handleOnChange}>
+                                                value={this.state.buyerDocType}
+                                                style={{ width: '100%', display: 'inherit' }}
+                                                onChange={this.handleOnChangeBuyer}>
                                                     <option value="CC">Cédula de Ciudadanía</option>
                                                     <option value="CE">Cédula de Extranjería</option>
                                                     <option value="PAS">Pasaporte</option>
@@ -679,19 +745,23 @@ class Resume extends Component {
                                               </select>
                                           </div>
                                           <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerEmail" placeholder="Correo eletrónico" />
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerDni} id="inputBuyerDni" placeholder="No. identificación" />
                                           </div>
                                         </div>
-                                        <div className="form-row py-3">
+                                        <div className="form-row py-2">
                                           <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerPhone" placeholder="Teléfono" />
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerPhone} id="inputBuyerPhone" placeholder="No. Móvil" />
                                           </div>
                                           <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerAddress" placeholder="Dirección" />
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerEmail} id="inputBuyerEmail" placeholder="Correo eletrónico" />
                                           </div>
                                         </div>
-
-                                        <div className="py-3">
+                                        <div className="form-row py-2">
+                                          <div className="col">
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerAddress} id="inputBuyerAddress" placeholder="Dirección" />
+                                          </div>
+                                        </div>
+                                        <div className="py-2">
                                           <h6 >Detalle del pago</h6>
                                           <div className="row">
                                             <div className="col-md-12">
@@ -737,19 +807,21 @@ class Resume extends Component {
                                                     {/*PayU form*/}
                                                     <form method="post" action="https://gateway2.tucompra.com.co/tc/app/inputs/compra.jsp" target="_blank">
                                                       <input name="usuario"             type="hidden" value={this.state.usuario} />
-                                                      <input name="factura"             type="hidden" value={this.state.factura_numero} />
+                                                      <input name="factura"             type="hidden" value={this.state.enrollment_token} />
                                                       <input name="valor"               type="hidden" value={this.state.bigTotalPayment} />
-                                                      <input name="descripcionFactura"  type="hidden" value={this.state.descripcionFactura} />
+                                                      <input name="descripcionFactura"  type="hidden" value={this.getDescripcionFactura()} />
                                                       <input name="tokenSeguridad"      type="hidden" value={this.state.tokenSeguridad} />
-                                                      <input name="documentoComprador"  type="hidden" value={this.state.dni_pagador} />
-                                                      <input name="nombreComprador"     type="hidden" value={this.state.nombre_pagador} />
-                                                      <input name="apellidoComprador"   type="hidden" value={this.state.apellidos_pagador} />
-                                                      <input name="correoComprador"     type="hidden" value={this.state.correo_pagador} />
-                                                      <input name="telefonoComprador"   type="hidden" value={this.state.telefono_pagador1} />
-                                                      <input name="celularComprador"    type="hidden" value={this.state.telefono_pagador2} />
-                                                      <input name="campoExtra1"         type="hidden" value={this.state.payment_date} />
+                                                      <input name="tipoDocumento"       type="hidden" value={this.state.buyerDocType} />
+                                                      <input name="documentoComprador"  type="hidden" value={this.state.buyerDni} />
+                                                      <input name="nombreComprador"     type="hidden" value={this.state.buyerName} />
+                                                      <input name="apellidoComprador"   type="hidden" value={this.state.buyerLastName} />
+                                                      <input name="correoComprador"     type="hidden" value={this.state.buyerEmail} />
+                                                      <input name="telefonoComprador"   type="hidden" value={this.state.buyerPhone} />
+                                                      <input name="celularComprador"    type="hidden" value={this.state.buyerPhone} />
+                                                      <input name="direccionComprador"  type="hidden" value={this.state.buyerAddress} />
+                                                      <input name="campoExtra1"         type="hidden" value={this.getNowDate()} />
 
-                                                      <input name="Submit" disabled={this.state.isPayButtonDisabled} type="submit"  value="Pagar con TUCompra" className="btn btn-success" id="button_payu"></input>
+                                                      <input name="Submit" disabled={this.state.isPayButtonDisabled} type="submit" value="Pagar con TUCompra" className="btn btn-success" id="button_payu"></input>
                                                     </form>
                                                 </div>
                                           </div>
