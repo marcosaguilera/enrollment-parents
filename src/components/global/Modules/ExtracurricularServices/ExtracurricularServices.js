@@ -204,7 +204,7 @@ class ExtracurricularServices extends Component {
 												<div id="li-left">
 													{changeCase.sentenceCase(cart.name)}
 													<p>
-														<span className="badge badge-primary badge-pill">
+														<span className="badge badge-primary badge-pill custom-pill">
 															<NumberFormat value={cart.value} displayType={'text'} thousandSeparator={true} prefix={'$'} />
 														</span>
 													</p>

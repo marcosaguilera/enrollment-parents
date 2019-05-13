@@ -77,14 +77,31 @@ class Resume extends Component {
       buyerName: '',
       buyerPhone: '',
       buyerEmail: '',
-      buyerAddress: ''
-
+      buyerAddress: '',
+      
+      // Totals from big object
+      total_yearly_services   : 0,
+      total_montly_services   : 0,
+      total_eco_club_services : 0
     }
   }
 
   componentDidMount(){
     var servicesObj = this.props.location.state;
-    console.log("Services data: " + JSON.stringify(servicesObj));
+    console.log(servicesObj);
+
+
+    this.setState({
+        //Student Data
+        codigo           : servicesObj.demographic.codigo,
+        nombres          : servicesObj.demographic.nombres,
+        apellidos        : servicesObj.demographic.apellidos,
+        grado            : servicesObj.demographic.grado,
+
+        total_yearly_services   : servicesObj.payments[0].annual_total_to_pay,
+        total_montly_services   : servicesObj.payments[1].montly_total_pay,
+        total_eco_club_services : servicesObj.payments[2].eco_total_pay
+    })
 
     /*this.setState({
         biblio               : servicesObj.bibliobanco,
@@ -100,7 +117,7 @@ class Resume extends Component {
         tot_pagar            : servicesObj.total_pagar,
         tot_solo_dto         : servicesObj.total_solo_dtos,
         
-        // Student Data
+        Student Data
         codigo           : servicesObj.codigo,
         nombres          : servicesObj.nombres,
         apellidos        : servicesObj.apellidos,
@@ -389,8 +406,8 @@ class Resume extends Component {
   }
 
   render() {
-    console.log("Here props: ");
-    console.log(this.props)
+    //console.log("Here props: ");
+    //console.log(this.props)
     
     return (
         <div className="Resume" >
@@ -405,7 +422,7 @@ class Resume extends Component {
                         <div className="row">
                           
                           <div className="col-md-12">
-                              <h2 className="">Resumen de costos de matrícula y otros servicios</h2>
+                              <h2 className="">Resumen total servicios seleccionados</h2>
                           </div>
                           
                           <div className="col-md-12"> 
@@ -435,24 +452,16 @@ class Resume extends Component {
                                   
                                   <tbody>
                                     <tr>
-                                      <td>Matrícula + Bibliobanco</td>
-                                      <td><NumberFormat value={this.state.tot_matricula} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                      <td>Total Matrícula</td>
+                                      <td><NumberFormat value={this.state.total_yearly_services} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
                                     <tr>
-                                      <td>Seguro de accidentes</td>
-                                      <td><NumberFormat value={this.state.seguro} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                      <td>Total Mensualidades</td>
+                                      <td><NumberFormat value={this.state.total_montly_services} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
                                     <tr>
-                                      <td>Anuario</td>
-                                      <td><NumberFormat value={this.state.anuario} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                                    </tr>
-                                    <tr>
-                                      <td>Asopadres</td>
-                                      <td><NumberFormat value={this.state.asopadres} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                                    </tr>
-                                    <tr>
-                                      <td>Afiliación a club deportivo</td>
-                                      <td><NumberFormat value={this.state.club} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                      <td>Total Eco y Club deportivo</td>
+                                      <td><NumberFormat value={this.state.total_eco_club_services} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
                                     <tr className="bg-primary text-white">
                                       <td ><b>Total a pagar</b></td>
