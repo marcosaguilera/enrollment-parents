@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import md5gen from 'md5';
 import NumberFormat from 'react-number-format';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import {ToastsContainer, ToastsStore} from 'react-toasts';
 
 // Assets
 import '../../Modules/Resume/Resume.css';
@@ -14,7 +15,7 @@ import formato from '../../images/formato_consignacion.jpg';
 import Footer from '../../Footer'
 
 class Resume extends Component {
-  
+
   constructor(){
     super();
 
@@ -27,6 +28,9 @@ class Resume extends Component {
     this.handleOnChangeBuyer        = this.handleOnChangeBuyer.bind(this);
     this.handlePrintData            = this.handlePrintData.bind(this);
     this.handlePayOnlineData        = this.handlePayOnlineData.bind(this);
+    this.handleOnChange             = this.handleOnChange.bind(this);
+    this.confirmEnrollment          = this.confirmEnrollment.bind(this);
+    this.confirmModal               = this.confirmModal.bind(this);
 
     this.state = {
 
@@ -78,11 +82,21 @@ class Resume extends Component {
       buyerPhone: '',
       buyerEmail: '',
       buyerAddress: '',
-      
+
       // Totals from big object
       total_yearly_services   : 0,
       total_montly_services   : 0,
-      total_eco_club_services : 0
+      total_eco_club_services : 0,
+      sub_total_annual        : 0,
+
+      // Payment selection
+      payment_selection       : 'unico',
+      bigTotalPayment         : 0,
+      bigTotalPaymentSavings  : 0,
+      confirmAction           : 'collapse',
+      toggleConfirmModal      : false,
+      confirmText             : '',
+      confirmButtonDisabled   : true,
     }
   }
 
@@ -101,32 +115,40 @@ class Resume extends Component {
         total_yearly_services   : servicesObj.payments[0].annual_total_to_pay,
         total_montly_services   : servicesObj.payments[1].montly_total_pay,
         total_eco_club_services : servicesObj.payments[2].eco_total_pay
+    }, () => { 
+        this.setState({ 
+          sub_total_annual : this.state.total_yearly_services + ( (this.state.total_montly_services + this.state.total_eco_club_services)*10 )
+        }, () => { this.calculateTotalPay(this.state.payment_selection) })
     })
+  }
 
-    /*this.setState({
-        biblio               : servicesObj.bibliobanco,
-        matricula_tarifa     : servicesObj.matricula,
-        matricula_tarifa_15  : servicesObj.matricula_15,
-        matricula_tarifa_7_5 : servicesObj.matricula_7_5,
-        anuario              : servicesObj.anuario,
-        asopadres            : servicesObj.asopadres,
-        club                 : servicesObj.club,
-        seguro               : servicesObj.seguro,
-        tot_matricula        : servicesObj.total_descuentos,
-        tot_servicios        : servicesObj.total_servicios,
-        tot_pagar            : servicesObj.total_pagar,
-        tot_solo_dto         : servicesObj.total_solo_dtos,
-        
-        Student Data
-        codigo           : servicesObj.codigo,
-        nombres          : servicesObj.nombres,
-        apellidos        : servicesObj.apellidos,
-        grado            : servicesObj.grado,
-        objectId         : servicesObj.uid,
-        
-    }, () => {
-        //this.handleCalculateTotalPayFee();
-    });*/
+  calculateTotalPay(selection){
+    console.log(selection)
+    switch (selection) {
+      case "unico":
+        let total_one_payment       = this.state.total_yearly_services + (( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.95 )
+        let total_one_payment_saves = ( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.05
+        console.log("Total one payment: " + total_one_payment + ", Total saves: " + total_one_payment_saves)
+        this.setState({ bigTotalPayment : total_one_payment, bigTotalPaymentSavings: total_one_payment_saves })
+
+        break;
+      case "dos":
+        let total_two_payment       = this.state.total_yearly_services + ((( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.975) / 2)
+        let total_two_payment_saves = ( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.025
+        console.log("Total one payment: " + total_two_payment + ", Total saves: " + total_two_payment_saves)
+        this.setState({ bigTotalPayment : total_two_payment, bigTotalPaymentSavings: total_two_payment_saves })
+
+        break;
+      case "once":
+        let total_eleven_payment       = this.state.total_yearly_services
+        let total_eleven_payment_saves = 0
+        console.log("Total one payment: " + total_eleven_payment + ", Total saves: " + total_eleven_payment_saves)
+        this.setState({ bigTotalPayment : total_eleven_payment, bigTotalPaymentSavings: total_eleven_payment_saves })
+        break;
+
+      default:
+        break;
+    }
   }
 
   handleCalculateTotalPayFee = () =>{
@@ -206,31 +228,58 @@ class Resume extends Component {
       this.handleMd5Generator();
   }
 
+  confirmModal(){
+    this.setState({ toggleConfirmModal: !this.state.toggleConfirmModal })
+  }
+
   toggle() {
     this.setState({ modal: !this.state.modal });
     this.handlePayOnlineData();
   }
-  
+
   toggle_modal() {
     this.setState({ modal_print: !this.state.modal_print });
   }
 
   toggleEnablePaymentButton = () =>{
-      //console.log("Filled: Name " + this.state.isFilledName + " Email: " + this.state.isFilledEmail + " Phone: " + this.state.isFilledPhone + " Address: " + this.state.isFilledAddress);     
-      if(    this.state.isFilledName === true 
-          && this.state.isFilledEmail === true 
-          && this.state.isFilledAddress === true 
+      //console.log("Filled: Name " + this.state.isFilledName + " Email: " + this.state.isFilledEmail + " Phone: " + this.state.isFilledPhone + " Address: " + this.state.isFilledAddress);
+      if(    this.state.isFilledName === true
+          && this.state.isFilledEmail === true
+          && this.state.isFilledAddress === true
           && this.state.isFilledPhone === true ){
-          
+
           this.setState({
             isPayButtonDisabled : false
-          })  
+          })
 
       }else{
           this.setState({
             isPayButtonDisabled : true
           })
       }
+  }
+
+  handleOnChange(e){
+    if(e.target.id === 'paymentSelector'){
+      this.setState({ payment_selection: e.target.value }, () => {
+          this.calculateTotalPay(this.state.payment_selection)
+      })
+    }
+
+    if(e.target.id === 'text-confirm'){
+      if(e.target.value === "ACEPTO"){
+        this.setState({
+          confirmText : 'ACEPTO',
+          confirmButtonDisabled : false
+        })
+      }
+      else{
+        this.setState({
+          confirmText : '',
+          confirmButtonDisabled : true
+        })
+      }
+    }
   }
 
   handleOnChangeBuyer = (e) =>{
@@ -254,7 +303,7 @@ class Resume extends Component {
         }
       })
     }
-    
+
     if(e.target.id === 'inputBuyerEmail'){
       this.setState({
         buyerEmail: String(e.target.value)
@@ -275,7 +324,7 @@ class Resume extends Component {
         }
       })
     }
-    
+
     if(e.target.id === 'inputBuyerPhone'){
       this.setState({
         buyerPhone: String(e.target.value)
@@ -296,7 +345,7 @@ class Resume extends Component {
         }
       })
     }
-    
+
     if(e.target.id === 'inputBuyerAddress'){
       this.setState({
         buyerAddress: String(e.target.value)
@@ -316,7 +365,7 @@ class Resume extends Component {
             })
         }
       })
-    }  
+    }
   }
 
   handlePrintData(){
@@ -350,13 +399,13 @@ class Resume extends Component {
       },
     };
 
-    axios.post('https://parseapi.back4app.com/classes/EventsLog', servicesSelected, axiosConfig)
+    /*axios.post('https://parseapi.back4app.com/classes/EventsLog', servicesSelected, axiosConfig)
          .then(res => {
              //console.log(res);
          })
          .catch(error => {
             //console.log(error);
-         });
+         });*/
 
   }
 
@@ -372,7 +421,7 @@ class Resume extends Component {
     data.monto                           = this.state.monto;
     data.codigoReferencia                = this.state.codigoReferencia;
     data.tot_tarifa                      = this.state.tot_tarifa;
-    
+
     data.anuario                         = this.state.anuario;
     data.seguro_accidentes               = this.state.seguro;
     data.asopadres                       = this.state.asopadres;
@@ -391,13 +440,21 @@ class Resume extends Component {
     };
 
     axios.post('https://parseapi.back4app.com/classes/EventsLog', servicesSelected, axiosConfig)
-        .then(res => {   
-            console.log(res);      
+        .then(res => {
+            console.log(res);
         })
         .catch(error => {
             console.log(error);
         });
 
+  }
+
+  confirmEnrollment(){
+    ToastsStore.success("👍 Has confirmado exitosamente tu matrícula")
+    this.setState({
+      toggleConfirmModal : false,
+      confirmAction : 'visible'
+    })
   }
 
   // Props definitions
@@ -406,12 +463,9 @@ class Resume extends Component {
   }
 
   render() {
-    //console.log("Here props: ");
-    //console.log(this.props)
-    
     return (
         <div className="Resume" >
-          <main>  
+          <main>
             <div className="album py-3 bg-light" >
               <div className="container">
                 <div className="row">
@@ -420,12 +474,12 @@ class Resume extends Component {
                     <div className="card p-5 bg-light text-dark">
                       <div className="card-body">
                         <div className="row">
-                          
+
                           <div className="col-md-12">
                               <h2 className="">Resumen total servicios seleccionados</h2>
                           </div>
-                          
-                          <div className="col-md-12"> 
+
+                          <div className="col-md-12">
                             <div className="py-3">
                               <div className="container">
                                 <div className="row">
@@ -449,7 +503,7 @@ class Resume extends Component {
                             <div className="row">
                               <div className="col-md-12">
                                 <table className="table">
-                                  
+
                                   <tbody>
                                     <tr>
                                       <td>Total Matrícula</td>
@@ -463,22 +517,82 @@ class Resume extends Component {
                                       <td>Total Eco y Club deportivo</td>
                                       <td><NumberFormat value={this.state.total_eco_club_services} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
-                                    <tr className="bg-primary text-white">
-                                      <td ><b>Total a pagar</b></td>
-                                      <td><b><NumberFormat value={this.state.tot_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
+                                    <tr>
+                                      <td><b>Total anual</b></td>
+                                      <td><b><NumberFormat value={this.state.sub_total_annual} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
                                     </tr>
-                                    <tr className="">
-                                      <td ><b>Imprimir Recibo de Matrícula</b><br/>Este documento debe ser firmado y entregado en día de la matrícula</td>
-                                      <td><Button color="primary" onClick={() => this.nextPath()}>Imprimir</Button></td>
+                                    <tr className="bg-primary text-white py-3">
+                                      <td><b>Forma de pago</b></td>
+                                      <td></td>
                                     </tr>
                                     <tr>
+                                      <td>Selecione una forma de pago</td>
+                                      <td>
+                                        <select className="form-control"
+                                            id="paymentSelector"
+                                            style={{ width: 'auto', display: 'inherit' }}
+                                            onChange={this.handleOnChange}
+                                            value={this.state.payment_selection}
+                                            value={this.state.transport}>
+                                                <option value="unico">Único pago (1)</option>
+                                                <option value="dos">Dos pagos (2)</option>
+                                                <option value="once">Once pagos (11)</option>
+                                                {/* Cuando un padre seleccione un transporte seleccionará si desea tomar modalidad extracurricular */}
+                                        </select>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Ahorro en las mensualidades</td>
+                                      <td><NumberFormat value={this.state.bigTotalPaymentSavings} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                    </tr>
+                                    <tr>
+                                      <td><b>Total a pagar</b></td>
+                                      <td><b><NumberFormat value={this.state.bigTotalPayment} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
+                                    </tr>
+                                    <tr className="bg-primary text-white py-3">
+                                      <td><b>Confirmar matrícula</b></td>
+                                      <td></td>
+                                    </tr>
+                                    <tr className="">
+                                      <td><b>Antes de realizar el pago en línea y la impresión del pdf*</b><br/>Confirme que esta de acuerdo con los valores y servicios seleccionados</td>
+                                      <td><Button color="primary" onClick={this.confirmModal}>Confirmar</Button></td>
+                                      <Modal isOpen={this.state.toggleConfirmModal} toggle={this.confirmModal} className={this.props.className}>
+                                          <ModalHeader toggle={this.confirmModal}>Confirmación de matrícula</ModalHeader>
+                                          <ModalBody>
+                                              <div className="alert alert-primary" role="alert">
+                                                  Escriba <code><b><u>ACEPTO</u></b></code> para confirmar que esta de acuerdo con los servicios seleccionados, los totales y la forma de pago
+                                              </div>
+                                              <input type="text" class="form-control" id="text-confirm" onChange={this.handleOnChange}></input>
+                                          </ModalBody>
+                                          <ModalFooter>
+                                            <Button color="secondary" onClick={this.confirmModal}>Cancelar</Button>
+                                            <Button color="primary" disabled={this.state.confirmButtonDisabled} onClick={this.confirmEnrollment}>Confirmar</Button>
+                                          </ModalFooter>
+                                      </Modal>
+                                    </tr>
+                                    <tr className="bg-primary text-white py-3" style={{ visibility: this.state.confirmAction }}>
+                                      <td><b>Pago en línea e impresión</b></td>
+                                      <td></td>
+                                    </tr>
+                                    <tr className="" style={{ visibility: this.state.confirmAction }}>
+                                      <td ><b>Imprimir Recibo de Matrícula</b><br/>Guarde el pdf generado y subalo a OpenApply</td>
+                                      <td><Button color="primary" onClick={() => this.nextPath()}>Imprimir</Button></td>
+                                    </tr>
+                                    <tr className="" style={{ visibility: this.state.confirmAction }}>
+                                      <td ><b>Pagar el línea con TUCompra <u>sin costo adicional</u></b><br/>Ofrecemos la facilidad de pago en línea con TuCompra. Agíl, seguro y desde la comodidad de su casa.</td>
+                                      <td><Button type="button"
+                                          color="success"
+                                          onClick={this.toggle} style={{ marginBottom: '1rem' }}>Pagar en línea</Button>
+                                      </td>
+                                    </tr>
+                                    {/*<tr>
                                         <td colSpan="2" id="base_table">
                                             <div className="alert alert-primary" role="alert">
                                               <p> <b>Pagar en banco (sin costo adicional):</b> Imprima su recibo y acerquese a la sucursal del <b>Banco de Bogotá</b> más cercana para realizar el pago. </p>
                                               <p> <b>Pagar en línea (con costo adicional):</b> Ofrecemos la facilidad de pago en línea con PayU. Agíl, seguro y desde la comodidad de su casa. (<a href="https://www.payulatam.com/co/tarifas/" rel="noopener noreferrer" target="_blank">Conoce las tarifas de PayU - 3.49% + $900</a>)</p>
                                             </div>
-                                        </td>        
-                                    </tr>
+                                        </td>
+                                    </tr>*/}
                                   </tbody>
                                 </table>
                               </div>
@@ -489,8 +603,9 @@ class Resume extends Component {
                           <div className="col-md-12">
                             <div className="row">
                               <div className="col">
-                                  <button type="button" 
+                                  <button type="button"
                                           className="btn btn-secondary btn-lg"
+                                          hidden={true}
                                           onClick={this.toggle_modal}>
                                           Pagar en banco
                                   </button>
@@ -510,11 +625,6 @@ class Resume extends Component {
                               <div className="col"></div>
                               <div className="col"></div>
                               <div className="col">
-                                  <Button type="button" 
-                                          color="success"
-                                          size="lg"
-                                          onClick={this.toggle} style={{ marginBottom: '1rem' }}>Pagar en línea</Button>
-
                                   <Modal isOpen={this.state.modal} size="lg" toggle={this.toggle} className={this.props.className}>
                                     <ModalHeader toggle={this.toggle}>Resumen de pago en línea</ModalHeader>
                                     <ModalBody>
@@ -540,7 +650,7 @@ class Resume extends Component {
                                               <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerAddress" placeholder="Dirección" />
                                           </div>
                                         </div>
-                                         
+
                                         <div className="py-3">
                                           <h6 >Detalle del pago</h6>
                                           <div className="row">
@@ -562,8 +672,8 @@ class Resume extends Component {
                                                 </tbody>
                                               </table>
                                             </div>
-                                          </div> 
-                                          <div className="row"> 
+                                          </div>
+                                          <div className="row">
                                                 <div className="col-sm"></div>
                                                 <div className="col-sm"></div>
                                                 <div className="col-sm text-right">
@@ -588,11 +698,11 @@ class Resume extends Component {
                                                     </form>
                                                 </div>
                                           </div>
-                                        </div>   
+                                        </div>
                                     </ModalBody>
                                   </Modal>
                               </div>
-                            </div>      
+                            </div>
                           </div>
                         </div>
 
@@ -603,6 +713,7 @@ class Resume extends Component {
                 </div>
               </div>
             </div>
+            <ToastsContainer store={ToastsStore} timer={5000}/>
           </main> 
 
           <Footer copyright="&copy;Colegio Rochester 2018" />  
