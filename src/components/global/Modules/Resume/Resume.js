@@ -6,6 +6,7 @@ import md5gen from 'md5';
 import NumberFormat from 'react-number-format';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {ToastsContainer, ToastsStore} from 'react-toasts';
+import { PDFViewer } from '@react-pdf/renderer';
 
 // Assets
 import '../../Modules/Resume/Resume.css';
@@ -13,6 +14,9 @@ import formato from '../../images/formato_consignacion.jpg';
 
 //Components declaration
 import Footer from '../../Footer'
+import PrintPage from '../Print/Print'
+import PdfViewer from '../Print_test/PdfViewer'
+import PrintTest from '../Print_test/testtwo'
 
 class Resume extends Component {
 
@@ -79,6 +83,7 @@ class Resume extends Component {
       modal_print: false,
       collapse: false,
       isPayButtonDisabled: true,
+      togglePdfViewer : false,
 
       // Form UI Filled?
       isFilledName     : false,
@@ -238,6 +243,11 @@ class Resume extends Component {
     this.handlePrintData();
   }
 
+  printPdf = () =>{
+    console.log("print pdf")
+    this.setState({ togglePdfViewer: !this.state.togglePdfViewer })
+  }
+
   handlePayment = () =>{
       this.handleMd5Generator();
   }
@@ -269,13 +279,13 @@ class Resume extends Component {
   }
 
   toggleEnablePaymentButton = () =>{
-    console.log("Name: " + this.state.isFilledName)
+    /*console.log("Name: " + this.state.isFilledName)
     console.log("Lastname: " + this.state.isFilledLastName)
     console.log("Doc type: " + this.state.isFilledDoctype)
     console.log("Doc dni: " + this.state.isFilledDni)
     console.log("Phone: " + this.state.isFilledPhone)
     console.log("Email: " + this.state.isFilledEmail)
-    console.log("Address: " + this.state.isFilledAddress)
+    console.log("Address: " + this.state.isFilledAddress)*/
       if(    this.state.isFilledName     === true
           && this.state.isFilledLastName === true
           && this.state.isFilledDoctype  === true
@@ -667,7 +677,20 @@ class Resume extends Component {
                                     </tr>
                                     <tr className="" style={{ visibility: this.state.confirmAction }}>
                                       <td ><b>Imprimir Recibo de Matrícula</b><br/>Guarde el pdf generado y subalo a OpenApply</td>
-                                      <td><Button color="primary" onClick={() => this.nextPath()}>Imprimir</Button></td>
+                                      <td><Button color="primary" onClick={() => this.printPdf()}>Imprimir</Button></td>
+                                      
+                                      <Modal size="lg" isOpen={this.state.togglePdfViewer} toggle={this.printPdf} className={this.props.className}>
+                                          <ModalHeader toggle={this.printPdf}>Confirmación de matrícula</ModalHeader>
+                                          <ModalBody> 
+                                                Pdf viewer
+                                                  {/*<PdfViewer pdfBlob={'http://dgo.ujed.mx/doc/Carta_Laboral-DGO.pdf#toolbar=1'} />*/}
+                                                  <PrintPage />
+                                          </ModalBody>
+                                          <ModalFooter>
+                                            <Button color="secondary" onClick={this.printPdf}>Cancelar</Button>
+                                          </ModalFooter>
+                                      </Modal>
+
                                     </tr>
                                     <tr className="" style={{ visibility: this.state.confirmAction }}>
                                       <td ><b>Pagar el línea con TUCompra <u>sin costo adicional</u></b><br/>Ofrecemos la facilidad de pago en línea con TuCompra. Agíl, seguro y desde la comodidad de su casa.</td>
