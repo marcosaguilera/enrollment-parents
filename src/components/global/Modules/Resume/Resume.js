@@ -6,7 +6,6 @@ import md5gen from 'md5';
 import NumberFormat from 'react-number-format';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {ToastsContainer, ToastsStore} from 'react-toasts';
-import { PDFViewer } from '@react-pdf/renderer';
 
 // Assets
 import '../../Modules/Resume/Resume.css';
@@ -15,8 +14,6 @@ import formato from '../../images/formato_consignacion.jpg';
 //Components declaration
 import Footer from '../../Footer'
 import PrintPage from '../Print/Print'
-import PdfViewer from '../Print_test/PdfViewer'
-import PrintTest from '../Print_test/testtwo'
 
 class Resume extends Component {
 
@@ -84,6 +81,7 @@ class Resume extends Component {
       collapse: false,
       isPayButtonDisabled: true,
       togglePdfViewer : false,
+      enabledElements : true,
 
       // Form UI Filled?
       isFilledName     : false,
@@ -96,7 +94,7 @@ class Resume extends Component {
 
       // BuyerData
       buyerDni         : '',
-      buyerDocType     : 'CC',
+      buyerDocType     : 'NA',
       buyerName        : '',
       buyerLastName    : '',
       buyerPhone       : '',
@@ -650,12 +648,17 @@ class Resume extends Component {
                                       <td><b>Total a pagar</b></td>
                                       <td><b><NumberFormat value={this.state.bigTotalPayment} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
                                     </tr>
+                                    <tr className="">
+                                      <td ><b>Pagar el línea <u>sin costo adicional</u></b><br/>Agíl, seguro y desde la comodidad de su casa.</td>
+                                      <td><Button color="success" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Pagar en línea</Button>
+                                      </td>
+                                    </tr>
                                     <tr className="bg-primary text-white py-3">
-                                      <td><b>Confirmar matrícula</b></td>
+                                      <td><b>Confirmación e impresión</b></td>
                                       <td></td>
                                     </tr>
                                     <tr className="">
-                                      <td><b>Antes de realizar el pago en línea y la impresión del pdf*</b><br/>Confirme que esta de acuerdo con los valores y servicios seleccionados</td>
+                                      <td><b>Antes de finalizar e imprimir el recibo de matrícula,</b><br/>confirme que esta de acuerdo con los valores y servicios seleccionados</td>
                                       <td><Button color="primary" onClick={this.confirmModal}>Confirmar</Button></td>
                                       <Modal isOpen={this.state.toggleConfirmModal} toggle={this.confirmModal} className={this.props.className}>
                                           <ModalHeader toggle={this.confirmModal}>Confirmación de matrícula</ModalHeader>
@@ -663,7 +666,7 @@ class Resume extends Component {
                                               <div className="alert alert-primary" role="alert">
                                                   Escriba <code><b><u>ACEPTO</u></b></code> para confirmar que esta de acuerdo con los servicios seleccionados, los totales y la forma de pago
                                               </div>
-                                              <input type="text" class="form-control" id="text-confirm" onChange={this.handleOnChange}></input>
+                                              <input type="text" className="form-control" id="text-confirm" onChange={this.handleOnChange}></input>
                                           </ModalBody>
                                           <ModalFooter>
                                             <Button color="secondary" onClick={this.confirmModal}>Cancelar</Button>
@@ -671,13 +674,9 @@ class Resume extends Component {
                                           </ModalFooter>
                                       </Modal>
                                     </tr>
-                                    <tr className="bg-primary text-white py-3" style={{ visibility: this.state.confirmAction }}>
-                                      <td><b>Pago en línea e impresión</b></td>
-                                      <td></td>
-                                    </tr>
                                     <tr className="" style={{ visibility: this.state.confirmAction }}>
                                       <td ><b>Imprimir Recibo de Matrícula</b><br/>Guarde el pdf generado y subalo a OpenApply</td>
-                                      <td><Button color="primary" onClick={() => this.printPdf()}>Imprimir</Button></td>
+                                      <td><Button color="primary" onClick={() => this.nextPath()}>Imprimir y finalizar</Button></td>
                                       
                                       <Modal size="lg" isOpen={this.state.togglePdfViewer} toggle={this.printPdf} className={this.props.className}>
                                           <ModalHeader toggle={this.printPdf}>Confirmación de matrícula</ModalHeader>
@@ -691,11 +690,6 @@ class Resume extends Component {
                                           </ModalFooter>
                                       </Modal>
 
-                                    </tr>
-                                    <tr className="" style={{ visibility: this.state.confirmAction }}>
-                                      <td ><b>Pagar el línea con TUCompra <u>sin costo adicional</u></b><br/>Ofrecemos la facilidad de pago en línea con TuCompra. Agíl, seguro y desde la comodidad de su casa.</td>
-                                      <td><Button color="success" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Pagar en línea</Button>
-                                      </td>
                                     </tr>
                                     {/*<tr>
                                         <td colSpan="2" id="base_table">
@@ -738,20 +732,19 @@ class Resume extends Component {
                               <div className="col"></div>
                               <div className="col">
                                   <Modal isOpen={this.state.modal} size="lg" toggle={this.toggle} className={this.props.className}>
-                                    <ModalHeader toggle={this.toggle}>Resumen de pago en línea</ModalHeader>
+                                    <ModalHeader toggle={this.toggle}>Información del pagador</ModalHeader>
                                     <ModalBody>
                                         <div id="wow" className="col-md-12">
-                                            <h6 >Información del pagador</h6>
-                                            <div id="little-text" class="alert alert-primary" role="alert">
-                                                *Antes de continuar con el pago es importante que diligencie la información del pagador.
+                                            <div id="little-text" className="alert alert-primary" role="alert">
+                                                *Antes de continuar con el pago es importante que diligencie <b><u>toda la información del pagador</u></b>, una vez todos los campos hayan sido completados el botón <b>Realizar pago</b> se activará.
                                             </div>
                                         </div>
                                         <div className="form-row py-2">
                                           <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerName} id="inputBuyerName" placeholder="Nombre(s)" />
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerName} id="inputBuyerName" placeholder="Nombre(s)" required />
                                           </div>
                                           <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerLastName} id="inputBuyerLastName" placeholder="Apellidos" />
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerLastName} id="inputBuyerLastName" placeholder="Apellidos" required />
                                           </div>
                                         </div>
                                         <div className="form-row py-2">
@@ -761,6 +754,7 @@ class Resume extends Component {
                                                 value={this.state.buyerDocType}
                                                 style={{ width: '100%', display: 'inherit' }}
                                                 onChange={this.handleOnChangeBuyer}>
+                                                    <option value="NA">Seleccione una opción</option>
                                                     <option value="CC">Cédula de Ciudadanía</option>
                                                     <option value="CE">Cédula de Extranjería</option>
                                                     <option value="PAS">Pasaporte</option>
@@ -768,20 +762,20 @@ class Resume extends Component {
                                               </select>
                                           </div>
                                           <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerDni} id="inputBuyerDni" placeholder="No. identificación" />
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerDni} id="inputBuyerDni" placeholder="No. identificación" required />
                                           </div>
                                         </div>
                                         <div className="form-row py-2">
                                           <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerPhone} id="inputBuyerPhone" placeholder="No. Móvil" />
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerPhone} id="inputBuyerPhone" placeholder="No. Móvil" required />
                                           </div>
                                           <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerEmail} id="inputBuyerEmail" placeholder="Correo eletrónico" />
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerEmail} id="inputBuyerEmail" placeholder="Correo eletrónico" required />
                                           </div>
                                         </div>
                                         <div className="form-row py-2">
                                           <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerAddress} id="inputBuyerAddress" placeholder="Dirección" />
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerAddress} id="inputBuyerAddress" placeholder="Dirección" required />
                                           </div>
                                         </div>
                                         <div className="py-2">
@@ -844,7 +838,7 @@ class Resume extends Component {
                                                       <input name="direccionComprador"  type="hidden" value={this.state.buyerAddress} />
                                                       <input name="campoExtra1"         type="hidden" value={this.getNowDate()} />
 
-                                                      <input name="Submit" disabled={this.state.isPayButtonDisabled} type="submit" value="Pagar con TUCompra" className="btn btn-success" id="button_payu"></input>
+                                                      <input name="Submit" disabled={this.state.isPayButtonDisabled} type="submit" value="Realizar pago" className="btn btn-success" id="button_payu"></input>
                                                     </form>
                                                 </div>
                                           </div>
