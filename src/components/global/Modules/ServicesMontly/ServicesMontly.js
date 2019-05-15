@@ -225,7 +225,7 @@ class ServicesMontly extends Component {
         lodgings.discount    = this.state.discountLodgings
         lodgings.total       = this.state.totalLodgings
         /// TRANSPORTE
-        lodgings.type        = 'Mensual'
+        transport.type        = 'Mensual'
         transport.name       = "Transporte"
         transport.code       = Utils.getServiceCode('Transporte')
         transport.select     = Utils.getTransportServiceName(this.state.transport)
@@ -233,7 +233,7 @@ class ServicesMontly extends Component {
         transport.discount   = this.state.discountTransport
         transport.total      = this.state.totalTransport
         /// ALMUERZO
-        lodgings.type        = 'Mensual'
+        lunch.type        = 'Mensual'
         lunch.name           = 'Almuerzo'
         lunch.code           = Utils.getServiceCode('Almuerzo')
         lunch.select         = this.state.lunchSel
@@ -241,7 +241,7 @@ class ServicesMontly extends Component {
         lunch.discount       = this.state.discountLunch
         lunch.total          = this.state.totalLunch
         /// M9
-        lodgings.type        = 'Mensual'
+        snack.type        = 'Mensual'
         snack.name           = 'Medias Nueves'
         snack.code           = Utils.getServiceCode('Medias Nueves')
         snack.select         = this.state.snackSel
@@ -249,7 +249,7 @@ class ServicesMontly extends Component {
         snack.discount       = this.state.discountSnack
         snack.total          = this.state.totalSnack
         /// DESAYUNO
-        lodgings.type        = 'Mensual'
+        breakFast.type        = 'Mensual'
         breakFast.name       = 'Desayuno'
         breakFast.code       = Utils.getServiceCode('Desayuno')
         breakFast.select     = this.state.breakFastSel
@@ -257,7 +257,7 @@ class ServicesMontly extends Component {
         breakFast.discount   = this.state.discountBreakfast
         breakFast.total      = this.state.totalBreakfast
         /// SEGURO VIDA
-        lodgings.type        = 'Mensual'
+        lifeSecure.type      = 'Mensual'
         lifeSecure.name      = 'Seguro de vida'
         lifeSecure.code      = Utils.getServiceCode('Seguro de vida')
         lifeSecure.select    = this.state.lifeSecureSel
@@ -265,7 +265,7 @@ class ServicesMontly extends Component {
         lifeSecure.discount  = this.state.discountLifeSecure
         lifeSecure.total     = this.state.totalLifeSecure
         /// SEGURO DESEMPLEO
-        lodgings.type        = 'Mensual'
+        jobSecure.type       = 'Mensual'
         jobSecure.name       = 'Seguro desempleo'
         jobSecure.code       = Utils.getServiceCode('Seguro desempleo')
         jobSecure.select     = this.state.jobSecureSel

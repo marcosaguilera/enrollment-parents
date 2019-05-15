@@ -549,7 +549,7 @@ class Resume extends Component {
     console.log("Resume data")
     console.log(step4_data)
 
-    this.props.history.push('/print', services);
+    this.props.history.push('/print', step4_data);
     //this.handlePrintData();
   }
 

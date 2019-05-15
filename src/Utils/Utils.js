@@ -1,13 +1,13 @@
 let getServiceCode =  function(serviceName){
     //////// Annual services
-    if(serviceName === 'Matricula'){ return 'A8001' }
-    if(serviceName === 'Bibliobanco'){ return 'A8001' }
-    if(serviceName === 'Seguro accidentes'){ return 'A8001' }
-    if(serviceName === 'Asopadres'){ return 'A8001' }
-    if(serviceName === 'Club deportivo'){ return 'A8001' }
-    if(serviceName === 'Impreso - $110.000'){ return 'A8001' }
-    if(serviceName === 'Digital - $46.000'){ return 'A8001' }
-    if(serviceName === 'Impreso y digital - $156.000'){ return 'A8001' }
+    if(serviceName === 'Matricula'){ return '0001' }
+    if(serviceName === 'Bibliobanco'){ return '0005' }
+    if(serviceName === 'Seguro accidentes'){ return '0008' }
+    if(serviceName === 'Asopadres'){ return '0010' }
+    if(serviceName === 'Club deportivo'){ return '0200' }
+    if(serviceName === 'Impreso - $110.000'){ return '0007' }
+    if(serviceName === 'Digital - $46.000'){ return '0006' }
+    if(serviceName === 'Impreso y digital - $156.000'){ return 'XXXX' }
 
     //////// Montly services
     if(serviceName === 'Pension'){ return 'P9001' }
