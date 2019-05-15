@@ -144,6 +144,12 @@ class ServicesMontly extends Component {
             })
         }
 
+        if(e.target.id === 'donacionSelector'){
+            this.setState({ donation: Number(e.target.value) }, () => {
+                this.setTotals()
+            })
+        }
+
         if(e.target.id === 'donationDefaultCheck1'){
             let donSolidValue = e.target.value
             this.setState({
@@ -554,7 +560,6 @@ class ServicesMontly extends Component {
                                     </div>
                                     <select className="form-control"
                                             id="donacionSelector"
-                                            style={{ width: '100%', display: 'inherit' }}
                                             onChange={this.handleOnChange}
                                             value={this.state.donation}>
                                                 <option value="100">1 Corazón x ❤</option>
