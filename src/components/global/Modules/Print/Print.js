@@ -1,9 +1,7 @@
 // Dependencies
 import React, { Component } from 'react';
 import NumberFormat from 'react-number-format';
-import jsPDF from 'jspdf';
-import $ from 'jquery'
-import html2canvas from 'html2canvas'
+import html2pdf from 'html2pdf.js'
 
 //Assets
 import logo_black from '../../images/logo_black_2.jpg';
@@ -15,6 +13,7 @@ class Print extends Component {
 
         this.generateReference = this.generateReference.bind(this);
         this.pdfToHTML         = this.pdfToHTML.bind(this);
+        this.pdfGenerator         = this.pdfGenerator.bind(this);
 
         this.state={
             nombres          : '',
@@ -38,25 +37,30 @@ class Print extends Component {
     }
 
     pdfToHTML(){
-        html2canvas(document.getElementById('#hello-there'))
-        var img = html2canvas.toDataURL("image/png")
+        /*html2canvas($('#hello-there'), { onrendered: function(canvas){
+            var img = canvas.toDataURL("image/png")
+            var pdf = new jsPDF('p', 'pt', 'letter');
+            pdf.addImage(img, 'JPEG', 20, 20)
+            pdf.save('html2pdf.pdf')
+            }
+        })*/
+        
 
-        var pdf = new jsPDF('p', 'pt', 'letter');
-        var source = $('#hello-there')[0]; 
-        var specialElementHandlers = {
-            '#bypassme': function(element, renderer) {
-                return true
-            } 
-        };
+        //var pdf = new jsPDF('p', 'pt', 'letter');
+        //var source = $('#hello-there')[0]; 
+        //var specialElementHandlers = {
+        //    '#bypassme': function(element, renderer) {
+        //        return true
+        //    } 
+        //};
     
-        var margins = {
-            top: 50,
-            left: 60,
-            width: 545
-        };
+        //var margins = {
+        //    top: 50,
+        //    left: 60,
+        //    width: 545
+        //};
 
-        pdf.addImage(img, 'JPEG', 20, 20)
-        pdf.save('html2pdf.pdf')
+        
     
         /*pdf.fromHTML (
           source // HTML string or DOM elem ref.
@@ -71,6 +75,17 @@ class Print extends Component {
             // this allow the insertion of new lines after html
             pdf.save('html2pdf.pdf');
           })*/
+    }
+
+    pdfGenerator(){
+        let item = document.getElementById('hello-there')
+        let opt = {
+            margin: 2,
+            filename: 'MAT-COMPROBANTE-2019-20.pdf',
+            image : { type: 'jpeg', quality: 0.98 },
+            html2canvas: {scale: 2}
+        }
+        var worker = html2pdf().set(opt).from(item).toPdf().save()
     }
 
     componentDidMount(){
@@ -144,25 +159,22 @@ class Print extends Component {
     render() {
         return (
         <div className="Print">
-            <button onClick={this.pdfToHTML}>Download PDF</button><br />
+            <button onClick={this.pdfGenerator}>Download PDF</button><br />
 
-            <div id="hello-there">
+            {/*<div id="hello-there">
                 <table style={{width: '100%'}}>
                     <tbody>
                         <tr>
                             <td style={{width: '50%'}}><img src={logo_black} alt="" width="176" height="164" /></td>
-                            <td style={{width: '50%'}}>&nbsp;</td>
+                            <td style={{width: '50%'}}>COLEGIO ROCHESTER</td>
                         </tr>
                         <tr>
                             <td style={{width: '100%'}} colSpan="2">&nbsp;</td>
                         </tr>
                     </tbody>
-                </table>
-            </div>
-            
+        </table>*/} 
 
-
-            {/*<main id="hello-there">  
+            <main id="hello-there">  
                 <div className="album py-5" >
                     <div className="container">
                         <div className="row">
@@ -343,7 +355,7 @@ class Print extends Component {
                         </div>
                     </div>
                 </div>
-        </main>*/} 
+            </main>
         </div>
         );
     }
