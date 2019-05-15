@@ -123,7 +123,8 @@ class ExtracurricularServices extends Component {
         console.log(this.state.cartServices)
 
 		this.state.cartServices.forEach(element => {
-            let item	  = {}
+			let item	  = {}
+			item.type     = "Eco"
 			item.code     = element.sap_code
 			item.discount = 0
 			item.name     = element.name

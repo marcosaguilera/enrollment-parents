@@ -21,21 +21,25 @@ import '../../Modules/ServicesMontly/ServicesMontly.css';
 class ServicesMontly extends Component {
     constructor() {
         super();
-        this.handleOnChange      = this.handleOnChange.bind(this)
-        this.setTotals           = this.setTotals.bind(this)
-        this.setMontlyTotal      = this.setMontlyTotal.bind(this)
-
+        this.handleOnChange          = this.handleOnChange.bind(this)
+        this.setTotals               = this.setTotals.bind(this)
+        this.setMontlyTotal          = this.setMontlyTotal.bind(this)
+        this.onStarClick             = this.onStarClick.bind(this)
+        this.addDonationSelection    = this.addDonationSelection.bind(this)
+        this.removeDonationSelection = this.removeDonationSelection.bind(this)
+        
         this.state = {
             // General Data                     // Demographic data
             step2_data              : {},       code     : '',
             demo_data               : [],       name     : '',
             lodgings                : 0,        lastname : '',
             transport               : 0,        grade    : '',
-            lunch                   : 0,
-            snack                   : 0,
-            breakFast               : 0,
+            lunch                   : 0,        donSolid : false,
+            snack                   : 0,        donEdu   : false,
+            breakFast               : 0,        donPres  : false,
             lifeSecure              : 0,
             jobSecure               : 0,
+            donation                : 500,
 
             //Discounts                         // Selection values
             discountLodgings        : 0,        transportSel  : 'Si',
@@ -44,7 +48,7 @@ class ServicesMontly extends Component {
             discountSnack           : 0,        breakFastSel  : 'Si',
             discountBreakfast       : 0,        lifeSecureSel : 'Si',
             discountLifeSecure      : 0,        jobSecureSel  : 'Si',
-            discountJobSecure       : 0,
+            discountJobSecure       : 0,        donationSel   : [],
 
             //Total
             totalLodgings           : 0,
@@ -54,6 +58,7 @@ class ServicesMontly extends Component {
             totalBreakfast          : 0,
             totalLifeSecure         : 0,
             totalJobSecure          : 0,
+            totalDonation           : 0,
             totalMontlyServices     : 0
         };
     }
@@ -114,7 +119,8 @@ class ServicesMontly extends Component {
             totalSnack              : Number(this.state.snack - this.state.discountSnack),
             totalBreakfast          : Number(this.state.breakFast - this.state.discountBreakfast),
             totalLifeSecure         : Number(this.state.lifeSecure - this.state.discountLifeSecure),
-            totalJobSecure          : Number(this.state.jobSecure - this.state.discountJobSecure)
+            totalJobSecure          : Number(this.state.jobSecure - this.state.discountJobSecure),
+            totalDonation           : Number(this.state.donation)
         },  () => {  this.setMontlyTotal()  })
     }
 
@@ -126,7 +132,8 @@ class ServicesMontly extends Component {
                                     this.state.totalSnack +
                                     this.state.totalBreakfast +
                                     this.state.totalLifeSecure +
-                                    this.state.totalJobSecure
+                                    this.state.totalJobSecure +
+                                    this.state.totalDonation
         })
     }
 
@@ -134,6 +141,45 @@ class ServicesMontly extends Component {
         if(e.target.id === 'transportSelector'){
             this.setState({ transport: Number(e.target.value) }, () => {
                 this.setTotals()
+            })
+        }
+
+        if(e.target.id === 'donationDefaultCheck1'){
+            let donSolidValue = e.target.value
+            this.setState({
+                donSolid: !this.state.donSolid
+            }, () => { 
+                if(this.state.donSolid){
+                    this.addDonationSelection(donSolidValue)
+                }else{
+                    this.removeDonationSelection(donSolidValue)
+                }
+            })
+        }
+
+        if(e.target.id === 'donationDefaultCheck2'){
+            let donEduValue = e.target.value
+            this.setState({
+                donEdu: !this.state.donEdu
+            }, () => { 
+                if(this.state.donEdu){
+                    this.addDonationSelection(donEduValue)
+                }else{
+                    this.removeDonationSelection(donEduValue)
+                }
+            })
+        }
+
+        if(e.target.id === 'donationDefaultCheck3'){
+            let donPreValue = e.target.value
+            this.setState({
+                donPres: !this.state.donPres
+            }, () => { 
+                if(this.state.donPres){
+                    this.addDonationSelection(donPreValue)
+                }else{
+                    this.removeDonationSelection(donPreValue)
+                }
             })
         }
 
@@ -203,6 +249,25 @@ class ServicesMontly extends Component {
         }
     }
 
+    addDonationSelection = (data) =>{
+        console.log("add")
+        let selArr = this.state.donationSel
+        selArr.push(data)
+        console.log(selArr)
+    }
+
+    removeDonationSelection = (data) =>{
+        console.log("remove")
+        let selArr = this.state.donationSel
+        let pos = selArr.indexOf(data);
+        selArr.splice(pos, 1)
+        console.log(selArr)
+    }
+
+    onStarClick(nextValue, prevValue, name) {
+        this.setState({donationSel: nextValue});
+    }
+
     nextPath = () => {
         let data_step2      = this.state.step2_data
         let montly_services = []
@@ -225,7 +290,7 @@ class ServicesMontly extends Component {
         lodgings.discount    = this.state.discountLodgings
         lodgings.total       = this.state.totalLodgings
         /// TRANSPORTE
-        transport.type        = 'Mensual'
+        transport.type       = 'Mensual'
         transport.name       = "Transporte"
         transport.code       = Utils.getServiceCode('Transporte')
         transport.select     = Utils.getTransportServiceName(this.state.transport)
@@ -233,7 +298,7 @@ class ServicesMontly extends Component {
         transport.discount   = this.state.discountTransport
         transport.total      = this.state.totalTransport
         /// ALMUERZO
-        lunch.type        = 'Mensual'
+        lunch.type           = 'Mensual'
         lunch.name           = 'Almuerzo'
         lunch.code           = Utils.getServiceCode('Almuerzo')
         lunch.select         = this.state.lunchSel
@@ -241,7 +306,7 @@ class ServicesMontly extends Component {
         lunch.discount       = this.state.discountLunch
         lunch.total          = this.state.totalLunch
         /// M9
-        snack.type        = 'Mensual'
+        snack.type           = 'Mensual'
         snack.name           = 'Medias Nueves'
         snack.code           = Utils.getServiceCode('Medias Nueves')
         snack.select         = this.state.snackSel
@@ -249,7 +314,7 @@ class ServicesMontly extends Component {
         snack.discount       = this.state.discountSnack
         snack.total          = this.state.totalSnack
         /// DESAYUNO
-        breakFast.type        = 'Mensual'
+        breakFast.type       = 'Mensual'
         breakFast.name       = 'Desayuno'
         breakFast.code       = Utils.getServiceCode('Desayuno')
         breakFast.select     = this.state.breakFastSel
@@ -466,6 +531,52 @@ class ServicesMontly extends Component {
                                     <NumberFormat value={this.state.totalJobSecure} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                 </td>
                             </tr>
+                            <tr>
+                                <td>Donaciones</td>
+                                <td className="choiceCustomClass">
+                                    <div className="form-check form-check form-check-inline">
+                                        <input className="form-check-input" onChange={this.handleOnChange} type="checkbox" value="solidaridad" id="donationDefaultCheck1" />
+                                        <label className="form-check-label" htmlFor="donationDefaultCheck1">
+                                            Solidaridad
+                                        </label>
+                                    </div>
+                                    <div className="form-check form-check form-check-inline">
+                                        <input className="form-check-input" onChange={this.handleOnChange} type="checkbox" value="educacion" id="donationDefaultCheck2" />
+                                        <label className="form-check-label" htmlFor="donationDefaultCheck2">
+                                            Educación
+                                        </label>
+                                    </div>
+                                    <div className="form-check form-check form-check-inline">
+                                        <input className="form-check-input" onChange={this.handleOnChange} type="checkbox" value="preservacion" id="donationDefaultCheck3" />
+                                        <label className="form-check-label" htmlFor="donationDefaultCheck2">
+                                            Preservación
+                                        </label>
+                                    </div>
+                                    <select className="form-control"
+                                            id="donacionSelector"
+                                            style={{ width: '100%', display: 'inherit' }}
+                                            onChange={this.handleOnChange}
+                                            value={this.state.donation}>
+                                                <option value="100">1 Corazón x ❤</option>
+                                                <option value="200">2 Corazones x ❤❤</option>
+                                                <option value="300">3 Corazones x ❤❤❤</option>
+                                                <option value="400">4 Corazones x ❤❤❤❤</option>
+                                                <option value="500">5 Corazones x ❤❤❤❤❤</option>
+                                                <option value="0" >No deseo donar</option>
+                                                {/* Cuando un padre seleccione un transporte seleccionará si desea tomar modalidad extracurricular */}
+                                    </select>
+                                </td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.donation} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="discountAlignment">
+                                    <NumberFormat value={0} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.donation} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                            </tr>
+
                             <tr style={{ backgroundColor: 'rgba(0,0,0,.03)' }}>
                                 <td></td>
                                 <td></td>
