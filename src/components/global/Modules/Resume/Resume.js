@@ -36,9 +36,9 @@ class Resume extends Component {
     this.getNowDate                 = this.getNowDate.bind(this);
 
     this.state = {
-
+      step4_data         : {},
       // PayU states
-      payuIdMerchant: '578320',
+      payuIdMerchant     : '578320',
       
       //TuCompra states
       usuario            : 'cctjt208e6j40fdp',
@@ -123,6 +123,7 @@ class Resume extends Component {
     console.log(servicesObj);
 
     this.setState({
+        step4_data              : servicesObj,
         enrollment_token        : servicesObj.token,
         codigo                  : servicesObj.demographic.codigo,
         nombres                 : servicesObj.demographic.nombres,
@@ -216,33 +217,7 @@ class Resume extends Component {
       return referenceCode;
   }
 
-  nextPath = () => {
-    var services              = {};
-    services.matricula        = this.state.tot_matricula;
-    services.matricula_15     = this.state.matricula_tarifa_15;
-    services.matricula_7_5    = this.state.matricula_tarifa_7_5;
-    services.bibliobanco      = this.state.biblio;
-    services.tarifa_matricula = this.state.matricula_tarifa;
-    services.asopadres        = this.state.asopadres;
-    services.anuario          = this.state.anuario;
-    services.seguro           = this.state.seguro;
-    services.club             = this.state.club;
-    services.total_servicios  = this.state.tot_servicios;
-    services.total_pagar      = this.state.tot_pagar;
-    services.total_solo_dtos  = this.state.tot_solo_dto;
-    // Student data
-    services.codigo           = this.state.codigo;
-    services.nombres          = this.state.nombres;
-    services.apellidos        = this.state.apellidos;
-    services.grado            = this.state.grado;
-    services.uid              = this.state.objectId;
-
-    this.props.history.push('/print', services);
-    this.handlePrintData();
-  }
-
   printPdf = () =>{
-    console.log("print pdf")
     this.setState({ togglePdfViewer: !this.state.togglePdfViewer })
   }
 
@@ -558,6 +533,26 @@ class Resume extends Component {
     })
   }
 
+  nextPath = () => {
+    let step4_data               = this.state.step4_data
+    var services                 = {}
+    let payment_choices          = {}
+
+    payment_choices.payment_mode = this.state.payment_selection
+    payment_choices.savings      = this.state.bigTotalPaymentSavings
+    payment_choices.bigTotalPay  = this.state.bigTotalPayment
+    payment_choices.bigTotalPay  = this.state.bigTotalPayment
+    payment_choices.confirm      = this.state.confirmText
+
+    step4_data['payments_form'].push(payment_choices)
+
+    console.log("Resume data")
+    console.log(step4_data)
+
+    this.props.history.push('/print', services);
+    //this.handlePrintData();
+  }
+
   // Props definitions
   static propTypes = {
     show : PropTypes.string
@@ -641,7 +636,7 @@ class Resume extends Component {
                                       </td>
                                     </tr>
                                     <tr>
-                                      <td>Ahorro en las mensualidades</td>
+                                      <td>Ahorro anual</td>
                                       <td><NumberFormat value={this.state.bigTotalPaymentSavings} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
                                     <tr>

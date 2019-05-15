@@ -91,7 +91,7 @@ class ExtracurricularServices extends Component {
 				this.setState({ cartServices : cart, totalAmmountCart : additionValue })
 			}else{
 				//alert("No puedes agregar mas actividades.")
-				ToastsStore.warning("No puedes agregar mas actividades. Son permitidas máximo dos(2) actividades por estudiante")
+				ToastsStore.warning("No puedes agregar mas actividades. Son permitidas máximo dos (2) actividades por estudiante")
 			}
 		}else{
 			ToastsStore.warning("La actividad que intenta inscribir ya ha sido agregada")

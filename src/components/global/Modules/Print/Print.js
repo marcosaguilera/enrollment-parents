@@ -13,7 +13,7 @@ class Print extends Component {
 
         this.generateReference = this.generateReference.bind(this);
         this.pdfToHTML         = this.pdfToHTML.bind(this);
-        this.pdfGenerator         = this.pdfGenerator.bind(this);
+        this.pdfGenerator      = this.pdfGenerator.bind(this);
 
         this.state={
             nombres          : '',
@@ -89,8 +89,8 @@ class Print extends Component {
     }
 
     componentDidMount(){
-        //var servicesObj = this.props.location.state;
-        //console.log("Services data: " + JSON.stringify(servicesObj));
+        var servicesObj = this.props.location.state;
+        console.log("Services data: " + JSON.stringify(servicesObj));
 
         this.setState({
             // Student Data
