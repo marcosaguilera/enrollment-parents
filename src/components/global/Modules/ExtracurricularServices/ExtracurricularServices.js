@@ -53,8 +53,8 @@ class ExtracurricularServices extends Component {
 
 	componentDidMount() {
 		let servicesObj = this.props.location.state;
-		console.log("===> Extracurricular Step");
-		console.log(servicesObj);
+		//console.log("===> Extracurricular Step");
+		//console.log(servicesObj);
 
 		this.setState({
 			code       : servicesObj.demographic.codigo,
@@ -72,7 +72,7 @@ class ExtracurricularServices extends Component {
 		let url = "https://rcis-backend.herokuapp.com/student/ecoservices/" + grade
 		axios.get(url)
 			.then(res => {
-				console.log(res.data)
+				//console.log(res.data)
 				this.setState({ services : res.data })
 			})
 	}
@@ -91,7 +91,7 @@ class ExtracurricularServices extends Component {
 				this.setState({ cartServices : cart, totalAmmountCart : additionValue })
 			}else{
 				//alert("No puedes agregar mas actividades.")
-				ToastsStore.warning("No puedes agregar mas actividades. Son permitidas máximo dos(2) actividades por estudiante")
+				ToastsStore.warning("No puedes agregar mas actividades. Son permitidas máximo dos (2) actividades por estudiante")
 			}
 		}else{
 			ToastsStore.warning("La actividad que intenta inscribir ya ha sido agregada")
@@ -118,9 +118,13 @@ class ExtracurricularServices extends Component {
 	nextPath = () => {
 		let step3_data   = this.state.step3_data
 		let eco_services = []
-		let item	     = {}
+        let totals_eco   = {}
+
+        console.log(this.state.cartServices)
 
 		this.state.cartServices.forEach(element => {
+			let item	  = {}
+			item.type     = "Eco"
 			item.code     = element.sap_code
 			item.discount = 0
 			item.name     = element.name
@@ -129,11 +133,17 @@ class ExtracurricularServices extends Component {
 			item.value    = element.value
 
 			eco_services.push(item)
-		});
+        });
 
-		console.log(eco_services)
-		step3_data['eco'] = eco_services
+        totals_eco.eco_total_pay = this.state.totalAmmountCart
+
+        step3_data['eco'] = eco_services
+        step3_data['payments'].push(totals_eco)
+
+        console.log("Final data Step 3: ");
 		console.log(step3_data)
+
+		this.props.history.push('/resume', step3_data);
 	}
 
 	render() {
@@ -195,7 +205,7 @@ class ExtracurricularServices extends Component {
 												<div id="li-left">
 													{changeCase.sentenceCase(cart.name)}
 													<p>
-														<span className="badge badge-primary badge-pill">
+														<span className="badge badge-primary badge-pill custom-pill">
 															<NumberFormat value={cart.value} displayType={'text'} thousandSeparator={true} prefix={'$'} />
 														</span>
 													</p>

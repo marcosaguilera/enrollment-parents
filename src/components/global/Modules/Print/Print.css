@@ -34,3 +34,11 @@ h4 {
 .hr-custom{
     border-top: 1px solid #343a40;
 }
+
+#token{
+    background-color: black;
+    color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 20px;
+}

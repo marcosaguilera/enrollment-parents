@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import md5gen from 'md5';
 import NumberFormat from 'react-number-format';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import {ToastsContainer, ToastsStore} from 'react-toasts';
 
 // Assets
 import '../../Modules/Resume/Resume.css';
@@ -12,9 +13,10 @@ import formato from '../../images/formato_consignacion.jpg';
 
 //Components declaration
 import Footer from '../../Footer'
+import PrintPage from '../Print/Print'
 
 class Resume extends Component {
-  
+
   constructor(){
     super();
 
@@ -27,11 +29,23 @@ class Resume extends Component {
     this.handleOnChangeBuyer        = this.handleOnChangeBuyer.bind(this);
     this.handlePrintData            = this.handlePrintData.bind(this);
     this.handlePayOnlineData        = this.handlePayOnlineData.bind(this);
+    this.handleOnChange             = this.handleOnChange.bind(this);
+    this.confirmEnrollment          = this.confirmEnrollment.bind(this);
+    this.confirmModal               = this.confirmModal.bind(this);
+    this.getDescripcionFactura      = this.getDescripcionFactura.bind(this);
+    this.getNowDate                 = this.getNowDate.bind(this);
 
     this.state = {
-
-      // Form values
-      payuIdMerchant: '578320',
+      step4_data         : {},
+      // PayU states
+      payuIdMerchant     : '578320',
+      
+      //TuCompra states
+      usuario            : 'cctjt208e6j40fdp',
+      factura_numero     : '',
+      descripcionFactura : 'MAT201920-',
+      tokenSeguridad     : '39639af8a6ef4eae9c998b82ed2c5666',
+      payment_token      : '',
 
       // payment data
       seguro               : 0,
@@ -66,50 +80,93 @@ class Resume extends Component {
       modal_print: false,
       collapse: false,
       isPayButtonDisabled: true,
+      togglePdfViewer : false,
+      enabledElements : true,
 
       // Form UI Filled?
-      isFilledName : false,
-      isFilledEmail : false,
-      isFilledAddress : false,
-      isFilledPhone : false,
+      isFilledName     : false,
+      isFilledLastName : false,
+      isFilledEmail    : false,
+      isFilledAddress  : false,
+      isFilledPhone    : false,
+      isFilledDoctype  : false,
+      isFilledDni      : false,
 
       // BuyerData
-      buyerName: '',
-      buyerPhone: '',
-      buyerEmail: '',
-      buyerAddress: ''
+      buyerDni         : '',
+      buyerDocType     : 'NA',
+      buyerName        : '',
+      buyerLastName    : '',
+      buyerPhone       : '',
+      buyerEmail       : '',
+      buyerAddress     : '',
 
+      // Totals from big object
+      total_yearly_services   : 0,
+      total_montly_services   : 0,
+      total_eco_club_services : 0,
+      sub_total_annual        : 0,
+
+      // Payment selection
+      payment_selection       : 'unico',
+      bigTotalPayment         : 0,
+      bigTotalPaymentSavings  : 0,
+      confirmAction           : 'collapse',
+      toggleConfirmModal      : false,
+      confirmText             : '',
+      confirmButtonDisabled   : true,
     }
   }
 
   componentDidMount(){
     var servicesObj = this.props.location.state;
-    console.log("Services data: " + JSON.stringify(servicesObj));
+    console.log(servicesObj);
 
     this.setState({
-        biblio               : servicesObj.bibliobanco,
-        matricula_tarifa     : servicesObj.matricula,
-        matricula_tarifa_15  : servicesObj.matricula_15,
-        matricula_tarifa_7_5 : servicesObj.matricula_7_5,
-        anuario              : servicesObj.anuario,
-        asopadres            : servicesObj.asopadres,
-        club                 : servicesObj.club,
-        seguro               : servicesObj.seguro,
-        tot_matricula        : servicesObj.total_descuentos,
-        tot_servicios        : servicesObj.total_servicios,
-        tot_pagar            : servicesObj.total_pagar,
-        tot_solo_dto         : servicesObj.total_solo_dtos,
-        
-        // Student Data
-        codigo           : servicesObj.codigo,
-        nombres          : servicesObj.nombres,
-        apellidos        : servicesObj.apellidos,
-        grado            : servicesObj.grado,
-        objectId         : servicesObj.uid,
-        
+        step4_data              : servicesObj,
+        enrollment_token        : servicesObj.token,
+        codigo                  : servicesObj.demographic.codigo,
+        nombres                 : servicesObj.demographic.nombres,
+        apellidos               : servicesObj.demographic.apellidos,
+        grado                   : servicesObj.demographic.grado,
+
+        total_yearly_services   : servicesObj.payments[0].annual_total_to_pay,
+        total_montly_services   : servicesObj.payments[1].montly_total_pay,
+        total_eco_club_services : servicesObj.payments[2].eco_total_pay
     }, () => {
-        this.handleCalculateTotalPayFee();
-    });
+        this.setState({
+          sub_total_annual : this.state.total_yearly_services + ( (this.state.total_montly_services + this.state.total_eco_club_services)*10 )
+        }, () => { this.calculateTotalPay(this.state.payment_selection) })
+    })
+  }
+
+  calculateTotalPay(selection){
+    console.log(selection)
+    switch (selection) {
+      case "unico":
+        let total_one_payment       = this.state.total_yearly_services + (( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.95 )
+        let total_one_payment_saves = ( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.05
+        //console.log("Total one payment: " + total_one_payment + ", Total saves: " + total_one_payment_saves)
+        this.setState({ bigTotalPayment : total_one_payment, bigTotalPaymentSavings: total_one_payment_saves })
+
+        break;
+      case "dos":
+        let total_two_payment       = this.state.total_yearly_services + ((( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.975) / 2)
+        let total_two_payment_saves = ( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.025
+        //console.log("Total one payment: " + total_two_payment + ", Total saves: " + total_two_payment_saves)
+        this.setState({ bigTotalPayment : total_two_payment, bigTotalPaymentSavings: total_two_payment_saves })
+
+        break;
+      case "once":
+        let total_eleven_payment       = this.state.total_yearly_services
+        let total_eleven_payment_saves = 0
+        //console.log("Total one payment: " + total_eleven_payment + ", Total saves: " + total_eleven_payment_saves)
+        this.setState({ bigTotalPayment : total_eleven_payment, bigTotalPaymentSavings: total_eleven_payment_saves })
+        break;
+
+      default:
+        break;
+    }
   }
 
   handleCalculateTotalPayFee = () =>{
@@ -117,7 +174,7 @@ class Resume extends Component {
       tot_tarifa : Number(
                           (((this.state.tot_pagar * this.state.fee)/100) + this.state.fee_cop) 
                          +((((this.state.tot_pagar * this.state.fee)/100) + this.state.fee_cop) * this.state.fee_iva)
-                         )
+                        )
     }, () => {
       this.handleTotalPay();
     })
@@ -160,60 +217,83 @@ class Resume extends Component {
       return referenceCode;
   }
 
-  nextPath = () => {
-    var services              = {};
-    services.matricula        = this.state.tot_matricula;
-    services.matricula_15     = this.state.matricula_tarifa_15;
-    services.matricula_7_5    = this.state.matricula_tarifa_7_5;
-    services.bibliobanco      = this.state.biblio;
-    services.tarifa_matricula = this.state.matricula_tarifa;
-    services.asopadres        = this.state.asopadres;
-    services.anuario          = this.state.anuario;
-    services.seguro           = this.state.seguro;
-    services.club             = this.state.club;
-    services.total_servicios  = this.state.tot_servicios;
-    services.total_pagar      = this.state.tot_pagar;
-    services.total_solo_dtos  = this.state.tot_solo_dto;
-    // Student data
-    services.codigo           = this.state.codigo;
-    services.nombres          = this.state.nombres;
-    services.apellidos        = this.state.apellidos;
-    services.grado            = this.state.grado;
-    services.uid              = this.state.objectId;
-
-    this.props.history.push('/print', services);
-    this.handlePrintData();
+  printPdf = () =>{
+    this.setState({ togglePdfViewer: !this.state.togglePdfViewer })
   }
 
   handlePayment = () =>{
       this.handleMd5Generator();
   }
 
+  confirmModal(){
+    this.setState({ toggleConfirmModal: !this.state.toggleConfirmModal })
+  }
+
   toggle() {
     this.setState({ modal: !this.state.modal });
-    this.handlePayOnlineData();
+    //this.handlePayOnlineData();
+    //this.tuCompraPayment()
   }
-  
+
+  getNowDate(){
+      let now         = new Date();
+      let now_string  = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate()+"-"+now.getHours()+":"+now.getMinutes()+":"+now.getMilliseconds();
+      return now_string
+  }
+
+  getDescripcionFactura(){
+    let now = new Date()
+    let descripcionFactura = 'MAT201920-' + this.state.enrollment_token +"-"+ this.state.codigo + "-" + this.state.buyerDni + "-" + now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate()+"-"+now.getHours()+":"+now.getMinutes()   
+    return descripcionFactura
+  }
+
   toggle_modal() {
     this.setState({ modal_print: !this.state.modal_print });
   }
 
   toggleEnablePaymentButton = () =>{
-      //console.log("Filled: Name " + this.state.isFilledName + " Email: " + this.state.isFilledEmail + " Phone: " + this.state.isFilledPhone + " Address: " + this.state.isFilledAddress);     
-      if(    this.state.isFilledName === true 
-          && this.state.isFilledEmail === true 
-          && this.state.isFilledAddress === true 
-          && this.state.isFilledPhone === true ){
-          
-          this.setState({
-            isPayButtonDisabled : false
-          })  
+    /*console.log("Name: " + this.state.isFilledName)
+    console.log("Lastname: " + this.state.isFilledLastName)
+    console.log("Doc type: " + this.state.isFilledDoctype)
+    console.log("Doc dni: " + this.state.isFilledDni)
+    console.log("Phone: " + this.state.isFilledPhone)
+    console.log("Email: " + this.state.isFilledEmail)
+    console.log("Address: " + this.state.isFilledAddress)*/
+      if(    this.state.isFilledName     === true
+          && this.state.isFilledLastName === true
+          && this.state.isFilledDoctype  === true
+          && this.state.isFilledDni      === true
+          && this.state.isFilledEmail    === true
+          && this.state.isFilledAddress  === true
+          && this.state.isFilledPhone    === true ){
 
+          this.setState({ isPayButtonDisabled : false })
       }else{
-          this.setState({
-            isPayButtonDisabled : true
-          })
+          this.setState({ isPayButtonDisabled : true })
       }
+  }
+
+  handleOnChange(e){
+    if(e.target.id === 'paymentSelector'){
+      this.setState({ payment_selection: e.target.value }, () => {
+          this.calculateTotalPay(this.state.payment_selection)
+      })
+    }
+
+    if(e.target.id === 'text-confirm'){
+      if(e.target.value === "ACEPTO"){
+        this.setState({
+          confirmText : 'ACEPTO',
+          confirmButtonDisabled : false
+        })
+      }
+      else{
+        this.setState({
+          confirmText : '',
+          confirmButtonDisabled : true
+        })
+      }
+    }
   }
 
   handleOnChangeBuyer = (e) =>{
@@ -237,7 +317,28 @@ class Resume extends Component {
         }
       })
     }
-    
+
+    if(e.target.id === 'inputBuyerLastName'){
+      this.setState({
+        buyerLastName: String(e.target.value)
+      }, () => {
+        console.log(this.state.buyerLastName)
+        if(this.state.buyerLastName.length > 0){
+            this.setState({
+              isFilledLastName: true
+            }, () => {
+              this.toggleEnablePaymentButton();
+            })
+        }else{
+            this.setState({
+              isFilledLastName: false
+            }, () => {
+              this.toggleEnablePaymentButton();
+            })
+        }
+      })
+    }
+
     if(e.target.id === 'inputBuyerEmail'){
       this.setState({
         buyerEmail: String(e.target.value)
@@ -258,7 +359,7 @@ class Resume extends Component {
         }
       })
     }
-    
+
     if(e.target.id === 'inputBuyerPhone'){
       this.setState({
         buyerPhone: String(e.target.value)
@@ -279,7 +380,7 @@ class Resume extends Component {
         }
       })
     }
-    
+
     if(e.target.id === 'inputBuyerAddress'){
       this.setState({
         buyerAddress: String(e.target.value)
@@ -299,7 +400,49 @@ class Resume extends Component {
             })
         }
       })
-    }  
+    }
+
+    if(e.target.id === 'inputBuyerDni'){
+      this.setState({
+        buyerDni: String(e.target.value)
+      }, () => {
+        console.log(this.state.buyerDni)
+        if(this.state.buyerDni.length > 0){
+          this.setState({
+            isFilledDni: true
+          }, () => {
+            this.toggleEnablePaymentButton();
+          })
+        }else{
+            this.setState({
+              isFilledDni: false
+            }, () => {
+              this.toggleEnablePaymentButton();
+            })
+        }
+      })
+    }
+
+    if(e.target.id === 'docTypeSelector'){
+      this.setState({ 
+        buyerDocType: e.target.value 
+      }, () => {
+        console.log(this.state.buyerDocType)
+        if(this.state.buyerDocType.length > 0){
+          this.setState({
+            isFilledDoctype: true
+          }, () => {
+            this.toggleEnablePaymentButton();
+          })
+        }else{
+            this.setState({
+              isFilledDoctype: false
+            }, () => {
+              this.toggleEnablePaymentButton();
+            })
+        }
+      })
+    }
   }
 
   handlePrintData(){
@@ -333,13 +476,13 @@ class Resume extends Component {
       },
     };
 
-    axios.post('https://parseapi.back4app.com/classes/EventsLog', servicesSelected, axiosConfig)
+    /*axios.post('https://parseapi.back4app.com/classes/EventsLog', servicesSelected, axiosConfig)
          .then(res => {
              //console.log(res);
          })
          .catch(error => {
             //console.log(error);
-         });
+         });*/
 
   }
 
@@ -355,7 +498,7 @@ class Resume extends Component {
     data.monto                           = this.state.monto;
     data.codigoReferencia                = this.state.codigoReferencia;
     data.tot_tarifa                      = this.state.tot_tarifa;
-    
+
     data.anuario                         = this.state.anuario;
     data.seguro_accidentes               = this.state.seguro;
     data.asopadres                       = this.state.asopadres;
@@ -374,13 +517,40 @@ class Resume extends Component {
     };
 
     axios.post('https://parseapi.back4app.com/classes/EventsLog', servicesSelected, axiosConfig)
-         .then(res => {   
-             console.log(res);      
-         })
-         .catch(error => {
+        .then(res => {
+            console.log(res);
+        })
+        .catch(error => {
             console.log(error);
-         });
+        });
+  }
 
+  confirmEnrollment(){
+    ToastsStore.success("👍 Has confirmado exitosamente tu matrícula")
+    this.setState({
+      toggleConfirmModal : false,
+      confirmAction : 'visible'
+    })
+  }
+
+  nextPath = () => {
+    let step4_data               = this.state.step4_data
+    var services                 = {}
+    let payment_choices          = {}
+
+    payment_choices.payment_mode = this.state.payment_selection
+    payment_choices.savings      = this.state.bigTotalPaymentSavings
+    payment_choices.bigTotalPay  = this.state.bigTotalPayment
+    payment_choices.bigTotalPay  = this.state.bigTotalPayment
+    payment_choices.confirm      = this.state.confirmText
+
+    step4_data['payments_form'].push(payment_choices)
+
+    console.log("Resume data")
+    console.log(step4_data)
+
+    this.props.history.push('/print', step4_data);
+    //this.handlePrintData();
   }
 
   // Props definitions
@@ -389,12 +559,9 @@ class Resume extends Component {
   }
 
   render() {
-    console.log("Here props: ");
-    console.log(this.props)
-    
     return (
         <div className="Resume" >
-          <main>  
+          <main>
             <div className="album py-3 bg-light" >
               <div className="container">
                 <div className="row">
@@ -403,12 +570,11 @@ class Resume extends Component {
                     <div className="card p-5 bg-light text-dark">
                       <div className="card-body">
                         <div className="row">
-                          
+
                           <div className="col-md-12">
-                              <h2 className="">Resumen de costos de matrícula y otros servicios</h2>
+                              <h2 className="">Resumen total servicios seleccionados</h2>
                           </div>
-                          
-                          <div className="col-md-12"> 
+                          <div className="col-md-12">
                             <div className="py-3">
                               <div className="container">
                                 <div className="row">
@@ -432,44 +598,102 @@ class Resume extends Component {
                             <div className="row">
                               <div className="col-md-12">
                                 <table className="table">
-                                  
                                   <tbody>
                                     <tr>
-                                      <td>Matrícula + Bibliobanco</td>
-                                      <td><NumberFormat value={this.state.tot_matricula} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                      <td>Total Matrícula</td>
+                                      <td><NumberFormat value={this.state.total_yearly_services} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
                                     <tr>
-                                      <td>Seguro de accidentes</td>
-                                      <td><NumberFormat value={this.state.seguro} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                      <td>Total Mensualidades</td>
+                                      <td><NumberFormat value={this.state.total_montly_services} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
                                     <tr>
-                                      <td>Anuario</td>
-                                      <td><NumberFormat value={this.state.anuario} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                      <td>Total Eco y Club deportivo</td>
+                                      <td><NumberFormat value={this.state.total_eco_club_services} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
                                     <tr>
-                                      <td>Asopadres</td>
-                                      <td><NumberFormat value={this.state.asopadres} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                      <td><b>Total anual</b></td>
+                                      <td><b><NumberFormat value={this.state.sub_total_annual} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
+                                    </tr>
+                                    <tr className="bg-primary text-white py-3">
+                                      <td><b>Forma de pago</b></td>
+                                      <td></td>
                                     </tr>
                                     <tr>
-                                      <td>Afiliación a club deportivo</td>
-                                      <td><NumberFormat value={this.state.club} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                      <td>Selecione una forma de pago</td>
+                                      <td>
+                                        <select className="form-control"
+                                            id="paymentSelector"
+                                            style={{ width: 'auto', display: 'inherit' }}
+                                            onChange={this.handleOnChange}
+                                            value={this.state.payment_selection}
+                                            value={this.state.transport}>
+                                                <option value="unico">Único pago (1)</option>
+                                                <option value="dos">Dos pagos (2)</option>
+                                                <option value="once">Once pagos (11)</option>
+                                                {/* Cuando un padre seleccione un transporte seleccionará si desea tomar modalidad extracurricular */}
+                                        </select>
+                                      </td>
                                     </tr>
-                                    <tr className="bg-primary text-white">
-                                      <td ><b>Total a pagar</b></td>
-                                      <td><b><NumberFormat value={this.state.tot_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
+                                    <tr>
+                                      <td>Ahorro anual</td>
+                                      <td><NumberFormat value={this.state.bigTotalPaymentSavings} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                    </tr>
+                                    <tr>
+                                      <td><b>Total a pagar</b></td>
+                                      <td><b><NumberFormat value={this.state.bigTotalPayment} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
                                     </tr>
                                     <tr className="">
-                                      <td ><b>Imprimir Recibo de Matrícula</b><br/>Este documento debe ser firmado y entregado en día de la matrícula</td>
-                                      <td><Button color="primary" onClick={() => this.nextPath()}>Imprimir</Button></td>
+                                      <td ><b>Pagar el línea <u>sin costo adicional</u></b><br/>Agíl, seguro y desde la comodidad de su casa.</td>
+                                      <td><Button color="success" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Pagar en línea</Button>
+                                      </td>
                                     </tr>
-                                    <tr>
+                                    <tr className="bg-primary text-white py-3">
+                                      <td><b>Confirmación e impresión</b></td>
+                                      <td></td>
+                                    </tr>
+                                    <tr className="">
+                                      <td><b>Antes de finalizar e imprimir el recibo de matrícula,</b><br/>confirme que esta de acuerdo con los valores y servicios seleccionados</td>
+                                      <td><Button color="primary" onClick={this.confirmModal}>Confirmar</Button></td>
+                                      <Modal isOpen={this.state.toggleConfirmModal} toggle={this.confirmModal} className={this.props.className}>
+                                          <ModalHeader toggle={this.confirmModal}>Confirmación de matrícula</ModalHeader>
+                                          <ModalBody>
+                                              <div className="alert alert-primary" role="alert">
+                                                  Escriba <code><b><u>ACEPTO</u></b></code> para confirmar que esta de acuerdo con los servicios seleccionados, los totales y la forma de pago
+                                              </div>
+                                              <input type="text" className="form-control" id="text-confirm" onChange={this.handleOnChange}></input>
+                                          </ModalBody>
+                                          <ModalFooter>
+                                            <Button color="secondary" onClick={this.confirmModal}>Cancelar</Button>
+                                            <Button color="primary" disabled={this.state.confirmButtonDisabled} onClick={this.confirmEnrollment}>Confirmar</Button>
+                                          </ModalFooter>
+                                      </Modal>
+                                    </tr>
+                                    <tr className="" style={{ visibility: this.state.confirmAction }}>
+                                      <td ><b>Imprimir Recibo de Matrícula</b><br/>Guarde el pdf generado y subalo a OpenApply</td>
+                                      <td><Button color="primary" onClick={() => this.nextPath()}>Imprimir y finalizar</Button></td>
+                                      
+                                      <Modal size="lg" isOpen={this.state.togglePdfViewer} toggle={this.printPdf} className={this.props.className}>
+                                          <ModalHeader toggle={this.printPdf}>Confirmación de matrícula</ModalHeader>
+                                          <ModalBody> 
+                                                Pdf viewer
+                                                  {/*<PdfViewer pdfBlob={'http://dgo.ujed.mx/doc/Carta_Laboral-DGO.pdf#toolbar=1'} />*/}
+                                                  <PrintPage />
+                                          </ModalBody>
+                                          <ModalFooter>
+                                            <Button color="secondary" onClick={this.printPdf}>Cancelar</Button>
+                                          </ModalFooter>
+                                      </Modal>
+
+                                    </tr>
+                                    {/*<tr>
                                         <td colSpan="2" id="base_table">
                                             <div className="alert alert-primary" role="alert">
                                               <p> <b>Pagar en banco (sin costo adicional):</b> Imprima su recibo y acerquese a la sucursal del <b>Banco de Bogotá</b> más cercana para realizar el pago. </p>
                                               <p> <b>Pagar en línea (con costo adicional):</b> Ofrecemos la facilidad de pago en línea con PayU. Agíl, seguro y desde la comodidad de su casa. (<a href="https://www.payulatam.com/co/tarifas/" rel="noopener noreferrer" target="_blank">Conoce las tarifas de PayU - 3.49% + $900</a>)</p>
                                             </div>
-                                        </td>        
-                                    </tr>
+                                        </td>
+                                    </tr>*/}
                                   </tbody>
                                 </table>
                               </div>
@@ -480,8 +704,9 @@ class Resume extends Component {
                           <div className="col-md-12">
                             <div className="row">
                               <div className="col">
-                                  <button type="button" 
+                                  <button type="button"
                                           className="btn btn-secondary btn-lg"
+                                          hidden={true}
                                           onClick={this.toggle_modal}>
                                           Pagar en banco
                                   </button>
@@ -501,60 +726,68 @@ class Resume extends Component {
                               <div className="col"></div>
                               <div className="col"></div>
                               <div className="col">
-                                  <Button type="button" 
-                                          color="success"
-                                          size="lg"
-                                          onClick={this.toggle} style={{ marginBottom: '1rem' }}>Pagar en línea</Button>
-
                                   <Modal isOpen={this.state.modal} size="lg" toggle={this.toggle} className={this.props.className}>
-                                    <ModalHeader toggle={this.toggle}>Resumen de pago en línea</ModalHeader>
+                                    <ModalHeader toggle={this.toggle}>Información del pagador</ModalHeader>
                                     <ModalBody>
                                         <div id="wow" className="col-md-12">
-                                            <h6 >Información del pagador</h6>
-                                            <div id="little-text" class="alert alert-primary" role="alert">
-                                                *Antes de continuar con el pago es importante que diligencie la información del pagador.
+                                            <div id="little-text" className="alert alert-primary" role="alert">
+                                                *Antes de continuar con el pago es importante que diligencie <b><u>toda la información del pagador</u></b>, una vez todos los campos hayan sido completados el botón <b>Realizar pago</b> se activará.
                                             </div>
                                         </div>
-                                        <div className="form-row">
+                                        <div className="form-row py-2">
                                           <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerName" placeholder="Nombre completo" />
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerName} id="inputBuyerName" placeholder="Nombre(s)" required />
                                           </div>
                                           <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerEmail" placeholder="Correo eletrónico" />
-                                          </div>
-                                        </div>
-                                        <div className="form-row py-3">
-                                          <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerPhone" placeholder="Teléfono" />
-                                          </div>
-                                          <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" id="inputBuyerAddress" placeholder="Dirección" />
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerLastName} id="inputBuyerLastName" placeholder="Apellidos" required />
                                           </div>
                                         </div>
-                                         
-                                        <div className="py-3">
+                                        <div className="form-row py-2">
+                                          <div className="col">
+                                              <select className="form-control"
+                                                id="docTypeSelector"
+                                                value={this.state.buyerDocType}
+                                                style={{ width: '100%', display: 'inherit' }}
+                                                onChange={this.handleOnChangeBuyer}>
+                                                    <option value="NA">Seleccione una opción</option>
+                                                    <option value="CC">Cédula de Ciudadanía</option>
+                                                    <option value="CE">Cédula de Extranjería</option>
+                                                    <option value="PAS">Pasaporte</option>
+                                                    <option value="NIT">NIT</option>
+                                              </select>
+                                          </div>
+                                          <div className="col">
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerDni} id="inputBuyerDni" placeholder="No. identificación" required />
+                                          </div>
+                                        </div>
+                                        <div className="form-row py-2">
+                                          <div className="col">
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerPhone} id="inputBuyerPhone" placeholder="No. Móvil" required />
+                                          </div>
+                                          <div className="col">
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerEmail} id="inputBuyerEmail" placeholder="Correo eletrónico" required />
+                                          </div>
+                                        </div>
+                                        <div className="form-row py-2">
+                                          <div className="col">
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerAddress} id="inputBuyerAddress" placeholder="Dirección" required />
+                                          </div>
+                                        </div>
+                                        <div className="py-2">
                                           <h6 >Detalle del pago</h6>
                                           <div className="row">
                                             <div className="col-md-12">
                                               <table className="table table-bordered">
                                                 <tbody>
                                                     <tr>
-                                                      <td >Subtotal a pagar</td>
-                                                      <td><NumberFormat value={this.state.tot_pagar} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                                                    </tr>
-                                                    <tr>
-                                                      <td >Valor transacción en línea</td>
-                                                      <td><NumberFormat value={Math.round(this.state.tot_tarifa)} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
-                                                    </tr>
-                                                    <tr id="total-pay">
-                                                      <td ><b>Total a pagar</b></td>
-                                                      <td><b><NumberFormat value={Math.round(this.state.tot_pagar + this.state.tot_tarifa)} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
+                                                      <td >Total a pagar</td>
+                                                      <td><NumberFormat value={this.state.bigTotalPayment} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                                     </tr>
                                                 </tbody>
                                               </table>
                                             </div>
-                                          </div> 
-                                          <div className="row"> 
+                                          </div>
+                                          <div className="row">
                                                 <div className="col-sm"></div>
                                                 <div className="col-sm"></div>
                                                 <div className="col-sm text-right">
@@ -575,18 +808,42 @@ class Resume extends Component {
                                                       <input name="telephone"        type="hidden"  value={this.state.buyerPhone} ></input>
                                                       <input name="shippingCountry"  type="hidden"  value="CO" ></input>
                                                       {/*<input name="test" type="hidden" value="1" ></input>*/}
-                                                      <input name="Submit" disabled={this.state.isPayButtonDisabled} type="submit"  value="Ir a Pagar" className="btn btn-success btn-lg" id="button_payu"></input>
+                                                      <input name="Submit" disabled={this.state.isPayButtonDisabled} hidden={true} type="submit"  value="Pagar con PayU" className="btn btn-success btn-lg" id="button_payu"></input>
                                                     </form>
                                                 </div>
                                           </div>
-                                        </div>   
+                                          <div className="row">
+                                                <div className="col-sm"></div>
+                                                <div className="col-sm"></div>
+                                                <div className="col-sm text-right">
+                                                    {/*PayU form*/}
+                                                    <form method="post" action="https://gateway2.tucompra.com.co/tc/app/inputs/compra.jsp" target="_blank">
+                                                      <input name="usuario"             type="hidden" value={this.state.usuario} />
+                                                      <input name="factura"             type="hidden" value={this.state.enrollment_token} />
+                                                      <input name="valor"               type="hidden" value={this.state.bigTotalPayment} />
+                                                      <input name="descripcionFactura"  type="hidden" value={this.getDescripcionFactura()} />
+                                                      <input name="tokenSeguridad"      type="hidden" value={this.state.tokenSeguridad} />
+                                                      <input name="tipoDocumento"       type="hidden" value={this.state.buyerDocType} />
+                                                      <input name="documentoComprador"  type="hidden" value={this.state.buyerDni} />
+                                                      <input name="nombreComprador"     type="hidden" value={this.state.buyerName} />
+                                                      <input name="apellidoComprador"   type="hidden" value={this.state.buyerLastName} />
+                                                      <input name="correoComprador"     type="hidden" value={this.state.buyerEmail} />
+                                                      <input name="telefonoComprador"   type="hidden" value={this.state.buyerPhone} />
+                                                      <input name="celularComprador"    type="hidden" value={this.state.buyerPhone} />
+                                                      <input name="direccionComprador"  type="hidden" value={this.state.buyerAddress} />
+                                                      <input name="campoExtra1"         type="hidden" value={this.getNowDate()} />
+
+                                                      <input name="Submit" disabled={this.state.isPayButtonDisabled} type="submit" value="Realizar pago" className="btn btn-success" id="button_payu"></input>
+                                                    </form>
+                                                </div>
+                                          </div>
+                                        </div>
                                     </ModalBody>
                                   </Modal>
                               </div>
-                            </div>      
+                            </div>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -594,9 +851,9 @@ class Resume extends Component {
                 </div>
               </div>
             </div>
-          </main> 
-
-          <Footer copyright="&copy;Colegio Rochester 2018" />  
+            <ToastsContainer store={ToastsStore} timer={5000}/>
+          </main>
+          <Footer copyright="&copy;Colegio Rochester 2019" />
         </div>
     );
   }

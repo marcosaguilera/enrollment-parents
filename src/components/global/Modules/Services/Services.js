@@ -60,12 +60,12 @@ class Services extends Component {
         student_code                         : '',
 
         // Servicios de matrículas
-        seguro_accidentes                    : 55000,
-        anuario_impreso                      : 110000,
-        anuario_digital                      : 46000,
-        anuario_combo                        : 156000,
-        asopadres                            : 172000,
-        club                                 : 375000,
+        seguro_accidentes                    : 56000,
+        anuario_impreso                      : 116000,
+        anuario_digital                      : 48000,
+        anuario_combo                        : 158000,
+        asopadres                            : 180000,
+        club                                 : 400000,
 
         // zero values,
         seguro_cero                          : 0,
@@ -87,6 +87,7 @@ class Services extends Component {
         total_dtos_matr                      : 0,
         total_servicios                      : 0,
         total_pagar                          : 0,
+        total_selecciones                    : 0,
 
         // Addons states
         loading                              : false,  // will be true when ajax request is running
@@ -102,15 +103,15 @@ class Services extends Component {
         resumeData                           : 0,
 
         // Labels
-        label_seguro                         : 'Si - $55.000',
+        label_seguro                         : 'Si - $56.000',
         label_seguro_cero                    : 'No - $0.0',
-        label_anuario_impreso                : 'Impreso - $110.000',
-        label_anuario_digital                : 'Digital - $46.000',
-        label_anuario_combo                  : 'Impreso y digital - $156.000',
+        label_anuario_impreso                : 'Impreso - $116.000',
+        label_anuario_digital                : 'Digital - $48.000',
+        label_anuario_combo                  : 'Impreso y digital - $158.000',
         label_anuario_cero                   : 'No - $0.0',
-        label_asopadres                      : 'Si - $172.000',
+        label_asopadres                      : 'Si - $180.000',
         label_asopadres_cero                 : 'No - $0.0',
-        label_club                           : 'Si - $375.000',
+        label_club                           : 'Si - $400.000',
         label_club_cero                      : 'No - $0.0',
 
         // OpenApply data
@@ -214,9 +215,9 @@ class Services extends Component {
                             apellidos                            : item.Apellidos,
                             grado                                : item.Grado,
                             tarifa_plena                         : Number(item.Derecho_Matricula_Plena),
-                            bibliobanco                          : Number(item.Bibliobanco),
                             tarifa_reducida_7_5                  : Number(item.Derecho_por_pago_anualidades_7_5),
                             tarifa_reducida_15                   : Number(item.Derecho_por_pago_anualidades_15),
+                            bibliobanco                          : Number(item.Bibliobanco),
                             descuento_exalumno                   : Number(item.Hijo_Exalumno),
                             descuento_2do_hno                    : Number(item.Hijo_2),
                             descuento_3er_hno                    : Number(item.Hijo_3),
@@ -229,6 +230,11 @@ class Services extends Component {
                             total_solo_descuentos                : Number(item.total_conceptos_descuentos),
                             total_matricula                      : Number(item.total_conceptos_matricula),
                             total_dtos_matr                      : Number(item.total_conceptos_descuentos),
+
+                        }, () => {
+                          this.setState({
+                            matricula_nombre : Utils.getMatriculaName(this.state.tarifa_plena, this.state.tarifa_reducida_7_5, this.state.tarifa_reducida_15)
+                          }, () => { console.log("---> nombre matricula :" + this.state.matricula_nombre ) })
                         });
                         this.handleGetTotals();
                         this.toggleSelectorsActivation();
@@ -365,7 +371,11 @@ class Services extends Component {
       switch(action) {
         case "fromSearch":
             this.setState({
-              total_pagar : Number(this.state.total_conceptos_matricula_descuentos + this.state.total_servicios)
+              total_pagar : Number(this.state.total_conceptos_matricula_descuentos + this.state.total_servicios),
+              total_selecciones: Number(this.state.seguro_seleccionado
+                                  + this.state.anuario_seleccionado
+                                  + this.state.asopadres_seleccionado
+                                  + this.state.club_seleccionado)
             })
             break;
         case "fromSelection":
@@ -374,7 +384,11 @@ class Services extends Component {
                                   + this.state.seguro_seleccionado
                                   + this.state.anuario_seleccionado
                                   + this.state.asopadres_seleccionado
-                                  + this.state.club_seleccionado )
+                                  + this.state.club_seleccionado ),
+              total_selecciones: Number(this.state.seguro_seleccionado
+                                  + this.state.anuario_seleccionado
+                                  + this.state.asopadres_seleccionado
+                                  + this.state.club_seleccionado)
             })
             break;
         case "fromStart":
@@ -383,7 +397,11 @@ class Services extends Component {
                                   + this.state.seguro_seleccionado
                                   + this.state.anuario_seleccionado
                                   + this.state.asopadres_seleccionado
-                                  + this.state.club_seleccionado )
+                                  + this.state.club_seleccionado ),
+              total_selecciones: Number(this.state.seguro_seleccionado
+                                  + this.state.anuario_seleccionado
+                                  + this.state.asopadres_seleccionado
+                                  + this.state.club_seleccionado)
             })
             break;
 
@@ -429,7 +447,7 @@ class Services extends Component {
   }
 
   nextPath = () => {
-    let data_step1       = { token:'', demographic:{}, annual_services: [], montly_services:[], eco:[], payment:{} }
+    let data_step1       = { token:'', demographic:{}, annual_services: [], montly_services:[], eco:[], payments:[], payments_form:[] }
     let demographic_data = {}
     let annual_services  = []
     let enrollment       = {}
@@ -438,19 +456,20 @@ class Services extends Component {
     let annuaryBook      = {}
     let asopadres        = {}
     let sportsClub       = {}
+    let totals_annual    = {}
 
     // Student data
     demographic_data.codigo    = this.state.codigo
     demographic_data.nombres   = this.state.nombres
     demographic_data.apellidos = this.state.apellidos
     demographic_data.grado     = this.state.grado
-    demographic_data.uid       = this.state.objectId
+    demographic_data.uid       = this.state.openApplyId
 
     //////SERIALIZNG SELECTIONS///////
     /// MATRICULA
     enrollment.type           = 'Anual'
-    enrollment.name           = 'Matricula'
-    enrollment.code           = Utils.getServiceCode('Matricula')
+    enrollment.name           = this.state.matricula_nombre
+    enrollment.code           = Utils.getServiceCode(this.state.matricula_nombre)
     enrollment.select         = 'Si'
     enrollment.value          = this.state.total_tarifas_mat
     enrollment.discount       = this.state.total_solo_descuentos
@@ -503,15 +522,28 @@ class Services extends Component {
     annual_services.push(asopadres)
     annual_services.push(sportsClub)
 
+    console.log("===> Total enrollment + bookstore: " + this.state.total_matricula );
+    console.log("===> Total only discounts: " + this.state.total_solo_descuentos );
+    console.log("===> Total selected services: " + this.state.total_selecciones );
+    console.log("===> Total (enrollment + bookstore) - discounts: " + this.state.total_conceptos_matricula_descuentos );
+
+    totals_annual.annual_total_enrollment_bookstore      = this.state.total_matricula
+    totals_annual.annual_total_discounts                 = this.state.total_solo_descuentos
+    totals_annual.annual_total_enrollment_with_discounts = this.state.total_conceptos_matricula_descuentos
+    totals_annual.annual_total_seleted_services          = this.state.total_selecciones
+    totals_annual.annual_total_to_pay                    = this.state.total_pagar
+
     // Populating object
     data_step1['token']              = "KJHASD7657"
     data_step1['demographic']        = demographic_data
     data_step1['annual_services']    = annual_services
+    data_step1['payments'].push(totals_annual)
 
     this.setState({
       isShowingResume: ''
     });
 
+    console.log("Final data Step 1: ");
     console.log(data_step1)
     this.props.history.push('/enrolment_montly_services', data_step1)
   }
@@ -546,12 +578,12 @@ class Services extends Component {
     };
 
     axios.post('https://parseapi.back4app.com/classes/EventsLog', servicesSelected, axiosConfig)
-         .then(res => {
-             console.log(res);
-         })
-         .catch(error => {
+        .then(res => {
+            console.log(res);
+        })
+        .catch(error => {
             console.log(error);
-         });
+        });
   }
 
   render() {
@@ -654,7 +686,7 @@ class Services extends Component {
                                         disabled={this.state.isDisableSelect}>
                                           <option value={this.state.anuario_impreso} defaultValue="selected">{this.state.label_anuario_impreso}</option>
                                           <option value={this.state.anuario_digital}>{this.state.label_anuario_digital}</option>
-                                          <option value={this.state.anuario_combo}>{this.state.label_anuario_combo}</option>
+                                          {/*<option value={this.state.anuario_combo}>{this.state.label_anuario_combo}</option>*/}
                                           <option value={this.state.anuario_cero}>{this.state.label_anuario_cero}</option>
                                 </select>
                               </div>

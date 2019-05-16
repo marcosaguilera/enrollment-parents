@@ -76,3 +76,9 @@
 svg {
     height: 10px;
 }
+
+.custom-pill {
+    line-height: 1.7 !important;
+    padding-right: .8em;
+    padding-left: .8em;
+}

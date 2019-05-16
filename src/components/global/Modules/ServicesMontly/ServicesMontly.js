@@ -21,21 +21,25 @@ import '../../Modules/ServicesMontly/ServicesMontly.css';
 class ServicesMontly extends Component {
     constructor() {
         super();
-        this.handleOnChange      = this.handleOnChange.bind(this)
-        this.setTotals           = this.setTotals.bind(this)
-        this.setMontlyTotal      = this.setMontlyTotal.bind(this)
-
+        this.handleOnChange          = this.handleOnChange.bind(this)
+        this.setTotals               = this.setTotals.bind(this)
+        this.setMontlyTotal          = this.setMontlyTotal.bind(this)
+        this.onStarClick             = this.onStarClick.bind(this)
+        this.addDonationSelection    = this.addDonationSelection.bind(this)
+        this.removeDonationSelection = this.removeDonationSelection.bind(this)
+        
         this.state = {
             // General Data                     // Demographic data
             step2_data              : {},       code     : '',
             demo_data               : [],       name     : '',
             lodgings                : 0,        lastname : '',
             transport               : 0,        grade    : '',
-            lunch                   : 0,
-            snack                   : 0,
-            breakFast               : 0,
+            lunch                   : 0,        donSolid : false,
+            snack                   : 0,        donEdu   : false,
+            breakFast               : 0,        donPres  : false,
             lifeSecure              : 0,
             jobSecure               : 0,
+            donation                : 300000,
 
             //Discounts                         // Selection values
             discountLodgings        : 0,        transportSel  : 'Si',
@@ -44,55 +48,57 @@ class ServicesMontly extends Component {
             discountSnack           : 0,        breakFastSel  : 'Si',
             discountBreakfast       : 0,        lifeSecureSel : 'Si',
             discountLifeSecure      : 0,        jobSecureSel  : 'Si',
-            discountJobSecure       : 0,
+            discountJobSecure       : 0,        donationSel   : [],
 
             //Total
-            totalLodgings           : 0,
-            totalTransport          : 0,
-            totalLunch              : 0,
-            totalSnack              : 0,
+            totalLodgings           : 0,        // Extra states
+            totalTransport          : 0,        matriculaCode : '',
+            totalLunch              : 0,        pensionName   : '',
+            totalSnack              : 0,        donacionName  : '',
             totalBreakfast          : 0,
             totalLifeSecure         : 0,
             totalJobSecure          : 0,
+            totalDonation           : 0,
             totalMontlyServices     : 0
         };
     }
 
     componentDidMount = () => {
         let servicesObj = this.props.location.state;
-        //console.log("===> Montly Services Step");
-        //console.log(servicesObj);
 
         this.setState({ 
-                        step2_data : servicesObj,
-                        code       : servicesObj.demographic.codigo, 
-                        name       : servicesObj.demographic.nombres,
-                        lastname   : servicesObj.demographic.apellidos,
-                        grade      : servicesObj.demographic.grado
+                        step2_data    : servicesObj,
+                        code          : servicesObj.demographic.codigo, 
+                        name          : servicesObj.demographic.nombres,
+                        lastname      : servicesObj.demographic.apellidos,
+                        grade         : servicesObj.demographic.grado,
+                        matriculaCode : servicesObj.annual_services[0].code,
+                        donacionName  : Utils.getDonacionName(this.state.donation)
+                    }, () => {
+                        this.setState({ pensionName : Utils.getPensionName(this.state.matriculaCode) })
                     })
 
         let url = "https://rcis-backend.herokuapp.com/student/monthlyservices/" + servicesObj.demographic.codigo
         axios.get(url)
         .then(res => {
-            //console.log(res.data[0])
             let montly_data = res.data[0]
             this.setState({
-                lodgings            : montly_data.pension,
-                transport           : montly_data.transporte,
-                lunch               : montly_data.alimentos_almuerzo,
-                snack               : montly_data.alimentos_m9,
-                breakFast           : montly_data.alimentos_desayuno,
-                lifeSecure          : montly_data.seguro_vida,
-                jobSecure           : montly_data.seguro_desempleo,
+                lodgings            : Utils.checkNull(montly_data.pension),
+                transport           : Utils.checkNull(montly_data.transporte),
+                lunch               : Utils.checkNull(montly_data.alimentos_almuerzo),
+                snack               : Utils.checkNull(montly_data.alimentos_m9),
+                breakFast           : Utils.checkNull(montly_data.alimentos_desayuno),
+                lifeSecure          : Utils.checkNull(montly_data.seguro_vida),
+                jobSecure           : Utils.checkNull(montly_data.seguro_desempleo),
 
                 //discounts
-                discountLodgings    : montly_data.pension_descuento,
-                discountTransport   : montly_data.transporte_descuento,
-                discountLunch       : montly_data.alimentos_almuerzo_descuento,
-                discountSnack       : montly_data.alimentos_m9_descuento,
-                discountBreakfast   : montly_data.alimentos_desayuno_descuento,
-                discountLifeSecure  : montly_data.seguro_vida_descuento,
-                discountJobSecure   : montly_data.seguro_desempleo_descuento,
+                discountLodgings    : Utils.checkNull(montly_data.pension_descuento),
+                discountTransport   : Utils.checkNull(montly_data.transporte_descuento),
+                discountLunch       : Utils.checkNull(montly_data.alimentos_almuerzo_descuento),
+                discountSnack       : Utils.checkNull(montly_data.alimentos_m9_descuento),
+                discountBreakfast   : Utils.checkNull(montly_data.alimentos_desayuno_descuento),
+                discountLifeSecure  : Utils.checkNull(montly_data.seguro_vida_descuento),
+                discountJobSecure   : Utils.checkNull(montly_data.seguro_desempleo_descuento),
             }, () => {
                 this.setTotals()
             })
@@ -114,7 +120,8 @@ class ServicesMontly extends Component {
             totalSnack              : Number(this.state.snack - this.state.discountSnack),
             totalBreakfast          : Number(this.state.breakFast - this.state.discountBreakfast),
             totalLifeSecure         : Number(this.state.lifeSecure - this.state.discountLifeSecure),
-            totalJobSecure          : Number(this.state.jobSecure - this.state.discountJobSecure)
+            totalJobSecure          : Number(this.state.jobSecure - this.state.discountJobSecure),
+            totalDonation           : Number(this.state.donation)
         },  () => {  this.setMontlyTotal()  })
     }
 
@@ -126,7 +133,8 @@ class ServicesMontly extends Component {
                                     this.state.totalSnack +
                                     this.state.totalBreakfast +
                                     this.state.totalLifeSecure +
-                                    this.state.totalJobSecure
+                                    this.state.totalJobSecure +
+                                    this.state.totalDonation
         })
     }
 
@@ -134,6 +142,52 @@ class ServicesMontly extends Component {
         if(e.target.id === 'transportSelector'){
             this.setState({ transport: Number(e.target.value) }, () => {
                 this.setTotals()
+            })
+        }
+
+        if(e.target.id === 'donacionSelector'){
+            this.setState({ donation: Number(e.target.value) }, () => {
+                this.setTotals()
+                this.setState({ donacionName : Utils.getDonacionName(this.state.donation) })
+            })
+        }
+
+        if(e.target.id === 'donationDefaultCheck1'){
+            let donSolidValue = e.target.value
+            this.setState({
+                donSolid: !this.state.donSolid
+            }, () => { 
+                if(this.state.donSolid){
+                    this.addDonationSelection(donSolidValue)
+                }else{
+                    this.removeDonationSelection(donSolidValue)
+                }
+            })
+        }
+
+        if(e.target.id === 'donationDefaultCheck2'){
+            let donEduValue = e.target.value
+            this.setState({
+                donEdu: !this.state.donEdu
+            }, () => { 
+                if(this.state.donEdu){
+                    this.addDonationSelection(donEduValue)
+                }else{
+                    this.removeDonationSelection(donEduValue)
+                }
+            })
+        }
+
+        if(e.target.id === 'donationDefaultCheck3'){
+            let donPreValue = e.target.value
+            this.setState({
+                donPres: !this.state.donPres
+            }, () => { 
+                if(this.state.donPres){
+                    this.addDonationSelection(donPreValue)
+                }else{
+                    this.removeDonationSelection(donPreValue)
+                }
             })
         }
 
@@ -203,6 +257,25 @@ class ServicesMontly extends Component {
         }
     }
 
+    addDonationSelection = (data) =>{
+        console.log("add")
+        let selArr = this.state.donationSel
+        selArr.push(data)
+        console.log(selArr)
+    }
+
+    removeDonationSelection = (data) =>{
+        console.log("remove")
+        let selArr = this.state.donationSel
+        let pos = selArr.indexOf(data);
+        selArr.splice(pos, 1)
+        console.log(selArr)
+    }
+
+    onStarClick(nextValue, prevValue, name) {
+        this.setState({donationSel: nextValue});
+    }
+
     nextPath = () => {
         let data_step2      = this.state.step2_data
         let montly_services = []
@@ -213,18 +286,20 @@ class ServicesMontly extends Component {
         let breakFast       = {}
         let lifeSecure      = {}
         let jobSecure       = {}
+        let donations       = {}
+        let totals_montly   = {}
 
         //////SERIALIZNG SELECTIONS///////
         /// PENSIÓN
         lodgings.type        = 'Mensual'
-        lodgings.name        = 'Pension'
-        lodgings.code        = Utils.getServiceCode('Pension')
+        lodgings.name        = this.state.pensionName
+        lodgings.code        = Utils.getServiceCode(this.state.pensionName)
         lodgings.select      = 'Si'
         lodgings.value       = this.state.lodgings
         lodgings.discount    = this.state.discountLodgings
         lodgings.total       = this.state.totalLodgings
         /// TRANSPORTE
-        lodgings.type        = 'Mensual'
+        transport.type       = 'Mensual'
         transport.name       = "Transporte"
         transport.code       = Utils.getServiceCode('Transporte')
         transport.select     = Utils.getTransportServiceName(this.state.transport)
@@ -232,7 +307,7 @@ class ServicesMontly extends Component {
         transport.discount   = this.state.discountTransport
         transport.total      = this.state.totalTransport
         /// ALMUERZO
-        lodgings.type        = 'Mensual'
+        lunch.type           = 'Mensual'
         lunch.name           = 'Almuerzo'
         lunch.code           = Utils.getServiceCode('Almuerzo')
         lunch.select         = this.state.lunchSel
@@ -240,7 +315,7 @@ class ServicesMontly extends Component {
         lunch.discount       = this.state.discountLunch
         lunch.total          = this.state.totalLunch
         /// M9
-        lodgings.type        = 'Mensual'
+        snack.type           = 'Mensual'
         snack.name           = 'Medias Nueves'
         snack.code           = Utils.getServiceCode('Medias Nueves')
         snack.select         = this.state.snackSel
@@ -248,7 +323,7 @@ class ServicesMontly extends Component {
         snack.discount       = this.state.discountSnack
         snack.total          = this.state.totalSnack
         /// DESAYUNO
-        lodgings.type        = 'Mensual'
+        breakFast.type       = 'Mensual'
         breakFast.name       = 'Desayuno'
         breakFast.code       = Utils.getServiceCode('Desayuno')
         breakFast.select     = this.state.breakFastSel
@@ -256,7 +331,7 @@ class ServicesMontly extends Component {
         breakFast.discount   = this.state.discountBreakfast
         breakFast.total      = this.state.totalBreakfast
         /// SEGURO VIDA
-        lodgings.type        = 'Mensual'
+        lifeSecure.type      = 'Mensual'
         lifeSecure.name      = 'Seguro de vida'
         lifeSecure.code      = Utils.getServiceCode('Seguro de vida')
         lifeSecure.select    = this.state.lifeSecureSel
@@ -264,13 +339,21 @@ class ServicesMontly extends Component {
         lifeSecure.discount  = this.state.discountLifeSecure
         lifeSecure.total     = this.state.totalLifeSecure
         /// SEGURO DESEMPLEO
-        lodgings.type        = 'Mensual'
+        jobSecure.type       = 'Mensual'
         jobSecure.name       = 'Seguro desempleo'
         jobSecure.code       = Utils.getServiceCode('Seguro desempleo')
         jobSecure.select     = this.state.jobSecureSel
         jobSecure.value      = this.state.jobSecure
         jobSecure.discount   = this.state.discountJobSecure
         jobSecure.total      = this.state.totalJobSecure
+        /// DONACIÓN
+        donations.type       = 'Mensual'
+        donations.name       = this.state.donacionName
+        donations.code       = Utils.getServiceCode(this.state.donacionName)
+        donations.select     = JSON.stringify(this.state.donationSel)
+        donations.value      = this.state.donation
+        donations.discount   = 0
+        donations.total      = this.state.donation
 
         montly_services.push(lodgings)
         montly_services.push(transport)
@@ -279,8 +362,13 @@ class ServicesMontly extends Component {
         montly_services.push(breakFast)
         montly_services.push(lifeSecure)
         montly_services.push(jobSecure)
+        montly_services.push(donations)
+
+        totals_montly.montly_total_pay = this.state.totalMontlyServices
 
         data_step2['montly_services'] = montly_services
+        data_step2['payments'].push(totals_montly)
+        console.log("Final data Step 2: ");
         console.log(data_step2)
         this.props.history.push('/enrolment_eco_services', data_step2);
     }
@@ -461,6 +549,49 @@ class ServicesMontly extends Component {
                                     <NumberFormat value={this.state.totalJobSecure} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                 </td>
                             </tr>
+                            <tr>
+                                <td>Donaciones (Pagos mensuales )</td>
+                                <td className="choiceCustomClass">
+                                    <div className="form-check form-check form-check-inline">
+                                        <input className="form-check-input" onChange={this.handleOnChange} type="checkbox" value="solidaridad" id="donationDefaultCheck1" />
+                                        <label className="form-check-label" htmlFor="donationDefaultCheck1">
+                                            Solidaridad
+                                        </label>
+                                    </div>
+                                    <div className="form-check form-check form-check-inline">
+                                        <input className="form-check-input" onChange={this.handleOnChange} type="checkbox" value="educacion" id="donationDefaultCheck2" />
+                                        <label className="form-check-label" htmlFor="donationDefaultCheck2">
+                                            Educación
+                                        </label>
+                                    </div>
+                                    <div className="form-check form-check form-check-inline">
+                                        <input className="form-check-input" onChange={this.handleOnChange} type="checkbox" value="preservacion" id="donationDefaultCheck3" />
+                                        <label className="form-check-label" htmlFor="donationDefaultCheck2">
+                                            Preservación
+                                        </label>
+                                    </div>
+                                    <select className="form-control"
+                                            id="donacionSelector"
+                                            onChange={this.handleOnChange}
+                                            value={this.state.donation}>
+                                                <option value="30000">1 Corazón x ❤</option>
+                                                <option value="50000">2 Corazones x ❤❤</option>
+                                                <option value="200000">3 Corazones x ❤❤❤</option>
+                                                <option value="300000">4 Corazones x ❤❤❤❤</option>
+                                                <option value="0" >No deseo donar</option>
+                                    </select>
+                                </td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.donation} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="discountAlignment">
+                                    <NumberFormat value={0} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                                <td className="totalAlignment">
+                                    <NumberFormat value={this.state.donation} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                </td>
+                            </tr>
+
                             <tr style={{ backgroundColor: 'rgba(0,0,0,.03)' }}>
                                 <td></td>
                                 <td></td>
