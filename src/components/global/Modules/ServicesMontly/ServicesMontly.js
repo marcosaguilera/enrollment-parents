@@ -39,7 +39,7 @@ class ServicesMontly extends Component {
             breakFast               : 0,        donPres  : false,
             lifeSecure              : 0,
             jobSecure               : 0,
-            donation                : 500,
+            donation                : 300000,
 
             //Discounts                         // Selection values
             discountLodgings        : 0,        transportSel  : 'Si',
@@ -54,7 +54,7 @@ class ServicesMontly extends Component {
             totalLodgings           : 0,        // Extra states
             totalTransport          : 0,        matriculaCode : '',
             totalLunch              : 0,        pensionName   : '',
-            totalSnack              : 0,
+            totalSnack              : 0,        donacionName  : '',
             totalBreakfast          : 0,
             totalLifeSecure         : 0,
             totalJobSecure          : 0,
@@ -65,8 +65,6 @@ class ServicesMontly extends Component {
 
     componentDidMount = () => {
         let servicesObj = this.props.location.state;
-        //console.log("===> Montly Services Step");
-        //console.log(servicesObj);
 
         this.setState({ 
                         step2_data    : servicesObj,
@@ -74,7 +72,8 @@ class ServicesMontly extends Component {
                         name          : servicesObj.demographic.nombres,
                         lastname      : servicesObj.demographic.apellidos,
                         grade         : servicesObj.demographic.grado,
-                        matriculaCode : servicesObj.annual_services[0].code
+                        matriculaCode : servicesObj.annual_services[0].code,
+                        donacionName  : Utils.getDonacionName(this.state.donation)
                     }, () => {
                         this.setState({ pensionName : Utils.getPensionName(this.state.matriculaCode) })
                     })
@@ -82,7 +81,6 @@ class ServicesMontly extends Component {
         let url = "https://rcis-backend.herokuapp.com/student/monthlyservices/" + servicesObj.demographic.codigo
         axios.get(url)
         .then(res => {
-            //console.log(res.data[0])
             let montly_data = res.data[0]
             this.setState({
                 lodgings            : Utils.checkNull(montly_data.pension),
@@ -150,6 +148,7 @@ class ServicesMontly extends Component {
         if(e.target.id === 'donacionSelector'){
             this.setState({ donation: Number(e.target.value) }, () => {
                 this.setTotals()
+                this.setState({ donacionName : Utils.getDonacionName(this.state.donation) })
             })
         }
 
@@ -287,6 +286,7 @@ class ServicesMontly extends Component {
         let breakFast       = {}
         let lifeSecure      = {}
         let jobSecure       = {}
+        let donations       = {}
         let totals_montly   = {}
 
         //////SERIALIZNG SELECTIONS///////
@@ -347,13 +347,13 @@ class ServicesMontly extends Component {
         jobSecure.discount   = this.state.discountJobSecure
         jobSecure.total      = this.state.totalJobSecure
         /// DONACIÓN
-        jobSecure.type       = 'Mensual'
-        jobSecure.name       = '[...]'
-        jobSecure.code       = Utils.getServiceCode('Seguro desempleo')
-        jobSecure.select     = this.state.jobSecureSel
-        jobSecure.value      = this.state.jobSecure
-        jobSecure.discount   = this.state.discountJobSecure
-        jobSecure.total      = this.state.totalJobSecure
+        donations.type       = 'Mensual'
+        donations.name       = this.state.donacionName
+        donations.code       = Utils.getServiceCode(this.state.donacionName)
+        donations.select     = JSON.stringify(this.state.donationSel)
+        donations.value      = this.state.donation
+        donations.discount   = 0
+        donations.total      = this.state.donation
 
         montly_services.push(lodgings)
         montly_services.push(transport)
@@ -362,6 +362,7 @@ class ServicesMontly extends Component {
         montly_services.push(breakFast)
         montly_services.push(lifeSecure)
         montly_services.push(jobSecure)
+        montly_services.push(donations)
 
         totals_montly.montly_total_pay = this.state.totalMontlyServices
 
@@ -573,13 +574,11 @@ class ServicesMontly extends Component {
                                             id="donacionSelector"
                                             onChange={this.handleOnChange}
                                             value={this.state.donation}>
-                                                <option value="100">1 Corazón x ❤</option>
-                                                <option value="200">2 Corazones x ❤❤</option>
-                                                <option value="300">3 Corazones x ❤❤❤</option>
-                                                <option value="400">4 Corazones x ❤❤❤❤</option>
-                                                <option value="500">5 Corazones x ❤❤❤❤❤</option>
+                                                <option value="30000">1 Corazón x ❤</option>
+                                                <option value="50000">2 Corazones x ❤❤</option>
+                                                <option value="200000">3 Corazones x ❤❤❤</option>
+                                                <option value="300000">4 Corazones x ❤❤❤❤</option>
                                                 <option value="0" >No deseo donar</option>
-                                                {/* Cuando un padre seleccione un transporte seleccionará si desea tomar modalidad extracurricular */}
                                     </select>
                                 </td>
                                 <td className="totalAlignment">
