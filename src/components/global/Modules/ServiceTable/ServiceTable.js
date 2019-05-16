@@ -46,15 +46,15 @@ class ServiceTable extends Component {
                         <td><NumberFormat value={this.state.services.Bibliobanco} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
-                        <td>Derecho de matrícula -7.5% por pago de anualidades futuras</td>
+                        <td>Derecho de matrícula 50% por pago de anualidades futuras</td>
                         <td><NumberFormat value={this.state.services.Derecho_por_pago_anualidades_7_5} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
-                        <td>Derecho de matrícula -15% por pago de anualidades futuras</td>
+                        <td>Derecho de matrícula 100% por pago de anualidades futuras</td>
                         <td><NumberFormat value={this.state.services.Derecho_por_pago_anualidades_15} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr className="table-secondary">
-                        <td colSpan="2"><b>Descuentos</b></td>
+                        <td colSpan="2"><b>Becas</b></td>
                       </tr>
                       <tr>
                         <td className="indentLeftText">Hijo de ex-alumno</td>
