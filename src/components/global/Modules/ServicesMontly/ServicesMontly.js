@@ -55,7 +55,7 @@ class ServicesMontly extends Component {
             totalTransport          : 0,        matriculaCode : '',
             totalLunch              : 0,        pensionName   : '',
             totalSnack              : 0,        donacionName  : '',
-            totalBreakfast          : 0,
+            totalBreakfast          : 0,        transportName : '',
             totalLifeSecure         : 0,
             totalJobSecure          : 0,
             totalDonation           : 0,
@@ -101,6 +101,9 @@ class ServicesMontly extends Component {
                 discountJobSecure   : Utils.checkNull(montly_data.seguro_desempleo_descuento),
             }, () => {
                 this.setTotals()
+                this.setState({ transportName : Utils.getTransportServiceName(this.state.transport) }, ()=>{
+                    console.log(this.state.transportName)
+                })
             })
         })
     };
@@ -142,6 +145,9 @@ class ServicesMontly extends Component {
         if(e.target.id === 'transportSelector'){
             this.setState({ transport: Number(e.target.value) }, () => {
                 this.setTotals()
+                this.setState({ transportName : Utils.getTransportServiceName(this.state.transport) }, ()=>{
+                    console.log(this.state.transportName)
+                })
             })
         }
 
@@ -301,8 +307,8 @@ class ServicesMontly extends Component {
         /// TRANSPORTE
         transport.type       = 'Mensual'
         transport.name       = "Transporte"
-        transport.code       = Utils.getServiceCode('Transporte')
-        transport.select     = Utils.getTransportServiceName(this.state.transport)
+        transport.code       = Utils.getServiceCode(this.state.transportName)
+        transport.select     = this.state.transportName
         transport.value      = this.state.transport
         transport.discount   = this.state.discountTransport
         transport.total      = this.state.totalTransport
@@ -419,12 +425,12 @@ class ServicesMontly extends Component {
                                         style={{ width: '100%', display: 'inherit' }}
                                         onChange={this.handleOnChange}
                                         value={this.state.transport}>
-                                            <option value="409000">Completo Cercano</option>
-                                            <option value="462000">Completo Intermedio</option>
-                                            <option value="536000">Completo Lejano</option>
-                                            <option value="259000">Medio Cercano</option>
-                                            <option value="276000">Medio Intermedio</option>
-                                            <option value="332000">Medio Lejano</option>
+                                            <option value="433000">Completo Cercano</option>
+                                            <option value="489000">Completo Intermedio</option>
+                                            <option value="567000">Completo Lejano</option>
+                                            <option value="274000">Medio Cercano</option>
+                                            <option value="292000">Medio Intermedio</option>
+                                            <option value="351000">Medio Lejano</option>
                                             <option value="0" >Sin servicio</option>
                                             {/* Cuando un padre seleccione un transporte seleccionará si desea tomar modalidad extracurricular */}
                                     </select>

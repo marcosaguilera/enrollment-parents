@@ -38,23 +38,23 @@ class ExtracurricularServices extends Component {
 		this.showInfo          = this.showInfo.bind(this);
 
 		this.state = {
-			code             : '',
-			name             : '',
-			lastname         : '',
-			grade            : '',
-			services         : [],
-			cartServices     : [],
-			totalAmmountCart : 0,
-			step3_data       : {},
-			showingAlert     : false,
-			isReadyDemographicComponent : false
+			code                        : '',   showElementTransport : false,
+			name                        : '',   
+			lastname                    : '',
+			grade                       : '',
+			services                    : [],
+			cartServices                : [],
+			totalAmmountCart            : 0,
+			step3_data                  : {},
+			showingAlert                : false,
+			isReadyDemographicComponent : false,
 		}
 	}
 
 	componentDidMount() {
 		let servicesObj = this.props.location.state;
 		//console.log("===> Extracurricular Step");
-		//console.log(servicesObj);
+		console.log(servicesObj);
 
 		this.setState({
 			code       : servicesObj.demographic.codigo,
@@ -94,7 +94,7 @@ class ExtracurricularServices extends Component {
 				ToastsStore.warning("No puedes agregar mas actividades. Son permitidas máximo dos (2) actividades por estudiante")
 			}
 		}else{
-			ToastsStore.warning("La actividad que intenta inscribir ya ha sido agregada")
+			ToastsStore.warning("Esta actividad ya ha sido agregada")
 		}
 	}
 
