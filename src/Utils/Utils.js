@@ -26,7 +26,13 @@ let getServiceCode =  function(serviceName){
     if(serviceName === 'Desayuno'){ return '0098' }
     if(serviceName === 'Seguro de vida'){ return '0032' }
     if(serviceName === 'Seguro desempleo'){ return '0092' }
+    if(serviceName === '1 corazon'){ return '0085' }
+    if(serviceName === '2 corazones'){ return '0086' }
+    if(serviceName === '3 corazones'){ return '0087' }
+    if(serviceName === '4 corazones'){ return '0088' }
     if(serviceName === 'Otro'){ return 'O9008' }
+
+    //////// Eco/Club services
 }
 
 let getTransportServiceName = function(transportValue){
@@ -71,6 +77,14 @@ let getPensionName = function(matriculaCode){
     if(matriculaCode === "0003"){ return 'Pension 50' }
 }
 
+let getDonacionName = function(value){
+    if( value === 30000 ){ return '1 corazon' }
+    if( value === 50000 ){ return '2 corazones' }
+    if( value === 200000 ){ return '3 corazones' }
+    if( value === 300000 ){ return '4 corazones' }
+    if( value === 0 ){ return 'NA' }
+}
+
 module.exports = {
     getServiceCode,
     getTransportServiceName,
@@ -78,5 +92,6 @@ module.exports = {
     checkSelection,
     checkNull,
     getMatriculaName,
-    getPensionName
+    getPensionName,
+    getDonacionName
 }
