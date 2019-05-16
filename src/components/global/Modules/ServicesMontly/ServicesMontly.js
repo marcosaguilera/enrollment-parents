@@ -51,9 +51,9 @@ class ServicesMontly extends Component {
             discountJobSecure       : 0,        donationSel   : [],
 
             //Total
-            totalLodgings           : 0,
-            totalTransport          : 0,
-            totalLunch              : 0,
+            totalLodgings           : 0,        // Extra states
+            totalTransport          : 0,        matriculaCode : '',
+            totalLunch              : 0,        pensionName   : '',
             totalSnack              : 0,
             totalBreakfast          : 0,
             totalLifeSecure         : 0,
@@ -69,11 +69,14 @@ class ServicesMontly extends Component {
         //console.log(servicesObj);
 
         this.setState({ 
-                        step2_data : servicesObj,
-                        code       : servicesObj.demographic.codigo, 
-                        name       : servicesObj.demographic.nombres,
-                        lastname   : servicesObj.demographic.apellidos,
-                        grade      : servicesObj.demographic.grado
+                        step2_data    : servicesObj,
+                        code          : servicesObj.demographic.codigo, 
+                        name          : servicesObj.demographic.nombres,
+                        lastname      : servicesObj.demographic.apellidos,
+                        grade         : servicesObj.demographic.grado,
+                        matriculaCode : servicesObj.annual_services[0].code
+                    }, () => {
+                        this.setState({ pensionName : Utils.getPensionName(this.state.matriculaCode) })
                     })
 
         let url = "https://rcis-backend.herokuapp.com/student/monthlyservices/" + servicesObj.demographic.codigo
@@ -82,22 +85,22 @@ class ServicesMontly extends Component {
             //console.log(res.data[0])
             let montly_data = res.data[0]
             this.setState({
-                lodgings            : montly_data.pension,
-                transport           : montly_data.transporte,
-                lunch               : montly_data.alimentos_almuerzo,
-                snack               : montly_data.alimentos_m9,
-                breakFast           : montly_data.alimentos_desayuno,
-                lifeSecure          : montly_data.seguro_vida,
-                jobSecure           : montly_data.seguro_desempleo,
+                lodgings            : Utils.checkNull(montly_data.pension),
+                transport           : Utils.checkNull(montly_data.transporte),
+                lunch               : Utils.checkNull(montly_data.alimentos_almuerzo),
+                snack               : Utils.checkNull(montly_data.alimentos_m9),
+                breakFast           : Utils.checkNull(montly_data.alimentos_desayuno),
+                lifeSecure          : Utils.checkNull(montly_data.seguro_vida),
+                jobSecure           : Utils.checkNull(montly_data.seguro_desempleo),
 
                 //discounts
-                discountLodgings    : montly_data.pension_descuento,
-                discountTransport   : montly_data.transporte_descuento,
-                discountLunch       : montly_data.alimentos_almuerzo_descuento,
-                discountSnack       : montly_data.alimentos_m9_descuento,
-                discountBreakfast   : montly_data.alimentos_desayuno_descuento,
-                discountLifeSecure  : montly_data.seguro_vida_descuento,
-                discountJobSecure   : montly_data.seguro_desempleo_descuento,
+                discountLodgings    : Utils.checkNull(montly_data.pension_descuento),
+                discountTransport   : Utils.checkNull(montly_data.transporte_descuento),
+                discountLunch       : Utils.checkNull(montly_data.alimentos_almuerzo_descuento),
+                discountSnack       : Utils.checkNull(montly_data.alimentos_m9_descuento),
+                discountBreakfast   : Utils.checkNull(montly_data.alimentos_desayuno_descuento),
+                discountLifeSecure  : Utils.checkNull(montly_data.seguro_vida_descuento),
+                discountJobSecure   : Utils.checkNull(montly_data.seguro_desempleo_descuento),
             }, () => {
                 this.setTotals()
             })
@@ -289,8 +292,8 @@ class ServicesMontly extends Component {
         //////SERIALIZNG SELECTIONS///////
         /// PENSIÓN
         lodgings.type        = 'Mensual'
-        lodgings.name        = 'Pension'
-        lodgings.code        = Utils.getServiceCode('Pension')
+        lodgings.name        = this.state.pensionName
+        lodgings.code        = Utils.getServiceCode(this.state.pensionName)
         lodgings.select      = 'Si'
         lodgings.value       = this.state.lodgings
         lodgings.discount    = this.state.discountLodgings
@@ -338,6 +341,14 @@ class ServicesMontly extends Component {
         /// SEGURO DESEMPLEO
         jobSecure.type       = 'Mensual'
         jobSecure.name       = 'Seguro desempleo'
+        jobSecure.code       = Utils.getServiceCode('Seguro desempleo')
+        jobSecure.select     = this.state.jobSecureSel
+        jobSecure.value      = this.state.jobSecure
+        jobSecure.discount   = this.state.discountJobSecure
+        jobSecure.total      = this.state.totalJobSecure
+        /// DONACIÓN
+        jobSecure.type       = 'Mensual'
+        jobSecure.name       = '[...]'
         jobSecure.code       = Utils.getServiceCode('Seguro desempleo')
         jobSecure.select     = this.state.jobSecureSel
         jobSecure.value      = this.state.jobSecure
@@ -538,7 +549,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Donaciones</td>
+                                <td>Donaciones (Pagos mensuales )</td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check form-check-inline">
                                         <input className="form-check-input" onChange={this.handleOnChange} type="checkbox" value="solidaridad" id="donationDefaultCheck1" />
