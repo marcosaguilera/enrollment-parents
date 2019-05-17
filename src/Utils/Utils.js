@@ -63,24 +63,25 @@ let getTransportServiceName = function(transportValue){
     if(transportValue === 0){ return "Sin transporte" }
 }
 
-let getEcoTransportServiceName = function(transportValue){
+let getEcoTransportServiceName = function(transportValue, type){
+    console.log(type)
     // LINEAL NAMES
     if(transportValue === 48000){ return "Lineal 1 día semanal (sin transporte curricular)" }
     if(transportValue === 96000){ return "Lineal 2 días semanales (sin transporte curricular)" }
-    if(transportValue === 144000){ return "Lineal 3 días semanales (sin transporte curricular)" }
+    if(transportValue === 144000 && type === "Transporte Lineal"){ return "Lineal 3 días semanales (sin transporte curricular)" }
     if(transportValue === 192000){ return "Lineal 4 días semanales (sin transporte curricular)" }
 
     // DOOR NAMES WITH CURRICULAR TRANSPORT
-    if(transportValue === 58000){ return "Puerta a puerta 1 día (sin transporte curricular)" }
-    if(transportValue === 116000){ return "Puerta a puerta 2 días (sin transporte curricular)" }
-    if(transportValue === 158000){ return "Puerta a puerta 3 días (sin transporte curricular)" }
-    if(transportValue === 200000){ return "Puerta a puerta 4 días (sin transporte curricular)" }
+    if(transportValue === 58000){ return "Puerta a puerta 1 día (con transporte curricular)" }
+    if(transportValue === 116000){ return "Puerta a puerta 2 días (con transporte curricular)" }
+    if(transportValue === 158000){ return "Puerta a puerta 3 días (con transporte curricular)" }
+    if(transportValue === 200000){ return "Puerta a puerta 4 días (con transporte curricular)" }
 
     // DOOR NAMES WITHOUT CURRICULAR TRANSPORT
-    if(transportValue === 72000){ return "Puerta a puerta 1 día (con transporte curricular)" }
-    if(transportValue === 144000){ return "Puerta a puerta 2 días (con transporte curricular)" }
-    if(transportValue === 198000){ return "Puerta a puerta 3 días (con transporte curricular)" }
-    if(transportValue === 256000){ return "Puerta a puerta 4 días (con transporte curricular)" }
+    if(transportValue === 72000){ return "Puerta a puerta 1 día (sin transporte curricular)" }
+    if(transportValue === 144000 & type === "Transporte Puerta a Puerta"){ return "Puerta a puerta 2 días (sin transporte curricular)" }
+    if(transportValue === 198000){ return "Puerta a puerta 3 días (sin transporte curricular)" }
+    if(transportValue === 256000){ return "Puerta a puerta 4 días (sin transporte curricular)" }
 
     if(transportValue === 0){ return "Sin transporte" }
 }

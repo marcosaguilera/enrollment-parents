@@ -157,10 +157,16 @@ class ExtracurricularServices extends Component {
 		}
 	}
 
+	totalCart(value){
+		console.log(this.state.totalAmmountCart)
+		this.setState({
+			//totalAmmountCart: 
+		})
+	}
+
 	onChangeSelectors(e){
 		if(e.target.id === 'transportModeSelector'){
 			console.log(e.target.value)
-			
 			this.setState({ pickedTransportName: e.target.value })
 			
 			if(e.target.value === 'Transporte Lineal'){
@@ -186,18 +192,26 @@ class ExtracurricularServices extends Component {
 		if(e.target.id === 'tarifaLinealSelector'){
 			this.setState({
 				selectedLinealFee : Number(e.target.value)
-			}, () =>{ 
-				this.setState({ transportNameMode: Utils.getEcoTransportServiceName(this.state.selectedLinealFee) 
-				}, () => { console.log(this.state.linealTransportName) }) 
+			}, () =>{
+				this.totalCart(this.state.selectedLinealFee)
+				console.log(this.state.selectedLinealFee)
+				console.log(this.state.pickedTransportName)
+				this.setState({ 
+					transportNameMode: Utils.getEcoTransportServiceName(this.state.selectedLinealFee, this.state.pickedTransportName) 
+				}) 
 			})
 		}
 
 		if(e.target.id === 'puertaCompletoSelector'){
 			this.setState({
 				selectedDoorFee : Number(e.target.value)
-			}, () =>{ 
-				this.setState({ transportNameMode: Utils.getEcoTransportServiceName(this.state.selectedDoorFee) 
-				}, () => { console.log(this.state.linealTransportName) }) 
+			}, () =>{
+				this.totalCart(this.state.selectedDoorFee)
+				console.log(this.state.selectedDoorFee)
+				console.log(this.state.pickedTransportName)
+				this.setState({ 
+					transportNameMode: Utils.getEcoTransportServiceName(this.state.selectedDoorFee) 
+				}) 
 			})
 		}
 
@@ -205,11 +219,14 @@ class ExtracurricularServices extends Component {
 			this.setState({
 				selectedDoorFee : Number(e.target.value)
 			}, () =>{ 
-				this.setState({ transportNameMode: Utils.getEcoTransportServiceName(this.state.selectedDoorFee) 
-				}, () => { console.log(this.state.linealTransportName) }) 
+				this.totalCart(this.state.selectedDoorFee)
+				console.log(this.state.selectedDoorFee)
+				console.log(this.state.pickedTransportName)
+				this.setState({
+					transportNameMode: Utils.getEcoTransportServiceName(this.state.selectedDoorFee, this.state.pickedTransportName) 
+				}) 
 			})
 		}
-
 	}
 
 	loadEcoServices(grade){
@@ -283,7 +300,7 @@ class ExtracurricularServices extends Component {
 		transportMode.type     = "Eco"
 		transportMode.code     = Utils.getServiceCode(this.state.transportNameMode)
 		transportMode.discount = 0
-		transportMode.name     = this.state.pickedTransportName + " // "+ this.state.linealTransportName + " // Curricular: " + this.state.selectedTransportName
+		transportMode.name     = this.state.pickedTransportName + " // "+ this.state.transportNameMode + " // Curricular: " + this.state.selectedTransportName
 		transportMode.select   = this.state.selectedPoint
 		transportMode.total    = this.state.selectedLinealFee
 		transportMode.value    = this.state.selectedLinealFee
