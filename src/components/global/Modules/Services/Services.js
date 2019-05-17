@@ -78,6 +78,7 @@ class Services extends Component {
         anuario_seleccionado                 : 0,
         asopadres_seleccionado               : 0,
         club_seleccionado                    : 0,
+        anuarioName                          : '',
 
         // Total a pagar state
         total_tarifas_mat                    : 0,
@@ -128,7 +129,7 @@ class Services extends Component {
         asopadres_seleccionado : this.state.asopadres,
         club_seleccionado      : this.state.club
       }, () => {
-        this.handleGetTotalToPay("fromStart");
+        this.handleGetTotalToPay("fromStart")
       });
   }
 
@@ -233,8 +234,9 @@ class Services extends Component {
 
                         }, () => {
                           this.setState({
-                            matricula_nombre : Utils.getMatriculaName(this.state.tarifa_plena, this.state.tarifa_reducida_7_5, this.state.tarifa_reducida_15)
-                          }, () => { console.log("---> nombre matricula :" + this.state.matricula_nombre ) })
+                            matricula_nombre : Utils.getMatriculaName(this.state.tarifa_plena, this.state.tarifa_reducida_7_5, this.state.tarifa_reducida_15),
+                            anuarioName : Utils.getAnuarioName(this.state.anuario_seleccionado)
+                          })
                         });
                         this.handleGetTotals();
                         this.toggleSelectorsActivation();
@@ -317,46 +319,41 @@ class Services extends Component {
 
   handleOnChange(e){
     if(e.target.id === 'student_code_input'){
-      this.setState({
-        student_code: String(e.target.value)
-      }, () => {
-        //console.log("=> code: " + this.state.student_code)
-      });
+      this.setState({ student_code: String(e.target.value) });
     }
   }
 
   handleOnChangeServices(e){
     if(e.target.id === 'seguro-accidentes'){
-        console.log("Seguro: " + e.target.value); 
-        this.setState({
-            seguro_seleccionado: Number(e.target.value)
-        }, () => {
-            //console.log("Seguro updated: " + this.state.seguro_seleccionado);
-            this.handleGetTotalToPay("fromSelection");
-        })
-     }
+          console.log("Seguro: " + e.target.value)
+          this.setState({
+              seguro_seleccionado: Number(e.target.value)
+          }, () => {
+              //console.log("Seguro updated: " + this.state.seguro_seleccionado);
+              this.handleGetTotalToPay("fromSelection");
+          })
+    }
 
-     if(e.target.id === 'anuario'){
-        console.log("Anuario: " + e.target.value);
-        this.setState({
-            anuario_seleccionado: Number(e.target.value)
-        }, () => {
-            //console.log("Anuario updated: " + this.state.anuario_seleccionado);
-            this.handleGetTotalToPay("fromSelection");
-        })
-     }
+    if(e.target.id === 'anuario'){
+          this.setState({
+              anuario_seleccionado: Number(e.target.value)
+          }, () => {
+              this.handleGetTotalToPay("fromSelection")
+              this.setState({ anuarioName : Utils.getAnuarioName(this.state.anuario_seleccionado) })
+          })
+    }
 
-     if(e.target.id === 'asopadres'){
-        console.log("Asopadres: " + e.target.value);
-        this.setState({
-            asopadres_seleccionado: Number(e.target.value)
-        }, () => {
-            //console.log("Asopadres updated: " + this.state.asopadres_seleccionado);
-            this.handleGetTotalToPay("fromSelection");
-        })
-     }
+    if(e.target.id === 'asopadres'){
+          console.log("Asopadres: " + e.target.value)
+          this.setState({
+              asopadres_seleccionado: Number(e.target.value)
+          }, () => {
+              //console.log("Asopadres updated: " + this.state.asopadres_seleccionado);
+              this.handleGetTotalToPay("fromSelection");
+          })
+    }
 
-     if(e.target.id === 'afiliacion-club'){
+    if(e.target.id === 'afiliacion-club'){
         console.log("Club: " + e.target.value);
         this.setState({
             club_seleccionado: Number(e.target.value)
@@ -364,7 +361,7 @@ class Services extends Component {
             //console.log("Club: " + this.state.club_seleccionado);
             this.handleGetTotalToPay("fromSelection");
         })
-     }
+    }
   }
 
   handleGetTotalToPay(action){
@@ -492,8 +489,8 @@ class Services extends Component {
     accidentalSecure.total    = this.state.seguro_seleccionado
     /// ANUARIO
     annuaryBook.type          = 'Anual'
-    annuaryBook.name          = 'Anuario'
-    annuaryBook.code          = Utils.getServiceCode(this.state.label_anuario_impreso)
+    annuaryBook.name          = this.state.anuarioName
+    annuaryBook.code          = Utils.getServiceCode(this.state.anuarioName)
     annuaryBook.select        = Utils.checkSelection(this.state.anuario_seleccionado)
     annuaryBook.value         = this.state.anuario_seleccionado
     annuaryBook.discount      = 0
@@ -606,8 +603,7 @@ class Services extends Component {
                           onChange={ this.handleOnChange }
                           type="text"
                           className="form-control"
-                          placeholder="Código estudiante o Token"
-                          aria-label="Recipient's username"
+                          placeholder="Código"
                           aria-describedby="basic-addon2"
                           maxLength="5">
                         </input>

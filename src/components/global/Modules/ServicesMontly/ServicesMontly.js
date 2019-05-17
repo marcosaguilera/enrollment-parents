@@ -90,7 +90,7 @@ class ServicesMontly extends Component {
                 breakFast           : Utils.checkNull(montly_data.alimentos_desayuno),
                 lifeSecure          : Utils.checkNull(montly_data.seguro_vida),
                 jobSecure           : Utils.checkNull(montly_data.seguro_desempleo),
-
+ 
                 //discounts
                 discountLodgings    : Utils.checkNull(montly_data.pension_descuento),
                 discountTransport   : Utils.checkNull(montly_data.transporte_descuento),
@@ -145,9 +145,7 @@ class ServicesMontly extends Component {
         if(e.target.id === 'transportSelector'){
             this.setState({ transport: Number(e.target.value) }, () => {
                 this.setTotals()
-                this.setState({ transportName : Utils.getTransportServiceName(this.state.transport) }, ()=>{
-                    console.log(this.state.transportName)
-                })
+                this.setState({ transportName : Utils.getTransportServiceName(this.state.transport) })
             })
         }
 
@@ -354,7 +352,7 @@ class ServicesMontly extends Component {
         jobSecure.total      = this.state.totalJobSecure
         /// DONACIÓN
         donations.type       = 'Mensual'
-        donations.name       = this.state.donacionName
+        donations.name       = 'Donación ' + this.state.donacionName
         donations.code       = Utils.getServiceCode(this.state.donacionName)
         donations.select     = JSON.stringify(this.state.donationSel)
         donations.value      = this.state.donation
