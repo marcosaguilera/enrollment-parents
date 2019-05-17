@@ -32,6 +32,20 @@ let getServiceCode =  function(serviceName){
     if(serviceName === '4 corazones')        { return '0088' }
     
     //////// Eco/Club services
+    if(serviceName === "Lineal 1 día semanal (sin transporte curricular)"){ return "1007" }
+    if(serviceName === "Lineal 2 días semanales (sin transporte curricular)"){ return "1011" }
+    if(serviceName === "Lineal 3 días semanales (sin transporte curricular)"){ return "1012" }
+    if(serviceName === "Lineal 4 días semanales (sin transporte curricular)"){ return "1013" }
+
+    if(serviceName === "Puerta a puerta 1 día (sin transporte curricular)"){ return "0326" }
+    if(serviceName === "Puerta a puerta 2 días (sin transporte curricular)"){ return "1008" }
+    if(serviceName === "Puerta a puerta 3 días (sin transporte curricular)"){ return "1009" }
+    if(serviceName === "Puerta a puerta 4 días (sin transporte curricular)"){ return "1010" }
+
+    if(serviceName === "Puerta a puerta 1 día (con transporte curricular)"){ return "1206" }
+    if(serviceName === "Puerta a puerta 2 días (con transporte curricular)"){ return "1210" }
+    if(serviceName === "Puerta a puerta 3 días (con transporte curricular)"){ return "4017" }
+    if(serviceName === "Puerta a puerta 4 días (con transporte curricular)"){ return "1512" }
 
     //////// NA
     if(serviceName === 'Sin transporte')     { return '' }
@@ -46,6 +60,28 @@ let getTransportServiceName = function(transportValue){
     if(transportValue === 274000){ return "Medio Cercano" }
     if(transportValue === 292000){ return "Medio Intermedio" }
     if(transportValue === 351000){ return "Medio Lejano" }
+    if(transportValue === 0){ return "Sin transporte" }
+}
+
+let getEcoTransportServiceName = function(transportValue){
+    // LINEAL NAMES
+    if(transportValue === 48000){ return "Lineal 1 día semanal (sin transporte curricular)" }
+    if(transportValue === 96000){ return "Lineal 2 días semanales (sin transporte curricular)" }
+    if(transportValue === 144000){ return "Lineal 3 días semanales (sin transporte curricular)" }
+    if(transportValue === 192000){ return "Lineal 4 días semanales (sin transporte curricular)" }
+
+    // DOOR NAMES WITH CURRICULAR TRANSPORT
+    if(transportValue === 58000){ return "Puerta a puerta 1 día (sin transporte curricular)" }
+    if(transportValue === 116000){ return "Puerta a puerta 2 días (sin transporte curricular)" }
+    if(transportValue === 158000){ return "Puerta a puerta 3 días (sin transporte curricular)" }
+    if(transportValue === 200000){ return "Puerta a puerta 4 días (sin transporte curricular)" }
+
+    // DOOR NAMES WITHOUT CURRICULAR TRANSPORT
+    if(transportValue === 72000){ return "Puerta a puerta 1 día (con transporte curricular)" }
+    if(transportValue === 144000){ return "Puerta a puerta 2 días (con transporte curricular)" }
+    if(transportValue === 198000){ return "Puerta a puerta 3 días (con transporte curricular)" }
+    if(transportValue === 256000){ return "Puerta a puerta 4 días (con transporte curricular)" }
+
     if(transportValue === 0){ return "Sin transporte" }
 }
 
@@ -104,5 +140,6 @@ module.exports = {
     getMatriculaName,
     getPensionName,
     getDonacionName,
-    getAnuarioName
+    getAnuarioName,
+    getEcoTransportServiceName
 }

@@ -33,9 +33,11 @@ class ExtracurricularServices extends Component {
 	constructor(props) {
 		super(props);
 
-		this.addEcoService     = this.addEcoService.bind(this);
-		this.removeEcoService  = this.removeEcoService.bind(this);
-		this.showInfo          = this.showInfo.bind(this);
+		this.addEcoService          = this.addEcoService.bind(this);
+		this.removeEcoService       = this.removeEcoService.bind(this);
+		this.showInfo               = this.showInfo.bind(this);
+		this.onChangeSelectors      = this.onChangeSelectors.bind(this);
+		this.checkCompleteTransport = this.checkCompleteTransport.bind(this);
 
 		this.state = {
 			code                        : '',   showElementTransport : false,
@@ -48,24 +50,166 @@ class ExtracurricularServices extends Component {
 			step3_data                  : {},
 			showingAlert                : false,
 			isReadyDemographicComponent : false,
+
+			//SELECTED TRANSPORT NAME
+			selectedTransportName		: '',
+			pickedTransportName			: '',
+			selectedPoint				: '',
+			selectedLinealFee			: 0,
+			selectedDoorFee				: 0,
+			linealTransportName			: '',
+			doorTransportName			: '',
+			transportNameMode			: '',
+			snackEcoName				: '',
+
+			//UX/UI showing
+			showLinealPoints		    : 'none',
+			showLinealFees				: 'none',
+			showTransportCompleteDoor	: 'none',
+			showTransportDoor			: 'none',
 		}
 	}
 
 	componentDidMount() {
 		let servicesObj = this.props.location.state;
 		//console.log("===> Extracurricular Step");
-		console.log(servicesObj);
+		
+		let transportName = servicesObj.montly_services[1].select
+		console.log(transportName);
 
 		this.setState({
-			code       : servicesObj.demographic.codigo,
-			name       : servicesObj.demographic.nombres,
-			lastname   : servicesObj.demographic.apellidos,
-			grade      : servicesObj.demographic.grado,
-			step3_data : servicesObj
+			code       			  : servicesObj.demographic.codigo,
+			name       			  : servicesObj.demographic.nombres,
+			lastname   			  : servicesObj.demographic.apellidos,
+			grade      			  : servicesObj.demographic.grado,
+			selectedTransportName : transportName,
+			step3_data            : servicesObj
 		}, () => {
 			this.setState({ isReadyDemographicComponent : true })
 			this.loadEcoServices(this.state.grade)
 		})
+	}
+
+	checkCompleteTransport(type){
+		switch (type) {
+			case "Transporte Lineal":
+				if( this.state.selectedTransportName.includes("Completo") ){
+					this.setState({ 
+						showLinealFees : 'none', 
+						showLinealPoints : 'initial',
+						showTransportCompleteDoor : 'none',
+						showTransportDoor: 'none'
+					})
+				}else{
+					this.setState({ 
+						showLinealFees : 'initial', 
+						showLinealPoints : 'initial',
+						showTransportCompleteDoor : 'none',
+						showTransportDoor: 'none'
+					})
+				}
+				break;
+
+			case "Transporte Puerta a Puerta":
+				if(this.state.selectedTransportName.includes("Completo")){
+					this.setState({ 
+						showLinealFees : 'none', 
+						showLinealPoints : 'none',
+						showTransportCompleteDoor : 'initial',
+						showTransportDoor: 'none'
+					})
+				}else{
+					this.setState({ 
+						showLinealFees : 'none', 
+						showLinealPoints : 'none',
+						showTransportCompleteDoor : 'none',
+						showTransportDoor: 'initial'
+					})
+				}
+				break;
+
+			case "Salida por recepción":
+				this.setState({ 
+					showLinealFees : 'none', 
+					showLinealPoints : 'none',
+					showTransportCompleteDoor : 'none',
+					showTransportDoor: 'none'
+				})
+				break;
+
+			case "NA":
+				this.setState({ 
+					showLinealFees : 'none', 
+					showLinealPoints : 'none',
+					showTransportCompleteDoor : 'none',
+					showTransportDoor: 'none'
+				})
+				break;
+		
+			default:
+				this.setState({ 
+					showLinealFees : 'hidden', 
+					showLinealPoints : 'hidden',
+					showTransportCompleteDoor : 'hidden',
+					showTransportDoor: 'hidden'
+				})
+				break;
+		}
+	}
+
+	onChangeSelectors(e){
+		if(e.target.id === 'transportModeSelector'){
+			console.log(e.target.value)
+			
+			this.setState({ pickedTransportName: e.target.value })
+			
+			if(e.target.value === 'Transporte Lineal'){
+				this.checkCompleteTransport('Transporte Lineal')
+			}
+			if(e.target.value === 'Transporte Puerta a Puerta'){
+				this.checkCompleteTransport('Transporte Puerta a Puerta')
+			}
+			if(e.target.value === 'Salida por recepción'){
+				this.checkCompleteTransport('Salida por recepción')
+			}
+			if(e.target.value === 'NA'){
+				this.checkCompleteTransport('NA')
+			}
+		}
+
+		if(e.target.id === 'puntosSelector'){
+			this.setState({
+				selectedPoint : e.target.value
+			}, () =>{ console.log(this.state.selectedPoint) })
+		}
+
+		if(e.target.id === 'tarifaLinealSelector'){
+			this.setState({
+				selectedLinealFee : Number(e.target.value)
+			}, () =>{ 
+				this.setState({ transportNameMode: Utils.getEcoTransportServiceName(this.state.selectedLinealFee) 
+				}, () => { console.log(this.state.linealTransportName) }) 
+			})
+		}
+
+		if(e.target.id === 'puertaCompletoSelector'){
+			this.setState({
+				selectedDoorFee : Number(e.target.value)
+			}, () =>{ 
+				this.setState({ transportNameMode: Utils.getEcoTransportServiceName(this.state.selectedDoorFee) 
+				}, () => { console.log(this.state.linealTransportName) }) 
+			})
+		}
+
+		if(e.target.id === 'puertaSelector'){
+			this.setState({
+				selectedDoorFee : Number(e.target.value)
+			}, () =>{ 
+				this.setState({ transportNameMode: Utils.getEcoTransportServiceName(this.state.selectedDoorFee) 
+				}, () => { console.log(this.state.linealTransportName) }) 
+			})
+		}
+
 	}
 
 	loadEcoServices(grade){
@@ -116,9 +260,10 @@ class ExtracurricularServices extends Component {
 	}
 
 	nextPath = () => {
-		let step3_data   = this.state.step3_data
-		let eco_services = []
-        let totals_eco   = {}
+		let step3_data    = this.state.step3_data
+		let eco_services  = []
+		let transportMode = {}
+		let totals_eco    = {}
 
         console.log(this.state.cartServices)
 
@@ -133,17 +278,26 @@ class ExtracurricularServices extends Component {
 			item.value    = element.value
 
 			eco_services.push(item)
-        });
+		});
+		
+		transportMode.type     = "Eco"
+		transportMode.code     = Utils.getServiceCode(this.state.transportNameMode)
+		transportMode.discount = 0
+		transportMode.name     = this.state.pickedTransportName + " // "+ this.state.linealTransportName + " // Curricular: " + this.state.selectedTransportName
+		transportMode.select   = this.state.selectedPoint
+		transportMode.total    = this.state.selectedLinealFee
+		transportMode.value    = this.state.selectedLinealFee
 
         totals_eco.eco_total_pay = this.state.totalAmmountCart
 
-        step3_data['eco'] = eco_services
+		step3_data['eco'] = eco_services
+		step3_data['eco'].push(transportMode)
         step3_data['payments'].push(totals_eco)
 
         console.log("Final data Step 3: ");
 		console.log(step3_data)
 
-		this.props.history.push('/resume', step3_data);
+		//this.props.history.push('/resume', step3_data);
 	}
 
 	render() {
@@ -160,6 +314,90 @@ class ExtracurricularServices extends Component {
 						}
 
 					<hr/>
+					
+					<div className="row">
+						<div className="col-md-12">
+							<p>Seleccione la modalidad de transporte de su preferencia</p>
+						</div>
+					</div>
+					<div className="row">
+						<div className="col-md-4">
+							<select className="form-control"
+									id="transportModeSelector"
+									style={{ width: '100%', display: 'inherit' }}
+									onChange={this.onChangeSelectors}
+									//value={this.state.transport}
+									>
+										<option value="NA">Seleccione una modalidad</option>
+										<option value="Transporte Lineal">Transporte Lineal</option>
+										<option value="Transporte Puerta a Puerta">Transporte Puerta a Puerta</option>
+										<option value="Salida por recepción">Salida por recepción</option>
+							</select>
+						</div>
+						<div className="col-md-4">
+							<select className="form-control"
+									id="puntosSelector"
+									style={{ width: '100%', display: 'inherit', display: this.state.showLinealPoints }}
+									onChange={this.onChangeSelectors}
+									//value={this.state.transport}
+									>
+										<option value="NA" defaultValue>Seleccione un punto</option>
+										<option value="Unicentro">Unicentro</option>
+										<option value="Cachivaches">Cachivaches</option>
+										<option value="Cedritos">Cedritos</option>
+										<option value="San Rafael">San Rafael</option>
+										<option value="Maloka">Maloka</option>
+										<option value="Mazuren">Mazuren</option>
+										<option value="Alhambra">Alhambra</option>
+										<option value="Bazaar Chía">Bazaar Chía</option>
+							</select>
+							<select className="form-control"
+									id="puertaCompletoSelector"
+									style={{ width: '100%', display: 'inherit', display: this.state.showTransportCompleteDoor }}
+									onChange={this.onChangeSelectors}
+									//value={this.state.transport}
+									>
+										<option value="0" defaultValue>Seleccione una tarifa</option>
+										<option value="58000">1 día - $58.000</option>
+										<option value="116000">2 días - $116.000</option>
+										<option value="158000">3 días - $158.000</option>
+										<option value="200000">4 días - $200.000</option>
+							</select>
+							<select className="form-control"
+									id="puertaSelector"
+									style={{ width: '100%', display: 'inherit', display: this.state.showTransportDoor }}
+									onChange={this.onChangeSelectors}
+									//value={this.state.transport}
+									>
+										<option value="0" defaultValue>Seleccione una tarifa</option>
+										<option value="72000">1 día - $72.000</option>
+										<option value="144000">2 días - $144.000</option>
+										<option value="198000">3 días - $198.000</option>
+										<option value="256000">4 días - $256.000</option>
+							</select>
+						</div>
+						<div className="col-md-4">
+							<select className="form-control"
+									id="tarifaLinealSelector"
+									style={{ width: '100%', display: 'inherit', display: this.state.showLinealFees }}
+									onChange={this.onChangeSelectors}
+									//value={this.state.transport}
+									>
+										<option value="0" defaultValue>Seleccione una tarifa</option>
+										<option value="48000">1 día semanal - $48.000</option>
+										<option value="96000">2 días semanales - $96.000</option>
+										<option value="144000">3 días semanales - $144.000</option>
+										<option value="192000">4 días semanales - $192.000</option>
+							</select>
+						</div>
+						
+					</div>
+					<div className="row">
+						<div className="col-md-12">there</div>
+					</div>
+
+					<hr/>
+
 					<div className="row">
 						<div className="col-md-8">
 							<div style={styles.products}>
