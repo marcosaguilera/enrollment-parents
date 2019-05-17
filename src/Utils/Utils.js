@@ -1,38 +1,42 @@
 let getServiceCode =  function(serviceName){
     //////// Annual services
-    if(serviceName === 'Matricula Plena'){ return '0001' }
-    if(serviceName === 'Matricula 50'){ return '0003' }
-    if(serviceName === 'Matricula 100'){ return '0002' }
-    if(serviceName === 'Bibliobanco'){ return '0005' }
-    if(serviceName === 'Seguro accidentes'){ return '0008' }
-    if(serviceName === 'Asopadres'){ return '0010' }
-    if(serviceName === 'Club deportivo'){ return '0200' }
-    if(serviceName === 'Impreso - $110.000'){ return '0007' }
-    if(serviceName === 'Digital - $46.000'){ return '0006' }
+    if(serviceName === 'Matricula Plena')    { return '0001' }
+    if(serviceName === 'Matricula 50')       { return '0003' }
+    if(serviceName === 'Matricula 100')      { return '0002' }
+    if(serviceName === 'Bibliobanco')        { return '0005' }
+    if(serviceName === 'Seguro accidentes')  { return '0008' }
+    if(serviceName === 'Asopadres')          { return '0010' }
+    if(serviceName === 'Club deportivo')     { return '0200' }
+    if(serviceName === 'Impreso')            { return '0007' }
+    if(serviceName === 'Digital')            { return '0006' }
     if(serviceName === 'Impreso y digital - $156.000'){ return 'XXXX' }
 
     //////// Montly services
-    if(serviceName === 'Pension Plena'){ return '0020' }
-    if(serviceName === 'Pension 50'){ return '0022' }
-    if(serviceName === 'Pension 100'){ return '0021' }
-    if(serviceName === 'Completo Cercano'){ return '0026' }
+    if(serviceName === 'Pension Plena')      { return '0020' }
+    if(serviceName === 'Pension 50')         { return '0022' }
+    if(serviceName === 'Pension 100')        { return '0021' }
+    if(serviceName === 'Completo Cercano')   { return '0026' }
     if(serviceName === 'Completo Intermedio'){ return '0027' }
-    if(serviceName === 'Completo Lejano'){ return '0028' }
-    if(serviceName === 'Medio Lejano'){ return '0031' }
-    if(serviceName === 'Medio Intermedio'){ return '0030' }
-    if(serviceName === 'Medio Cercano'){ return '0029' }
-    if(serviceName === 'Almuerzo'){ return '0024' }
-    if(serviceName === 'Medias Nueves'){ return '0025' }
-    if(serviceName === 'Desayuno'){ return '0098' }
-    if(serviceName === 'Seguro de vida'){ return '0032' }
-    if(serviceName === 'Seguro desempleo'){ return '0092' }
-    if(serviceName === '1 corazon'){ return '0085' }
-    if(serviceName === '2 corazones'){ return '0086' }
-    if(serviceName === '3 corazones'){ return '0087' }
-    if(serviceName === '4 corazones'){ return '0088' }
-    if(serviceName === 'Otro'){ return 'O9008' }
-
+    if(serviceName === 'Completo Lejano')    { return '0028' }
+    if(serviceName === 'Medio Lejano')       { return '0031' }
+    if(serviceName === 'Medio Intermedio')   { return '0030' }
+    if(serviceName === 'Medio Cercano')      { return '0029' }
+    if(serviceName === 'Almuerzo')           { return '0024' }
+    if(serviceName === 'Medias Nueves')      { return '0025' }
+    if(serviceName === 'Desayuno')           { return '0098' }
+    if(serviceName === 'Seguro de vida')     { return '0032' }
+    if(serviceName === 'Seguro desempleo')   { return '0092' }
+    if(serviceName === '1 corazon')          { return '0085' }
+    if(serviceName === '2 corazones')        { return '0086' }
+    if(serviceName === '3 corazones')        { return '0087' }
+    if(serviceName === '4 corazones')        { return '0088' }
+    
     //////// Eco/Club services
+
+    //////// NA
+    if(serviceName === 'Sin transporte')     { return '' }
+    if(serviceName === 'Sin donacion')       { return '' }
+    if(serviceName === 'Sin anuario')        { return '' }
 }
 
 let getTransportServiceName = function(transportValue){
@@ -42,7 +46,7 @@ let getTransportServiceName = function(transportValue){
     if(transportValue === 274000){ return "Medio Cercano" }
     if(transportValue === 292000){ return "Medio Intermedio" }
     if(transportValue === 351000){ return "Medio Lejano" }
-    if(transportValue === 0){ return "Sin servicio" }
+    if(transportValue === 0){ return "Sin transporte" }
 }
 
 let existTextMatch = function(textBase, textFind){
@@ -82,7 +86,13 @@ let getDonacionName = function(value){
     if( value === 50000 ){ return '2 corazones' }
     if( value === 200000 ){ return '3 corazones' }
     if( value === 300000 ){ return '4 corazones' }
-    if( value === 0 ){ return 'NA' }
+    if( value === 0 ){ return 'Sin donacion' }
+}
+
+let getAnuarioName = function(value){
+    if( value === 116000 ){ return 'Impreso' }
+    if( value === 48000 ){ return 'Digital' }
+    if( value === 0 ){ return 'Sin anuario' }
 }
 
 module.exports = {
@@ -93,5 +103,6 @@ module.exports = {
     checkNull,
     getMatriculaName,
     getPensionName,
-    getDonacionName
+    getDonacionName,
+    getAnuarioName
 }
