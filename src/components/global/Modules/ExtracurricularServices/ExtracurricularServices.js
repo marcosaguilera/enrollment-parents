@@ -444,6 +444,52 @@ class ExtracurricularServices extends Component {
 					</div>
 
 					<hr/>
+					<div className="row" style={{ marginTop: 10 }}>
+						<div className="col-md-12">
+							<p>Personas autorizadas</p>
+						</div>
+					</div>
+					<div className="row py-2">
+						<div className="col-md-3">
+							<input className="form-control" type="text" placeholder="Nombre completo" id="nombre1" />
+						</div>
+						<div className="col-md-3">
+							<input className="form-control" type="text" placeholder="No. identificacion" id="identificacion1" />
+						</div>
+						<div className="col-md-3">
+							<input className="form-control" type="text" placeholder="No. telefono/movil" id="telefono1" />
+						</div>
+						<div className="col-md-3">
+							<select className="form-control" id="parentesco1">
+								<option value="papa">Papá</option>
+								<option value="mama">Mamá</option>
+								<option value="abuelo(a)">Abuelo(a)</option>
+								<option value="hermano(a)">Hermano(a)</option>
+								<option value="tio(a)">Tio(a)</option>
+							</select>
+						</div>
+					</div>
+					<div className="row">
+						<div className="col-md-3">
+							<input className="form-control" type="text" placeholder="Nombre completo" id="nombre2" />
+						</div>
+						<div className="col-md-3">
+							<input className="form-control" type="text" placeholder="No. identificacion" id="identificacion2" />
+						</div>
+						<div className="col-md-3">
+							<input className="form-control" type="text" placeholder="No. telefono/movil" id="telefono2" />
+						</div>
+						<div className="col-md-3">
+							<select className="form-control" id="parentesco2" >
+								<option value="papa">Papá</option>
+								<option value="mama">Mamá</option>
+								<option value="abuelo(a)">Abuelo(a)</option>
+								<option value="hermano(a)">Hermano(a)</option>
+								<option value="tio(a)">Tio(a)</option>
+							</select>
+						</div>
+					</div>
+					<hr/>
 
 					<div className="row">
 						<div className="col-md-8">
