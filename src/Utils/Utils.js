@@ -47,6 +47,11 @@ let getServiceCode =  function(serviceName){
     if(serviceName === "Puerta a puerta 3 días (con transporte curricular)"){ return "4017" }
     if(serviceName === "Puerta a puerta 4 días (con transporte curricular)"){ return "1512" }
 
+    if(serviceName === "Refrigerio 1 día semanal"){ return "9999" }
+    if(serviceName === "Refrigerio 2 días semanales"){ return "9998" }
+    if(serviceName === "Refrigerio 3 días semanales"){ return "9997" }
+    if(serviceName === "Refrigerio 4 días semanales"){ return "9996" }
+
     //////// NA
     if(serviceName === 'Sin transporte')     { return '' }
     if(serviceName === 'Sin donacion')       { return '' }
@@ -64,7 +69,6 @@ let getTransportServiceName = function(transportValue){
 }
 
 let getEcoTransportServiceName = function(transportValue, type){
-    console.log(type)
     // LINEAL NAMES
     if(transportValue === 48000){ return "Lineal 1 día semanal (sin transporte curricular)" }
     if(transportValue === 96000){ return "Lineal 2 días semanales (sin transporte curricular)" }
@@ -132,6 +136,14 @@ let getAnuarioName = function(value){
     if( value === 0 ){ return 'Sin anuario' }
 }
 
+let getSnackEcoName = function(value){
+    if( value === 25000 ){ return 'Refrigerio 1 día semanal' }
+    if( value === 45000 ){ return 'Refrigerio 2 días semanales' }
+    if( value === 65000 ){ return 'Refrigerio 3 días semanales' }
+    if( value === 85000 ){ return 'Refrigerio 4 días semanañes' }
+    if( value === 0 ){ return 'Sin refrigerio' }
+}
+
 module.exports = {
     getServiceCode,
     getTransportServiceName,
@@ -142,5 +154,6 @@ module.exports = {
     getPensionName,
     getDonacionName,
     getAnuarioName,
-    getEcoTransportServiceName
+    getEcoTransportServiceName,
+    getSnackEcoName
 }
