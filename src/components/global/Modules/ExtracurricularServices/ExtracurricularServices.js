@@ -50,17 +50,19 @@ class ExtracurricularServices extends Component {
 			step3_data                  : {},
 			showingAlert                : false,
 			isReadyDemographicComponent : false,
-
+			
 			//SELECTED TRANSPORT NAME
 			selectedTransportName		: '',
 			pickedTransportName			: '',
 			selectedPoint				: '',
 			selectedLinealFee			: 0,
 			selectedDoorFee				: 0,
+			selectedSnack				: 0,
 			linealTransportName			: '',
 			doorTransportName			: '',
 			transportNameMode			: '',
 			snackEcoName				: '',
+			totalEcoTransAmmount        : 0,
 
 			//UX/UI showing
 			showLinealPoints		    : 'none',
@@ -157,10 +159,11 @@ class ExtracurricularServices extends Component {
 		}
 	}
 
-	totalCart(value){
-		console.log(this.state.totalAmmountCart)
+	totalEcoTransport(){
 		this.setState({
-			//totalAmmountCart: 
+			totalEcoTransAmmount: this.state.selectedLinealFee + this.state.selectedDoorFee
+		}, () => {
+			console.log(this.state.totalEcoTransAmmount)
 		})
 	}
 
@@ -191,11 +194,10 @@ class ExtracurricularServices extends Component {
 
 		if(e.target.id === 'tarifaLinealSelector'){
 			this.setState({
-				selectedLinealFee : Number(e.target.value)
+				selectedLinealFee : Number(e.target.value),
+				selectedDoorFee: 0
 			}, () =>{
-				this.totalCart(this.state.selectedLinealFee)
-				console.log(this.state.selectedLinealFee)
-				console.log(this.state.pickedTransportName)
+				this.totalEcoTransport()
 				this.setState({ 
 					transportNameMode: Utils.getEcoTransportServiceName(this.state.selectedLinealFee, this.state.pickedTransportName) 
 				}) 
@@ -204,11 +206,10 @@ class ExtracurricularServices extends Component {
 
 		if(e.target.id === 'puertaCompletoSelector'){
 			this.setState({
-				selectedDoorFee : Number(e.target.value)
+				selectedDoorFee : Number(e.target.value),
+				selectedLinealFee: 0
 			}, () =>{
-				this.totalCart(this.state.selectedDoorFee)
-				console.log(this.state.selectedDoorFee)
-				console.log(this.state.pickedTransportName)
+				this.totalEcoTransport()
 				this.setState({ 
 					transportNameMode: Utils.getEcoTransportServiceName(this.state.selectedDoorFee) 
 				}) 
@@ -217,14 +218,24 @@ class ExtracurricularServices extends Component {
 
 		if(e.target.id === 'puertaSelector'){
 			this.setState({
-				selectedDoorFee : Number(e.target.value)
+				selectedDoorFee : Number(e.target.value),
+				selectedLinealFee: 0
 			}, () =>{ 
-				this.totalCart(this.state.selectedDoorFee)
-				console.log(this.state.selectedDoorFee)
-				console.log(this.state.pickedTransportName)
+				this.totalEcoTransport()
 				this.setState({
 					transportNameMode: Utils.getEcoTransportServiceName(this.state.selectedDoorFee, this.state.pickedTransportName) 
 				}) 
+			})
+		}
+
+		if(e.target.id === 'snackSelector'){
+			//let element = document.getElementById('snackSelector')
+			//let optionText = element.options[element.selectedIndex].text
+			//console.log(optionText)
+			this.setState({
+				selectedSnack : Number(e.target.value)
+			}, () =>{ 
+				this.setState({ snackEcoName : Utils.getSnackEcoName(this.state.selectedSnack) }, () => { console.log(this.state.snackEcoName) })
 			})
 		}
 	}
@@ -407,10 +418,29 @@ class ExtracurricularServices extends Component {
 										<option value="192000">4 días semanales - $192.000</option>
 							</select>
 						</div>
-						
+					</div>
+					<div className="row" style={{ marginTop: 10 }}>
+						<div className="col-md-12">
+							<p>Refrigerio Eco y club</p>
+						</div>
 					</div>
 					<div className="row">
-						<div className="col-md-12">there</div>
+						<div className="col-md-4">
+							<select className="form-control"
+									id="snackSelector"
+									style={{ width: '100%', display: 'inherit' }}
+									onChange={this.onChangeSelectors}
+									value={this.state.selectedSnack}
+									>
+										<option value="0" defaultValue>Seleccione una opción</option>
+										<option value="25000">1 día semanal - $25.000</option>
+										<option value="45000">2 días semanales - $45.000</option>
+										<option value="65000">3 días semanales - $65.000</option>
+										<option value="85000">4 días semanales - $85.000</option>
+							</select>
+						</div>
+						<div className="col-md-4"></div>
+						<div className="col-md-4"></div>
 					</div>
 
 					<hr/>
@@ -485,7 +515,7 @@ class ExtracurricularServices extends Component {
 									<div className="row">
 										<div className="col-12">
 											<center>
-												<h5><NumberFormat value={this.state.totalAmmountCart} displayType={'text'} thousandSeparator={true} prefix={'$'} /></h5>
+												<h5><NumberFormat value={ this.state.totalAmmountCart + this.state.totalEcoTransAmmount + this.state.selectedSnack } displayType={'text'} thousandSeparator={true} prefix={'$'} /></h5>
 											</center>
 										</div>
 									</div>
