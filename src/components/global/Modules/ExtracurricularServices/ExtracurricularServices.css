@@ -80,3 +80,21 @@ svg {
     padding-right: .8em;
     padding-left: .8em;
 }
+
+#img-container{
+    text-align: center;
+    height: 100px;
+}
+
+#img1{
+    width: 100%;
+    height: 70%;
+}
+
+#text-img{
+    width: 100%;
+    margin-bottom: 0px;
+    height: fit-content;
+    font-size: small;
+    color: #bfbfbf;
+}

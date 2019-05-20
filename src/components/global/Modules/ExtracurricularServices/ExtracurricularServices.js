@@ -17,6 +17,8 @@ import "./ExtracurricularServices.css"
 import img1 from '../../images/svgid5.svg';
 import img2 from '../../images/svgid11.svg';
 import img3 from '../../images/svgid21.svg';
+import img4 from '../../images/svgid24.svg';
+import img5 from '../../images/svgid1.svg';
 
 const styles = {
 	products: {
@@ -617,8 +619,12 @@ class ExtracurricularServices extends Component {
 											</li>
 										)}
 									</ul>
-									<div className="row" style={{ height: 90 }} >
-										{/*<img id="img1" src={img1} alt="image student extracurricular #1" />*/}
+									<div className="row" style={{ height: 90 }} id="img-container">
+										<img id="img1" 
+											src={ this.state.cartServices.length === 0 ? img4 : img5} 
+											style={{ opacity: this.state.cartServices.length === 0 ? 0.4 : 0.9 }}
+											alt="Image student extracurricular #1" />
+										<p id="text-img">{ this.state.cartServices.length === 0 ? 'zZzZzZ' : '¡Coool!' }</p>
 									</div>
 								</div>
 								<div className="card-footer bg-success text-white">
