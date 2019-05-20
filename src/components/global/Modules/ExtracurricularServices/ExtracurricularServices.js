@@ -567,12 +567,12 @@ class ExtracurricularServices extends Component {
 											{/*<p className="card-text cardDescriptionTextCustom">
 												<Truncate lines={3} ellipsis={'...'}>{service.description}</Truncate>
 											</p>*/}
-											<ul className="list-group list-group-flush">
-												<li className="list-group-item" style={{ paddingLeft: 0 }}>
-													<a href={service.redirect_url} className="card-link" target="_blank">Leer más</a>
-												</li>
-											</ul>
 										</div>
+										<ul className="list-group list-group-flush">
+											<li className="list-group-item" style={{ border: '0px solid rgba(0,0,0,.125)' }}>
+												<a href={service.redirect_url} className="card-link" target="_blank">Leer más</a>
+											</li>
+										</ul>
 										<div className="card-footer">
 											<div id="boxContainer">
 												<div id="box1">
