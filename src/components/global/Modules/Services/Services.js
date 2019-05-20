@@ -94,13 +94,14 @@ class Services extends Component {
         // Addons states
         loading                              : false,  // will be true when ajax request is running
         isOpen                               : false,  // Modal windows state
+        isOpenWrongModal                     : false,  // Modal windows state
         isOpenLoader                         : false,  // Modal windows state
         isDisableSelect                      : true,
         isShowingResume                      : 'none',
 
         // Modal message
         message                              : 'Apreciado padre de familia. El proceso de matrícula está inhabilitado debido a las siguientes razones:  ',
-
+        message_wrong_code                   : '',
         // Data PropTypes to Resume
         resumeData                           : 0,
 
@@ -152,34 +153,40 @@ class Services extends Component {
     const url = "https://rcis-backend.herokuapp.com/openapply/student/getopenapplybystudentcode/" + std_code;
     axios.get(url)
         .then( res => {
+          if(res.data.length !== 0){
+              let demo_data = res.data[0];
+              console.log(demo_data)
+              let fake_text = 'rayos!!!!'
 
-          let demo_data = res.data[0];
-          //console.log("==> data: " + JSON.stringify(demo_data))
-          let fake_text = 'rayos!!!!'
+              store.dispatch(
+                {
+                  type: "SAVE_STUDENT_ESSENTIAL_DATA",
+                  fake_text,
+                  demo_data
+                },
+              )
 
-          store.dispatch(
-            {
-              type: "SAVE_STUDENT_ESSENTIAL_DATA",
-              fake_text,
-              demo_data
-            },
-          )
-
-          this.setState({
-              openApplyId       : demo_data.id,
-              customId          : demo_data.custom_id,
-              enrollment_year   : demo_data.enrollment_year,
-              gender            : demo_data.gender,
-              first_name        : demo_data.first_name,
-              last_name         : demo_data.last_name,
-              name_full         : demo_data.name,
-              serial_number     : demo_data.serial_number,
-              student_id        : demo_data.student_id
-          }, () => {
-              //console.log("=>" + this.state.openApplyId)
-              this.getEnrolmentAuth(this.state.openApplyId)
-          })
-
+              this.setState({
+                  openApplyId       : demo_data.id,
+                  customId          : demo_data.custom_id,
+                  enrollment_year   : demo_data.enrollment_year,
+                  gender            : demo_data.gender,
+                  first_name        : demo_data.first_name,
+                  last_name         : demo_data.last_name,
+                  name_full         : demo_data.name,
+                  serial_number     : demo_data.serial_number,
+                  student_id        : demo_data.student_id
+              }, () => {
+                  this.getEnrolmentAuth(this.state.openApplyId)
+              })
+          }else{
+            this.setState({
+              isOpenLoader: false,
+              isOpen: false,
+              isOpenWrongModal: true,
+              message_wrong_code: Texts.general_texts[0].empty_result,
+            })
+          }
         })
   }
 
@@ -205,8 +212,7 @@ class Services extends Component {
 
           if(isAuth){
             axios.get('https://rcis-backend.herokuapp.com/student/yearlyservices/' + this.state.student_code)
-                  .then(res => {
-
+                .then(res => {
                     let item = res.data[0];
                     let jsonLenght = Object.keys(item).length;
 
@@ -253,8 +259,8 @@ class Services extends Component {
                         this.toggleSelectorsActivation();
                         this.loaderStatusChange();
                     }else{
-                      this.loaderStatusChange();
-                      this.toggleModalNoResults();
+                      this.loaderStatusChange()
+                      this.toggleModalNoResults()
                     }
                 })
           }
@@ -263,6 +269,7 @@ class Services extends Component {
               this.toggleModalLoader()
               this.setState({
                 isOpen: !this.state.isOpen,
+                isOpenWrongModal: false,
                 message: this.state.message + Texts.general_texts[0].no_financial_auth
               })
           }
@@ -270,6 +277,7 @@ class Services extends Component {
             this.toggleModalLoader()
             this.setState({
               isOpen: !this.state.isOpen,
+              isOpenWrongModal: false,
               message: this.state.message + Texts.general_texts[0].no_davivienda_payment
             })
           }
@@ -284,6 +292,7 @@ class Services extends Component {
             this.toggleModalLoader()
             this.setState({
               isOpen: !this.state.isOpen,
+              isOpenWrongModal: false,
               message: this.state.message + Texts.general_texts[0].no_academic_auth
             })
           }
@@ -454,20 +463,25 @@ class Services extends Component {
   toggleModalNoResults = () => {
     this.setState({
       isOpen: !this.state.isOpen,
-      message: 'No se encontraron resultados para el código ingresado. Verifique el código del estudiante e intente nuevamente.'
+      isOpenLoader: false,
+      isOpenWrongModal: false,
+      message_wrong_code: ''
     });
   }
 
   toggleModalWrongCode = () => {
     this.setState({
-      isOpen: !this.state.isOpen,
-      message: 'El código del estudiante debe tener una extensión de 5 dígitos. Por favor verifiquelo e intente nuevamente.'
+      isOpenWrongModal: !this.state.isOpenWrongModal,
+      isOpen: false,
+      message_wrong_code: Texts.general_texts[0].wrong_code
     });
   }
 
   toggleModalLoader = () => {
-    this.setState({
-      isOpenLoader: !this.state.isOpenLoader
+    this.setState({ 
+      isOpenLoader: !this.state.isOpenLoader,
+      isOpenWrongModal: false,
+      isOpen: false
     });
   }
 
@@ -783,9 +797,9 @@ class Services extends Component {
 
                             {/*Modal for Wrong code inserted*/}
                             <ModalUI2 title="Important message" 
-                                      show={this.state.isOpen} 
+                                      show={this.state.isOpenWrongModal} 
                                       onClose={this.toggleModalWrongCode} 
-                                      msn={this.state.message}>
+                                      msn={this.state.message_wrong_code}>
                             </ModalUI2>
 
                             {/*Modal for Loading...*/}
