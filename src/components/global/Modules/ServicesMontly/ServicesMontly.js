@@ -491,7 +491,7 @@ class ServicesMontly extends Component {
                                 <td>Desayuno</td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="breakFastRadioOptions" id="breakFast_yes" value="450000" defaultChecked  onChange={this.handleOnChange}/> 
+                                        <input className="form-check-input" type="radio" name="breakFastRadioOptions" id="breakFast_yes" value="135000" defaultChecked  onChange={this.handleOnChange}/> 
                                         <label className="form-check-label" htmlFor="breakFast_yes">Si</label>
                                     </div>
                                     <div className="form-check form-check-inline">

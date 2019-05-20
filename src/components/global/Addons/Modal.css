@@ -1,0 +1,13 @@
+#budget-container{
+    text-align: center
+}
+
+img#budget{
+    height: 8rem !important;
+    margin-bottom: 10px !important;
+}
+
+#texty{
+    padding: 18px;
+    text-align: justify;
+}

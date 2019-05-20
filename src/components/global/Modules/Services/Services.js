@@ -273,13 +273,13 @@ class Services extends Component {
               message: this.state.message + Texts.general_texts[0].no_davivienda_payment
             })
           }
-          if(!this.authChecker(res.data.metodo_pago_definido)){
+          /*if(!this.authChecker(res.data.metodo_pago_definido)){
             this.toggleModalLoader()
             this.setState({
               isOpen: !this.state.isOpen,
               message: this.state.message + Texts.general_texts[0].no_financial_auth + "y, " +  Texts.general_texts[0].no_davivienda_payment 
             })
-          }
+          }*/
           if(!this.authChecker(res.data.academic)){
             this.toggleModalLoader()
             this.setState({

@@ -10,6 +10,7 @@ import {ToastsContainer, ToastsStore} from 'react-toasts';
 // Assets
 import '../../Modules/Resume/Resume.css';
 import formato from '../../images/formato_consignacion.jpg';
+import svg_file from '../../images/svgid19.svg';
 
 // Utils
 import Utils from '../../../../Utils/Utils'
@@ -25,20 +26,21 @@ class Resume extends Component {
   constructor(){
     super();
 
-    this.handleCalculateTotalPayFee = this.handleCalculateTotalPayFee.bind(this);
-    this.handleMd5Generator         = this.handleMd5Generator.bind(this);
-    this.handlePayment              = this.handlePayment.bind(this);
-    this.handleTotalPay             = this.handleTotalPay.bind(this);
-    this.toggle                     = this.toggle.bind(this);
-    this.toggle_modal               = this.toggle_modal.bind(this);
-    this.handleOnChangeBuyer        = this.handleOnChangeBuyer.bind(this);
-    this.handlePrintData            = this.handlePrintData.bind(this);
-    this.handlePayOnlineData        = this.handlePayOnlineData.bind(this);
-    this.handleOnChange             = this.handleOnChange.bind(this);
-    this.confirmEnrollment          = this.confirmEnrollment.bind(this);
-    this.confirmModal               = this.confirmModal.bind(this);
-    this.getDescripcionFactura      = this.getDescripcionFactura.bind(this);
-    this.getNowDate                 = this.getNowDate.bind(this);
+    this.handleCalculateTotalPayFee   = this.handleCalculateTotalPayFee.bind(this);
+    this.handleMd5Generator           = this.handleMd5Generator.bind(this);
+    this.handlePayment                = this.handlePayment.bind(this);
+    this.handleTotalPay               = this.handleTotalPay.bind(this);
+    this.toggle                       = this.toggle.bind(this);
+    this.toggle_modal                 = this.toggle_modal.bind(this);
+    this.handleOnChangeBuyer          = this.handleOnChangeBuyer.bind(this);
+    this.handlePrintData              = this.handlePrintData.bind(this);
+    this.handlePayOnlineData          = this.handlePayOnlineData.bind(this);
+    this.handleOnChange               = this.handleOnChange.bind(this);
+    this.confirmEnrollment            = this.confirmEnrollment.bind(this);
+    this.confirmModal                 = this.confirmModal.bind(this);
+    this.getDescripcionFactura        = this.getDescripcionFactura.bind(this);
+    this.getNowDate                   = this.getNowDate.bind(this);
+    this.showDialogAnticipadedPayment = this.showDialogAnticipadedPayment.bind(this);
 
     this.state = {
       step4_data         : {},
@@ -122,6 +124,7 @@ class Resume extends Component {
       confirmText             : '',
       confirmButtonDisabled   : true,
       isOpen                  : false,
+      message                 : ''
     }
   }
 
@@ -142,10 +145,21 @@ class Resume extends Component {
         total_montly_services   : servicesObj.payments[1].montly_total_pay,
         total_eco_club_services : servicesObj.payments[2].eco_total_pay
     }, () => {
+        this.showDialogAnticipadedPayment()
         this.setState({
           sub_total_annual : this.state.total_yearly_services + ( (this.state.total_montly_services + this.state.total_eco_club_services)*10 )
         }, () => { this.calculateTotalPay(this.state.payment_selection) })
     })
+  }
+
+  showDialogAnticipadedPayment(){
+    console.log(this.state.pago_anticipado)
+    if(this.state.pago_anticipado){
+      this.setState({
+        isOpen: !this.state.isOpen,
+        message: Texts.general_texts[0].anticipated_payment
+      })
+    }
   }
 
   calculateTotalPay(selection){
@@ -870,7 +884,8 @@ class Resume extends Component {
             <ModalUI title="Important message" 
                     show={this.state.isOpen} 
                     onClose={this.toggleModalNoResults} 
-                    msn={this.state.message}>
+                    msn={this.state.message}
+                    img_url={svg_file}>
             </ModalUI>
           </main>
           <Footer copyright="&copy;Colegio Rochester 2019" />
