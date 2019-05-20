@@ -40,15 +40,15 @@ class ExtracurricularServices extends Component {
 		this.checkCompleteTransport = this.checkCompleteTransport.bind(this);
 
 		this.state = {
-			code                        : '',   showElementTransport : false,
-			name                        : '',   
-			lastname                    : '',
-			grade                       : '',
-			services                    : [],
-			cartServices                : [],
-			totalAmmountCart            : 0,
-			step3_data                  : {},
-			showingAlert                : false,
+			code                        : '',      showElementTransport      : false,
+			name                        : '',      authorizedPeople1Name     : '',   
+			lastname                    : '',      authorizedPeople1Dni      : '',
+			grade                       : '',      authorizedPeople1Phone    : '',
+			services                    : [],      authorizedPeople1Relation : '',
+			cartServices                : [],      authorizedPeople2Name     : '',
+			totalAmmountCart            : 0,	   authorizedPeople2Dni      : '',
+			step3_data                  : {},	   authorizedPeople2Phone    : '',
+			showingAlert                : false,   authorizedPeople2Relation : '',
 			isReadyDemographicComponent : false,
 			
 			//SELECTED TRANSPORT NAME
@@ -239,35 +239,35 @@ class ExtracurricularServices extends Component {
 		}
 
 		if(e.target.id === 'nombre1'){
-
+			this.setState({ authorizedPeople1Name : e.target.value })
 		}
 
 		if(e.target.id === 'nombre2'){
-
+			this.setState({ authorizedPeople2Name : e.target.value })
 		}
 
-		if(e.target.id === 'dni1'){
-
+		if(e.target.id === 'identificacion1'){
+			this.setState({ authorizedPeople1Dni : e.target.value })
 		}
 
-		if(e.target.id === 'dni2'){
-
+		if(e.target.id === 'identificacion2'){
+			this.setState({ authorizedPeople2Dni : e.target.value })
 		}
 
 		if(e.target.id === 'telefono1'){
-
+			this.setState({ authorizedPeople1Phone : e.target.value })
 		}
 
 		if(e.target.id === 'telefono2'){
-
+			this.setState({ authorizedPeople2Phone : e.target.value })
 		}
 
 		if(e.target.id === 'parentesco1'){
-
+			this.setState({ authorizedPeople1Relation : e.target.value })
 		}
 
 		if(e.target.id === 'parentesco2'){
-
+			this.setState({ authorizedPeople2Relation : e.target.value })
 		}
 	}
 
@@ -322,8 +322,10 @@ class ExtracurricularServices extends Component {
 		let step3_data    = this.state.step3_data
 		let eco_services  = []
 		let transportMode = {}
+		let snacks 		  = {}
+		let people1   	  = {}
+		let people2   	  = {}
 		let totals_eco    = {}
-		let people   	  = {}
 
         console.log(this.state.cartServices)
 
@@ -340,24 +342,45 @@ class ExtracurricularServices extends Component {
 			eco_services.push(item)
 		});
 		
-		transportMode.type     = "Eco"
-		transportMode.code     = Utils.getServiceCode(this.state.transportNameMode)
-		transportMode.discount = 0
-		transportMode.name     = this.state.pickedTransportName + " // "+ this.state.transportNameMode + " // Curricular: " + this.state.selectedTransportName
-		transportMode.select   = this.state.selectedPoint
-		transportMode.total    = this.state.selectedLinealFee
-		transportMode.value    = this.state.selectedLinealFee
+		transportMode.type       = "Eco"
+		transportMode.code       = Utils.getServiceCode(this.state.transportNameMode)
+		transportMode.discount   = 0
+		transportMode.name       = this.state.pickedTransportName + " // "+ this.state.transportNameMode + " // Curricular: " + this.state.selectedTransportName
+		transportMode.select     = this.state.selectedPoint
+		transportMode.total      = this.state.totalEcoTransAmmount
+		transportMode.value      = this.state.totalEcoTransAmmount
 
-        totals_eco.eco_total_pay = this.state.totalAmmountCart
+		snacks.type       = "Eco"
+		snacks.code       = Utils.getServiceCode(this.state.snackEcoName)
+		snacks.discount   = 0
+		snacks.name       = "Refrigerio"
+		snacks.select     = this.state.snackEcoName
+		snacks.total      = this.state.selectedSnack
+		snacks.value      = this.state.selectedSnack
+
+		people1.completeName = this.state.authorizedPeople1Name
+		people1.dni          = this.state.authorizedPeople1Dni
+		people1.phone        = this.state.authorizedPeople1Phone
+		people1.relation     = this.state.authorizedPeople1Relation
+
+		people2.completeName = this.state.authorizedPeople2Name
+		people2.dni          = this.state.authorizedPeople2Dni
+		people2.phone        = this.state.authorizedPeople2Phone
+		people2.relation     = this.state.authorizedPeople2Relation
+
+        totals_eco.eco_total_pay = this.state.totalAmmountCart + this.state.totalEcoTransAmmount + this.state.selectedSnack
 
 		step3_data['eco'] = eco_services
 		step3_data['eco'].push(transportMode)
+		step3_data['eco'].push(snacks)
+		step3_data['people_eco'].push(people1)
+		step3_data['people_eco'].push(people2)
         step3_data['payments'].push(totals_eco)
 
         console.log("Final data Step 3: ");
 		console.log(step3_data)
 
-		//this.props.history.push('/resume', step3_data);
+		this.props.history.push('/resume', step3_data);
 	}
 
 	render() {
@@ -483,17 +506,17 @@ class ExtracurricularServices extends Component {
 					</div>
 					<div className="row py-2">
 						<div className="col-md-3">
-							<input className="form-control" type="text" placeholder="Nombre completo" id="nombre1" />
+							<input className="form-control" type="text" onChange={this.onChangeSelectors} placeholder="Nombre completo" id="nombre1" />
 						</div>
 						<div className="col-md-3">
-							<input className="form-control" type="text" placeholder="No. identificación" id="identificacion1" />
+							<input className="form-control" type="text" onChange={this.onChangeSelectors} placeholder="No. identificación" id="identificacion1" />
 						</div>
 						<div className="col-md-3">
-							<input className="form-control" type="text" placeholder="No. teléfono/móvil" id="telefono1" />
+							<input className="form-control" type="text" onChange={this.onChangeSelectors} placeholder="No. teléfono/móvil" id="telefono1" />
 						</div>
 						<div className="col-md-3">
-							<select className="form-control" id="parentesco1">
-								<option value="NA" defaultValue>Seleccione uno</option>
+							<select className="form-control" id="parentesco1" onChange={this.onChangeSelectors}>
+								<option value="NA" defaultValue>Elija un parentesco</option>
 								<option value="papa">Papá</option>
 								<option value="mama">Mamá</option>
 								<option value="abuelo(a)">Abuelo(a)</option>
@@ -504,17 +527,17 @@ class ExtracurricularServices extends Component {
 					</div>
 					<div className="row">
 						<div className="col-md-3">
-							<input className="form-control" type="text" placeholder="Nombre completo" id="nombre2" />
+							<input className="form-control" type="text" onChange={this.onChangeSelectors} placeholder="Nombre completo" id="nombre2" />
 						</div>
 						<div className="col-md-3">
-							<input className="form-control" type="text" placeholder="No. identificación" id="identificacion2" />
+							<input className="form-control" type="text" onChange={this.onChangeSelectors} placeholder="No. identificación" id="identificacion2" />
 						</div>
 						<div className="col-md-3">
-							<input className="form-control" type="text" placeholder="No. teléfono/móvil" id="telefono2" />
+							<input className="form-control" type="text" onChange={this.onChangeSelectors} placeholder="No. teléfono/móvil" id="telefono2" />
 						</div>
 						<div className="col-md-3">
-							<select className="form-control" id="parentesco2" >
-								<option value="NA" defaultValue>Seleccione uno</option>
+							<select className="form-control" id="parentesco2" onChange={this.onChangeSelectors} >
+								<option value="NA" defaultValue>Elija un parentesco</option>
 								<option value="papa">Papá</option>
 								<option value="mama">Mamá</option>
 								<option value="abuelo(a)">Abuelo(a)</option>
