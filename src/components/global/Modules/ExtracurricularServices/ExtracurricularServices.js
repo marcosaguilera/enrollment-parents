@@ -522,6 +522,7 @@ class ExtracurricularServices extends Component {
 								<option value="abuelo(a)">Abuelo(a)</option>
 								<option value="hermano(a)">Hermano(a)</option>
 								<option value="tio(a)">Tio(a)</option>
+								<option value="otro">Otro</option>
 							</select>
 						</div>
 					</div>
@@ -543,6 +544,7 @@ class ExtracurricularServices extends Component {
 								<option value="abuelo(a)">Abuelo(a)</option>
 								<option value="hermano(a)">Hermano(a)</option>
 								<option value="tio(a)">Tio(a)</option>
+								<option value="otro">Otro</option>
 							</select>
 						</div>
 					</div>
@@ -613,7 +615,7 @@ class ExtracurricularServices extends Component {
 										)}
 									</ul>
 									<div className="row" style={{ height: 90 }} >
-										
+
 									</div>
 								</div>
 								<div className="card-footer bg-success text-white">
