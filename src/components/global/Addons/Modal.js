@@ -28,8 +28,8 @@ class Spacecraft extends Component {
   
   // event handling methods go here
   render() {
-    //let url_long = this.props.img_url.length
-    //console.log(url_long)
+    let url_long = this.props.img_url.length
+    console.log(url_long)
 
     if(!this.props.show) { return null }
 
@@ -39,9 +39,9 @@ class Spacecraft extends Component {
               <h5 className="modal-title" id="exampleModalLongTitle">{this.props.title}</h5>
             </div>
             <div className="modal-body bg-light text-dark">
-              {/*<div id="budget-container" style={{ display: url_long > 0 ? 'inherit' : 'none'  }}>
+              <div id="budget-container" style={{ display: url_long > 0 ? 'inherit' : 'none'  }}>
                 <img id="budget" src={this.props.img_url} alt="excellency budget" />
-    </div>*/}
+              </div>
               <p id="texty">{this.props.msn}</p>
             </div>
             <div className="modal-footer">

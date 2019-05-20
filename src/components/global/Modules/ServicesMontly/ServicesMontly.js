@@ -416,7 +416,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Transporte</td>
+                                <td>Transporte <a href="https://rochester.edu.co/matriculas2019/#transporte" className="badge btn-link" target="_blank">(Ver más)</a></td>
                                 <td className="choiceCustomClass">
                                     <select className="form-control"
                                         id="transportSelector"
@@ -444,7 +444,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Almuerzo</td>
+                                <td>Almuerzo <a href="https://rochester.edu.co/alimentacion" className="badge btn-link" target="_blank">(Ver más)</a></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check-inline">
                                         <input className="form-check-input" type="radio" name="lunchRadioOptions" id="lunch_yes" value="442000" defaultChecked onChange={this.handleOnChange} /> 
@@ -466,7 +466,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Medias Nueves</td>
+                                <td>Medias Nueves <a href="https://rochester.edu.co/alimentacion" className="badge btn-link" target="_blank">(Ver más)</a></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check-inline">
                                         <input className="form-check-input" type="radio" name="snackRadioOptions" id="snack_yes" value="111000" defaultChecked  onChange={this.handleOnChange}/> 
@@ -488,7 +488,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Desayuno</td>
+                                <td>Desayuno <a href="https://rochester.edu.co/alimentacion" className="badge btn-link" target="_blank">(Ver más)</a></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check-inline">
                                         <input className="form-check-input" type="radio" name="breakFastRadioOptions" id="breakFast_yes" value="135000" defaultChecked  onChange={this.handleOnChange}/> 
@@ -510,7 +510,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Seguro de vida</td>
+                                <td>Seguro de vida <a href="https://rochester.edu.co/matriculas2019/#seguros" className="badge btn-link" target="_blank">(Ver más)</a></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check-inline">
                                         <input className="form-check-input" type="radio" name="lifeSecureRadioOptions" id="lifeSecure_yes" value="65000" defaultChecked  onChange={this.handleOnChange}/> 
@@ -532,7 +532,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Seguro de desempleo</td>
+                                <td>Seguro de desempleo <a href="https://rochester.edu.co/matriculas2019/#seguros" className="badge btn-link" target="_blank">(Ver más)</a></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check-inline">
                                         <input className="form-check-input" type="radio" name="jobSecureRadioOptions" id="jobSecure_yes" value="64300" defaultChecked  onChange={this.handleOnChange}/> 

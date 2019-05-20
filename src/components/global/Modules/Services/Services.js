@@ -22,6 +22,8 @@ import ServiceTbale from '../ServiceTable/ServiceTable'
 import Utils from '../../../../Utils/Utils.js'
 import Texts from '../../../../Utils/Texts'
 
+import svg_file from '../../images/svgid20.svg';
+
 class Services extends Component {
 
   constructor(props){
@@ -269,31 +271,35 @@ class Services extends Component {
               this.toggleModalLoader()
               this.setState({
                 isOpen: !this.state.isOpen,
+                isOpenLoader: false,
                 isOpenWrongModal: false,
-                message: this.state.message + Texts.general_texts[0].no_financial_auth
+                message: Texts.general_texts[0].no_financial_auth
               })
           }
           if(!this.authChecker(res.data.metodo_pago_definido)) {
             this.toggleModalLoader()
             this.setState({
               isOpen: !this.state.isOpen,
+              isOpenLoader: false,
               isOpenWrongModal: false,
-              message: this.state.message + Texts.general_texts[0].no_davivienda_payment
+              message: Texts.general_texts[0].no_davivienda_payment
             })
           }
           /*if(!this.authChecker(res.data.metodo_pago_definido)){
             this.toggleModalLoader()
             this.setState({
               isOpen: !this.state.isOpen,
-              message: this.state.message + Texts.general_texts[0].no_financial_auth + "y, " +  Texts.general_texts[0].no_davivienda_payment 
+              isOpenLoader: false,
+              message: Texts.general_texts[0].no_financial_auth + "y, " +  Texts.general_texts[0].no_davivienda_payment 
             })
           }*/
           if(!this.authChecker(res.data.academic)){
             this.toggleModalLoader()
             this.setState({
               isOpen: !this.state.isOpen,
+              isOpenLoader: false,
               isOpenWrongModal: false,
-              message: this.state.message + Texts.general_texts[0].no_academic_auth
+              message: Texts.general_texts[0].no_academic_auth
             })
           }
         })
@@ -792,14 +798,16 @@ class Services extends Component {
                             <ModalUI title="Important message" 
                                       show={this.state.isOpen} 
                                       onClose={this.toggleModalNoResults} 
-                                      msn={this.state.message}>
+                                      msn={this.state.message}
+                                      img_url={svg_file}>
                             </ModalUI>
 
                             {/*Modal for Wrong code inserted*/}
                             <ModalUI2 title="Important message" 
                                       show={this.state.isOpenWrongModal} 
                                       onClose={this.toggleModalWrongCode} 
-                                      msn={this.state.message_wrong_code}>
+                                      msn={this.state.message_wrong_code}
+                                      img_url={svg_file}>
                             </ModalUI2>
 
                             {/*Modal for Loading...*/}

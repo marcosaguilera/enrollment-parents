@@ -14,6 +14,9 @@ import Demographic from '../Demographic/Demographic'
 
 //Styles
 import "./ExtracurricularServices.css"
+import img1 from '../../images/svgid5.svg';
+import img2 from '../../images/svgid11.svg';
+import img3 from '../../images/svgid21.svg';
 
 const styles = {
 	products: {
@@ -615,7 +618,7 @@ class ExtracurricularServices extends Component {
 										)}
 									</ul>
 									<div className="row" style={{ height: 90 }} >
-
+										{/*<img id="img1" src={img1} alt="image student extracurricular #1" />*/}
 									</div>
 								</div>
 								<div className="card-footer bg-success text-white">
