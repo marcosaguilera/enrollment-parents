@@ -144,6 +144,11 @@ let getSnackEcoName = function(value){
     if( value === 0 ){ return 'Sin refrigerio' }
 }
 
+let colorPicker = function(value){
+    if(value.includes("Eco")){ return '#a8001e' }
+    if(value.includes("Club")){ return '#004C98' }
+}
+
 module.exports = {
     getServiceCode,
     getTransportServiceName,
@@ -155,5 +160,6 @@ module.exports = {
     getDonacionName,
     getAnuarioName,
     getEcoTransportServiceName,
-    getSnackEcoName
+    getSnackEcoName,
+    colorPicker
 }
