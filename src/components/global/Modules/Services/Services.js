@@ -118,7 +118,9 @@ class Services extends Component {
         // OpenApply data
         studentCode: '', openApplyId: 0, customId: '',
         enrollment_year: '', first_name: '', last_name: '', gender: '', grade: '', name_full: '',
-        serial_number: 0, student_id: ''
+        serial_number: 0, student_id: '',
+
+        token:'', financial:'', metodo_pago_definido: '', pago_anticipado: ''
     }
   } 
 
@@ -184,12 +186,20 @@ class Services extends Component {
     const url = "https://rcis-backend.herokuapp.com/enrollment/authorization/" + std_openapply_uid;
     axios.get(url)
         .then(res =>{
+          console.log(res.data)
           let isAuth = this.authChecker(res.data.financial)
           console.log("isAuthorized: " + isAuth);
           
           store.dispatch({
             type: "SAVE_STUDENT_AUTHORIZATION",
             isAuth
+          })
+
+          this.setState({
+            token : res.data.token,
+            financial: res.data.financial,
+            metodo_pago_definido: res.data.metodo_pago_definido,
+            pago_anticipado: res.data.pago_anticipado
           })
 
           if(isAuth){
@@ -444,7 +454,7 @@ class Services extends Component {
   }
 
   nextPath = () => {
-    let data_step1       = { token:'', demographic:{}, annual_services: [], montly_services:[], eco:[], payments:[], payments_form:[], people_eco:[] }
+    let data_step1       = { token:'', financialAuth:'', paymentMethod: '', anticipatedPayment: '', demographic:{}, annual_services: [], montly_services:[], eco:[], payments:[], payments_form:[], people_eco:[] }
     let demographic_data = {}
     let annual_services  = []
     let enrollment       = {}
@@ -531,7 +541,10 @@ class Services extends Component {
     totals_annual.annual_total_to_pay                    = this.state.total_pagar
 
     // Populating object
-    data_step1['token']              = "KJHASD7657"
+    data_step1['token']              = this.state.token
+    data_step1['financial']          = this.state.financial
+    data_step1['paymentMethod']      = this.state.metodo_pago_definido
+    data_step1['anticipatedPayment'] = this.state.pago_anticipado
     data_step1['demographic']        = demographic_data
     data_step1['annual_services']    = annual_services
     data_step1['payments'].push(totals_annual)
