@@ -4,6 +4,7 @@
     min-height: '297mm';
     margin-left: 'auto';
     margin-right: 'auto';
+    width: 100% !important;
 }
 
 .Print-logo {
@@ -22,7 +23,7 @@ h4 {
 }
 
 .general-text{
-    font-size: 1.25rem;
+    font-size: inherit;
     margin: 0px 0px 0px 0px;
 }
 

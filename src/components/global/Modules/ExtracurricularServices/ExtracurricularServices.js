@@ -522,6 +522,7 @@ class ExtracurricularServices extends Component {
 								<option value="abuelo(a)">Abuelo(a)</option>
 								<option value="hermano(a)">Hermano(a)</option>
 								<option value="tio(a)">Tio(a)</option>
+								<option value="otro">Otro</option>
 							</select>
 						</div>
 					</div>
@@ -543,6 +544,7 @@ class ExtracurricularServices extends Component {
 								<option value="abuelo(a)">Abuelo(a)</option>
 								<option value="hermano(a)">Hermano(a)</option>
 								<option value="tio(a)">Tio(a)</option>
+								<option value="otro">Otro</option>
 							</select>
 						</div>
 					</div>
@@ -556,12 +558,17 @@ class ExtracurricularServices extends Component {
 										{/*<img src={service.image} className="card-img-top cardImgCustom" alt="Service image" />*/}
 										<div className="card-body">
 											<h5 className="card-title cardTitleCustom">
+												<span className="badge badge-secondary badge-pill pillsCustom" style={{ backgroundColor: Utils.colorPicker(service.type) }} >{service.type}</span><br />
 												{changeCase.sentenceCase(service.name)}
-												<span className="badge badge-secondary badge-pill pillsCustom" onClick={ () => this.showInfo(service)} ><FaInfo /></span>
 											</h5>
-											<p className="card-text cardDescriptionTextCustom">
+											{/*<p className="card-text cardDescriptionTextCustom">
 												<Truncate lines={3} ellipsis={'...'}>{service.description}</Truncate>
-											</p>
+											</p>*/}
+											<ul className="list-group list-group-flush">
+												<li className="list-group-item" style={{ paddingLeft: 0 }}>
+													<a href={service.redirect_url} className="card-link" target="_blank">Leer más</a>
+												</li>
+											</ul>
 										</div>
 										<div className="card-footer">
 											<div id="boxContainer">
@@ -607,7 +614,9 @@ class ExtracurricularServices extends Component {
 											</li>
 										)}
 									</ul>
-									<div className="row" style={{ height: 90 }}/>
+									<div className="row" style={{ height: 90 }} >
+
+									</div>
 								</div>
 								<div className="card-footer bg-success text-white">
 									<div className="row">

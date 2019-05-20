@@ -20,6 +20,7 @@ import ServiceTbale from '../ServiceTable/ServiceTable'
 
 //// Functions
 import Utils from '../../../../Utils/Utils.js'
+import Texts from '../../../../Utils/Texts'
 
 class Services extends Component {
 
@@ -98,7 +99,7 @@ class Services extends Component {
         isShowingResume                      : 'none',
 
         // Modal message
-        message                              : '',
+        message                              : 'Apreciado padre de familia. El proceso de matrícula está inhabilitado debido a las siguientes razones:  ',
 
         // Data PropTypes to Resume
         resumeData                           : 0,
@@ -118,7 +119,9 @@ class Services extends Component {
         // OpenApply data
         studentCode: '', openApplyId: 0, customId: '',
         enrollment_year: '', first_name: '', last_name: '', gender: '', grade: '', name_full: '',
-        serial_number: 0, student_id: ''
+        serial_number: 0, student_id: '',
+
+        token:'', financial:'', metodo_pago_definido: '', pago_anticipado: ''
     }
   } 
 
@@ -184,12 +187,20 @@ class Services extends Component {
     const url = "https://rcis-backend.herokuapp.com/enrollment/authorization/" + std_openapply_uid;
     axios.get(url)
         .then(res =>{
-          let isAuth = this.authChecker(res.data.financial)
+          console.log(res.data)
+          let isAuth = this.authChecker(res.data.financial) && this.authChecker(res.data.metodo_pago_definido) && this.authChecker(res.data.academic)
           console.log("isAuthorized: " + isAuth);
           
           store.dispatch({
             type: "SAVE_STUDENT_AUTHORIZATION",
             isAuth
+          })
+
+          this.setState({
+            token : res.data.token,
+            financial: res.data.financial,
+            metodo_pago_definido: res.data.metodo_pago_definido,
+            pago_anticipado: res.data.pago_anticipado
           })
 
           if(isAuth){
@@ -246,9 +257,36 @@ class Services extends Component {
                       this.toggleModalNoResults();
                     }
                 })
-          }else {
-             // to-do something if else
-            }
+          }
+          
+          if(!this.authChecker(res.data.financial)) {
+              this.toggleModalLoader()
+              this.setState({
+                isOpen: !this.state.isOpen,
+                message: this.state.message + Texts.general_texts[0].no_financial_auth
+              })
+          }
+          if(!this.authChecker(res.data.metodo_pago_definido)) {
+            this.toggleModalLoader()
+            this.setState({
+              isOpen: !this.state.isOpen,
+              message: this.state.message + Texts.general_texts[0].no_davivienda_payment
+            })
+          }
+          if(!this.authChecker(res.data.metodo_pago_definido)){
+            this.toggleModalLoader()
+            this.setState({
+              isOpen: !this.state.isOpen,
+              message: this.state.message + Texts.general_texts[0].no_financial_auth + "y, " +  Texts.general_texts[0].no_davivienda_payment 
+            })
+          }
+          if(!this.authChecker(res.data.academic)){
+            this.toggleModalLoader()
+            this.setState({
+              isOpen: !this.state.isOpen,
+              message: this.state.message + Texts.general_texts[0].no_academic_auth
+            })
+          }
         })
   }
 
@@ -444,7 +482,7 @@ class Services extends Component {
   }
 
   nextPath = () => {
-    let data_step1       = { token:'', demographic:{}, annual_services: [], montly_services:[], eco:[], payments:[], payments_form:[], people_eco:[] }
+    let data_step1       = { token:'', financialAuth:'', paymentMethod: '', anticipatedPayment: '', demographic:{}, annual_services: [], montly_services:[], eco:[], payments:[], payments_form:[], people_eco:[] }
     let demographic_data = {}
     let annual_services  = []
     let enrollment       = {}
@@ -531,7 +569,10 @@ class Services extends Component {
     totals_annual.annual_total_to_pay                    = this.state.total_pagar
 
     // Populating object
-    data_step1['token']              = "KJHASD7657"
+    data_step1['token']              = this.state.token
+    data_step1['financial']          = this.state.financial
+    data_step1['paymentMethod']      = this.state.metodo_pago_definido
+    data_step1['anticipatedPayment'] = this.state.pago_anticipado
     data_step1['demographic']        = demographic_data
     data_step1['annual_services']    = annual_services
     data_step1['payments'].push(totals_annual)
@@ -752,7 +793,7 @@ class Services extends Component {
                                           show={this.state.isOpenLoader} 
                                           onClose={this.toggleModalLoader} >
                             </LoadingModal>
-
+                            
                           </div>
                         </div>
                       </div>

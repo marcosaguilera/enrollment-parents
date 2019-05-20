@@ -6,6 +6,7 @@ import html2pdf from 'html2pdf.js'
 //Assets
 import logo_black from '../../images/logo_black_2.jpg';
 import './Print.css';
+import Texts from '../../../../Utils/Texts'
 
 class Print extends Component {
     constructor(props) {
@@ -42,7 +43,8 @@ class Print extends Component {
             // Total
             total            : 0,
             num_recibo       : '',
-            fecha            : ''
+            fecha            : '',
+            totalEcoServices : 0
         }
     }
 
@@ -102,6 +104,8 @@ class Print extends Component {
         var servicesObj = this.props.location.state
         console.log(servicesObj)
 
+        console.log()
+
         let student_data = servicesObj.demographic
         let annual_data  = servicesObj.annual_services
         let montly_data  = servicesObj.montly_services
@@ -121,20 +125,37 @@ class Print extends Component {
             anuario          : annual_data[3].total,
             asopadres        : annual_data[4].total,
             club             : annual_data[5].total,
-            pension          : montly_data[0].total,
-            pension_dto      : montly_data[0].discount,
-            transporte       : montly_data[1].total,
-            almuerzo         : montly_data[2].total,
-            m9               : montly_data[3].total,
-            desayuno         : montly_data[4].total,
-            seguroVida       : montly_data[5].total,
-            seguroDesempleo  : montly_data[6].total,
+            pension          : Number(montly_data[0].total * 10),
+            pension_dto      : Number(montly_data[0].discount),
+            transporte       : Number(montly_data[1].total * 10),
+            almuerzo         : Number(montly_data[2].total * 10),
+            m9               : Number(montly_data[3].total * 10),
+            desayuno         : Number(montly_data[4].total * 10),
+            seguroVida       : Number(montly_data[5].total * 10),
+            seguroDesempleo  : Number(montly_data[6].total * 10),
+            // Payments values
+            totalEcoServices : Number(payments[2].eco_total_pay * 10),
             tot_servicios    : "XX",
             total            : "XX",
             solo_descuento   : "XX"
         }, () => {
             //console.log("================>"+ this.state.solo_descuento);
             this.generateReference();
+            this.setState({ 
+                total : this.state.matricula_tarifa + 
+                        this.state.bibliobanco + 
+                        this.state.seguro +
+                        this.state.anuario + 
+                        this.state.asopadres +
+                        this.state.club + 
+                        this.state.pension + 
+                        this.state.transporte + 
+                        this.state.almuerzo + 
+                        this.state.m9 + 
+                        this.state.desayuno + 
+                        this.state.seguroVida + 
+                        this.state.seguroDesempleo +
+                        this.state.totalEcoServices })
         });      
     }
 
@@ -196,10 +217,12 @@ class Print extends Component {
                                                 <table style={{width: '100%'}}>
                                                     <tbody>
                                                         <tr>
-                                                            <td style={{width: '20%'}}><strong><p className="general-text">Fecha:</p></strong></td>
-                                                            <td style={{width: '40%'}}><p className="general-text">{this.state.fecha}</p></td>
-                                                            <td style={{width: '40%'}}><p className="general-text">Token <span id="token">{this.state.token}</span></p></td>
+                                                            <td style={{width: '20%'}}><strong><p className="general-text">Token:</p></strong></td>
+                                                            <td style={{width: '80%'}}><p className="general-text"><span id="token">{this.state.token}</span></p></td>
                                                         </tr>
+                                                        <tr>
+                                                            <td style={{width: '20%'}}><strong><p className="general-text">Fecha:</p></strong></td>
+                                                            <td style={{width: '80%'}}><p className="general-text">{this.state.fecha}</p></td>                                                        </tr>
                                                         <tr>
                                                             <td style={{width: '20%'}}><strong><p className="general-text">Alumno:</p></strong></td>
                                                             <td style={{width: '80%'}}><p className="general-text">{this.state.nombres} {this.state.apellidos}</p></td>
@@ -277,7 +300,7 @@ class Print extends Component {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Pensión</p></td>
+                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Pensión (x10 meses)</p></td>
                                                             <td style={{width: '23.7908%'}}><NumberFormat value={this.state.pension_dto} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                                             <td style={{width: '21%', textAlign: 'right'}}>
                                                                 <p className="general-text">
@@ -286,7 +309,7 @@ class Print extends Component {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Almuerzo</p></td>
+                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Almuerzo (x10 meses)</p></td>
                                                             <td style={{width: '23.7908%'}}>&nbsp;</td>
                                                             <td style={{width: '21%', textAlign: 'right'}}>
                                                                 <p className="general-text">
@@ -295,7 +318,7 @@ class Print extends Component {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Medias nueves</p></td>
+                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Medias nueves (x10 meses)</p></td>
                                                             <td style={{width: '23.7908%'}}>&nbsp;</td>
                                                             <td style={{width: '21%', textAlign: 'right'}}>
                                                                 <p className="general-text">
@@ -304,7 +327,7 @@ class Print extends Component {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Desayuno</p></td>
+                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Desayuno (x10 meses)</p></td>
                                                             <td style={{width: '23.7908%'}}>&nbsp;</td>
                                                             <td style={{width: '21%', textAlign: 'right'}}>
                                                                 <p className="general-text">
@@ -313,7 +336,7 @@ class Print extends Component {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Seguro de vida</p></td>
+                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Seguro de vida (x10 meses)</p></td>
                                                             <td style={{width: '23.7908%'}}>&nbsp;</td>
                                                             <td style={{width: '21%', textAlign: 'right'}}>
                                                                 <p className="general-text">
@@ -322,11 +345,20 @@ class Print extends Component {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Seguro de desempleo</p></td>
+                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Seguro de desempleo (x10 meses)</p></td>
                                                             <td style={{width: '23.7908%'}}>&nbsp;</td>
                                                             <td style={{width: '21%', textAlign: 'right'}}>
                                                                 <p className="general-text">
                                                                 <NumberFormat value={this.state.seguroDesempleo} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Eco y club (x10 meses)</p></td>
+                                                            <td style={{width: '23.7908%'}}>&nbsp;</td>
+                                                            <td style={{width: '21%', textAlign: 'right'}}>
+                                                                <p className="general-text">
+                                                                <NumberFormat value={this.state.totalEcoServices} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                                                 </p>
                                                             </td>
                                                         </tr>
@@ -342,7 +374,7 @@ class Print extends Component {
                                                     </tbody>
                                                 </table>
                                                 <hr />
-                                                <p style={{fontSize: '1.07rem !important', textAlign: 'justify'}}>Nota: Si el estudiante, una vez matriculado en el COLEGIO ROCHESTER se retira antes de la fecha de iniciaci&oacute;n de clases del a&ntilde;o escolar 2018-2019, se le devolver&aacute; el 50% del valor de la matr&iacute;cula y el valor de los otros costos pagados. Si el estudiante se retira despu&eacute;s de iniciadas las clases, no habr&aacute; lugar a devolver suma alguna del valor de la matr&iacute;cula, y se le devolver&aacute; lo pagado por otros conceptos de costos proporcionalmente al tiempo de permanencia en EL COLEGIO.</p>
+                                                <p style={{fontSize: '1.07rem !important', textAlign: 'justify'}}>{Texts.general_texts[0].footer_text}</p>
                                                 <br />
                                                 <br />
                                                 <table style={{width: '100%'}}>
