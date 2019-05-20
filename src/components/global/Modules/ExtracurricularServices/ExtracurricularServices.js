@@ -169,7 +169,6 @@ class ExtracurricularServices extends Component {
 
 	onChangeSelectors(e){
 		if(e.target.id === 'transportModeSelector'){
-			console.log(e.target.value)
 			this.setState({ pickedTransportName: e.target.value })
 			
 			if(e.target.value === 'Transporte Lineal'){
@@ -238,6 +237,38 @@ class ExtracurricularServices extends Component {
 				this.setState({ snackEcoName : Utils.getSnackEcoName(this.state.selectedSnack) }, () => { console.log(this.state.snackEcoName) })
 			})
 		}
+
+		if(e.target.id === 'nombre1'){
+
+		}
+
+		if(e.target.id === 'nombre2'){
+
+		}
+
+		if(e.target.id === 'dni1'){
+
+		}
+
+		if(e.target.id === 'dni2'){
+
+		}
+
+		if(e.target.id === 'telefono1'){
+
+		}
+
+		if(e.target.id === 'telefono2'){
+
+		}
+
+		if(e.target.id === 'parentesco1'){
+
+		}
+
+		if(e.target.id === 'parentesco2'){
+
+		}
 	}
 
 	loadEcoServices(grade){
@@ -292,6 +323,7 @@ class ExtracurricularServices extends Component {
 		let eco_services  = []
 		let transportMode = {}
 		let totals_eco    = {}
+		let people   	  = {}
 
         console.log(this.state.cartServices)
 
@@ -454,13 +486,14 @@ class ExtracurricularServices extends Component {
 							<input className="form-control" type="text" placeholder="Nombre completo" id="nombre1" />
 						</div>
 						<div className="col-md-3">
-							<input className="form-control" type="text" placeholder="No. identificacion" id="identificacion1" />
+							<input className="form-control" type="text" placeholder="No. identificación" id="identificacion1" />
 						</div>
 						<div className="col-md-3">
-							<input className="form-control" type="text" placeholder="No. telefono/movil" id="telefono1" />
+							<input className="form-control" type="text" placeholder="No. teléfono/móvil" id="telefono1" />
 						</div>
 						<div className="col-md-3">
 							<select className="form-control" id="parentesco1">
+								<option value="NA" defaultValue>Seleccione uno</option>
 								<option value="papa">Papá</option>
 								<option value="mama">Mamá</option>
 								<option value="abuelo(a)">Abuelo(a)</option>
@@ -474,13 +507,14 @@ class ExtracurricularServices extends Component {
 							<input className="form-control" type="text" placeholder="Nombre completo" id="nombre2" />
 						</div>
 						<div className="col-md-3">
-							<input className="form-control" type="text" placeholder="No. identificacion" id="identificacion2" />
+							<input className="form-control" type="text" placeholder="No. identificación" id="identificacion2" />
 						</div>
 						<div className="col-md-3">
-							<input className="form-control" type="text" placeholder="No. telefono/movil" id="telefono2" />
+							<input className="form-control" type="text" placeholder="No. teléfono/móvil" id="telefono2" />
 						</div>
 						<div className="col-md-3">
 							<select className="form-control" id="parentesco2" >
+								<option value="NA" defaultValue>Seleccione uno</option>
 								<option value="papa">Papá</option>
 								<option value="mama">Mamá</option>
 								<option value="abuelo(a)">Abuelo(a)</option>
