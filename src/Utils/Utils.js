@@ -140,7 +140,7 @@ let getSnackEcoName = function(value){
     if( value === 25000 ){ return 'Refrigerio 1 día semanal' }
     if( value === 45000 ){ return 'Refrigerio 2 días semanales' }
     if( value === 65000 ){ return 'Refrigerio 3 días semanales' }
-    if( value === 85000 ){ return 'Refrigerio 4 días semanañes' }
+    if( value === 85000 ){ return 'Refrigerio 4 días semanales' }
     if( value === 0 ){ return 'Sin refrigerio' }
 }
 
