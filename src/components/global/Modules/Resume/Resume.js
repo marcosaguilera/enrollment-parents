@@ -793,7 +793,7 @@ class Resume extends Component {
                                               <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerPhone} id="inputBuyerPhone" placeholder="No. Móvil" required />
                                           </div>
                                           <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerEmail} id="inputBuyerEmail" placeholder="Correo eletrónico" required />
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerEmail} id="inputBuyerEmail" placeholder="Correo electrónico" required />
                                           </div>
                                         </div>
                                         <div className="form-row py-2">
