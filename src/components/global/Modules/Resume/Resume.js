@@ -11,9 +11,14 @@ import {ToastsContainer, ToastsStore} from 'react-toasts';
 import '../../Modules/Resume/Resume.css';
 import formato from '../../images/formato_consignacion.jpg';
 
+// Utils
+import Utils from '../../../../Utils/Utils'
+import Texts from '../../../../Utils/Texts'
+
 //Components declaration
 import Footer from '../../Footer'
 import PrintPage from '../Print/Print'
+import ModalUI from '../../Addons/Modal';
 
 class Resume extends Component {
 
@@ -69,6 +74,7 @@ class Resume extends Component {
       apellidos            : '',
       grado                : '',
       objectId             : '',
+      pago_anticipado      : false,
 
       // PayU Parameter
       monto            : 0,
@@ -115,6 +121,7 @@ class Resume extends Component {
       toggleConfirmModal      : false,
       confirmText             : '',
       confirmButtonDisabled   : true,
+      isOpen                  : false,
     }
   }
 
@@ -129,6 +136,7 @@ class Resume extends Component {
         nombres                 : servicesObj.demographic.nombres,
         apellidos               : servicesObj.demographic.apellidos,
         grado                   : servicesObj.demographic.grado,
+        pago_anticipado         : Utils.authChecker(servicesObj.anticipatedPayment),
 
         total_yearly_services   : servicesObj.payments[0].annual_total_to_pay,
         total_montly_services   : servicesObj.payments[1].montly_total_pay,
@@ -535,7 +543,6 @@ class Resume extends Component {
 
   nextPath = () => {
     let step4_data               = this.state.step4_data
-    var services                 = {}
     let payment_choices          = {}
 
     payment_choices.payment_mode = this.state.payment_selection
@@ -551,6 +558,13 @@ class Resume extends Component {
 
     this.props.history.push('/print', step4_data);
     //this.handlePrintData();
+  }
+
+  toggleModalNoResults = () => {
+    this.setState({
+      isOpen: !this.state.isOpen,
+      message: Texts.general_texts[0].anticipated_payment
+    });
   }
 
   // Props definitions
@@ -852,6 +866,12 @@ class Resume extends Component {
               </div>
             </div>
             <ToastsContainer store={ToastsStore} timer={5000}/>
+            {/*Modal for no results from cloud data*/}
+            <ModalUI title="Important message" 
+                    show={this.state.isOpen} 
+                    onClose={this.toggleModalNoResults} 
+                    msn={this.state.message}>
+            </ModalUI>
           </main>
           <Footer copyright="&copy;Colegio Rochester 2019" />
         </div>

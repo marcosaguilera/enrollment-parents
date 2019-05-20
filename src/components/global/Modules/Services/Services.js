@@ -99,7 +99,7 @@ class Services extends Component {
         isShowingResume                      : 'none',
 
         // Modal message
-        message                              : '',
+        message                              : 'Apreciado padre de familia. El proceso de matrícula está inhabilitado debido a las siguientes razones:  ',
 
         // Data PropTypes to Resume
         resumeData                           : 0,
@@ -187,9 +187,8 @@ class Services extends Component {
     const url = "https://rcis-backend.herokuapp.com/enrollment/authorization/" + std_openapply_uid;
     axios.get(url)
         .then(res =>{
-          console.log("----> autorizaciones")
           console.log(res.data)
-          let isAuth = this.authChecker(res.data.financial) && this.authChecker(res.data.metodo_pago_definido)
+          let isAuth = this.authChecker(res.data.financial) && this.authChecker(res.data.metodo_pago_definido) && this.authChecker(res.data.academic)
           console.log("isAuthorized: " + isAuth);
           
           store.dispatch({
@@ -258,23 +257,34 @@ class Services extends Component {
                       this.toggleModalNoResults();
                     }
                 })
-          }else if(!this.authChecker(res.data.financial)) {
+          }
+          
+          if(!this.authChecker(res.data.financial)) {
               this.toggleModalLoader()
               this.setState({
                 isOpen: !this.state.isOpen,
-                message: Texts.general_texts[0].no_financial_auth
+                message: this.state.message + Texts.general_texts[0].no_financial_auth
               })
-          }else if(!this.authChecker(res.data.metodo_pago_definido)) {
+          }
+          if(!this.authChecker(res.data.metodo_pago_definido)) {
             this.toggleModalLoader()
             this.setState({
               isOpen: !this.state.isOpen,
-              message: Texts.general_texts[0].no_davivienda_payment
+              message: this.state.message + Texts.general_texts[0].no_davivienda_payment
             })
-          }else{
+          }
+          if(!this.authChecker(res.data.metodo_pago_definido)){
             this.toggleModalLoader()
             this.setState({
               isOpen: !this.state.isOpen,
-              message: Texts.general_texts[0].no_financial_auth + "<br /><br />" +  Texts.general_texts[0].no_davivienda_payment 
+              message: this.state.message + Texts.general_texts[0].no_financial_auth + "y, " +  Texts.general_texts[0].no_davivienda_payment 
+            })
+          }
+          if(!this.authChecker(res.data.academic)){
+            this.toggleModalLoader()
+            this.setState({
+              isOpen: !this.state.isOpen,
+              message: this.state.message + Texts.general_texts[0].no_academic_auth
             })
           }
         })
@@ -783,7 +793,7 @@ class Services extends Component {
                                           show={this.state.isOpenLoader} 
                                           onClose={this.toggleModalLoader} >
                             </LoadingModal>
-
+                            
                           </div>
                         </div>
                       </div>

@@ -535,7 +535,7 @@ class ServicesMontly extends Component {
                                 <td>Seguro de desempleo</td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="jobSecureRadioOptions" id="jobSecure_yes" value="89000" defaultChecked  onChange={this.handleOnChange}/> 
+                                        <input className="form-check-input" type="radio" name="jobSecureRadioOptions" id="jobSecure_yes" value="64300" defaultChecked  onChange={this.handleOnChange}/> 
                                         <label className="form-check-label" htmlFor="jobSecure_yes">Si</label>
                                     </div>
                                     <div className="form-check form-check-inline">

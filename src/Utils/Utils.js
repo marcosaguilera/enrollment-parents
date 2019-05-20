@@ -149,6 +149,10 @@ let colorPicker = function(value){
     if(value.includes("Club")){ return '#004C98' }
 }
 
+let authChecker = function(value){
+    return value === "Si" ? true : false
+}
+
 module.exports = {
     getServiceCode,
     getTransportServiceName,
@@ -161,5 +165,6 @@ module.exports = {
     getAnuarioName,
     getEcoTransportServiceName,
     getSnackEcoName,
-    colorPicker
+    colorPicker,
+    authChecker
 }
