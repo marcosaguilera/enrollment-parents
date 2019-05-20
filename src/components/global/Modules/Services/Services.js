@@ -20,6 +20,7 @@ import ServiceTbale from '../ServiceTable/ServiceTable'
 
 //// Functions
 import Utils from '../../../../Utils/Utils.js'
+import Texts from '../../../../Utils/Texts'
 
 class Services extends Component {
 
@@ -186,8 +187,9 @@ class Services extends Component {
     const url = "https://rcis-backend.herokuapp.com/enrollment/authorization/" + std_openapply_uid;
     axios.get(url)
         .then(res =>{
+          console.log("----> autorizaciones")
           console.log(res.data)
-          let isAuth = this.authChecker(res.data.financial)
+          let isAuth = this.authChecker(res.data.financial) && this.authChecker(res.data.metodo_pago_definido)
           console.log("isAuthorized: " + isAuth);
           
           store.dispatch({
@@ -256,9 +258,25 @@ class Services extends Component {
                       this.toggleModalNoResults();
                     }
                 })
-          }else {
-             // to-do something if else
-            }
+          }else if(!this.authChecker(res.data.financial)) {
+              this.toggleModalLoader()
+              this.setState({
+                isOpen: !this.state.isOpen,
+                message: Texts.general_texts[0].no_financial_auth
+              })
+          }else if(!this.authChecker(res.data.metodo_pago_definido)) {
+            this.toggleModalLoader()
+            this.setState({
+              isOpen: !this.state.isOpen,
+              message: Texts.general_texts[0].no_davivienda_payment
+            })
+          }else{
+            this.toggleModalLoader()
+            this.setState({
+              isOpen: !this.state.isOpen,
+              message: Texts.general_texts[0].no_financial_auth + "<br /><br />" +  Texts.general_texts[0].no_davivienda_payment 
+            })
+          }
         })
   }
 
