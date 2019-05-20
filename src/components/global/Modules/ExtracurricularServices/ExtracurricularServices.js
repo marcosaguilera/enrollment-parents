@@ -612,7 +612,9 @@ class ExtracurricularServices extends Component {
 											</li>
 										)}
 									</ul>
-									<div className="row" style={{ height: 90 }}/>
+									<div className="row" style={{ height: 90 }} >
+										
+									</div>
 								</div>
 								<div className="card-footer bg-success text-white">
 									<div className="row">
