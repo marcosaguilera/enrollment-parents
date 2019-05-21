@@ -46,7 +46,7 @@ class ExtracurricularServices extends Component {
 
 		this.state = {
 			code                        : '',      showElementTransport      : false,
-			name                        : '',      authorizedPeople1Name     : '',   
+			name                        : '',      authorizedPeople1Name     : '',
 			lastname                    : '',      authorizedPeople1Dni      : '',
 			grade                       : '',      authorizedPeople1Phone    : '',
 			services                    : [],      authorizedPeople1Relation : '',
@@ -55,7 +55,7 @@ class ExtracurricularServices extends Component {
 			step3_data                  : {},	   authorizedPeople2Phone    : '',
 			showingAlert                : false,   authorizedPeople2Relation : '',
 			isReadyDemographicComponent : false,
-			
+
 			//SELECTED TRANSPORT NAME
 			selectedTransportName		: '',
 			pickedTransportName			: '',
@@ -80,7 +80,7 @@ class ExtracurricularServices extends Component {
 	componentDidMount() {
 		let servicesObj = this.props.location.state;
 		//console.log("===> Extracurricular Step");
-		
+
 		let transportName = servicesObj.montly_services[1].select
 		console.log(transportName);
 
@@ -152,10 +152,10 @@ class ExtracurricularServices extends Component {
 					showTransportDoor: 'none'
 				})
 				break;
-		
+
 			default:
-				this.setState({ 
-					showLinealFees : 'hidden', 
+				this.setState({
+					showLinealFees : 'hidden',
 					showLinealPoints : 'hidden',
 					showTransportCompleteDoor : 'hidden',
 					showTransportDoor: 'hidden'
@@ -175,7 +175,7 @@ class ExtracurricularServices extends Component {
 	onChangeSelectors(e){
 		if(e.target.id === 'transportModeSelector'){
 			this.setState({ pickedTransportName: e.target.value })
-			
+
 			if(e.target.value === 'Transporte Lineal'){
 				this.checkCompleteTransport('Transporte Lineal')
 			}
@@ -402,7 +402,7 @@ class ExtracurricularServices extends Component {
 						}
 
 					<hr/>
-					
+
 					<div className="row">
 						<div className="col-md-12">
 							<p>Seleccione la modalidad de transporte de su preferencia</p>
@@ -658,11 +658,5 @@ class ExtracurricularServices extends Component {
 		);
 	}
 }
-
-ExtracurricularServices.propTypes = {
-
-};
-
-
 
 export default ExtracurricularServices;

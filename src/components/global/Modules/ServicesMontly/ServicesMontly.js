@@ -120,11 +120,11 @@ class ServicesMontly extends Component {
         this.setState({
             totalLodgings           : Number(this.state.lodgings - this.state.discountLodgings),
             totalTransport          : Number(this.state.transport - this.state.discountTransport),
-            totalLunch              : Number(this.state.lunch - this.state.discountLunch),
-            totalSnack              : Number(this.state.snack - this.state.discountSnack),
+            totalLunch              : Number(this.state.lunch - this.state.discountLunch < 0 ? 0 : this.state.discountLunch),
+            totalSnack              : Number(this.state.snack - this.state.discountSnack < 0 ? 0 : this.state.discountSnack),
             //totalBreakfast          : Number(this.state.breakFast - this.state.discountBreakfast),
-            totalLifeSecure         : Number(this.state.lifeSecure - this.state.discountLifeSecure),
-            totalJobSecure          : Number(this.state.jobSecure - this.state.discountJobSecure),
+            totalLifeSecure         : Number(this.state.lifeSecure - this.state.discountLifeSecure < 0 ? 0 : this.state.discountLifeSecure),
+            totalJobSecure          : Number(this.state.jobSecure - this.state.discountJobSecure < 0 ? 0 : this.state.discountJobSecure),
             totalDonation           : Number(this.state.donation)
         },  () => {  this.setMontlyTotal()  })
     }
