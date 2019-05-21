@@ -328,13 +328,13 @@ class ServicesMontly extends Component {
         snack.discount       = this.state.discountSnack
         snack.total          = this.state.totalSnack
         /// DESAYUNO
-        breakFast.type       = 'Mensual'
-        breakFast.name       = 'Desayuno'
-        breakFast.code       = Utils.getServiceCode('Desayuno')
-        breakFast.select     = this.state.breakFastSel
-        breakFast.value      = this.state.breakFast
-        breakFast.discount   = this.state.discountBreakfast
-        breakFast.total      = this.state.totalBreakfast
+        //breakFast.type       = 'Mensual'
+        //breakFast.name       = 'Desayuno'
+        //breakFast.code       = Utils.getServiceCode('Desayuno')
+        //breakFast.select     = this.state.breakFastSel
+        //breakFast.value      = this.state.breakFast
+        //breakFast.discount   = this.state.discountBreakfast
+        //breakFast.total      = this.state.totalBreakfast
         /// SEGURO VIDA
         lifeSecure.type      = 'Mensual'
         lifeSecure.name      = 'Seguro de vida'
