@@ -27,7 +27,7 @@ class ServicesMontly extends Component {
         this.onStarClick             = this.onStarClick.bind(this)
         this.addDonationSelection    = this.addDonationSelection.bind(this)
         this.removeDonationSelection = this.removeDonationSelection.bind(this)
-        
+
         this.state = {
             // General Data                     // Demographic data
             step2_data              : {},       code     : '',
@@ -56,7 +56,7 @@ class ServicesMontly extends Component {
             totalLunch              : 0,        pensionName   : '',
             totalSnack              : 0,        donacionName  : '',
             totalBreakfast          : 0,        transportName : '',
-            totalLifeSecure         : 0,
+            totalLifeSecure         : 0,        asopadresSelection: '',
             totalJobSecure          : 0,
             totalDonation           : 0,
             totalMontlyServices     : 0
@@ -64,16 +64,17 @@ class ServicesMontly extends Component {
     }
 
     componentDidMount = () => {
-        let servicesObj = this.props.location.state;
+        let servicesObj = this.props.location.state
 
-        this.setState({ 
-                        step2_data    : servicesObj,
-                        code          : servicesObj.demographic.codigo, 
-                        name          : servicesObj.demographic.nombres,
-                        lastname      : servicesObj.demographic.apellidos,
-                        grade         : servicesObj.demographic.grado,
-                        matriculaCode : servicesObj.annual_services[0].code,
-                        donacionName  : Utils.getDonacionName(this.state.donation)
+        this.setState({
+                        step2_data         : servicesObj,
+                        code               : servicesObj.demographic.codigo,
+                        name               : servicesObj.demographic.nombres,
+                        lastname           : servicesObj.demographic.apellidos,
+                        grade              : servicesObj.demographic.grado,
+                        matriculaCode      : servicesObj.annual_services[0].code,
+                        donacionName       : Utils.getDonacionName(this.state.donation),
+                        asopadresSelection : servicesObj.annual_services[4].select
                     }, () => {
                         this.setState({ pensionName : Utils.getPensionName(this.state.matriculaCode) })
                     })
@@ -89,8 +90,8 @@ class ServicesMontly extends Component {
                 snack               : Utils.checkNull(montly_data.alimentos_m9),
                 breakFast           : Utils.checkNull(montly_data.alimentos_desayuno),
                 lifeSecure          : Utils.checkNull(montly_data.seguro_vida),
-                jobSecure           : Utils.checkNull(montly_data.seguro_desempleo),
- 
+                jobSecure           : this.state.asopadresSelection === "Si" ? 59500 : 64300,
+
                 //discounts
                 discountLodgings    : Utils.checkNull(montly_data.pension_descuento),
                 discountTransport   : Utils.checkNull(montly_data.transporte_descuento),
@@ -102,7 +103,7 @@ class ServicesMontly extends Component {
             }, () => {
                 this.setTotals()
                 this.setState({ transportName : Utils.getTransportServiceName(this.state.transport) }, ()=>{
-                    console.log(this.state.transportName)
+                    //console.log(this.state.transportName +  "--- valor seguro desempleo" + this.state.jobSecure)
                 })
             })
         })
@@ -121,7 +122,7 @@ class ServicesMontly extends Component {
             totalTransport          : Number(this.state.transport - this.state.discountTransport),
             totalLunch              : Number(this.state.lunch - this.state.discountLunch),
             totalSnack              : Number(this.state.snack - this.state.discountSnack),
-            totalBreakfast          : Number(this.state.breakFast - this.state.discountBreakfast),
+            //totalBreakfast          : Number(this.state.breakFast - this.state.discountBreakfast),
             totalLifeSecure         : Number(this.state.lifeSecure - this.state.discountLifeSecure),
             totalJobSecure          : Number(this.state.jobSecure - this.state.discountJobSecure),
             totalDonation           : Number(this.state.donation)
@@ -487,7 +488,7 @@ class ServicesMontly extends Component {
                                     <NumberFormat value={this.state.totalSnack} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                 </td>
                             </tr>
-                            <tr>
+                            {/*<tr>
                                 <td>Desayuno <a href="https://rochester.edu.co/alimentacion" className="badge btn-link" target="_blank">(Ver más)</a></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check-inline">
@@ -508,7 +509,7 @@ class ServicesMontly extends Component {
                                 <td className="totalAlignment">
                                     <NumberFormat value={this.state.totalBreakfast} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                 </td>
-                            </tr>
+                            </tr>*/}
                             <tr>
                                 <td>Seguro de vida <a href="https://rochester.edu.co/matriculas2019/#seguros" className="badge btn-link" target="_blank">(Ver más)</a></td>
                                 <td className="choiceCustomClass">

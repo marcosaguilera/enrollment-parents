@@ -46,7 +46,7 @@ class Resume extends Component {
       step4_data         : {},
       // PayU states
       payuIdMerchant     : '578320',
-      
+
       //TuCompra states
       usuario            : 'cctjt208e6j40fdp',
       factura_numero     : '',
