@@ -6,7 +6,7 @@ import NumberFormat from 'react-number-format';
 import {ToastsContainer, ToastsStore} from 'react-toasts';
 import changeCase from 'change-case';
 import Truncate from 'react-truncate';
-import { FaTrashAlt, FaInfo } from "react-icons/fa";
+import { FaTrashAlt, FaInfo, FaCalendarCheck } from "react-icons/fa";
 import Utils from '../../../../Utils/Utils.js'
 
 //// Components
@@ -178,57 +178,62 @@ class ExtracurricularServices extends Component {
 
 			if(e.target.value === 'Transporte Lineal'){
 				this.checkCompleteTransport('Transporte Lineal')
+				this.setState({ selectedDoorFee: 0 })
 			}
 			if(e.target.value === 'Transporte Puerta a Puerta'){
 				this.checkCompleteTransport('Transporte Puerta a Puerta')
+				this.setState({ selectedLinealFee: 0 })
 			}
 			if(e.target.value === 'Salida por recepción'){
 				this.checkCompleteTransport('Salida por recepción')
+				this.setState({ selectedLinealFee: 0, selectedDoorFee: 0  })
 			}
 			if(e.target.value === 'NA'){
 				this.checkCompleteTransport('NA')
+				this.setState({ selectedLinealFee: 0, selectedDoorFee: 0  })
 			}
 		}
 
 		if(e.target.id === 'puntosSelector'){
 			this.setState({
-				selectedPoint : e.target.value
+				selectedPoint   : e.target.value,
+				selectedDoorFee : 0
 			}, () =>{ console.log(this.state.selectedPoint) })
 		}
 
 		if(e.target.id === 'tarifaLinealSelector'){
 			this.setState({
 				selectedLinealFee : Number(e.target.value),
-				selectedDoorFee: 0
+				selectedDoorFee   : 0
 			}, () =>{
 				this.totalEcoTransport()
-				this.setState({ 
+				this.setState({
 					transportNameMode: Utils.getEcoTransportServiceName(this.state.selectedLinealFee, this.state.pickedTransportName) 
-				}) 
+				})
 			})
 		}
 
 		if(e.target.id === 'puertaCompletoSelector'){
 			this.setState({
-				selectedDoorFee : Number(e.target.value),
-				selectedLinealFee: 0
+				selectedDoorFee   : Number(e.target.value),
+				selectedLinealFee : 0
 			}, () =>{
 				this.totalEcoTransport()
-				this.setState({ 
+				this.setState({
 					transportNameMode: Utils.getEcoTransportServiceName(this.state.selectedDoorFee) 
-				}) 
+				})
 			})
 		}
 
 		if(e.target.id === 'puertaSelector'){
 			this.setState({
-				selectedDoorFee : Number(e.target.value),
-				selectedLinealFee: 0
-			}, () =>{ 
+				selectedDoorFee   : Number(e.target.value),
+				selectedLinealFee : 0
+			}, () =>{
 				this.totalEcoTransport()
 				this.setState({
 					transportNameMode: Utils.getEcoTransportServiceName(this.state.selectedDoorFee, this.state.pickedTransportName) 
-				}) 
+				})
 			})
 		}
 
@@ -281,7 +286,7 @@ class ExtracurricularServices extends Component {
 		axios.get(url)
 			.then(res => {
 				//console.log(res.data)
-				this.setState({ services : res.data })
+				this.setState({ services : res.data }, ()=>{ console.log(this.state.services) })
 			})
 	}
 
@@ -346,7 +351,7 @@ class ExtracurricularServices extends Component {
 
 			eco_services.push(item)
 		});
-		
+
 		transportMode.type       = "Eco"
 		transportMode.code       = Utils.getServiceCode(this.state.transportNameMode)
 		transportMode.discount   = 0
@@ -571,7 +576,12 @@ class ExtracurricularServices extends Component {
 											</p>*/}
 										</div>
 										<ul className="list-group list-group-flush">
-											<li className="list-group-item" style={{ border: '0px solid rgba(0,0,0,.125)' }}>
+											<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid rgba(0,0,0,.125)' }}>
+												<FaCalendarCheck style={{ height: 18, marginRight: 5 }} />Horario<p style={{ fontSize: 12 }}>{service.schedule}</p>	
+											</li>
+										</ul>
+										<ul className="list-group list-group-flush">
+											<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid rgba(0,0,0,.125)' }}>
 												<a href={service.redirect_url} className="card-link" target="_blank">Leer más</a>
 											</li>
 										</ul>
@@ -620,8 +630,8 @@ class ExtracurricularServices extends Component {
 										)}
 									</ul>
 									<div className="row" style={{ height: 90 }} id="img-container">
-										<img id="img1" 
-											src={ this.state.cartServices.length === 0 ? img4 : img5} 
+										<img id="img1"
+											src={ this.state.cartServices.length === 0 ? img4 : img5}
 											style={{ opacity: this.state.cartServices.length === 0 ? 0.4 : 0.9 }}
 											alt="Image student extracurricular #1" />
 										<p id="text-img">{ this.state.cartServices.length === 0 ? 'zZzZzZ' : '¡Coool!' }</p>
