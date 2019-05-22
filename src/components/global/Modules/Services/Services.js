@@ -341,7 +341,7 @@ class Services extends Component {
                             + this.state.tarifa_reducida_7_5
                             + this.state.tarifa_reducida_15
                             + this.state.bibliobanco ),
-      
+
       total_tarifas_mat: Number(this.state.tarifa_plena
                             + this.state.tarifa_reducida_7_5
                             + this.state.tarifa_reducida_15),
@@ -443,11 +443,7 @@ class Services extends Component {
             break;
         case "fromStart":
             this.setState({
-              total_pagar : Number( this.state.total_conceptos_matricula_descuentos
-                                  + this.state.seguro_seleccionado
-                                  + this.state.anuario_seleccionado
-                                  + this.state.asopadres_seleccionado
-                                  + this.state.club_seleccionado ),
+              total_pagar : 0,
               total_selecciones: Number(this.state.seguro_seleccionado
                                   + this.state.anuario_seleccionado
                                   + this.state.asopadres_seleccionado
@@ -815,7 +811,7 @@ class Services extends Component {
                                           show={this.state.isOpenLoader} 
                                           onClose={this.toggleModalLoader} >
                             </LoadingModal>
-                            
+
                           </div>
                         </div>
                       </div>
