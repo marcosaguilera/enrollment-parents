@@ -6,10 +6,13 @@ import NumberFormat from 'react-number-format';
 
 //// Components
 import Demographic from '../Demographic/Demographic'
+import Footer from '../../Footer'
 
 //// Functions
 import Utils from '../../../../Utils/Utils.js'
 import Texts from '../../../../Utils/Texts'
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+
 
 //// Addons
 //import LoadingModal from '../../Addons/LoadSpinner';
@@ -120,12 +123,12 @@ class ServicesMontly extends Component {
         console.log("-> Seguro empleo: " + this.state.jobSecure )*/
         this.setState({
             totalLodgings           : Number(this.state.lodgings - this.state.discountLodgings),
-            totalTransport          : Number(this.state.transport - this.state.discountTransport < 0 ? 0 : this.state.discountTransport),
-            totalLunch              : Number(this.state.lunch - this.state.discountLunch < 0 ? 0 : this.state.discountLunch),
-            totalSnack              : Number(this.state.snack - this.state.discountSnack < 0 ? 0 : this.state.discountSnack),
+            totalTransport          : Number(this.state.transport - this.state.discountTransport < 0 ? 0 : this.state.transport),
+            totalLunch              : Number(this.state.lunch - this.state.discountLunch < 0 ? 0 : this.state.lunch),
+            totalSnack              : Number(this.state.snack - this.state.discountSnack < 0 ? 0 : this.state.snack),
             //totalBreakfast          : Number(this.state.breakFast - this.state.discountBreakfast),
-            totalLifeSecure         : Number(this.state.lifeSecure - this.state.discountLifeSecure < 0 ? 0 : this.state.discountLifeSecure),
-            totalJobSecure          : Number(this.state.jobSecure - this.state.discountJobSecure < 0 ? 0 : this.state.discountJobSecure),
+            totalLifeSecure         : Number(this.state.lifeSecure - this.state.discountLifeSecure < 0 ? 0 : this.state.lifeSecure),
+            totalJobSecure          : Number(this.state.jobSecure - this.state.discountJobSecure < 0 ? 0 : this.state.jobSecure),
             totalDonation           : Number(this.state.donation)
         },  () => {  this.setMontlyTotal()  })
     }
@@ -381,7 +384,7 @@ class ServicesMontly extends Component {
 
     render() {
         return (
-        <div>
+        <div className="bg-light">
             <main role="main"  className="container" id="customStyle">
                 <div className="shadow-sm p-3 mb-5 bg-white rounded">
                     <Demographic code={this.state.code} 
@@ -556,7 +559,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Donaciones a proyectos de sostenibilidad <p style={{ fontSize: 11 }}>{Texts.general_texts[0].donation_help}</p></td>
+                                <td>Donaciones a proyectos de conservación <a href="https://rochester.edu.co/un-mejor-pais/" className="badge btn-link" target="_blank">(Ver más)</a> <p style={{ fontSize: 11 }}>{ReactHtmlParser(Texts.general_texts[0].donation_help)}</p></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check form-check-inline">
                                         <input className="form-check-input" onChange={this.handleOnChange} type="checkbox" value="solidaridad" id="donationDefaultCheck1" />
@@ -573,7 +576,7 @@ class ServicesMontly extends Component {
                                     <div className="form-check form-check form-check-inline">
                                         <input className="form-check-input" onChange={this.handleOnChange} type="checkbox" value="preservacion" id="donationDefaultCheck3" />
                                         <label className="form-check-label" htmlFor="donationDefaultCheck2">
-                                            Preservación
+                                            Conservación
                                         </label>
                                     </div>
                                     <select className="form-control"
@@ -623,6 +626,7 @@ class ServicesMontly extends Component {
                 </div>
 
             </main>
+            <Footer copyright="&copy; Colegio Rochester " />
         </div>
         );
     }

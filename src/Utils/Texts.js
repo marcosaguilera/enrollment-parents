@@ -9,7 +9,8 @@ var textsJSON = {
             empty_result: "No se encontraron resultados para el código ingresado. Verifique el código del estudiante e intente nuevamente.",
             wrong_code: "El código del estudiante debe tener una extensión de 5 dígitos. Por favor verifiquelo e intente nuevamente.",
             payment_method_text: "Año anticipado: Matrícula y 10 mensualidades anticipadas con el 5% de descuento. Semestral: Matrícula y 5 mensualidades anticipadas con el 2.5% de descuento. Mensual: Matrícula y 10 pagos a realizar de manera mensual.",
-            donation_help: "(Elija 1, 2 ó 3 proyectos en los que quisiera que se dividiera su aporte)"
+            donation_help: "(<b>Elija 1, 2 ó 3 proyectos</b> en los que quisiera que se dividiera su aporte)",
+            authorized_people_eco: "<>Información de las personas autorizadas para recoger al estudiante en el paradero o en el Colegio:"
         }
     ]
 }

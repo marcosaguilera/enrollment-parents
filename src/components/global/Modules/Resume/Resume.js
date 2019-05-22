@@ -689,7 +689,7 @@ class Resume extends Component {
                                           <ModalHeader toggle={this.confirmModal}>Confirmación de matrícula</ModalHeader>
                                           <ModalBody>
                                               <div className="alert alert-primary" role="alert">
-                                                  Escriba <code><b><u>ACEPTO</u></b></code> para confirmar que está de acuerdo con los servicios seleccionados, los totales y la forma de pago
+                                                  Escriba <b>ACEPTO</b> (MAYÚSCULAS) para confirmar que está de acuerdo con los servicios seleccionados, los totales y la forma de pago
                                               </div>
                                               <input type="text" className="form-control" id="text-confirm" onChange={this.handleOnChange}></input>
                                           </ModalBody>
@@ -700,9 +700,9 @@ class Resume extends Component {
                                       </Modal>
                                     </tr>
                                     <tr className="" style={{ visibility: this.state.confirmAction }}>
-                                      <td ><b>Imprimir Recibo de Matrícula</b><br/>Guarde el pdf generado y subalo a OpenApply</td>
+                                      <td ><b>Imprima la Factura Anual de Servicios Contratados</b>, firmela y subala a OpenApply</td>
                                       <td><Button color="primary" onClick={() => this.nextPath()}>Imprimir y finalizar</Button></td>
-                                      
+
                                       <Modal size="lg" isOpen={this.state.togglePdfViewer} toggle={this.printPdf} className={this.props.className}>
                                           <ModalHeader toggle={this.printPdf}>Confirmación de matrícula</ModalHeader>
                                           <ModalBody> 
