@@ -151,7 +151,7 @@ class Print extends Component {
                         this.state.transporte + 
                         this.state.almuerzo + 
                         this.state.m9 + 
-                        this.state.desayuno + 
+                       // this.state.desayuno + 
                         this.state.seguroVida + 
                         this.state.seguroDesempleo +
                         this.state.totalEcoServices })
@@ -172,9 +172,9 @@ class Print extends Component {
             num_recibo : reference + this.state.codigo,
             fecha : today
         }, () => {
-            //setTimeout(function() {
-            //window.print();
-            //}, 2000)
+            setTimeout(function() {
+            window.print();
+            }, 2000)
         })
     }
 
@@ -204,7 +204,7 @@ class Print extends Component {
                                                         </tr>
                                                         <tr>
                                                             <td style={{width: '80.6162%', textAlign: 'center'}}>
-                                                                <p style={{fontSize: 'small'}}>FACTURA ANUAL DE SERVICIOS CONTRATADOS
+                                                                <p style={{fontSize: 'small'}}>FACTURA ANUAL DE SERVICIOS CONTRATADOS 2019-20
                                                                 <br />Actividad comercial 8512. Tarifa I.C.A 0.4%.
                                                                 <br />Responsables ICA Municipio de Chía, Cundinamarca
                                                                 <br />NO RESPONSABLE DE I.V.A&nbsp;</p></td>
@@ -244,7 +244,7 @@ class Print extends Component {
                                                             <td style={{width: '21%', textAlign: 'right'}}><strong><p className="general-text">Valor a pagar</p></strong></td>
                                                         </tr>
                                                         <tr>
-                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Matrícula</p></td>
+                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Derecho de matrícula</p></td>
                                                             <td style={{width: '23.7908%'}}><NumberFormat value={this.state.matricula_dto} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                                             <td style={{width: '21%', textAlign: 'right'}}>
                                                                 <p className="general-text">
@@ -262,7 +262,7 @@ class Print extends Component {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Afiliaci&oacute;n asopadres</p></td>
+                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Afiliaci&oacute;n Asopadres</p></td>
                                                             <td style={{width: '23.7908%'}}>&nbsp;</td>
                                                             <td style={{width: '21%', textAlign: 'right'}}>
                                                                 <p className="general-text">
@@ -324,7 +324,7 @@ class Print extends Component {
                                                                 </p>
                                                             </td>
                                                         </tr>
-                                                        <tr>
+                                                        {/*<tr>
                                                             <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Desayuno (x10 meses)</p></td>
                                                             <td style={{width: '23.7908%'}}>&nbsp;</td>
                                                             <td style={{width: '21%', textAlign: 'right'}}>
@@ -332,7 +332,7 @@ class Print extends Component {
                                                                 <NumberFormat value={this.state.desayuno} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                                                 </p>
                                                             </td>
-                                                        </tr>
+                                                        </tr>*/}
                                                         <tr>
                                                             <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Seguro de vida (x10 meses)</p></td>
                                                             <td style={{width: '23.7908%'}}>&nbsp;</td>
@@ -352,7 +352,7 @@ class Print extends Component {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Eco y club (x10 meses)</p></td>
+                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Extracurricular (x10 meses)</p></td>
                                                             <td style={{width: '23.7908%'}}>&nbsp;</td>
                                                             <td style={{width: '21%', textAlign: 'right'}}>
                                                                 <p className="general-text">
