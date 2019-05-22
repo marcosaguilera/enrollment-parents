@@ -38,7 +38,7 @@ class ServiceTable extends Component {
                     </thead>
                     <tbody>
                       <tr>
-                        <td>Derecho de matrícula plena</td>
+                        <td>Derecho de matrícula</td>
                         <td><NumberFormat value={this.state.services.Derecho_Matricula_Plena} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
@@ -57,15 +57,15 @@ class ServiceTable extends Component {
                         <td colSpan="2"><b>Becas</b></td>
                       </tr>
                       <tr>
-                        <td className="indentLeftText">Hijo de ex-alumno</td>
+                        <td className="indentLeftText">Hijo de exalumno</td>
                         <td> - <NumberFormat value={this.state.services.Hijo_Exalumno} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
-                        <td className="indentLeftText">Ex alumno Santa Barbara Preschool</td>
+                        <td className="indentLeftText">Exalumno Santa Barbara Preschool</td>
                         <td> - <NumberFormat value={this.state.services.SantaBarbara} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
-                        <td className="indentLeftText">Ex alumno Jardín Convenio</td>
+                        <td className="indentLeftText">Exalumno Jardín Convenio</td>
                         <td> - <NumberFormat value={this.state.services.Jardin_Convenio} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
@@ -81,7 +81,7 @@ class ServiceTable extends Component {
                         <td> - <NumberFormat value={this.state.services.Hijo_4} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
-                        <td className="indentLeftText">Empleado</td>
+                        <td className="indentLeftText">Trabajador</td>
                         <td> - <NumberFormat value={this.state.services.Empleado} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                       </tr>
                       <tr>
