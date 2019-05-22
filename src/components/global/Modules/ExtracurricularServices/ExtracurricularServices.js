@@ -562,6 +562,7 @@ class ExtracurricularServices extends Component {
 
 					<div className="row">
 						<div className="col-md-8">
+							<h5>Actividades Eco y Club para el grado {this.state.grade}</h5>
 							<div style={styles.products}>
 								{this.state.services.map(service =>
 									<div className="card cardCustom" key={service.id}>
@@ -576,12 +577,12 @@ class ExtracurricularServices extends Component {
 											</p>*/}
 										</div>
 										<ul className="list-group list-group-flush">
-											<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid rgba(0,0,0,.125)' }}>
+											<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid', borderLeft: '1px solid #00000020', borderRight: '1px solid #00000020' }}>
 												<FaCalendarCheck style={{ height: 18, marginRight: 5 }} />Horario<p style={{ fontSize: 12 }}>{service.schedule}</p>	
 											</li>
 										</ul>
 										<ul className="list-group list-group-flush">
-											<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid rgba(0,0,0,.125)' }}>
+											<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid', borderLeft: '1px solid #00000020', borderRight: '1px solid #00000020' }}>
 												<a href={service.redirect_url} className="card-link" target="_blank">Leer más</a>
 											</li>
 										</ul>

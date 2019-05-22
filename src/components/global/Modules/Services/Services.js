@@ -16,7 +16,7 @@ import '../../Modules/Services/Services.css';
 //Components declaration
 import Footer from '../../Footer'
 import Demographic from '../Demographic/Demographic'
-import ServiceTbale from '../ServiceTable/ServiceTable'
+import ServiceTable from '../ServiceTable/ServiceTable'
 
 //// Functions
 import Utils from '../../../../Utils/Utils.js'
@@ -695,7 +695,7 @@ class Services extends Component {
               <div className="row">
 
                 <div className="col-md-8">
-                  <ServiceTbale />
+                  <ServiceTable />
                 </div>
 
                 <div className="col-md-4">

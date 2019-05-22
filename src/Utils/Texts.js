@@ -8,7 +8,8 @@ var textsJSON = {
             no_academic_auth: "El estudiante no esta autorizado academicamente para matrícula, por favor comuníquese con el director de nivel correpondiente al grado actual del estudiante.",
             empty_result: "No se encontraron resultados para el código ingresado. Verifique el código del estudiante e intente nuevamente.",
             wrong_code: "El código del estudiante debe tener una extensión de 5 dígitos. Por favor verifiquelo e intente nuevamente.",
-            payment_method_text: "Año anticipado: Matrícula y 10 mensualidades anticipadas con el 5% de descuento. Semestral: Matrícula y 5 mensualidades anticipadas con el 2.5% de descuento. Mensual: Matrícula y 10 pagos a realizar de manera mensual."
+            payment_method_text: "Año anticipado: Matrícula y 10 mensualidades anticipadas con el 5% de descuento. Semestral: Matrícula y 5 mensualidades anticipadas con el 2.5% de descuento. Mensual: Matrícula y 10 pagos a realizar de manera mensual.",
+            donation_help: "(Elija 1, 2 ó 3 proyectos en los que quisiera que se dividiera su aporte)"
         }
     ]
 }

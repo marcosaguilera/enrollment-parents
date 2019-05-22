@@ -9,6 +9,7 @@ import Demographic from '../Demographic/Demographic'
 
 //// Functions
 import Utils from '../../../../Utils/Utils.js'
+import Texts from '../../../../Utils/Texts'
 
 //// Addons
 //import LoadingModal from '../../Addons/LoadSpinner';
@@ -555,7 +556,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Donaciones (Pagos mensuales )</td>
+                                <td>Donaciones a proyectos de sostenibilidad <p style={{ fontSize: 11 }}>{Texts.general_texts[0].donation_help}</p></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check form-check-inline">
                                         <input className="form-check-input" onChange={this.handleOnChange} type="checkbox" value="solidaridad" id="donationDefaultCheck1" />
@@ -612,7 +613,7 @@ class ServicesMontly extends Component {
                                     <button type="button"
                                         className="btn btn-primary btn-lg btn-block"
                                         onClick={this.nextPath}
-                                        disabled={this.state.isDisableSelect}>Eco y Club
+                                        disabled={this.state.isDisableSelect}>Siguiente
                                     </button>
                                 </td>
                             </tr>
