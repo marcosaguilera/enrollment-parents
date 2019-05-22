@@ -1,7 +1,6 @@
 // Dependencies
 import React, { Component } from 'react';
 import NumberFormat from 'react-number-format';
-import html2pdf from 'html2pdf.js'
 
 //Assets
 import logo_black from '../../images/logo_black_2.jpg';
@@ -97,7 +96,7 @@ class Print extends Component {
             image : { type: 'jpeg', quality: 0.98 },
             html2canvas: {scale: 2}
         }
-        var worker = html2pdf().set(opt).from(item).toPdf().save()
+        //var worker = html2pdf().set(opt).from(item).toPdf().save()
     }
 
     componentDidMount(){
@@ -182,7 +181,7 @@ class Print extends Component {
     render() {
         return (
         <div className="Print">
-            <main id="hello-there">  
+            <main id="hello-there">
                 <div className="album py-5" >
                     <div className="container">
                         <div className="row">
@@ -210,7 +209,6 @@ class Print extends Component {
                                                                 <br />Responsables ICA Municipio de Chía, Cundinamarca
                                                                 <br />NO RESPONSABLE DE I.V.A&nbsp;</p></td>
                                                         </tr>
-                                                        
                                                     </tbody>
                                                 </table>
                                                 <h5><strong>Informaci&oacute;n del Alumno</strong></h5>

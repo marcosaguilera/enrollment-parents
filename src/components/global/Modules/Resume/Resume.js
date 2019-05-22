@@ -46,7 +46,7 @@ class Resume extends Component {
       step4_data         : {},
       // PayU states
       payuIdMerchant     : '578320',
-      
+
       //TuCompra states
       usuario            : 'cctjt208e6j40fdp',
       factura_numero     : '',
@@ -633,11 +633,11 @@ class Resume extends Component {
                                     </tr>
                                     <tr>
                                       <td>Total Mensualidades</td>
-                                      <td><NumberFormat value={this.state.total_montly_services} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                      <td><NumberFormat value={this.state.total_montly_services * 10} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
                                     <tr>
-                                      <td>Total Eco y Club deportivo</td>
-                                      <td><NumberFormat value={this.state.total_eco_club_services} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                      <td>Total Extracurricular</td>
+                                      <td><NumberFormat value={this.state.total_eco_club_services * 10} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
                                     <tr>
                                       <td><b>Total anual</b></td>
@@ -648,7 +648,9 @@ class Resume extends Component {
                                       <td></td>
                                     </tr>
                                     <tr>
-                                      <td>Selecione una forma de pago</td>
+                                      <td>Selecione una forma de pago
+                                          <p id="payment_note">{Texts.general_texts[0].payment_method_text}</p>
+                                      </td>
                                       <td>
                                         <select className="form-control"
                                             id="paymentSelector"
@@ -664,7 +666,7 @@ class Resume extends Component {
                                       </td>
                                     </tr>
                                     <tr>
-                                      <td>Ahorro anual</td>
+                                      <td>Descuento por pago de mensualidades anticipadas</td>
                                       <td><NumberFormat value={this.state.bigTotalPaymentSavings} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                     </tr>
                                     <tr>
@@ -672,7 +674,7 @@ class Resume extends Component {
                                       <td><b><NumberFormat value={this.state.bigTotalPayment} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
                                     </tr>
                                     <tr className="">
-                                      <td ><b>Pagar el línea <u>sin costo adicional</u></b><br/>Agíl, seguro y desde la comodidad de su casa.</td>
+                                      <td ><b>Pagar el línea <u>sin costo adicional</u></b><br/>Por favor realice su pago en línea. <b>No se recibirán pagos por otro medio</b></td>
                                       <td><Button color="success" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Pagar en línea</Button>
                                       </td>
                                     </tr>
@@ -681,13 +683,13 @@ class Resume extends Component {
                                       <td></td>
                                     </tr>
                                     <tr className="">
-                                      <td><b>Antes de finalizar e imprimir el recibo de matrícula,</b><br/>confirme que esta de acuerdo con los valores y servicios seleccionados</td>
+                                      <td><b>Antes de finalizar e imprimir el recibo de matrícula,</b><br/>confirme que está de acuerdo con los valores y servicios seleccionados</td>
                                       <td><Button color="primary" onClick={this.confirmModal}>Confirmar</Button></td>
                                       <Modal isOpen={this.state.toggleConfirmModal} toggle={this.confirmModal} className={this.props.className}>
                                           <ModalHeader toggle={this.confirmModal}>Confirmación de matrícula</ModalHeader>
                                           <ModalBody>
                                               <div className="alert alert-primary" role="alert">
-                                                  Escriba <code><b><u>ACEPTO</u></b></code> para confirmar que esta de acuerdo con los servicios seleccionados, los totales y la forma de pago
+                                                  Escriba <code><b><u>ACEPTO</u></b></code> para confirmar que está de acuerdo con los servicios seleccionados, los totales y la forma de pago
                                               </div>
                                               <input type="text" className="form-control" id="text-confirm" onChange={this.handleOnChange}></input>
                                           </ModalBody>
@@ -712,7 +714,6 @@ class Resume extends Component {
                                             <Button color="secondary" onClick={this.printPdf}>Cancelar</Button>
                                           </ModalFooter>
                                       </Modal>
-
                                     </tr>
                                     {/*<tr>
                                         <td colSpan="2" id="base_table">
@@ -764,7 +765,7 @@ class Resume extends Component {
                                         </div>
                                         <div className="form-row py-2">
                                           <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerName} id="inputBuyerName" placeholder="Nombre(s)" required />
+                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerName} id="inputBuyerName" placeholder="Nombres" required />
                                           </div>
                                           <div className="col">
                                               <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerLastName} id="inputBuyerLastName" placeholder="Apellidos" required />
@@ -793,7 +794,7 @@ class Resume extends Component {
                                               <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerPhone} id="inputBuyerPhone" placeholder="No. Móvil" required />
                                           </div>
                                           <div className="col">
-                                              <input type="text" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerEmail} id="inputBuyerEmail" placeholder="Correo electrónico" required />
+                                              <input type="email" onChange={this.handleOnChangeBuyer} className="form-control" value={this.state.buyerEmail} id="inputBuyerEmail" placeholder="Correo electrónico" required />
                                           </div>
                                         </div>
                                         <div className="form-row py-2">

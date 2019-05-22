@@ -29,7 +29,7 @@ class Spacecraft extends Component {
   // event handling methods go here
   render() {
     let url_long = this.props.img_url.length
-    console.log(url_long)
+    //console.log(url_long)
 
     if(!this.props.show) { return null }
 
