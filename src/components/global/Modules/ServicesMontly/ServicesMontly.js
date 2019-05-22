@@ -39,7 +39,7 @@ class ServicesMontly extends Component {
             breakFast               : 0,        donPres  : false,
             lifeSecure              : 0,
             jobSecure               : 0,
-            donation                : 300000,
+            donation                : 30000,
 
             //Discounts                         // Selection values
             discountLodgings        : 0,        transportSel  : 'Si',

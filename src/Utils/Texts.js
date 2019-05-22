@@ -7,7 +7,8 @@ var textsJSON = {
             anticipated_payment: "Agradecemos el pago anticipado realizado para el año escolar 2019-2020. Por favor envíe un correo a cartera@rochester.edu.co adjuntando el pdf generado por la plataforma, correspondiente a los servicios contratados, con el fin de generar su nueva liquidación.",
             no_academic_auth: "El estudiante no esta autorizado academicamente para matrícula, por favor comuníquese con el director de nivel correpondiente al grado actual del estudiante.",
             empty_result: "No se encontraron resultados para el código ingresado. Verifique el código del estudiante e intente nuevamente.",
-            wrong_code: "El código del estudiante debe tener una extensión de 5 dígitos. Por favor verifiquelo e intente nuevamente."
+            wrong_code: "El código del estudiante debe tener una extensión de 5 dígitos. Por favor verifiquelo e intente nuevamente.",
+            payment_method_text: "Año anticipado: Matrícula y 10 mensualidades anticipadas con el 5% de descuento. Semestral: Matrícula y 5 mensualidades anticipadas con el 2.5% de descuento. Mensual: Matrícula y 10 pagos a realizar de manera mensual."
         }
     ]
 }

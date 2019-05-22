@@ -410,7 +410,7 @@ class ExtracurricularServices extends Component {
 
 					<div className="row">
 						<div className="col-md-12">
-							<p>Seleccione la modalidad de transporte de su preferencia</p>
+							<p>Seleccione el transporte extracurricular de su preferencia</p>
 						</div>
 					</div>
 					<div className="row">
@@ -486,7 +486,7 @@ class ExtracurricularServices extends Component {
 					</div>
 					<div className="row" style={{ marginTop: 10 }}>
 						<div className="col-md-12">
-							<p>Refrigerio Eco y club</p>
+							<p>Refrigerio Extracurricular ECO o Club Deportivo</p>
 						</div>
 					</div>
 					<div className="row">
@@ -511,7 +511,7 @@ class ExtracurricularServices extends Component {
 					<hr/>
 					<div className="row" style={{ marginTop: 10 }}>
 						<div className="col-md-12">
-							<p>Personas autorizadas</p>
+							<p>Personas autorizadas, favor completar:</p>
 						</div>
 					</div>
 					<div className="row py-2">

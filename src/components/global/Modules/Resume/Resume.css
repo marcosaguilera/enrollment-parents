@@ -28,3 +28,7 @@
     font-size: 12px;
     text-align: justify;
 }
+
+#payment_note{
+    font-size: 11px !important;
+}
