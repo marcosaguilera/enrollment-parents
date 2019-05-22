@@ -120,7 +120,7 @@ class ServicesMontly extends Component {
         console.log("-> Seguro empleo: " + this.state.jobSecure )*/
         this.setState({
             totalLodgings           : Number(this.state.lodgings - this.state.discountLodgings),
-            totalTransport          : Number(this.state.transport - this.state.discountTransport),
+            totalTransport          : Number(this.state.transport - this.state.discountTransport < 0 ? 0 : this.state.discountTransport),
             totalLunch              : Number(this.state.lunch - this.state.discountLunch < 0 ? 0 : this.state.discountLunch),
             totalSnack              : Number(this.state.snack - this.state.discountSnack < 0 ? 0 : this.state.discountSnack),
             //totalBreakfast          : Number(this.state.breakFast - this.state.discountBreakfast),
