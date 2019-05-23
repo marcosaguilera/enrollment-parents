@@ -14,7 +14,6 @@ class Spacecraft extends Component {
 
   onClickClose(){
     console.log(this.props.show);
-    
   }
   // Props definitions
   static propTypes = {
@@ -25,7 +24,7 @@ class Spacecraft extends Component {
     msn      : PropTypes.string.isRequired,
     img_url  : PropTypes.string
   }
-  
+
   // event handling methods go here
   render() {
     let url_long = this.props.img_url.length

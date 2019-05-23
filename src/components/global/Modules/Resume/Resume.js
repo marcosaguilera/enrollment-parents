@@ -569,7 +569,7 @@ class Resume extends Component {
     step4_data['payments_form'].push(payment_choices)
 
     console.log("Resume data")
-    console.log(step4_data)
+    console.log(JSON.stringify(step4_data))
 
     this.props.history.push('/print', step4_data);
     //this.handlePrintData();

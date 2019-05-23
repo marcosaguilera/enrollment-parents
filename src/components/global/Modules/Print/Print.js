@@ -204,7 +204,7 @@ class Print extends Component {
                                                         </tr>
                                                         <tr>
                                                             <td style={{width: '80.6162%', textAlign: 'center'}}>
-                                                                <p style={{fontSize: 'small'}}>FACTURA ANUAL DE SERVICIOS CONTRATADOS 2019-20
+                                                                <p style={{fontSize: 'small'}}>FACTURA ANUAL DE SERVICIOS CONTRATADOS 2019-2020
                                                                 <br />Actividad comercial 8512. Tarifa I.C.A 0.4%.
                                                                 <br />Responsables ICA Municipio de Chía, Cundinamarca
                                                                 <br />NO RESPONSABLE DE I.V.A&nbsp;</p></td>

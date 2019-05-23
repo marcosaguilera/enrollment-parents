@@ -66,7 +66,7 @@ class Home extends Component {
             <Col sm="12" style={{ paddingTop: 20 }} >
               <Card className="mx-auto" style={{ maxWidth: 320 }}>
                 <CardBody>
-                  <CardTitle style={{ fontWeight: 300, fontSize: '1.25rem' }}>Estudiantes antiguos</CardTitle>
+                  <CardTitle style={{ fontWeight: 300, fontSize: '1.25rem' }}>Proceso de matrícula 2019-2020</CardTitle>
                   <CardSubtitle style={{ fontWeight: 300}}>Ingreso para padres de estudiantes antiguos</CardSubtitle>
                 </CardBody>
                 <img width="100%" src={student2} alt="Imagen acceso estudiantes antiguos" />

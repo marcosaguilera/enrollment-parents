@@ -674,7 +674,9 @@ class Services extends Component {
                         </div>
                     </div>
                   </div>
-                  <div className="col-sm"></div>
+                  <div className="col-sm">
+                    
+                  </div>
               </div>
             </div>
 
