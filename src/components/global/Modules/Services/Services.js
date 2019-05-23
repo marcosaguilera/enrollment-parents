@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 //// Other dependencies
 import axios from 'axios';
@@ -199,7 +200,7 @@ class Services extends Component {
           console.log(res.data)
           let isAuth = this.authChecker(res.data.financial) && this.authChecker(res.data.metodo_pago_definido) && this.authChecker(res.data.academic)
           console.log("isAuthorized: " + isAuth);
-          
+
           store.dispatch({
             type: "SAVE_STUDENT_AUTHORIZATION",
             isAuth
@@ -266,14 +267,14 @@ class Services extends Component {
                     }
                 })
           }
-          
+
           if(!this.authChecker(res.data.financial)) {
               this.toggleModalLoader()
               this.setState({
                 isOpen: !this.state.isOpen,
                 isOpenLoader: false,
                 isOpenWrongModal: false,
-                message: Texts.general_texts[0].no_financial_auth
+                message: ReactHtmlParser(Texts.general_texts[0].no_financial_auth)
               })
           }
           if(!this.authChecker(res.data.metodo_pago_definido)) {
@@ -282,7 +283,7 @@ class Services extends Component {
               isOpen: !this.state.isOpen,
               isOpenLoader: false,
               isOpenWrongModal: false,
-              message: Texts.general_texts[0].no_davivienda_payment
+              message: ReactHtmlParser(Texts.general_texts[0].no_davivienda_payment)
             })
           }
           /*if(!this.authChecker(res.data.metodo_pago_definido)){
@@ -299,7 +300,7 @@ class Services extends Component {
               isOpen: !this.state.isOpen,
               isOpenLoader: false,
               isOpenWrongModal: false,
-              message: Texts.general_texts[0].no_academic_auth
+              message: ReactHtmlParser(Texts.general_texts[0].no_academic_auth)
             })
           }
         })
@@ -341,7 +342,7 @@ class Services extends Component {
                             + this.state.tarifa_reducida_7_5
                             + this.state.tarifa_reducida_15
                             + this.state.bibliobanco ),
-      
+
       total_tarifas_mat: Number(this.state.tarifa_plena
                             + this.state.tarifa_reducida_7_5
                             + this.state.tarifa_reducida_15),
@@ -443,11 +444,7 @@ class Services extends Component {
             break;
         case "fromStart":
             this.setState({
-              total_pagar : Number( this.state.total_conceptos_matricula_descuentos
-                                  + this.state.seguro_seleccionado
-                                  + this.state.anuario_seleccionado
-                                  + this.state.asopadres_seleccionado
-                                  + this.state.club_seleccionado ),
+              total_pagar : 0,
               total_selecciones: Number(this.state.seguro_seleccionado
                                   + this.state.anuario_seleccionado
                                   + this.state.asopadres_seleccionado
@@ -603,7 +600,7 @@ class Services extends Component {
 
     console.log("Final data Step 1: ");
     console.log(data_step1)
-    this.props.history.push('/enrolment_montly_services', data_step1)
+    this.props.history.push('/enrolment_monthly_services', data_step1)
   }
 
   handleSaveServices(){
@@ -815,7 +812,7 @@ class Services extends Component {
                                           show={this.state.isOpenLoader} 
                                           onClose={this.toggleModalLoader} >
                             </LoadingModal>
-                            
+
                           </div>
                         </div>
                       </div>

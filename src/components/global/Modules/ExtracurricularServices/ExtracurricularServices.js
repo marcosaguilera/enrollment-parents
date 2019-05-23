@@ -7,10 +7,12 @@ import {ToastsContainer, ToastsStore} from 'react-toasts';
 import changeCase from 'change-case';
 import Truncate from 'react-truncate';
 import { FaTrashAlt, FaInfo, FaCalendarCheck } from "react-icons/fa";
-import Utils from '../../../../Utils/Utils.js'
+import Utils from '../../../../Utils/Utils'
+import Texts from '../../../../Utils/Texts'
 
 //// Components
 import Demographic from '../Demographic/Demographic'
+import Footer from '../../Footer'
 
 //Styles
 import "./ExtracurricularServices.css"
@@ -393,11 +395,16 @@ class ExtracurricularServices extends Component {
 		this.props.history.push('/resume', step3_data);
 	}
 
+	beforePath = () => {
+		//this.props.history.push('/enrolment_monthly_services');
+		this.props.history.goBack()
+	}
+
 	render() {
 		return (
-			<div className="ecoMainContainer">
+			<div className="bg-light">
 				<main role="main"  className="container" id="customStyle">
-					<div className="p-3 mb-5 bg-white rounded">
+					<div className="shadow-sm p-3 mb-5 bg-white rounded">
 
 						{this.state.isReadyDemographicComponent}{
 							<Demographic code={this.state.code}
@@ -511,7 +518,7 @@ class ExtracurricularServices extends Component {
 					<hr/>
 					<div className="row" style={{ marginTop: 10 }}>
 						<div className="col-md-12">
-							<p>Personas autorizadas, favor completar:</p>
+							<p>{Texts.general_texts[0].authorized_people_eco}</p>
 						</div>
 					</div>
 					<div className="row py-2">
@@ -655,16 +662,23 @@ class ExtracurricularServices extends Component {
 							</div>
 							<div className="row py-3">
 									<div className="col-12">
-									<button type="button"
-											className="btn btn-primary btn-lg btn-block"
-											onClick={() => this.nextPath()}
-											disabled="">Siguiente</button>
+										<button type="button"
+												className="btn btn-primary btn-lg btn-block"
+												onClick={() => this.nextPath()}
+												disabled="">Siguiente</button>
+									</div>
+									<div className="col-12">
+										<button type="button"
+												className="btn btn-light btn-lg btn-block"
+												style={{ marginTop: 5 }}
+												onClick={() => this.beforePath()}>Atras</button>
 									</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				</main>
+			</main>
+				<Footer copyright="&copy; Colegio Rochester " />
 			</div>
 		);
 	}

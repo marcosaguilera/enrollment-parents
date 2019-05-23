@@ -153,6 +153,14 @@ let authChecker = function(value){
     return value === "Si" ? true : false
 }
 
+let convertToHtml = function(){
+    var parser = new DOMParser()
+    var htmlDoc = parser.parseFromString('<!doctype html><html><head></head><body><a>Link 1</a><a>Link 2</a></body></html>', 'text/html')
+    // do whatever you want with htmlDoc.getElementsByTagName('a');
+    let doc = htmlDoc.getElementsByTagName('a')
+    return doc
+}
+
 module.exports = {
     getServiceCode,
     getTransportServiceName,
@@ -166,5 +174,6 @@ module.exports = {
     getEcoTransportServiceName,
     getSnackEcoName,
     colorPicker,
-    authChecker
+    authChecker,
+    convertToHtml
 }

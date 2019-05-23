@@ -6,6 +6,7 @@ import md5gen from 'md5';
 import NumberFormat from 'react-number-format';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {ToastsContainer, ToastsStore} from 'react-toasts';
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 // Assets
 import '../../Modules/Resume/Resume.css';
@@ -157,7 +158,7 @@ class Resume extends Component {
     if(this.state.pago_anticipado){
       this.setState({
         isOpen: !this.state.isOpen,
-        message: Texts.general_texts[0].anticipated_payment
+        message: ReactHtmlParser(Texts.general_texts[0].anticipated_payment)
       })
     }
   }
@@ -174,7 +175,7 @@ class Resume extends Component {
         break;
       case "dos":
         let total_two_payment       = this.state.total_yearly_services + ((( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.975) / 2)
-        let total_two_payment_saves = ( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.025
+        let total_two_payment_saves = ( ( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.025 / 2 )
         //console.log("Total one payment: " + total_two_payment + ", Total saves: " + total_two_payment_saves)
         this.setState({ bigTotalPayment : total_two_payment, bigTotalPaymentSavings: total_two_payment_saves })
 
@@ -185,7 +186,7 @@ class Resume extends Component {
         //console.log("Total one payment: " + total_eleven_payment + ", Total saves: " + total_eleven_payment_saves)
         this.setState({ bigTotalPayment : total_eleven_payment, bigTotalPaymentSavings: total_eleven_payment_saves })
         break;
-
+ 
       default:
         break;
     }
@@ -600,7 +601,7 @@ class Resume extends Component {
                         <div className="row">
 
                           <div className="col-md-12">
-                              <h2 className="">Resumen total servicios seleccionados</h2>
+                              <h4 className="">Resumen de servicios seleccionados</h4>
                           </div>
                           <div className="col-md-12">
                             <div className="py-3">
@@ -649,7 +650,7 @@ class Resume extends Component {
                                     </tr>
                                     <tr>
                                       <td>Selecione una forma de pago
-                                          <p id="payment_note">{Texts.general_texts[0].payment_method_text}</p>
+                                          <p id="payment_note">{ReactHtmlParser(Texts.general_texts[0].payment_method_text)}</p>
                                       </td>
                                       <td>
                                         <select className="form-control"
@@ -658,10 +659,9 @@ class Resume extends Component {
                                             onChange={this.handleOnChange}
                                             value={this.state.payment_selection}
                                             value={this.state.transport}>
-                                                <option value="unico">Único pago (1)</option>
-                                                <option value="dos">Dos pagos (2)</option>
-                                                <option value="once">Once pagos (11)</option>
-                                                {/* Cuando un padre seleccione un transporte seleccionará si desea tomar modalidad extracurricular */}
+                                                <option value="unico">Año anticipado</option>
+                                                <option value="dos">Semestral</option>
+                                                <option value="once">Mensual</option>
                                         </select>
                                       </td>
                                     </tr>
@@ -689,7 +689,7 @@ class Resume extends Component {
                                           <ModalHeader toggle={this.confirmModal}>Confirmación de matrícula</ModalHeader>
                                           <ModalBody>
                                               <div className="alert alert-primary" role="alert">
-                                                  Escriba <code><b><u>ACEPTO</u></b></code> para confirmar que está de acuerdo con los servicios seleccionados, los totales y la forma de pago
+                                                  Escriba <b>ACEPTO</b> (MAYÚSCULAS) para confirmar que está de acuerdo con los servicios seleccionados, los totales y la forma de pago
                                               </div>
                                               <input type="text" className="form-control" id="text-confirm" onChange={this.handleOnChange}></input>
                                           </ModalBody>
@@ -700,9 +700,9 @@ class Resume extends Component {
                                       </Modal>
                                     </tr>
                                     <tr className="" style={{ visibility: this.state.confirmAction }}>
-                                      <td ><b>Imprimir Recibo de Matrícula</b><br/>Guarde el pdf generado y subalo a OpenApply</td>
+                                      <td ><b>Imprima la Factura Anual de Servicios Contratados</b>, firmela y subala a OpenApply</td>
                                       <td><Button color="primary" onClick={() => this.nextPath()}>Imprimir y finalizar</Button></td>
-                                      
+
                                       <Modal size="lg" isOpen={this.state.togglePdfViewer} toggle={this.printPdf} className={this.props.className}>
                                           <ModalHeader toggle={this.printPdf}>Confirmación de matrícula</ModalHeader>
                                           <ModalBody> 
