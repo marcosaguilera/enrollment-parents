@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 //// Other dependencies
 import axios from 'axios';
@@ -199,7 +200,7 @@ class Services extends Component {
           console.log(res.data)
           let isAuth = this.authChecker(res.data.financial) && this.authChecker(res.data.metodo_pago_definido) && this.authChecker(res.data.academic)
           console.log("isAuthorized: " + isAuth);
-          
+
           store.dispatch({
             type: "SAVE_STUDENT_AUTHORIZATION",
             isAuth
@@ -266,14 +267,14 @@ class Services extends Component {
                     }
                 })
           }
-          
+
           if(!this.authChecker(res.data.financial)) {
               this.toggleModalLoader()
               this.setState({
                 isOpen: !this.state.isOpen,
                 isOpenLoader: false,
                 isOpenWrongModal: false,
-                message: Texts.general_texts[0].no_financial_auth
+                message: ReactHtmlParser(Texts.general_texts[0].no_financial_auth)
               })
           }
           if(!this.authChecker(res.data.metodo_pago_definido)) {
@@ -282,7 +283,7 @@ class Services extends Component {
               isOpen: !this.state.isOpen,
               isOpenLoader: false,
               isOpenWrongModal: false,
-              message: Texts.general_texts[0].no_davivienda_payment
+              message: ReactHtmlParser(Texts.general_texts[0].no_davivienda_payment)
             })
           }
           /*if(!this.authChecker(res.data.metodo_pago_definido)){
@@ -299,7 +300,7 @@ class Services extends Component {
               isOpen: !this.state.isOpen,
               isOpenLoader: false,
               isOpenWrongModal: false,
-              message: Texts.general_texts[0].no_academic_auth
+              message: ReactHtmlParser(Texts.general_texts[0].no_academic_auth)
             })
           }
         })

@@ -6,6 +6,7 @@ import md5gen from 'md5';
 import NumberFormat from 'react-number-format';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {ToastsContainer, ToastsStore} from 'react-toasts';
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 // Assets
 import '../../Modules/Resume/Resume.css';
@@ -157,7 +158,7 @@ class Resume extends Component {
     if(this.state.pago_anticipado){
       this.setState({
         isOpen: !this.state.isOpen,
-        message: Texts.general_texts[0].anticipated_payment
+        message: ReactHtmlParser(Texts.general_texts[0].anticipated_payment)
       })
     }
   }
@@ -174,7 +175,7 @@ class Resume extends Component {
         break;
       case "dos":
         let total_two_payment       = this.state.total_yearly_services + ((( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.975) / 2)
-        let total_two_payment_saves = ( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.025
+        let total_two_payment_saves = ( ( (this.state.total_montly_services + this.state.total_eco_club_services) * 10 ) * 0.025 / 2 )
         //console.log("Total one payment: " + total_two_payment + ", Total saves: " + total_two_payment_saves)
         this.setState({ bigTotalPayment : total_two_payment, bigTotalPaymentSavings: total_two_payment_saves })
 
@@ -185,7 +186,7 @@ class Resume extends Component {
         //console.log("Total one payment: " + total_eleven_payment + ", Total saves: " + total_eleven_payment_saves)
         this.setState({ bigTotalPayment : total_eleven_payment, bigTotalPaymentSavings: total_eleven_payment_saves })
         break;
-
+ 
       default:
         break;
     }
@@ -649,7 +650,7 @@ class Resume extends Component {
                                     </tr>
                                     <tr>
                                       <td>Selecione una forma de pago
-                                          <p id="payment_note">{Texts.general_texts[0].payment_method_text}</p>
+                                          <p id="payment_note">{ReactHtmlParser(Texts.general_texts[0].payment_method_text)}</p>
                                       </td>
                                       <td>
                                         <select className="form-control"
@@ -658,10 +659,9 @@ class Resume extends Component {
                                             onChange={this.handleOnChange}
                                             value={this.state.payment_selection}
                                             value={this.state.transport}>
-                                                <option value="unico">Único pago (1)</option>
-                                                <option value="dos">Dos pagos (2)</option>
-                                                <option value="once">Once pagos (11)</option>
-                                                {/* Cuando un padre seleccione un transporte seleccionará si desea tomar modalidad extracurricular */}
+                                                <option value="unico">Año anticipado</option>
+                                                <option value="dos">Semestral</option>
+                                                <option value="once">Mensual</option>
                                         </select>
                                       </td>
                                     </tr>
