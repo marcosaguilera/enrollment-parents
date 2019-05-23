@@ -395,6 +395,11 @@ class ExtracurricularServices extends Component {
 		this.props.history.push('/resume', step3_data);
 	}
 
+	beforePath = () => {
+		//this.props.history.push('/enrolment_monthly_services');
+		this.props.history.goBack()
+	}
+
 	render() {
 		return (
 			<div className="bg-light">
@@ -657,10 +662,16 @@ class ExtracurricularServices extends Component {
 							</div>
 							<div className="row py-3">
 									<div className="col-12">
-									<button type="button"
-											className="btn btn-primary btn-lg btn-block"
-											onClick={() => this.nextPath()}
-											disabled="">Siguiente</button>
+										<button type="button"
+												className="btn btn-primary btn-lg btn-block"
+												onClick={() => this.nextPath()}
+												disabled="">Siguiente</button>
+									</div>
+									<div className="col-12">
+										<button type="button"
+												className="btn btn-light btn-lg btn-block"
+												style={{ marginTop: 5 }}
+												onClick={() => this.beforePath()}>Atras</button>
 									</div>
 							</div>
 						</div>

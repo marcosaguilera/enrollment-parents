@@ -24,7 +24,7 @@ const AppRoutes = () =>
             <Route exact path="/print" component={Print} />
             <Route exact path="/home" component={Home} />
             <Route exact path="/enrolment_annual_services" component={EnrolmentAnnualServices} />
-            <Route exact path="/enrolment_montly_services" component={EnrolmentMontlyServices} />
+            <Route exact path="/enrolment_monthly_services" component={EnrolmentMontlyServices} />
             <Route exact path="/enrolment_eco_services" component={EnrolmentEcoServices} />
             <Route exact path="/enrollment_new_students" component={HomeNewStudents} />
             <Route exact component={Page404} />

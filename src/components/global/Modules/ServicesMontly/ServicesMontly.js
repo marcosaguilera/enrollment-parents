@@ -382,6 +382,10 @@ class ServicesMontly extends Component {
         this.props.history.push('/enrolment_eco_services', data_step2);
     }
 
+    beforePath = () => {
+        this.props.history.goBack()
+    }
+
     render() {
         return (
         <div className="bg-light">
@@ -611,7 +615,13 @@ class ServicesMontly extends Component {
                         </tbody>
                         <tfoot>
                             <tr style={{ backgroundColor: 'rgba(0,0,0,.03)' }}>
-                                <td colSpan="4"></td>
+                                <td colSpan="3"></td>
+                                <td>
+                                    <button type="button"
+                                        className="btn btn-light btn-lg btn-block"
+                                        onClick={() => this.beforePath()}>Atras
+                                    </button>
+                                </td>
                                 <td>
                                     <button type="button"
                                         className="btn btn-primary btn-lg btn-block"

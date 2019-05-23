@@ -601,7 +601,7 @@ class Resume extends Component {
                         <div className="row">
 
                           <div className="col-md-12">
-                              <h2 className="">Resumen total servicios seleccionados</h2>
+                              <h4 className="">Resumen de servicios seleccionados</h4>
                           </div>
                           <div className="col-md-12">
                             <div className="py-3">
