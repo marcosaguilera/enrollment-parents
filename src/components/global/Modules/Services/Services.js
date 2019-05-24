@@ -18,6 +18,7 @@ import '../../Modules/Services/Services.css';
 import Footer from '../../Footer'
 import Demographic from '../Demographic/Demographic'
 import ServiceTable from '../ServiceTable/ServiceTable'
+import Help from '../../Addons/Help'
 
 //// Functions
 import Utils from '../../../../Utils/Utils.js'
@@ -187,7 +188,7 @@ class Services extends Component {
               isOpenLoader: false,
               isOpen: false,
               isOpenWrongModal: true,
-              message_wrong_code: Texts.general_texts[0].empty_result,
+              message_wrong_code: ReactHtmlParser(Texts.general_texts[0].empty_result),
             })
           }
         })
@@ -476,7 +477,7 @@ class Services extends Component {
     this.setState({
       isOpenWrongModal: !this.state.isOpenWrongModal,
       isOpen: false,
-      message_wrong_code: Texts.general_texts[0].wrong_code
+      message_wrong_code: ReactHtmlParser(Texts.general_texts[0].wrong_code)
     });
   }
 
@@ -624,7 +625,7 @@ class Services extends Component {
     servicesSelected.codigo              = this.state.codigo;
     servicesSelected.data                = data;
 
-    let axiosConfig = {
+    /*let axiosConfig = {
       headers: {
           'X-Parse-Application-Id': 'U8jcs4wAuoOvBeCUCy4tAQTApcfUjiGmso98wM9h',
           'X-Parse-Master-Key'    : 'vN7hMK7QknCPf2xeazTaILtaskHFAveqnh6NDwi6',
@@ -638,7 +639,7 @@ class Services extends Component {
         })
         .catch(error => {
             console.log(error);
-        });
+        });*/
   }
 
   render() {
@@ -674,8 +675,8 @@ class Services extends Component {
                         </div>
                     </div>
                   </div>
-                  <div className="col-sm">
-                    
+                  <div className="col-sm" style={{ textAlign: 'right', marginRight : 18 }}>
+                      <Help help_from="step_1" />
                   </div>
               </div>
             </div>

@@ -7,12 +7,15 @@ import {ToastsContainer, ToastsStore} from 'react-toasts';
 import changeCase from 'change-case';
 import Truncate from 'react-truncate';
 import { FaTrashAlt, FaInfo, FaCalendarCheck } from "react-icons/fa";
+
+// Utils
 import Utils from '../../../../Utils/Utils'
 import Texts from '../../../../Utils/Texts'
 
 //// Components
 import Demographic from '../Demographic/Demographic'
 import Footer from '../../Footer'
+import Help from '../../Addons/Help'
 
 //Styles
 import "./ExtracurricularServices.css"
@@ -415,11 +418,15 @@ class ExtracurricularServices extends Component {
 
 					<hr/>
 
+					
 					<div className="row">
-						<div className="col-md-12">
+                        <div className="col-sm">
 							<p>Seleccione el transporte extracurricular de su preferencia</p>
-						</div>
-					</div>
+                        </div>
+                        <div className="col-sm" style={{ textAlign: 'right', marginRight : 2 }}>
+                            <Help help_from="step_3" />
+                        </div>
+                    </div>
 					<div className="row">
 						<div className="col-md-4">
 							<select className="form-control"

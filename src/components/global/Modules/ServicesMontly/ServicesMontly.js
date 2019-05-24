@@ -3,15 +3,16 @@ import React, { Component } from 'react';
 //// Other dependencies
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 //// Components
 import Demographic from '../Demographic/Demographic'
 import Footer from '../../Footer'
+import Help from '../../Addons/Help'
 
 //// Functions
 import Utils from '../../../../Utils/Utils.js'
 import Texts from '../../../../Utils/Texts'
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 
 //// Addons
@@ -398,7 +399,15 @@ class ServicesMontly extends Component {
 
                     <hr/>
 
-                    <h2 className="py-3">Selección de servicios mensuales</h2>
+                    
+                    <div className="row">
+                        <div className="col-sm">
+                            <h5 className="py-3">Selección de servicios mensuales</h5>
+                        </div>
+                        <div className="col-sm" style={{ textAlign: 'right', marginRight : 2 }}>
+                            <Help help_from="step_2" />
+                        </div>
+                    </div>
                     <div className="table-responsive">
                         <table id="tablePreview" className="table table-hover table-bordered">
                         <thead>
