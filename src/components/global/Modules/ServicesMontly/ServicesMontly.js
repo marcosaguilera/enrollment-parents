@@ -3,15 +3,16 @@ import React, { Component } from 'react';
 //// Other dependencies
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 //// Components
 import Demographic from '../Demographic/Demographic'
 import Footer from '../../Footer'
+import Help from '../../Addons/Help'
 
 //// Functions
 import Utils from '../../../../Utils/Utils.js'
 import Texts from '../../../../Utils/Texts'
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 
 //// Addons
@@ -368,7 +369,7 @@ class ServicesMontly extends Component {
         montly_services.push(transport)
         montly_services.push(lunch)
         montly_services.push(snack)
-        montly_services.push(breakFast)
+        //montly_services.push(breakFast)
         montly_services.push(lifeSecure)
         montly_services.push(jobSecure)
         montly_services.push(donations)
@@ -377,9 +378,9 @@ class ServicesMontly extends Component {
 
         data_step2['montly_services'] = montly_services
         data_step2['payments'].push(totals_montly)
-        console.log("Final data Step 2: ");
+        console.log("Final data Step 2: ")
         console.log(data_step2)
-        this.props.history.push('/enrolment_eco_services', data_step2);
+        this.props.history.push('/enrolment_eco_services', data_step2)
     }
 
     beforePath = () => {
@@ -391,14 +392,21 @@ class ServicesMontly extends Component {
         <div className="bg-light">
             <main role="main"  className="container" id="customStyle">
                 <div className="shadow-sm p-3 mb-5 bg-white rounded">
-                    <Demographic code={this.state.code} 
-                                grade={this.state.grade} 
-                                name={this.state.name} 
+                    <Demographic code={this.state.code}
+                                grade={this.state.grade}
+                                name={this.state.name}
                                 lastname={this.state.lastname} />
 
                     <hr/>
 
-                    <h2 className="py-3">Selección de servicios mensuales</h2>
+                    <div className="row">
+                        <div className="col-sm">
+                            <h5 className="py-3">Selección de servicios mensuales</h5>
+                        </div>
+                        <div className="col-sm" style={{ textAlign: 'right', marginRight : 2 }}>
+                            <Help help_from="step_2" />
+                        </div>
+                    </div>
                     <div className="table-responsive">
                         <table id="tablePreview" className="table table-hover table-bordered">
                         <thead>

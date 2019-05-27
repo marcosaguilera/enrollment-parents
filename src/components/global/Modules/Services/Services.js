@@ -18,6 +18,7 @@ import '../../Modules/Services/Services.css';
 import Footer from '../../Footer'
 import Demographic from '../Demographic/Demographic'
 import ServiceTable from '../ServiceTable/ServiceTable'
+import Help from '../../Addons/Help'
 
 //// Functions
 import Utils from '../../../../Utils/Utils.js'
@@ -101,6 +102,7 @@ class Services extends Component {
         isOpenLoader                         : false,  // Modal windows state
         isDisableSelect                      : true,
         isShowingResume                      : 'none',
+        pago_anticipado                      : false,
 
         // Modal message
         message                              : 'Apreciado padre de familia. El proceso de matrícula está inhabilitado debido a las siguientes razones:  ',
@@ -127,7 +129,7 @@ class Services extends Component {
 
         token:'', financial:'', metodo_pago_definido: '', pago_anticipado: ''
     }
-  } 
+  }
 
   componentDidMount(){
       this.setState({
@@ -161,8 +163,7 @@ class Services extends Component {
               console.log(demo_data)
               let fake_text = 'rayos!!!!'
 
-              store.dispatch(
-                {
+              store.dispatch({
                   type: "SAVE_STUDENT_ESSENTIAL_DATA",
                   fake_text,
                   demo_data
@@ -187,7 +188,7 @@ class Services extends Component {
               isOpenLoader: false,
               isOpen: false,
               isOpenWrongModal: true,
-              message_wrong_code: Texts.general_texts[0].empty_result,
+              message_wrong_code: ReactHtmlParser(Texts.general_texts[0].empty_result),
             })
           }
         })
@@ -207,10 +208,10 @@ class Services extends Component {
           })
 
           this.setState({
-            token : res.data.token,
-            financial: res.data.financial,
-            metodo_pago_definido: res.data.metodo_pago_definido,
-            pago_anticipado: res.data.pago_anticipado
+            token                : res.data.token,
+            financial            : res.data.financial,
+            metodo_pago_definido : res.data.metodo_pago_definido,
+            pago_anticipado      : res.data.pago_anticipado
           })
 
           if(isAuth){
@@ -286,14 +287,6 @@ class Services extends Component {
               message: ReactHtmlParser(Texts.general_texts[0].no_davivienda_payment)
             })
           }
-          /*if(!this.authChecker(res.data.metodo_pago_definido)){
-            this.toggleModalLoader()
-            this.setState({
-              isOpen: !this.state.isOpen,
-              isOpenLoader: false,
-              message: Texts.general_texts[0].no_financial_auth + "y, " +  Texts.general_texts[0].no_davivienda_payment 
-            })
-          }*/
           if(!this.authChecker(res.data.academic)){
             this.toggleModalLoader()
             this.setState({
@@ -301,6 +294,15 @@ class Services extends Component {
               isOpenLoader: false,
               isOpenWrongModal: false,
               message: ReactHtmlParser(Texts.general_texts[0].no_academic_auth)
+            })
+          }
+          console.log()
+          if(this.authChecker(res.data.pago_anticipado)){
+            this.toggleModalLoader()
+            this.setState({
+              isOpen: !this.state.isOpen,
+              isOpenLoader: false,
+              message: ReactHtmlParser(Texts.general_texts[0].anticipated_payment)
             })
           }
         })
@@ -476,7 +478,7 @@ class Services extends Component {
     this.setState({
       isOpenWrongModal: !this.state.isOpenWrongModal,
       isOpen: false,
-      message_wrong_code: Texts.general_texts[0].wrong_code
+      message_wrong_code: ReactHtmlParser(Texts.general_texts[0].wrong_code)
     });
   }
 
@@ -624,7 +626,7 @@ class Services extends Component {
     servicesSelected.codigo              = this.state.codigo;
     servicesSelected.data                = data;
 
-    let axiosConfig = {
+    /*let axiosConfig = {
       headers: {
           'X-Parse-Application-Id': 'U8jcs4wAuoOvBeCUCy4tAQTApcfUjiGmso98wM9h',
           'X-Parse-Master-Key'    : 'vN7hMK7QknCPf2xeazTaILtaskHFAveqnh6NDwi6',
@@ -638,8 +640,18 @@ class Services extends Component {
         })
         .catch(error => {
             console.log(error);
-        });
+        });*/
   }
+
+  /*showDialogAnticipadedPayment(){
+    console.log(this.state.pago_anticipado)
+    if(this.state.pago_anticipado){
+      this.setState({
+        isOpen: !this.state.isOpen,
+        message: ReactHtmlParser(Texts.general_texts[0].anticipated_payment)
+      })
+    }
+  }*/
 
   render() {
     return (
@@ -674,7 +686,9 @@ class Services extends Component {
                         </div>
                     </div>
                   </div>
-                  <div className="col-sm"></div>
+                  <div className="col-sm" style={{ textAlign: 'right', marginRight : 18 }}>
+                      <Help help_from="step_1" />
+                  </div>
               </div>
             </div>
 
