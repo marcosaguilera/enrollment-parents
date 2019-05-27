@@ -418,8 +418,8 @@ class ExtracurricularServices extends Component {
 
 					<hr/>
 
-					
-					<div className="row">
+
+					<div className="row py-2">
                         <div className="col-sm">
 							<p>Seleccione el transporte extracurricular de su preferencia</p>
                         </div>
@@ -450,12 +450,12 @@ class ExtracurricularServices extends Component {
 									>
 										<option value="NA" defaultValue>Seleccione un punto</option>
 										<option value="Unicentro">Unicentro</option>
-										<option value="Cachivaches">Cachivaches</option>
+										<option value="Cachivaches">Cachivaches (no aplica para quinto a undécimo)</option>
 										<option value="Cedritos">Cedritos</option>
 										<option value="San Rafael">San Rafael</option>
 										<option value="Maloka">Maloka</option>
-										<option value="Mazuren">Mazuren</option>
-										<option value="Alhambra">Alhambra</option>
+										<option value="Mazuren">Mazuren (no aplica para quinto a undécimo)</option>
+										<option value="Alhambra">Alhambra (no aplica para quinto a undécimo)</option>
 										<option value="Bazaar Chía">Bazaar Chía</option>
 							</select>
 							<select className="form-control"
@@ -469,6 +469,7 @@ class ExtracurricularServices extends Component {
 										<option value="116000">2 días - $116.000</option>
 										<option value="158000">3 días - $158.000</option>
 										<option value="200000">4 días - $200.000</option>
+										<option value="0" >Sin transporte lineal</option>
 							</select>
 							<select className="form-control"
 									id="puertaSelector"
@@ -481,6 +482,7 @@ class ExtracurricularServices extends Component {
 										<option value="144000">2 días - $144.000</option>
 										<option value="198000">3 días - $198.000</option>
 										<option value="256000">4 días - $256.000</option>
+										<option value="0">Sin transporte puerta a puerta</option>
 							</select>
 						</div>
 						<div className="col-md-4">
@@ -576,7 +578,9 @@ class ExtracurricularServices extends Component {
 
 					<div className="row">
 						<div className="col-md-8">
-							<h5>Actividades Eco y Club para el grado {this.state.grade}</h5>
+							<h5 style={{ fontSize: '1.55rem' }}>
+								Actividades <a href="https:/rochester.edu.co/matriculas2019/#eco" rel="noopener noreferrer" target="_blank">Eco</a> y <a href="https:/rochester.edu.co/matriculas2019/#club" rel="noopener noreferrer" target="_blank">Club</a> para el grado {this.state.grade}
+							</h5>
 							<div style={styles.products}>
 								{this.state.services.map(service =>
 									<div className="card cardCustom" key={service.id}>
@@ -591,15 +595,15 @@ class ExtracurricularServices extends Component {
 											</p>*/}
 										</div>
 										<ul className="list-group list-group-flush">
-											<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid', borderLeft: '1px solid #00000020', borderRight: '1px solid #00000020' }}>
+											<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid' }}>
 												<FaCalendarCheck style={{ height: 18, marginRight: 5 }} />Horario<p style={{ fontSize: 12 }}>{service.schedule}</p>	
 											</li>
 										</ul>
-										<ul className="list-group list-group-flush">
+										{/*<ul className="list-group list-group-flush">
 											<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid', borderLeft: '1px solid #00000020', borderRight: '1px solid #00000020' }}>
 												<a href={service.redirect_url} className="card-link" target="_blank">Leer más</a>
 											</li>
-										</ul>
+										</ul>*/}
 										<div className="card-footer">
 											<div id="boxContainer">
 												<div id="box1">
