@@ -794,8 +794,8 @@ class Services extends Component {
                                         onChange={this.handleOnChangeServices} 
                                         id="afiliacion-club"
                                         disabled={this.state.isDisableSelect}>
-                                          <option value={this.state.club} defaultValue="selected">{this.state.label_club}</option>
-                                          <option value={this.state.club_cero}>{this.state.label_club_cero}</option>
+                                          <option value={this.state.club_cero} defaultValue>{this.state.label_club_cero}</option>
+                                          <option value={this.state.club} >{this.state.label_club}</option>
                                 </select>
                               </div>
                           </div>
