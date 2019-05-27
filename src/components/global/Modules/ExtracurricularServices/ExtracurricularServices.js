@@ -48,6 +48,7 @@ class ExtracurricularServices extends Component {
 		this.showInfo               = this.showInfo.bind(this);
 		this.onChangeSelectors      = this.onChangeSelectors.bind(this);
 		this.checkCompleteTransport = this.checkCompleteTransport.bind(this);
+		this.renderEcoActivities    = this.renderEcoActivities.bind(this);
 
 		this.state = {
 			code                        : '',      showElementTransport      : false,
@@ -60,6 +61,7 @@ class ExtracurricularServices extends Component {
 			step3_data                  : {},	   authorizedPeople2Phone    : '',
 			showingAlert                : false,   authorizedPeople2Relation : '',
 			isReadyDemographicComponent : false,
+			existsEcoSubscription       : true,
 
 			//SELECTED TRANSPORT NAME
 			selectedTransportName		: '',
@@ -84,7 +86,7 @@ class ExtracurricularServices extends Component {
 
 	componentDidMount() {
 		let servicesObj = this.props.location.state;
-		//console.log("===> Extracurricular Step");
+		console.log(servicesObj.annual_services[4].select);
 
 		let transportName = servicesObj.montly_services[1].select
 		console.log(transportName);
@@ -95,6 +97,7 @@ class ExtracurricularServices extends Component {
 			lastname   			  : servicesObj.demographic.apellidos,
 			grade      			  : servicesObj.demographic.grado,
 			selectedTransportName : transportName,
+			existsEcoSubscription : Utils.authChecker(servicesObj.annual_services[4].select),
 			step3_data            : servicesObj
 		}, () => {
 			this.setState({ isReadyDemographicComponent : true })
@@ -403,6 +406,54 @@ class ExtracurricularServices extends Component {
 		this.props.history.goBack()
 	}
 
+	renderEcoActivities(){
+		if(this.state.existsEcoSubscription){
+			return this.state.services.map(service =>
+				<div className="card cardCustom" key={service.id}>
+					{/*<img src={service.image} className="card-img-top cardImgCustom" alt="Service image" />*/}
+					<div className="card-body">
+						<h5 className="card-title cardTitleCustom">
+							<span className="badge badge-secondary badge-pill pillsCustom" style={{ backgroundColor: Utils.colorPicker(service.type) }} >{service.type}</span><br />
+							{changeCase.sentenceCase(service.name)}
+						</h5>
+						{/*<p className="card-text cardDescriptionTextCustom">
+							<Truncate lines={3} ellipsis={'...'}>{service.description}</Truncate>
+						</p>*/}
+					</div>
+					<ul className="list-group list-group-flush">
+						<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid' }}>
+							<FaCalendarCheck style={{ height: 18, marginRight: 5 }} />Horario<p style={{ fontSize: 12 }}>{service.schedule}</p>	
+						</li>
+					</ul>
+					<ul className="list-group list-group-flush">
+						<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid' }}>
+							<a href={service.redirect_url} className="card-link" target="_blank">Leer más</a>
+						</li>
+					</ul>
+					<div className="card-footer">
+						<div id="boxContainer">
+							<div id="box1">
+								<button
+									id="addActivityBtn"
+									className="btn btn-primary"
+									onClick={ () => this.addEcoService(service) }>Inscribir</button>
+							</div>
+							<div id="box2">
+								<NumberFormat id="priceSpan" value={service.value} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+							</div>
+						</div>
+					</div>
+				</div>
+			)
+		}else{
+			return <h3>hello dude!</h3>
+			let services = this.state.services
+			let filtered_array = services.filter(service => service.type === "Club deportivo")
+			console.log(filtered_array)
+
+		}
+	}
+
 	render() {
 		return (
 			<div className="bg-light">
@@ -497,6 +548,7 @@ class ExtracurricularServices extends Component {
 										<option value="96000">2 días semanales - $96.000</option>
 										<option value="144000">3 días semanales - $144.000</option>
 										<option value="192000">4 días semanales - $192.000</option>
+										<option value="0">Sin transporte lineal</option>
 							</select>
 						</div>
 					</div>
@@ -511,13 +563,13 @@ class ExtracurricularServices extends Component {
 									id="snackSelector"
 									style={{ width: '100%', display: 'inherit' }}
 									onChange={this.onChangeSelectors}
-									value={this.state.selectedSnack}
-									>
+									value={this.state.selectedSnack} >
 										<option value="0" defaultValue>Seleccione una opción</option>
 										<option value="25000">1 día semanal - $25.000</option>
 										<option value="45000">2 días semanales - $45.000</option>
 										<option value="65000">3 días semanales - $65.000</option>
 										<option value="85000">4 días semanales - $85.000</option>
+										<option value="0">Sin refrigerio</option>
 							</select>
 						</div>
 						<div className="col-md-4"></div>
@@ -578,47 +630,11 @@ class ExtracurricularServices extends Component {
 
 					<div className="row">
 						<div className="col-md-8">
-							<h5 style={{ fontSize: '1.55rem' }}>
-								Actividades <a href="https:/rochester.edu.co/matriculas2019/#eco" rel="noopener noreferrer" target="_blank">Eco</a> y <a href="https:/rochester.edu.co/matriculas2019/#club" rel="noopener noreferrer" target="_blank">Club</a> para el grado {this.state.grade}
+							<h5 style={{ fontSize: 1.55+'rem' }}>
+							    Actividades y costo mensual Eco y Club para el grado {this.state.grade}
 							</h5>
 							<div style={styles.products}>
-								{this.state.services.map(service =>
-									<div className="card cardCustom" key={service.id}>
-										{/*<img src={service.image} className="card-img-top cardImgCustom" alt="Service image" />*/}
-										<div className="card-body">
-											<h5 className="card-title cardTitleCustom">
-												<span className="badge badge-secondary badge-pill pillsCustom" style={{ backgroundColor: Utils.colorPicker(service.type) }} >{service.type}</span><br />
-												{changeCase.sentenceCase(service.name)}
-											</h5>
-											{/*<p className="card-text cardDescriptionTextCustom">
-												<Truncate lines={3} ellipsis={'...'}>{service.description}</Truncate>
-											</p>*/}
-										</div>
-										<ul className="list-group list-group-flush">
-											<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid' }}>
-												<FaCalendarCheck style={{ height: 18, marginRight: 5 }} />Horario<p style={{ fontSize: 12 }}>{service.schedule}</p>	
-											</li>
-										</ul>
-										<ul className="list-group list-group-flush">
-											<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid' }}>
-												<a href={service.redirect_url} className="card-link" target="_blank">Leer más</a>
-											</li>
-										</ul>
-										<div className="card-footer">
-											<div id="boxContainer">
-												<div id="box1">
-													<button
-														id="addActivityBtn"
-														className="btn btn-primary"
-														onClick={ () => this.addEcoService(service) }>Inscribir</button>
-												</div>
-												<div id="box2">
-													<NumberFormat id="priceSpan" value={service.value} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-												</div>
-											</div>
-										</div>
-									</div>
-								)}
+								{this.renderEcoActivities()}
 							</div>
 							<ToastsContainer store={ToastsStore} timer={5000}/>
 						</div>
