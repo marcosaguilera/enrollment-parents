@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import './Modal.css';
 
-class Spacecraft extends Component {
+class ModalWindow extends Component {
 
   constructor(){
     super();
@@ -53,4 +53,4 @@ class Spacecraft extends Component {
   }
 }
 
-export default Spacecraft;
+export default ModalWindow;

@@ -59,7 +59,7 @@ class Help extends Component {
                             <div id="budget-container">
                                 <img id="budget" src={svg_file} alt="help icon" />
                             </div>
-                            <p id="texty">{ReactHtmlParser(this.state.message)}</p>
+                            <div id="texty">{ReactHtmlParser(this.state.message)}</div>
                         </div>
                         <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={this.onClickClose}>

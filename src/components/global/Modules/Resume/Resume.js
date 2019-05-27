@@ -674,7 +674,7 @@ class Resume extends Component {
                                       <td><b><NumberFormat value={this.state.bigTotalPayment} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
                                     </tr>
                                     <tr className="">
-                                      <td ><b>Pagar el línea <u>sin costo adicional</u></b><br/>Por favor realice su pago en línea. <b>No se recibirán pagos por otro medio</b></td>
+                                      <td ><b>Pagar en línea <u>sin costo adicional con PSE, Visa y Master Card</u></b><br/>Por favor realice su pago en línea. <b>No se recibirán pagos por otro medio</b></td>
                                       <td><Button color="success" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Pagar en línea</Button>
                                       </td>
                                     </tr>

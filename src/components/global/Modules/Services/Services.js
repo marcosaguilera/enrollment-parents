@@ -24,7 +24,8 @@ import Help from '../../Addons/Help'
 import Utils from '../../../../Utils/Utils.js'
 import Texts from '../../../../Utils/Texts'
 
-import svg_file from '../../images/svgid20.svg';
+import svg_file from '../../images/svgid20.svg'
+import svg_file19 from '../../images/svgid19.svg'
 
 class Services extends Component {
 
@@ -103,6 +104,7 @@ class Services extends Component {
         isDisableSelect                      : true,
         isShowingResume                      : 'none',
         pago_anticipado                      : false,
+        img_src                              : '',
 
         // Modal message
         message                              : 'Apreciado padre de familia. El proceso de matrícula está inhabilitado debido a las siguientes razones:  ',
@@ -275,7 +277,8 @@ class Services extends Component {
                 isOpen: !this.state.isOpen,
                 isOpenLoader: false,
                 isOpenWrongModal: false,
-                message: ReactHtmlParser(Texts.general_texts[0].no_financial_auth)
+                message: ReactHtmlParser(Texts.general_texts[0].no_financial_auth),
+                img_src: svg_file
               })
           }
           if(!this.authChecker(res.data.metodo_pago_definido)) {
@@ -284,7 +287,8 @@ class Services extends Component {
               isOpen: !this.state.isOpen,
               isOpenLoader: false,
               isOpenWrongModal: false,
-              message: ReactHtmlParser(Texts.general_texts[0].no_davivienda_payment)
+              message: ReactHtmlParser(Texts.general_texts[0].no_davivienda_payment),
+              img_src: svg_file
             })
           }
           if(!this.authChecker(res.data.academic)){
@@ -293,18 +297,29 @@ class Services extends Component {
               isOpen: !this.state.isOpen,
               isOpenLoader: false,
               isOpenWrongModal: false,
-              message: ReactHtmlParser(Texts.general_texts[0].no_academic_auth)
+              message: ReactHtmlParser(Texts.general_texts[0].no_academic_auth),
+              img_src: svg_file
             })
           }
-          console.log()
           if(this.authChecker(res.data.pago_anticipado)){
             this.toggleModalLoader()
             this.setState({
               isOpen: !this.state.isOpen,
               isOpenLoader: false,
-              message: ReactHtmlParser(Texts.general_texts[0].anticipated_payment)
+              message: ReactHtmlParser(Texts.general_texts[0].anticipated_payment),
+              img_src: svg_file19
             })
           }
+          if(!this.authChecker(res.data.financial) && !this.authChecker(res.data.metodo_pago_definido)){
+            this.toggleModalLoader()
+            this.setState({
+              isOpen: !this.state.isOpen,
+              isOpenLoader: false,
+              message: ReactHtmlParser(Texts.general_texts[0].both_davivienda_financial),
+              img_src: svg_file
+            })
+          }
+
         })
   }
 
@@ -730,7 +745,6 @@ class Services extends Component {
                       </ul>*/}
 
                       <div className="card-body">
-                          <p className="" >Seleccione los servicios que desea adicionar:</p>
                           {/*Select Seguro Accidentes*/}
                           <div className="row">
                               <div className="col-md-12 mb-3" >
@@ -775,7 +789,7 @@ class Services extends Component {
                           {/*Select Afiliación Club Deportivo*/}
                           <div className="row">
                               <div className="col-md-12 mb-3" >
-                                <label htmlFor="country">Afiliación Club Deportivo anual<br /> <b>(solo estudiantes de 5º a 11º)</b></label>
+                                <label htmlFor="country">Afiliación Club Deportivo anual<br /> <b>(solo estudiantes de 5º a 11º y requerido para inscribir actividades de Club deportivo)</b></label>
                                 <select className="custom-select d-block w-100" 
                                         onChange={this.handleOnChangeServices} 
                                         id="afiliacion-club"
@@ -810,7 +824,7 @@ class Services extends Component {
                                       show={this.state.isOpen} 
                                       onClose={this.toggleModalNoResults} 
                                       msn={this.state.message}
-                                      img_url={svg_file}>
+                                      img_url={this.state.img_src}>
                             </ModalUI>
 
                             {/*Modal for Wrong code inserted*/}
