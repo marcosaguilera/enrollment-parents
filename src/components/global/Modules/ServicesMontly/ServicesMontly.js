@@ -369,7 +369,7 @@ class ServicesMontly extends Component {
         montly_services.push(transport)
         montly_services.push(lunch)
         montly_services.push(snack)
-        montly_services.push(breakFast)
+        //montly_services.push(breakFast)
         montly_services.push(lifeSecure)
         montly_services.push(jobSecure)
         montly_services.push(donations)
@@ -378,9 +378,9 @@ class ServicesMontly extends Component {
 
         data_step2['montly_services'] = montly_services
         data_step2['payments'].push(totals_montly)
-        console.log("Final data Step 2: ");
+        console.log("Final data Step 2: ")
         console.log(data_step2)
-        this.props.history.push('/enrolment_eco_services', data_step2);
+        this.props.history.push('/enrolment_eco_services', data_step2)
     }
 
     beforePath = () => {
@@ -392,14 +392,13 @@ class ServicesMontly extends Component {
         <div className="bg-light">
             <main role="main"  className="container" id="customStyle">
                 <div className="shadow-sm p-3 mb-5 bg-white rounded">
-                    <Demographic code={this.state.code} 
-                                grade={this.state.grade} 
-                                name={this.state.name} 
+                    <Demographic code={this.state.code}
+                                grade={this.state.grade}
+                                name={this.state.name}
                                 lastname={this.state.lastname} />
 
                     <hr/>
 
-                    
                     <div className="row">
                         <div className="col-sm">
                             <h5 className="py-3">Selección de servicios mensuales</h5>

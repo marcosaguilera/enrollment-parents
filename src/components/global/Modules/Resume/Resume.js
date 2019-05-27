@@ -155,12 +155,12 @@ class Resume extends Component {
 
   showDialogAnticipadedPayment(){
     console.log(this.state.pago_anticipado)
-    if(this.state.pago_anticipado){
+    /*if(this.state.pago_anticipado){
       this.setState({
         isOpen: !this.state.isOpen,
         message: ReactHtmlParser(Texts.general_texts[0].anticipated_payment)
       })
-    }
+    }*/
   }
 
   calculateTotalPay(selection){
