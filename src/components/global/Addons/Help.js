@@ -50,7 +50,7 @@ class Help extends Component {
     render() {
         return (
             <div>
-                <button className="btn btn-primary btn-lg" onClick={ this.onClickClose }>Ayuda</button>
+                <button className="btn btn-primary btn-lg" onClick={ this.onClickClose } id="help-btn">Ayuda</button>
                 <Modal role="dialog" visible={this.state.isShowingWindow} onClickBackdrop={this.modalBackdropClicked}>
                         <div className="modal-header bg-primary text-white">
                             <h5 className="modal-title" id="exampleModalLongTitle">Ayuda</h5>

@@ -11,3 +11,8 @@ img#budget{
     padding: 18px;
     text-align: justify;
 }
+
+#help-btn{
+    background-color: #ff691b !important;
+    border-color: #ff691b !important;
+}
