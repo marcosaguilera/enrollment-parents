@@ -97,7 +97,7 @@ class ExtracurricularServices extends Component {
 			lastname   			  : servicesObj.demographic.apellidos,
 			grade      			  : servicesObj.demographic.grado,
 			selectedTransportName : transportName,
-			existsEcoSubscription : Utils.authChecker(servicesObj.annual_services[5].select),
+			existsEcoSubscription : Utils.authChecker(servicesObj.annual_services[5].selected),
 			step3_data            : servicesObj
 		}, () => {
 			this.setState({ isReadyDemographicComponent : true })
@@ -353,7 +353,7 @@ class ExtracurricularServices extends Component {
 			item.code     = element.sap_code
 			item.discount = 0
 			item.name     = element.name
-			item.select   = "Si"
+			item.selected = "Si"
 			item.total    = element.value
 			item.value    = element.value
 
@@ -364,7 +364,7 @@ class ExtracurricularServices extends Component {
 		transportMode.code       = Utils.getServiceCode(this.state.transportNameMode)
 		transportMode.discount   = 0
 		transportMode.name       = this.state.pickedTransportName + " // "+ this.state.transportNameMode + " // Curricular: " + this.state.selectedTransportName
-		transportMode.select     = this.state.selectedPoint
+		transportMode.selected   = this.state.selectedPoint
 		transportMode.total      = this.state.totalEcoTransAmmount
 		transportMode.value      = this.state.totalEcoTransAmmount
 
@@ -372,7 +372,7 @@ class ExtracurricularServices extends Component {
 		snacks.code       = Utils.getServiceCode(this.state.snackEcoName)
 		snacks.discount   = 0
 		snacks.name       = "Refrigerio"
-		snacks.select     = this.state.snackEcoName
+		snacks.selected   = this.state.snackEcoName
 		snacks.total      = this.state.selectedSnack
 		snacks.value      = this.state.selectedSnack
 

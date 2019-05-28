@@ -79,7 +79,7 @@ class ServicesMontly extends Component {
                         grade              : servicesObj.demographic.grado,
                         matriculaCode      : servicesObj.annual_services[0].code,
                         donacionName       : Utils.getDonacionName(this.state.donation),
-                        asopadresSelection : servicesObj.annual_services[4].select
+                        asopadresSelection : servicesObj.annual_services[4].selected
                     }, () => {
                         this.setState({ pensionName : Utils.getPensionName(this.state.matriculaCode) })
                     })
@@ -304,7 +304,7 @@ class ServicesMontly extends Component {
         lodgings.type        = 'Mensual'
         lodgings.name        = this.state.pensionName
         lodgings.code        = Utils.getServiceCode(this.state.pensionName)
-        lodgings.select      = 'Si'
+        lodgings.selected    = 'Si'
         lodgings.value       = this.state.lodgings
         lodgings.discount    = this.state.discountLodgings
         lodgings.total       = this.state.totalLodgings
@@ -312,7 +312,7 @@ class ServicesMontly extends Component {
         transport.type       = 'Mensual'
         transport.name       = "Transporte"
         transport.code       = Utils.getServiceCode(this.state.transportName)
-        transport.select     = this.state.transportName
+        transport.selected   = this.state.transportName
         transport.value      = this.state.transport
         transport.discount   = this.state.discountTransport
         transport.total      = this.state.totalTransport
@@ -320,7 +320,7 @@ class ServicesMontly extends Component {
         lunch.type           = 'Mensual'
         lunch.name           = 'Almuerzo'
         lunch.code           = Utils.getServiceCode('Almuerzo')
-        lunch.select         = this.state.lunchSel
+        lunch.selected       = this.state.lunchSel
         lunch.value          = this.state.lunch
         lunch.discount       = this.state.discountLunch
         lunch.total          = this.state.totalLunch
@@ -328,7 +328,7 @@ class ServicesMontly extends Component {
         snack.type           = 'Mensual'
         snack.name           = 'Medias Nueves'
         snack.code           = Utils.getServiceCode('Medias Nueves')
-        snack.select         = this.state.snackSel
+        snack.selected       = this.state.snackSel
         snack.value          = this.state.snack
         snack.discount       = this.state.discountSnack
         snack.total          = this.state.totalSnack
@@ -336,7 +336,7 @@ class ServicesMontly extends Component {
         //breakFast.type       = 'Mensual'
         //breakFast.name       = 'Desayuno'
         //breakFast.code       = Utils.getServiceCode('Desayuno')
-        //breakFast.select     = this.state.breakFastSel
+        //breakFast.selected   = this.state.breakFastSel
         //breakFast.value      = this.state.breakFast
         //breakFast.discount   = this.state.discountBreakfast
         //breakFast.total      = this.state.totalBreakfast
@@ -344,7 +344,7 @@ class ServicesMontly extends Component {
         lifeSecure.type      = 'Mensual'
         lifeSecure.name      = 'Seguro de vida'
         lifeSecure.code      = Utils.getServiceCode('Seguro de vida')
-        lifeSecure.select    = this.state.lifeSecureSel
+        lifeSecure.selected  = this.state.lifeSecureSel
         lifeSecure.value     = this.state.lifeSecure
         lifeSecure.discount  = this.state.discountLifeSecure
         lifeSecure.total     = this.state.totalLifeSecure
@@ -352,7 +352,7 @@ class ServicesMontly extends Component {
         jobSecure.type       = 'Mensual'
         jobSecure.name       = 'Seguro desempleo'
         jobSecure.code       = Utils.getServiceCode('Seguro desempleo')
-        jobSecure.select     = this.state.jobSecureSel
+        jobSecure.selected   = this.state.jobSecureSel
         jobSecure.value      = this.state.jobSecure
         jobSecure.discount   = this.state.discountJobSecure
         jobSecure.total      = this.state.totalJobSecure
@@ -360,7 +360,7 @@ class ServicesMontly extends Component {
         donations.type       = 'Mensual'
         donations.name       = 'Donación ' + this.state.donacionName
         donations.code       = Utils.getServiceCode(this.state.donacionName)
-        donations.select     = JSON.stringify(this.state.donationSel)
+        donations.selected   = JSON.stringify(this.state.donationSel)
         donations.value      = this.state.donation
         donations.discount   = 0
         donations.total      = this.state.donation
@@ -571,7 +571,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Donaciones a proyectos de sistenibilidad <a href="https://rochester.edu.co/un-mejor-pais/" className="badge btn-link" target="_blank">(Ver más)</a> <p style={{ fontSize: 11 }}>{ReactHtmlParser(Texts.general_texts[0].donation_help)}</p></td>
+                                <td>Donaciones a proyectos de sostenibilidad <a href="https://rochester.edu.co/un-mejor-pais/" className="badge btn-link" target="_blank">(Ver más)</a> <p style={{ fontSize: 11 }}>{ReactHtmlParser(Texts.general_texts[0].donation_help)}</p></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check form-check-inline">
                                         <input className="form-check-input" onChange={this.handleOnChange} type="checkbox" value="solidaridad" id="donationDefaultCheck1" />

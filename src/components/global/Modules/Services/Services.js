@@ -539,7 +539,7 @@ class Services extends Component {
     enrollment.type           = 'Anual'
     enrollment.name           = this.state.matricula_nombre
     enrollment.code           = Utils.getServiceCode(this.state.matricula_nombre)
-    enrollment.select         = 'Si'
+    enrollment.selected       = 'Si'
     enrollment.value          = this.state.total_tarifas_mat
     enrollment.discount       = this.state.total_solo_descuentos
     enrollment.total          = Number(this.state.total_tarifas_mat - this.state.total_solo_descuentos)
@@ -547,7 +547,7 @@ class Services extends Component {
     bookSeries.type           = 'Anual'
     bookSeries.name           = 'Bibliobanco'
     bookSeries.code           = Utils.getServiceCode('Bibliobanco')
-    bookSeries.select         = 'Si'
+    bookSeries.selected       = 'Si'
     bookSeries.value          = this.state.bibliobanco
     bookSeries.discount       = 0
     bookSeries.total          = this.state.bibliobanco
@@ -555,7 +555,7 @@ class Services extends Component {
     accidentalSecure.type     = 'Anual'
     accidentalSecure.name     = 'Seguro accidentes'
     accidentalSecure.code     = Utils.getServiceCode('Seguro accidentes')
-    accidentalSecure.select   = Utils.checkSelection(this.state.seguro_seleccionado)
+    accidentalSecure.selected = Utils.checkSelection(this.state.seguro_seleccionado)
     accidentalSecure.value    = this.state.seguro_seleccionado
     accidentalSecure.discount = 0
     accidentalSecure.total    = this.state.seguro_seleccionado
@@ -563,7 +563,7 @@ class Services extends Component {
     annuaryBook.type          = 'Anual'
     annuaryBook.name          = this.state.anuarioName
     annuaryBook.code          = Utils.getServiceCode(this.state.anuarioName)
-    annuaryBook.select        = Utils.checkSelection(this.state.anuario_seleccionado)
+    annuaryBook.selected      = Utils.checkSelection(this.state.anuario_seleccionado)
     annuaryBook.value         = this.state.anuario_seleccionado
     annuaryBook.discount      = 0
     annuaryBook.total         = this.state.anuario_seleccionado
@@ -571,7 +571,7 @@ class Services extends Component {
     asopadres.type            = 'Anual'
     asopadres.name            = 'Asopadres'
     asopadres.code            = Utils.getServiceCode('Asopadres')
-    asopadres.select          = Utils.checkSelection(this.state.asopadres_seleccionado)
+    asopadres.selected        = Utils.checkSelection(this.state.asopadres_seleccionado)
     asopadres.value           = this.state.asopadres_seleccionado
     asopadres.discount        = 0
     asopadres.total           = this.state.asopadres_seleccionado
@@ -579,7 +579,7 @@ class Services extends Component {
     sportsClub.type           = 'Anual'
     sportsClub.name           = 'Club deportivo'
     sportsClub.code           = Utils.getServiceCode('Club deportivo')
-    sportsClub.select         = Utils.checkSelection(this.state.club_seleccionado)
+    sportsClub.selected       = Utils.checkSelection(this.state.club_seleccionado)
     sportsClub.value          = this.state.club_seleccionado
     sportsClub.discount       = 0
     sportsClub.total          = this.state.club_seleccionado
@@ -794,8 +794,8 @@ class Services extends Component {
                                         onChange={this.handleOnChangeServices} 
                                         id="afiliacion-club"
                                         disabled={this.state.isDisableSelect}>
-                                          <option value={this.state.club_cero} defaultValue>{this.state.label_club_cero}</option>
-                                          <option value={this.state.club} >{this.state.label_club}</option>
+                                          <option value={this.state.club} defaultValue="selected">{this.state.label_club}</option>
+                                          <option value={this.state.club_cero} >{this.state.label_club_cero}</option>
                                 </select>
                               </div>
                           </div>
