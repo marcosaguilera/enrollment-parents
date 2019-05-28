@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import ReactHtmlParser from 'react-html-parser';
 
 //// Other dependencies
 import axios from 'axios';

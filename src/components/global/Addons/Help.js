@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
 import PropTypes from 'prop-types';
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import ReactHtmlParser from 'react-html-parser';
 
 import './Modal.css';
 import svg_file from '../images/svgid25.svg';

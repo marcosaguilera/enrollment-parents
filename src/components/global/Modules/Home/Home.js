@@ -10,7 +10,7 @@ import { Container, Row, Col, Card, CardBody,
 import Header from '../../Header';
 
 //// Assets
-import student1 from '../../images/aaron-burden-60068-unsplash.jpg'
+//import student1 from '../../images/aaron-burden-60068-unsplash.jpg'
 import student2 from '../../images/rawpixel-463437-unsplash.jpg'
 
 class Home extends Component {

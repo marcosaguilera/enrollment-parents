@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 //// Other dependencies
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import ReactHtmlParser from 'react-html-parser';
 
 //// Components
 import Demographic from '../Demographic/Demographic'
@@ -433,7 +433,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Transporte <a href="https://rochester.edu.co/matriculas2019/#transporte" className="badge btn-link" target="_blank">(Ver más)</a></td>
+                                <td>Transporte <a href="https://rochester.edu.co/matriculas2019/#transporte" className="badge btn-link" rel="noopener noreferrer" target="_blank">(Ver más)</a></td>
                                 <td className="choiceCustomClass">
                                     <select className="form-control"
                                         id="transportSelector"
@@ -461,7 +461,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Almuerzo <a href="https://rochester.edu.co/alimentacion" className="badge btn-link" target="_blank">(Ver más)</a></td>
+                                <td>Almuerzo <a href="https://rochester.edu.co/alimentacion" className="badge btn-link" rel="noopener noreferrer" target="_blank">(Ver más)</a></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check-inline">
                                         <input className="form-check-input" type="radio" name="lunchRadioOptions" id="lunch_yes" value="442000" defaultChecked onChange={this.handleOnChange} /> 
@@ -483,7 +483,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Medias Nueves <a href="https://rochester.edu.co/alimentacion" className="badge btn-link" target="_blank">(Ver más)</a></td>
+                                <td>Medias Nueves <a href="https://rochester.edu.co/alimentacion" className="badge btn-link" rel="noopener noreferrer" target="_blank">(Ver más)</a></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check-inline">
                                         <input className="form-check-input" type="radio" name="snackRadioOptions" id="snack_yes" value="111000" defaultChecked  onChange={this.handleOnChange}/> 
@@ -505,7 +505,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>
                             {/*<tr>
-                                <td>Desayuno <a href="https://rochester.edu.co/alimentacion" className="badge btn-link" target="_blank">(Ver más)</a></td>
+                                <td>Desayuno <a href="https://rochester.edu.co/alimentacion" className="badge btn-link" rel="noopener noreferrer" target="_blank">(Ver más)</a></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check-inline">
                                         <input className="form-check-input" type="radio" name="breakFastRadioOptions" id="breakFast_yes" value="135000" defaultChecked  onChange={this.handleOnChange}/> 
@@ -527,7 +527,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>*/}
                             <tr>
-                                <td>Seguro de vida <a href="https://rochester.edu.co/matriculas2019/#seguros" className="badge btn-link" target="_blank">(Ver más)</a></td>
+                                <td>Seguro de vida <a href="https://rochester.edu.co/matriculas2019/#seguros" className="badge btn-link" rel="noopener noreferrer" target="_blank">(Ver más)</a></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check-inline">
                                         <input className="form-check-input" type="radio" name="lifeSecureRadioOptions" id="lifeSecure_yes" value="65000" defaultChecked  onChange={this.handleOnChange}/> 
@@ -549,7 +549,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Seguro de desempleo <a href="https://rochester.edu.co/matriculas2019/#seguros" className="badge btn-link" target="_blank">(Ver más)</a></td>
+                                <td>Seguro de desempleo <a href="https://rochester.edu.co/matriculas2019/#seguros" className="badge btn-link" rel="noopener noreferrer" target="_blank">(Ver más)</a></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check-inline">
                                         <input className="form-check-input" type="radio" name="jobSecureRadioOptions" id="jobSecure_yes" value="64300" defaultChecked  onChange={this.handleOnChange}/> 
@@ -571,7 +571,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Donaciones a proyectos de sostenibilidad <a href="https://rochester.edu.co/un-mejor-pais/" className="badge btn-link" target="_blank">(Ver más)</a> <p style={{ fontSize: 11 }}>{ReactHtmlParser(Texts.general_texts[0].donation_help)}</p></td>
+                                <td>Donaciones a proyectos de sostenibilidad <a href="https://rochester.edu.co/un-mejor-pais/" className="badge btn-link" rel="noopener noreferrer" target="_blank">(Ver más)</a> <p style={{ fontSize: 11 }}>{ReactHtmlParser(Texts.general_texts[0].donation_help)}</p></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check form-check-inline">
                                         <input className="form-check-input" onChange={this.handleOnChange} type="checkbox" value="solidaridad" id="donationDefaultCheck1" />

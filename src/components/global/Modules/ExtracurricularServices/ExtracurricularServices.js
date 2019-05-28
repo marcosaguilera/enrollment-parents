@@ -6,7 +6,7 @@ import NumberFormat from 'react-number-format';
 import {ToastsContainer, ToastsStore} from 'react-toasts';
 import changeCase from 'change-case';
 import Truncate from 'react-truncate';
-import { FaTrashAlt, FaInfo, FaCalendarCheck } from "react-icons/fa";
+import { FaTrashAlt, FaCalendarCheck } from "react-icons/fa";
 
 // Utils
 import Utils from '../../../../Utils/Utils'
@@ -19,9 +19,6 @@ import Help from '../../Addons/Help'
 
 //Styles
 import "./ExtracurricularServices.css"
-import img1 from '../../images/svgid5.svg';
-import img2 from '../../images/svgid11.svg';
-import img3 from '../../images/svgid21.svg';
 import img4 from '../../images/svgid24.svg';
 import img5 from '../../images/svgid1.svg';
 
@@ -86,9 +83,9 @@ class ExtracurricularServices extends Component {
 
 	componentDidMount() {
 		let servicesObj = this.props.location.state;
-		console.log(servicesObj.annual_services[5].select);
+		console.log(servicesObj.annual_services[5].selected);
 
-		let transportName = servicesObj.montly_services[1].select
+		let transportName = servicesObj.montly_services[1].selected
 		console.log(transportName);
 
 		this.setState({
@@ -368,23 +365,23 @@ class ExtracurricularServices extends Component {
 		transportMode.total      = this.state.totalEcoTransAmmount
 		transportMode.value      = this.state.totalEcoTransAmmount
 
-		snacks.type       = "Eco"
-		snacks.code       = Utils.getServiceCode(this.state.snackEcoName)
-		snacks.discount   = 0
-		snacks.name       = "Refrigerio"
-		snacks.selected   = this.state.snackEcoName
-		snacks.total      = this.state.selectedSnack
-		snacks.value      = this.state.selectedSnack
+		snacks.type              = "Eco"
+		snacks.code              = Utils.getServiceCode(this.state.snackEcoName)
+		snacks.discount          = 0
+		snacks.name              = "Refrigerio"
+		snacks.selected          = this.state.snackEcoName
+		snacks.total             = this.state.selectedSnack
+		snacks.value             = this.state.selectedSnack
 
-		people1.completeName = this.state.authorizedPeople1Name
-		people1.dni          = this.state.authorizedPeople1Dni
-		people1.phone        = this.state.authorizedPeople1Phone
-		people1.relation     = this.state.authorizedPeople1Relation
+		people1.completeName     = this.state.authorizedPeople1Name
+		people1.dni              = this.state.authorizedPeople1Dni
+		people1.phone            = this.state.authorizedPeople1Phone
+		people1.relation         = this.state.authorizedPeople1Relation
 
-		people2.completeName = this.state.authorizedPeople2Name
-		people2.dni          = this.state.authorizedPeople2Dni
-		people2.phone        = this.state.authorizedPeople2Phone
-		people2.relation     = this.state.authorizedPeople2Relation
+		people2.completeName     = this.state.authorizedPeople2Name
+		people2.dni              = this.state.authorizedPeople2Dni
+		people2.phone            = this.state.authorizedPeople2Phone
+		people2.relation         = this.state.authorizedPeople2Relation
 
         totals_eco.eco_total_pay = this.state.totalAmmountCart + this.state.totalEcoTransAmmount + this.state.selectedSnack
 
@@ -427,7 +424,7 @@ class ExtracurricularServices extends Component {
 					</ul>
 					<ul className="list-group list-group-flush">
 						<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid', borderRight: '1px solid rgba(0,0,0,.125)', borderLeft: '1px solid rgba(0,0,0,.125)' }}>
-							<a href={service.redirect_url} className="card-link" target="_blank">Leer más</a>
+							<a href={service.redirect_url} className="card-link" rel="noopener noreferrer" target="_blank">Leer más</a>
 						</li>
 					</ul>
 					<div className="card-footer">
@@ -468,7 +465,7 @@ class ExtracurricularServices extends Component {
 					</ul>
 					<ul className="list-group list-group-flush">
 						<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid' }}>
-							<a href={service.redirect_url} className="card-link" target="_blank">Leer más</a>
+							<a href={service.redirect_url} className="card-link" rel="noopener noreferrer" target="_blank">Leer más</a>
 						</li>
 					</ul>
 					<div className="card-footer">
@@ -531,7 +528,7 @@ class ExtracurricularServices extends Component {
 						<div className="col-md-4">
 							<select className="form-control"
 									id="puntosSelector"
-									style={{ width: '100%', display: 'inherit', display: this.state.showLinealPoints }}
+									style={{ width: '100%', display: this.state.showLinealPoints }}
 									onChange={this.onChangeSelectors}
 									//value={this.state.transport}
 									>
@@ -547,7 +544,7 @@ class ExtracurricularServices extends Component {
 							</select>
 							<select className="form-control"
 									id="puertaCompletoSelector"
-									style={{ width: '100%', display: 'inherit', display: this.state.showTransportCompleteDoor }}
+									style={{ width: '100%', display: this.state.showTransportCompleteDoor }}
 									onChange={this.onChangeSelectors}
 									//value={this.state.transport}
 									>
@@ -560,7 +557,7 @@ class ExtracurricularServices extends Component {
 							</select>
 							<select className="form-control"
 									id="puertaSelector"
-									style={{ width: '100%', display: 'inherit', display: this.state.showTransportDoor }}
+									style={{ width: '100%', display: this.state.showTransportDoor }}
 									onChange={this.onChangeSelectors}
 									//value={this.state.transport}
 									>
@@ -575,7 +572,7 @@ class ExtracurricularServices extends Component {
 						<div className="col-md-4">
 							<select className="form-control"
 									id="tarifaLinealSelector"
-									style={{ width: '100%', display: 'inherit', display: this.state.showLinealFees }}
+									style={{ width: '100%', display: this.state.showLinealFees }}
 									onChange={this.onChangeSelectors}
 									//value={this.state.transport}
 									>
