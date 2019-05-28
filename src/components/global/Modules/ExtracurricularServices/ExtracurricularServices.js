@@ -86,7 +86,7 @@ class ExtracurricularServices extends Component {
 
 	componentDidMount() {
 		let servicesObj = this.props.location.state;
-		console.log(servicesObj.annual_services[4].select);
+		console.log(servicesObj.annual_services[5].select);
 
 		let transportName = servicesObj.montly_services[1].select
 		console.log(transportName);
@@ -97,7 +97,7 @@ class ExtracurricularServices extends Component {
 			lastname   			  : servicesObj.demographic.apellidos,
 			grade      			  : servicesObj.demographic.grado,
 			selectedTransportName : transportName,
-			existsEcoSubscription : Utils.authChecker(servicesObj.annual_services[4].select),
+			existsEcoSubscription : Utils.authChecker(servicesObj.annual_services[5].select),
 			step3_data            : servicesObj
 		}, () => {
 			this.setState({ isReadyDemographicComponent : true })
@@ -446,10 +446,46 @@ class ExtracurricularServices extends Component {
 				</div>
 			)
 		}else{
-			return <h3>hello dude!</h3>
-			let services = this.state.services
-			let filtered_array = services.filter(service => service.type === "Club deportivo")
-			console.log(filtered_array)
+			let filtered_services = this.state.services.filter(service => service.type !== "Club deportivo")
+			console.log("Filtered services")
+			console.log(filtered_services)
+			return filtered_services.map(service =>
+				<div className="card cardCustom" key={service.id}>
+					{/*<img src={service.image} className="card-img-top cardImgCustom" alt="Service image" />*/}
+					<div className="card-body">
+						<h5 className="card-title cardTitleCustom">
+							<span className="badge badge-secondary badge-pill pillsCustom" style={{ backgroundColor: Utils.colorPicker(service.type) }} >{service.type}</span><br />
+							{changeCase.sentenceCase(service.name)}
+						</h5>
+						{/*<p className="card-text cardDescriptionTextCustom">
+							<Truncate lines={3} ellipsis={'...'}>{service.description}</Truncate>
+						</p>*/}
+					</div>
+					<ul className="list-group list-group-flush">
+						<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid' }}>
+							<FaCalendarCheck style={{ height: 18, marginRight: 5 }} />Horario<p style={{ fontSize: 12 }}>{service.schedule}</p>	
+						</li>
+					</ul>
+					<ul className="list-group list-group-flush">
+						<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid' }}>
+							<a href={service.redirect_url} className="card-link" target="_blank">Leer más</a>
+						</li>
+					</ul>
+					<div className="card-footer">
+						<div id="boxContainer">
+							<div id="box1">
+								<button
+									id="addActivityBtn"
+									className="btn btn-primary"
+									onClick={ () => this.addEcoService(service) }>Inscribir</button>
+							</div>
+							<div id="box2">
+								<NumberFormat id="priceSpan" value={service.value} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+							</div>
+						</div>
+					</div>
+				</div>
+			)
 
 		}
 	}
