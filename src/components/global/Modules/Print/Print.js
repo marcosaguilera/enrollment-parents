@@ -198,7 +198,7 @@ class Print extends Component {
                                                                 <p>&nbsp;</p>
                                                             </td>
                                                             <td style={{width: '80.6162%', textAlign: 'center'}}>
-                                                                <h4>FUNDACION EDUCATIVA ROCHESTER</h4>
+                                                                <h4>FUNDACIÓN EDUCATIVA ROCHESTER</h4>
                                                                 <h5>NIT: 900 509 589 - 7</h5>
                                                             </td>
                                                         </tr>
