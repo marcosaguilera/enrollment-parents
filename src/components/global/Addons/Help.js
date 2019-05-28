@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
 import PropTypes from 'prop-types';
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import ReactHtmlParser from 'react-html-parser';
 
 import './Modal.css';
 import svg_file from '../images/svgid25.svg';
@@ -59,7 +59,7 @@ class Help extends Component {
                             <div id="budget-container">
                                 <img id="budget" src={svg_file} alt="help icon" />
                             </div>
-                            <p id="texty">{ReactHtmlParser(this.state.message)}</p>
+                            <div id="texty">{ReactHtmlParser(this.state.message)}</div>
                         </div>
                         <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={this.onClickClose}>

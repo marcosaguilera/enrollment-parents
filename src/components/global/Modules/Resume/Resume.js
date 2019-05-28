@@ -42,6 +42,7 @@ class Resume extends Component {
     this.getDescripcionFactura        = this.getDescripcionFactura.bind(this);
     this.getNowDate                   = this.getNowDate.bind(this);
     this.showDialogAnticipadedPayment = this.showDialogAnticipadedPayment.bind(this);
+    this.saveDataConfirmed            = this.saveDataConfirmed.bind(this);
 
     this.state = {
       step4_data         : {},
@@ -186,7 +187,7 @@ class Resume extends Component {
         //console.log("Total one payment: " + total_eleven_payment + ", Total saves: " + total_eleven_payment_saves)
         this.setState({ bigTotalPayment : total_eleven_payment, bigTotalPaymentSavings: total_eleven_payment_saves })
         break;
- 
+
       default:
         break;
     }
@@ -553,10 +554,19 @@ class Resume extends Component {
     this.setState({
       toggleConfirmModal : false,
       confirmAction : 'visible'
-    })
+    }, () => { this.saveDataConfirmed() })
   }
 
   nextPath = () => {
+    let step4_data = this.state.step4_data
+
+    //console.log("Navigation next")
+    console.log(step4_data)
+
+    this.props.history.push('/print', step4_data);
+  }
+
+  saveDataConfirmed(){
     let step4_data               = this.state.step4_data
     let payment_choices          = {}
 
@@ -568,11 +578,16 @@ class Resume extends Component {
 
     step4_data['payments_form'].push(payment_choices)
 
-    console.log("Resume data")
-    console.log(JSON.stringify(step4_data))
+    console.log("DATA TO POST")
+    console.log(step4_data)
 
-    this.props.history.push('/print', step4_data);
-    //this.handlePrintData();
+    axios.post('https://rcis-backend.herokuapp.com/enrollment/saveEnrollmentData', step4_data)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
   }
 
   toggleModalNoResults = () => {
@@ -674,7 +689,7 @@ class Resume extends Component {
                                       <td><b><NumberFormat value={this.state.bigTotalPayment} displayType={'text'} thousandSeparator={true} prefix={'$'} /></b></td>
                                     </tr>
                                     <tr className="">
-                                      <td ><b>Pagar el línea <u>sin costo adicional</u></b><br/>Por favor realice su pago en línea. <b>No se recibirán pagos por otro medio</b></td>
+                                      <td ><b>Pagar en línea <u>sin costo adicional con PSE, Visa y Master Card</u></b><br/>Por favor realice su pago en línea. <b>No se recibirán pagos por otro medio</b></td>
                                       <td><Button color="success" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Pagar en línea</Button>
                                       </td>
                                     </tr>

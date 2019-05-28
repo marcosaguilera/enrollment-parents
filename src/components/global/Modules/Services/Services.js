@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import ReactHtmlParser from 'react-html-parser';
 
 //// Other dependencies
 import axios from 'axios';
@@ -24,7 +24,8 @@ import Help from '../../Addons/Help'
 import Utils from '../../../../Utils/Utils.js'
 import Texts from '../../../../Utils/Texts'
 
-import svg_file from '../../images/svgid20.svg';
+import svg_file from '../../images/svgid20.svg'
+import svg_file19 from '../../images/svgid19.svg'
 
 class Services extends Component {
 
@@ -103,6 +104,7 @@ class Services extends Component {
         isDisableSelect                      : true,
         isShowingResume                      : 'none',
         pago_anticipado                      : false,
+        img_src                              : '',
 
         // Modal message
         message                              : 'Apreciado padre de familia. El proceso de matrícula está inhabilitado debido a las siguientes razones:  ',
@@ -275,7 +277,8 @@ class Services extends Component {
                 isOpen: !this.state.isOpen,
                 isOpenLoader: false,
                 isOpenWrongModal: false,
-                message: ReactHtmlParser(Texts.general_texts[0].no_financial_auth)
+                message: ReactHtmlParser(Texts.general_texts[0].no_financial_auth),
+                img_src: svg_file
               })
           }
           if(!this.authChecker(res.data.metodo_pago_definido)) {
@@ -284,7 +287,8 @@ class Services extends Component {
               isOpen: !this.state.isOpen,
               isOpenLoader: false,
               isOpenWrongModal: false,
-              message: ReactHtmlParser(Texts.general_texts[0].no_davivienda_payment)
+              message: ReactHtmlParser(Texts.general_texts[0].no_davivienda_payment),
+              img_src: svg_file
             })
           }
           if(!this.authChecker(res.data.academic)){
@@ -293,18 +297,29 @@ class Services extends Component {
               isOpen: !this.state.isOpen,
               isOpenLoader: false,
               isOpenWrongModal: false,
-              message: ReactHtmlParser(Texts.general_texts[0].no_academic_auth)
+              message: ReactHtmlParser(Texts.general_texts[0].no_academic_auth),
+              img_src: svg_file
             })
           }
-          console.log()
           if(this.authChecker(res.data.pago_anticipado)){
             this.toggleModalLoader()
             this.setState({
               isOpen: !this.state.isOpen,
               isOpenLoader: false,
-              message: ReactHtmlParser(Texts.general_texts[0].anticipated_payment)
+              message: ReactHtmlParser(Texts.general_texts[0].anticipated_payment),
+              img_src: svg_file19
             })
           }
+          if(!this.authChecker(res.data.financial) && !this.authChecker(res.data.metodo_pago_definido)){
+            this.toggleModalLoader()
+            this.setState({
+              isOpen: !this.state.isOpen,
+              isOpenLoader: false,
+              message: ReactHtmlParser(Texts.general_texts[0].both_davivienda_financial),
+              img_src: svg_file
+            })
+          }
+
         })
   }
 
@@ -524,7 +539,7 @@ class Services extends Component {
     enrollment.type           = 'Anual'
     enrollment.name           = this.state.matricula_nombre
     enrollment.code           = Utils.getServiceCode(this.state.matricula_nombre)
-    enrollment.select         = 'Si'
+    enrollment.selected       = 'Si'
     enrollment.value          = this.state.total_tarifas_mat
     enrollment.discount       = this.state.total_solo_descuentos
     enrollment.total          = Number(this.state.total_tarifas_mat - this.state.total_solo_descuentos)
@@ -532,7 +547,7 @@ class Services extends Component {
     bookSeries.type           = 'Anual'
     bookSeries.name           = 'Bibliobanco'
     bookSeries.code           = Utils.getServiceCode('Bibliobanco')
-    bookSeries.select         = 'Si'
+    bookSeries.selected       = 'Si'
     bookSeries.value          = this.state.bibliobanco
     bookSeries.discount       = 0
     bookSeries.total          = this.state.bibliobanco
@@ -540,7 +555,7 @@ class Services extends Component {
     accidentalSecure.type     = 'Anual'
     accidentalSecure.name     = 'Seguro accidentes'
     accidentalSecure.code     = Utils.getServiceCode('Seguro accidentes')
-    accidentalSecure.select   = Utils.checkSelection(this.state.seguro_seleccionado)
+    accidentalSecure.selected = Utils.checkSelection(this.state.seguro_seleccionado)
     accidentalSecure.value    = this.state.seguro_seleccionado
     accidentalSecure.discount = 0
     accidentalSecure.total    = this.state.seguro_seleccionado
@@ -548,7 +563,7 @@ class Services extends Component {
     annuaryBook.type          = 'Anual'
     annuaryBook.name          = this.state.anuarioName
     annuaryBook.code          = Utils.getServiceCode(this.state.anuarioName)
-    annuaryBook.select        = Utils.checkSelection(this.state.anuario_seleccionado)
+    annuaryBook.selected      = Utils.checkSelection(this.state.anuario_seleccionado)
     annuaryBook.value         = this.state.anuario_seleccionado
     annuaryBook.discount      = 0
     annuaryBook.total         = this.state.anuario_seleccionado
@@ -556,7 +571,7 @@ class Services extends Component {
     asopadres.type            = 'Anual'
     asopadres.name            = 'Asopadres'
     asopadres.code            = Utils.getServiceCode('Asopadres')
-    asopadres.select          = Utils.checkSelection(this.state.asopadres_seleccionado)
+    asopadres.selected        = Utils.checkSelection(this.state.asopadres_seleccionado)
     asopadres.value           = this.state.asopadres_seleccionado
     asopadres.discount        = 0
     asopadres.total           = this.state.asopadres_seleccionado
@@ -564,7 +579,7 @@ class Services extends Component {
     sportsClub.type           = 'Anual'
     sportsClub.name           = 'Club deportivo'
     sportsClub.code           = Utils.getServiceCode('Club deportivo')
-    sportsClub.select         = Utils.checkSelection(this.state.club_seleccionado)
+    sportsClub.selected       = Utils.checkSelection(this.state.club_seleccionado)
     sportsClub.value          = this.state.club_seleccionado
     sportsClub.discount       = 0
     sportsClub.total          = this.state.club_seleccionado
@@ -730,7 +745,6 @@ class Services extends Component {
                       </ul>*/}
 
                       <div className="card-body">
-                          <p className="" >Seleccione los servicios que desea adicionar:</p>
                           {/*Select Seguro Accidentes*/}
                           <div className="row">
                               <div className="col-md-12 mb-3" >
@@ -775,13 +789,13 @@ class Services extends Component {
                           {/*Select Afiliación Club Deportivo*/}
                           <div className="row">
                               <div className="col-md-12 mb-3" >
-                                <label htmlFor="country">Afiliación Club Deportivo anual<br /> <b>(solo estudiantes de 5º a 11º)</b></label>
+                                <label htmlFor="country">Afiliación Club Deportivo anual<br /> <b>(solo estudiantes de 5º a 11º y requerido para inscribir actividades de Club deportivo)</b></label>
                                 <select className="custom-select d-block w-100" 
                                         onChange={this.handleOnChangeServices} 
                                         id="afiliacion-club"
                                         disabled={this.state.isDisableSelect}>
                                           <option value={this.state.club} defaultValue="selected">{this.state.label_club}</option>
-                                          <option value={this.state.club_cero}>{this.state.label_club_cero}</option>
+                                          <option value={this.state.club_cero} >{this.state.label_club_cero}</option>
                                 </select>
                               </div>
                           </div>
@@ -810,7 +824,7 @@ class Services extends Component {
                                       show={this.state.isOpen} 
                                       onClose={this.toggleModalNoResults} 
                                       msn={this.state.message}
-                                      img_url={svg_file}>
+                                      img_url={this.state.img_src}>
                             </ModalUI>
 
                             {/*Modal for Wrong code inserted*/}

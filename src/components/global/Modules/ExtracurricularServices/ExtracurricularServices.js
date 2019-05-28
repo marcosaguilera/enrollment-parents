@@ -6,7 +6,7 @@ import NumberFormat from 'react-number-format';
 import {ToastsContainer, ToastsStore} from 'react-toasts';
 import changeCase from 'change-case';
 import Truncate from 'react-truncate';
-import { FaTrashAlt, FaInfo, FaCalendarCheck } from "react-icons/fa";
+import { FaTrashAlt, FaCalendarCheck } from "react-icons/fa";
 
 // Utils
 import Utils from '../../../../Utils/Utils'
@@ -19,9 +19,6 @@ import Help from '../../Addons/Help'
 
 //Styles
 import "./ExtracurricularServices.css"
-import img1 from '../../images/svgid5.svg';
-import img2 from '../../images/svgid11.svg';
-import img3 from '../../images/svgid21.svg';
 import img4 from '../../images/svgid24.svg';
 import img5 from '../../images/svgid1.svg';
 
@@ -48,6 +45,7 @@ class ExtracurricularServices extends Component {
 		this.showInfo               = this.showInfo.bind(this);
 		this.onChangeSelectors      = this.onChangeSelectors.bind(this);
 		this.checkCompleteTransport = this.checkCompleteTransport.bind(this);
+		this.renderEcoActivities    = this.renderEcoActivities.bind(this);
 
 		this.state = {
 			code                        : '',      showElementTransport      : false,
@@ -60,6 +58,7 @@ class ExtracurricularServices extends Component {
 			step3_data                  : {},	   authorizedPeople2Phone    : '',
 			showingAlert                : false,   authorizedPeople2Relation : '',
 			isReadyDemographicComponent : false,
+			existsEcoSubscription       : true,
 
 			//SELECTED TRANSPORT NAME
 			selectedTransportName		: '',
@@ -84,9 +83,9 @@ class ExtracurricularServices extends Component {
 
 	componentDidMount() {
 		let servicesObj = this.props.location.state;
-		//console.log("===> Extracurricular Step");
+		console.log(servicesObj.annual_services[5].selected);
 
-		let transportName = servicesObj.montly_services[1].select
+		let transportName = servicesObj.montly_services[1].selected
 		console.log(transportName);
 
 		this.setState({
@@ -95,6 +94,7 @@ class ExtracurricularServices extends Component {
 			lastname   			  : servicesObj.demographic.apellidos,
 			grade      			  : servicesObj.demographic.grado,
 			selectedTransportName : transportName,
+			existsEcoSubscription : Utils.authChecker(servicesObj.annual_services[5].selected),
 			step3_data            : servicesObj
 		}, () => {
 			this.setState({ isReadyDemographicComponent : true })
@@ -350,7 +350,7 @@ class ExtracurricularServices extends Component {
 			item.code     = element.sap_code
 			item.discount = 0
 			item.name     = element.name
-			item.select   = "Si"
+			item.selected = "Si"
 			item.total    = element.value
 			item.value    = element.value
 
@@ -361,27 +361,27 @@ class ExtracurricularServices extends Component {
 		transportMode.code       = Utils.getServiceCode(this.state.transportNameMode)
 		transportMode.discount   = 0
 		transportMode.name       = this.state.pickedTransportName + " // "+ this.state.transportNameMode + " // Curricular: " + this.state.selectedTransportName
-		transportMode.select     = this.state.selectedPoint
+		transportMode.selected   = this.state.selectedPoint
 		transportMode.total      = this.state.totalEcoTransAmmount
 		transportMode.value      = this.state.totalEcoTransAmmount
 
-		snacks.type       = "Eco"
-		snacks.code       = Utils.getServiceCode(this.state.snackEcoName)
-		snacks.discount   = 0
-		snacks.name       = "Refrigerio"
-		snacks.select     = this.state.snackEcoName
-		snacks.total      = this.state.selectedSnack
-		snacks.value      = this.state.selectedSnack
+		snacks.type              = "Eco"
+		snacks.code              = Utils.getServiceCode(this.state.snackEcoName)
+		snacks.discount          = 0
+		snacks.name              = "Refrigerio"
+		snacks.selected          = this.state.snackEcoName
+		snacks.total             = this.state.selectedSnack
+		snacks.value             = this.state.selectedSnack
 
-		people1.completeName = this.state.authorizedPeople1Name
-		people1.dni          = this.state.authorizedPeople1Dni
-		people1.phone        = this.state.authorizedPeople1Phone
-		people1.relation     = this.state.authorizedPeople1Relation
+		people1.completeName     = this.state.authorizedPeople1Name
+		people1.dni              = this.state.authorizedPeople1Dni
+		people1.phone            = this.state.authorizedPeople1Phone
+		people1.relation         = this.state.authorizedPeople1Relation
 
-		people2.completeName = this.state.authorizedPeople2Name
-		people2.dni          = this.state.authorizedPeople2Dni
-		people2.phone        = this.state.authorizedPeople2Phone
-		people2.relation     = this.state.authorizedPeople2Relation
+		people2.completeName     = this.state.authorizedPeople2Name
+		people2.dni              = this.state.authorizedPeople2Dni
+		people2.phone            = this.state.authorizedPeople2Phone
+		people2.relation         = this.state.authorizedPeople2Relation
 
         totals_eco.eco_total_pay = this.state.totalAmmountCart + this.state.totalEcoTransAmmount + this.state.selectedSnack
 
@@ -401,6 +401,90 @@ class ExtracurricularServices extends Component {
 	beforePath = () => {
 		//this.props.history.push('/enrolment_monthly_services');
 		this.props.history.goBack()
+	}
+
+	renderEcoActivities(){
+		if(this.state.existsEcoSubscription){
+			return this.state.services.map(service =>
+				<div className="card cardCustom" key={service.id}>
+					{/*<img src={service.image} className="card-img-top cardImgCustom" alt="Service image" />*/}
+					<div className="card-body">
+						<h5 className="card-title cardTitleCustom">
+							<span className="badge badge-secondary badge-pill pillsCustom" style={{ backgroundColor: Utils.colorPicker(service.type) }} >{service.type}</span><br />
+							{changeCase.sentenceCase(service.name)}
+						</h5>
+						{/*<p className="card-text cardDescriptionTextCustom">
+							<Truncate lines={3} ellipsis={'...'}>{service.description}</Truncate>
+						</p>*/}
+					</div>
+					<ul className="list-group list-group-flush">
+						<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid', borderRight: '1px solid rgba(0,0,0,.125)', borderLeft: '1px solid rgba(0,0,0,.125)' }}>
+							<FaCalendarCheck style={{ height: 18, marginRight: 5 }} />Horario<p style={{ fontSize: 12 }}>{service.schedule}</p>	
+						</li>
+					</ul>
+					<ul className="list-group list-group-flush">
+						<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid', borderRight: '1px solid rgba(0,0,0,.125)', borderLeft: '1px solid rgba(0,0,0,.125)' }}>
+							<a href={service.redirect_url} className="card-link" rel="noopener noreferrer" target="_blank">Leer más</a>
+						</li>
+					</ul>
+					<div className="card-footer">
+						<div id="boxContainer">
+							<div id="box1">
+								<button
+									id="addActivityBtn"
+									className="btn btn-primary"
+									onClick={ () => this.addEcoService(service) }>Inscribir</button>
+							</div>
+							<div id="box2">
+								<NumberFormat id="priceSpan" value={service.value} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+							</div>
+						</div>
+					</div>
+				</div>
+			)
+		}else{
+			let filtered_services = this.state.services.filter(service => service.type !== "Club deportivo")
+			console.log("Filtered services")
+			console.log(filtered_services)
+			return filtered_services.map(service =>
+				<div className="card cardCustom" key={service.id}>
+					{/*<img src={service.image} className="card-img-top cardImgCustom" alt="Service image" />*/}
+					<div className="card-body">
+						<h5 className="card-title cardTitleCustom">
+							<span className="badge badge-secondary badge-pill pillsCustom" style={{ backgroundColor: Utils.colorPicker(service.type) }} >{service.type}</span><br />
+							{changeCase.sentenceCase(service.name)}
+						</h5>
+						{/*<p className="card-text cardDescriptionTextCustom">
+							<Truncate lines={3} ellipsis={'...'}>{service.description}</Truncate>
+						</p>*/}
+					</div>
+					<ul className="list-group list-group-flush">
+						<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid' }}>
+							<FaCalendarCheck style={{ height: 18, marginRight: 5 }} />Horario<p style={{ fontSize: 12 }}>{service.schedule}</p>	
+						</li>
+					</ul>
+					<ul className="list-group list-group-flush">
+						<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid' }}>
+							<a href={service.redirect_url} className="card-link" rel="noopener noreferrer" target="_blank">Leer más</a>
+						</li>
+					</ul>
+					<div className="card-footer">
+						<div id="boxContainer">
+							<div id="box1">
+								<button
+									id="addActivityBtn"
+									className="btn btn-primary"
+									onClick={ () => this.addEcoService(service) }>Inscribir</button>
+							</div>
+							<div id="box2">
+								<NumberFormat id="priceSpan" value={service.value} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+							</div>
+						</div>
+					</div>
+				</div>
+			)
+
+		}
 	}
 
 	render() {
@@ -444,7 +528,7 @@ class ExtracurricularServices extends Component {
 						<div className="col-md-4">
 							<select className="form-control"
 									id="puntosSelector"
-									style={{ width: '100%', display: 'inherit', display: this.state.showLinealPoints }}
+									style={{ width: '100%', display: this.state.showLinealPoints }}
 									onChange={this.onChangeSelectors}
 									//value={this.state.transport}
 									>
@@ -460,7 +544,7 @@ class ExtracurricularServices extends Component {
 							</select>
 							<select className="form-control"
 									id="puertaCompletoSelector"
-									style={{ width: '100%', display: 'inherit', display: this.state.showTransportCompleteDoor }}
+									style={{ width: '100%', display: this.state.showTransportCompleteDoor }}
 									onChange={this.onChangeSelectors}
 									//value={this.state.transport}
 									>
@@ -473,7 +557,7 @@ class ExtracurricularServices extends Component {
 							</select>
 							<select className="form-control"
 									id="puertaSelector"
-									style={{ width: '100%', display: 'inherit', display: this.state.showTransportDoor }}
+									style={{ width: '100%', display: this.state.showTransportDoor }}
 									onChange={this.onChangeSelectors}
 									//value={this.state.transport}
 									>
@@ -488,7 +572,7 @@ class ExtracurricularServices extends Component {
 						<div className="col-md-4">
 							<select className="form-control"
 									id="tarifaLinealSelector"
-									style={{ width: '100%', display: 'inherit', display: this.state.showLinealFees }}
+									style={{ width: '100%', display: this.state.showLinealFees }}
 									onChange={this.onChangeSelectors}
 									//value={this.state.transport}
 									>
@@ -497,6 +581,7 @@ class ExtracurricularServices extends Component {
 										<option value="96000">2 días semanales - $96.000</option>
 										<option value="144000">3 días semanales - $144.000</option>
 										<option value="192000">4 días semanales - $192.000</option>
+										<option value="0">Sin transporte lineal</option>
 							</select>
 						</div>
 					</div>
@@ -511,13 +596,13 @@ class ExtracurricularServices extends Component {
 									id="snackSelector"
 									style={{ width: '100%', display: 'inherit' }}
 									onChange={this.onChangeSelectors}
-									value={this.state.selectedSnack}
-									>
+									value={this.state.selectedSnack} >
 										<option value="0" defaultValue>Seleccione una opción</option>
 										<option value="25000">1 día semanal - $25.000</option>
 										<option value="45000">2 días semanales - $45.000</option>
 										<option value="65000">3 días semanales - $65.000</option>
 										<option value="85000">4 días semanales - $85.000</option>
+										<option value="0">Sin refrigerio</option>
 							</select>
 						</div>
 						<div className="col-md-4"></div>
@@ -578,47 +663,11 @@ class ExtracurricularServices extends Component {
 
 					<div className="row">
 						<div className="col-md-8">
-							<h5 style={{ fontSize: '1.55rem' }}>
-								Actividades <a href="https:/rochester.edu.co/matriculas2019/#eco" rel="noopener noreferrer" target="_blank">Eco</a> y <a href="https:/rochester.edu.co/matriculas2019/#club" rel="noopener noreferrer" target="_blank">Club</a> para el grado {this.state.grade}
+							<h5 style={{ fontSize: 1.55+'rem' }}>
+							    Actividades y costo mensual Eco y Club para el grado {this.state.grade}
 							</h5>
 							<div style={styles.products}>
-								{this.state.services.map(service =>
-									<div className="card cardCustom" key={service.id}>
-										{/*<img src={service.image} className="card-img-top cardImgCustom" alt="Service image" />*/}
-										<div className="card-body">
-											<h5 className="card-title cardTitleCustom">
-												<span className="badge badge-secondary badge-pill pillsCustom" style={{ backgroundColor: Utils.colorPicker(service.type) }} >{service.type}</span><br />
-												{changeCase.sentenceCase(service.name)}
-											</h5>
-											{/*<p className="card-text cardDescriptionTextCustom">
-												<Truncate lines={3} ellipsis={'...'}>{service.description}</Truncate>
-											</p>*/}
-										</div>
-										<ul className="list-group list-group-flush">
-											<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid' }}>
-												<FaCalendarCheck style={{ height: 18, marginRight: 5 }} />Horario<p style={{ fontSize: 12 }}>{service.schedule}</p>	
-											</li>
-										</ul>
-										{/*<ul className="list-group list-group-flush">
-											<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid', borderLeft: '1px solid #00000020', borderRight: '1px solid #00000020' }}>
-												<a href={service.redirect_url} className="card-link" target="_blank">Leer más</a>
-											</li>
-										</ul>*/}
-										<div className="card-footer">
-											<div id="boxContainer">
-												<div id="box1">
-													<button
-														id="addActivityBtn"
-														className="btn btn-primary"
-														onClick={ () => this.addEcoService(service) }>Inscribir</button>
-												</div>
-												<div id="box2">
-													<NumberFormat id="priceSpan" value={service.value} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-												</div>
-											</div>
-										</div>
-									</div>
-								)}
+								{this.renderEcoActivities()}
 							</div>
 							<ToastsContainer store={ToastsStore} timer={5000}/>
 						</div>

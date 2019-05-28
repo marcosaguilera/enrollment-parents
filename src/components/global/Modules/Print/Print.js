@@ -11,9 +11,7 @@ class Print extends Component {
     constructor(props) {
         super(props);
 
-        this.generateReference = this.generateReference.bind(this);
-        this.pdfToHTML         = this.pdfToHTML.bind(this);
-        this.pdfGenerator      = this.pdfGenerator.bind(this);
+        this.generateReference = this.generateReference.bind(this)
 
         this.state={
             token            : '',
@@ -45,58 +43,6 @@ class Print extends Component {
             fecha            : '',
             totalEcoServices : 0
         }
-    }
-
-    pdfToHTML(){
-        /*html2canvas($('#hello-there'), { onrendered: function(canvas){
-            var img = canvas.toDataURL("image/png")
-            var pdf = new jsPDF('p', 'pt', 'letter');
-            pdf.addImage(img, 'JPEG', 20, 20)
-            pdf.save('html2pdf.pdf')
-            }
-        })*/
-        
-
-        //var pdf = new jsPDF('p', 'pt', 'letter');
-        //var source = $('#hello-there')[0]; 
-        //var specialElementHandlers = {
-        //    '#bypassme': function(element, renderer) {
-        //        return true
-        //    } 
-        //};
-    
-        //var margins = {
-        //    top: 50,
-        //    left: 60,
-        //    width: 545
-        //};
-
-        
-    
-        /*pdf.fromHTML (
-          source // HTML string or DOM elem ref.
-          , margins.left // x coord
-          , margins.top // y coord
-          , {
-              'width': margins.width // max width of content on PDF
-              , 'elementHandlers': specialElementHandlers
-            },
-          function (dispose) {
-            // dispose: object with X, Y of the last line add to the PDF
-            // this allow the insertion of new lines after html
-            pdf.save('html2pdf.pdf');
-          })*/
-    }
-
-    pdfGenerator(){
-        let item = document.getElementById('hello-there')
-        let opt = {
-            margin: 2,
-            filename: 'MAT-COMPROBANTE-2019-20.pdf',
-            image : { type: 'jpeg', quality: 0.98 },
-            html2canvas: {scale: 2}
-        }
-        //var worker = html2pdf().set(opt).from(item).toPdf().save()
     }
 
     componentDidMount(){
@@ -155,7 +101,7 @@ class Print extends Component {
                         this.state.seguroVida + 
                         this.state.seguroDesempleo +
                         this.state.totalEcoServices })
-        });      
+        });
     }
 
     generateReference = () => {
@@ -198,7 +144,7 @@ class Print extends Component {
                                                                 <p>&nbsp;</p>
                                                             </td>
                                                             <td style={{width: '80.6162%', textAlign: 'center'}}>
-                                                                <h4>FUNDACION EDUCATIVA ROCHESTER</h4>
+                                                                <h4>FUNDACIÓN EDUCATIVA ROCHESTER</h4>
                                                                 <h5>NIT: 900 509 589 - 7</h5>
                                                             </td>
                                                         </tr>
