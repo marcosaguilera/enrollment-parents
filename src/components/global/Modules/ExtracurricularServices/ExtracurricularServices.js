@@ -358,7 +358,7 @@ class ExtracurricularServices extends Component {
 		});
 
 		transportMode.type       = "Eco"
-		transportMode.code       = Utils.getServiceCode(this.state.transportNameMode)
+		transportMode.code       = this.state.transportNameMode.length > 0 ? Utils.getServiceCode(this.state.transportNameMode) : "0"
 		transportMode.discount   = 0
 		transportMode.name       = this.state.pickedTransportName + " // "+ this.state.transportNameMode + " // Curricular: " + this.state.selectedTransportName
 		transportMode.selected   = this.state.selectedPoint

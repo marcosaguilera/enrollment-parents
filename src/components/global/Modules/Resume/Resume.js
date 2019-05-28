@@ -665,7 +665,7 @@ class Resume extends Component {
                                     </tr>
                                     <tr>
                                       <td>Selecione una forma de pago
-                                          <p id="payment_note">{ReactHtmlParser(Texts.general_texts[0].payment_method_text)}</p>
+                                          <div id="payment_note">{ReactHtmlParser(Texts.general_texts[0].payment_method_text)}</div>
                                       </td>
                                       <td>
                                         <select className="form-control"
