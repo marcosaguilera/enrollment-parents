@@ -41,7 +41,7 @@ class ModalWindow extends Component {
               <div id="budget-container" style={{ display: url_long > 0 ? 'inherit' : 'none'  }}>
                 <img id="budget" src={this.props.img_url} alt="excellency budget" />
               </div>
-              <p id="texty">{this.props.msn}</p>
+              <div id="texty">{this.props.msn}</div>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" onClick={this.props.onClose}>

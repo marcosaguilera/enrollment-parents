@@ -421,12 +421,12 @@ class ExtracurricularServices extends Component {
 						</p>*/}
 					</div>
 					<ul className="list-group list-group-flush">
-						<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid' }}>
+						<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid', borderRight: '1px solid rgba(0,0,0,.125)', borderLeft: '1px solid rgba(0,0,0,.125)' }}>
 							<FaCalendarCheck style={{ height: 18, marginRight: 5 }} />Horario<p style={{ fontSize: 12 }}>{service.schedule}</p>	
 						</li>
 					</ul>
 					<ul className="list-group list-group-flush">
-						<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid' }}>
+						<li className="list-group-item" style={{ borderTop: '1px solid rgba(0,0,0,.125)', borderBottom: '0px solid', borderRight: '1px solid rgba(0,0,0,.125)', borderLeft: '1px solid rgba(0,0,0,.125)' }}>
 							<a href={service.redirect_url} className="card-link" target="_blank">Leer más</a>
 						</li>
 					</ul>
