@@ -6,7 +6,7 @@ import md5gen from 'md5';
 import NumberFormat from 'react-number-format';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {ToastsContainer, ToastsStore} from 'react-toasts';
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import ReactHtmlParser from 'react-html-parser';
 
 // Assets
 import '../../Modules/Resume/Resume.css';
@@ -491,23 +491,6 @@ class Resume extends Component {
     servicesSelected.action              = "Print";
     servicesSelected.codigo              = this.state.codigo;
     servicesSelected.data                = data;
-
-    let axiosConfig = {
-      headers: {
-          'X-Parse-Application-Id': 'U8jcs4wAuoOvBeCUCy4tAQTApcfUjiGmso98wM9h',
-          'X-Parse-Master-Key'    : 'vN7hMK7QknCPf2xeazTaILtaskHFAveqnh6NDwi6',
-          'Content-Type'          : 'application/json;charset=UTF-8'
-      },
-    };
-
-    /*axios.post('https://parseapi.back4app.com/classes/EventsLog', servicesSelected, axiosConfig)
-         .then(res => {
-             //console.log(res);
-         })
-         .catch(error => {
-            //console.log(error);
-         });*/
-
   }
 
   handlePayOnlineData(){
@@ -673,7 +656,8 @@ class Resume extends Component {
                                             style={{ width: 'auto', display: 'inherit' }}
                                             onChange={this.handleOnChange}
                                             value={this.state.payment_selection}
-                                            value={this.state.transport}>
+                                            //value={this.state.transport}
+                                            >
                                                 <option value="unico">Año anticipado</option>
                                                 <option value="dos">Semestral</option>
                                                 <option value="once">Mensual</option>
