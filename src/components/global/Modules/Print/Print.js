@@ -270,6 +270,15 @@ class Print extends Component {
                                                                 </p>
                                                             </td>
                                                         </tr>
+                                                        <tr>
+                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Transporte (x10 meses)</p></td>
+                                                            <td style={{width: '23.7908%'}}>&nbsp;</td>
+                                                            <td style={{width: '21%', textAlign: 'right'}}>
+                                                                <p className="general-text">
+                                                                <NumberFormat value={this.state.transporte} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                                                </p>
+                                                            </td>
+                                                        </tr>
                                                         {/*<tr>
                                                             <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Desayuno (x10 meses)</p></td>
                                                             <td style={{width: '23.7908%'}}>&nbsp;</td>
