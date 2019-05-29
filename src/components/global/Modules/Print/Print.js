@@ -169,7 +169,8 @@ class Print extends Component {
                                                         </tr>
                                                         <tr>
                                                             <td style={{width: '20%'}}><strong><p className="general-text">Fecha:</p></strong></td>
-                                                            <td style={{width: '80%'}}><p className="general-text">{this.state.fecha}</p></td>                                                        </tr>
+                                                            <td style={{width: '80%'}}><p className="general-text">{this.state.fecha}</p></td>
+                                                        </tr>
                                                         <tr>
                                                             <td style={{width: '20%'}}><strong><p className="general-text">Alumno:</p></strong></td>
                                                             <td style={{width: '80%'}}><p className="general-text">{this.state.nombres} {this.state.apellidos}</p></td>
