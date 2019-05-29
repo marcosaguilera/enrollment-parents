@@ -521,7 +521,7 @@ class ExtracurricularServices extends Component {
 									>
 										<option value="NA">Seleccione una modalidad</option>
 										<option value="Transporte Lineal">Transporte Lineal</option>
-										<option value="Transporte Puerta a Puerta">Transporte Puerta a Puerta</option>
+										<option value="Transporte Puerta a Puerta">Transporte Puerta a Puerta (solo Prejardín a Cuarto grado)</option>
 										<option value="Salida por recepción">Salida por recepción</option>
 							</select>
 						</div>
@@ -587,7 +587,7 @@ class ExtracurricularServices extends Component {
 					</div>
 					<div className="row" style={{ marginTop: 10 }}>
 						<div className="col-md-12">
-							<p>Refrigerio Extracurricular ECO o Club Deportivo</p>
+							<p>Refrigerio Extracurricular ECO - Prejardín a Cuarto grado</p>
 						</div>
 					</div>
 					<div className="row">
