@@ -36,6 +36,7 @@ class Print extends Component {
             desayuno         : 0,
             seguroVida       : 0,
             seguroDesempleo  : 0,
+            donaciones       : 0,
 
             // Total
             total            : 0,
@@ -78,6 +79,7 @@ class Print extends Component {
             //desayuno         : Number(montly_data[4].total * 10),
             seguroVida       : Number(montly_data[4].total * 10),
             seguroDesempleo  : Number(montly_data[5].total * 10),
+            donaciones       : Number(montly_data[6].total * 10),
             // Payments values
             totalEcoServices : Number(payments[2].eco_total_pay * 10),
             tot_servicios    : "XX",
@@ -87,19 +89,20 @@ class Print extends Component {
             //console.log("================>"+ this.state.solo_descuento);
             this.generateReference();
             this.setState({ 
-                total : this.state.matricula_tarifa + 
-                        this.state.bibliobanco + 
+                total : this.state.matricula_tarifa +
+                        this.state.bibliobanco +
                         this.state.seguro +
-                        this.state.anuario + 
+                        this.state.anuario +
                         this.state.asopadres +
-                        this.state.club + 
-                        this.state.pension + 
-                        this.state.transporte + 
-                        this.state.almuerzo + 
-                        this.state.m9 + 
-                       // this.state.desayuno + 
-                        this.state.seguroVida + 
+                        this.state.club +
+                        this.state.pension +
+                        this.state.transporte +
+                        this.state.almuerzo +
+                        this.state.m9 +
+                       // this.state.desayuno +
+                        this.state.seguroVida +
                         this.state.seguroDesempleo +
+                        this.state.donaciones +
                         this.state.totalEcoServices })
         });
     }
@@ -303,6 +306,15 @@ class Print extends Component {
                                                             <td style={{width: '21%', textAlign: 'right'}}>
                                                                 <p className="general-text">
                                                                 <NumberFormat value={this.state.seguroDesempleo} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style={{width: '50.2092%', textAlign: 'left'}}><p className="general-text">Donaciones a proyectos de sostenibilidad (x10 meses)</p></td>
+                                                            <td style={{width: '23.7908%'}}>&nbsp;</td>
+                                                            <td style={{width: '21%', textAlign: 'right'}}>
+                                                                <p className="general-text">
+                                                                <NumberFormat value={this.state.donaciones} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                                                 </p>
                                                             </td>
                                                         </tr>
