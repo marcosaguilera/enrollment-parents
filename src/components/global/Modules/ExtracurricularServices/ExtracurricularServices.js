@@ -537,7 +537,7 @@ class ExtracurricularServices extends Component {
 										<option value="Cachivaches">Cachivaches (no aplica para quinto a undécimo)</option>
 										<option value="Cedritos">Cedritos</option>
 										<option value="San Rafael">San Rafael</option>
-										<option value="Maloka">Maloka</option>
+										<option value="Maloka">Maloka (no aplica para quinto a undécimo)</option>
 										<option value="Mazuren">Mazuren (no aplica para quinto a undécimo)</option>
 										<option value="Alhambra">Alhambra (no aplica para quinto a undécimo)</option>
 										<option value="Bazaar Chía">Bazaar Chía</option>
@@ -587,7 +587,7 @@ class ExtracurricularServices extends Component {
 					</div>
 					<div className="row" style={{ marginTop: 10 }}>
 						<div className="col-md-12">
-							<p>Refrigerio Extracurricular ECO - Prejardín a Cuarto grado</p>
+							<p>Refrigerio Extracurricular ECO y Club</p>
 						</div>
 					</div>
 					<div className="row">
@@ -598,10 +598,12 @@ class ExtracurricularServices extends Component {
 									onChange={this.onChangeSelectors}
 									value={this.state.selectedSnack} >
 										<option value="0" defaultValue>Seleccione una opción</option>
-										<option value="25000">1 día semanal - $25.000</option>
-										<option value="45000">2 días semanales - $45.000</option>
-										<option value="65000">3 días semanales - $65.000</option>
-										<option value="85000">4 días semanales - $85.000</option>
+										<option value="25000">Refrigerio ECO - 1 día semanal - $25.000</option>
+										<option value="45000">Refrigerio ECO - 2 días semanales - $45.000</option>
+										<option value="65000">Refrigerio ECO - 3 días semanales - $65.000</option>
+										<option value="85000">Refrigerio ECO - 4 días semanales - $85.000</option>
+										<option value="80000">Refrigerio Club A.M - 3 días semanales - $80.000</option>
+										<option value="130000">Refrigerio Club A.M - 5 días semanales - $130.000</option>
 										<option value="0">Sin refrigerio</option>
 							</select>
 						</div>
