@@ -75,9 +75,9 @@ class Print extends Component {
             transporte       : Number(montly_data[1].total * 10),
             almuerzo         : Number(montly_data[2].total * 10),
             m9               : Number(montly_data[3].total * 10),
-            desayuno         : Number(montly_data[4].total * 10),
-            seguroVida       : Number(montly_data[5].total * 10),
-            seguroDesempleo  : Number(montly_data[6].total * 10),
+            //desayuno         : Number(montly_data[4].total * 10),
+            seguroVida       : Number(montly_data[4].total * 10),
+            seguroDesempleo  : Number(montly_data[5].total * 10),
             // Payments values
             totalEcoServices : Number(payments[2].eco_total_pay * 10),
             tot_servicios    : "XX",
