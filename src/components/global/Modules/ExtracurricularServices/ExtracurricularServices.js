@@ -291,7 +291,7 @@ class ExtracurricularServices extends Component {
 		axios.get(url)
 			.then(res => {
 				//console.log(res.data)
-				this.setState({ services : res.data }, ()=>{ console.log(this.state.services) })
+				this.setState({ services : res.data }, ()=>{ /*console.log(this.state.services) */})
 			})
 	}
 
@@ -444,8 +444,8 @@ class ExtracurricularServices extends Component {
 			)
 		}else{
 			let filtered_services = this.state.services.filter(service => service.type !== "Club deportivo")
-			console.log("Filtered services")
-			console.log(filtered_services)
+			//console.log("Filtered services")
+			//console.log(filtered_services)
 			return filtered_services.map(service =>
 				<div className="card cardCustom" key={service.id}>
 					{/*<img src={service.image} className="card-img-top cardImgCustom" alt="Service image" />*/}
