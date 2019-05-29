@@ -93,7 +93,7 @@ class ServicesMontly extends Component {
                 transport           : Utils.checkNull(montly_data.transporte),
                 lunch               : Utils.checkNull(montly_data.alimentos_almuerzo),
                 snack               : Utils.checkNull(montly_data.alimentos_m9),
-                breakFast           : Utils.checkNull(montly_data.alimentos_desayuno),
+                //breakFast           : Utils.checkNull(montly_data.alimentos_desayuno),
                 lifeSecure          : Utils.checkNull(montly_data.seguro_vida),
                 jobSecure           : this.state.asopadresSelection === "Si" ? 59500 : 64300,
 
@@ -102,7 +102,7 @@ class ServicesMontly extends Component {
                 discountTransport   : Utils.checkNull(montly_data.transporte_descuento),
                 discountLunch       : Utils.checkNull(montly_data.alimentos_almuerzo_descuento),
                 discountSnack       : Utils.checkNull(montly_data.alimentos_m9_descuento),
-                discountBreakfast   : Utils.checkNull(montly_data.alimentos_desayuno_descuento),
+                //discountBreakfast   : Utils.checkNull(montly_data.alimentos_desayuno_descuento),
                 discountLifeSecure  : Utils.checkNull(montly_data.seguro_vida_descuento),
                 discountJobSecure   : Utils.checkNull(montly_data.seguro_desempleo_descuento),
             }, () => {
@@ -115,23 +115,34 @@ class ServicesMontly extends Component {
     };
 
     setTotals = () => {
-        /*console.log("-> Pensión: " + this.state.lodgings  )
-        console.log("-> Transporte: " + this.state.transport)
-        console.log("-> Almuerzo: " + this.state.lunch     )
-        console.log("-> M9: " + this.state.snack     )
-        console.log("-> Desayuno: " + this.state.breakFast )
-        console.log("-> Seguro de vida: " + this.state.lifeSecure)
-        console.log("-> Seguro empleo: " + this.state.jobSecure )*/
+        /*console.log("->Dto Pensión: " + this.state.lodgings  )
+        console.log("->Dto Transporte: " + this.state.transport)
+        console.log("->Dto Almuerzo: " + this.state.lunch     )
+        console.log("->Dto M9: " + this.state.snack     )
+        console.log("->Dto Desayuno: " + this.state.breakFast )
+        console.log("->Dto Seguro de vida: " + this.state.lifeSecure)
+        console.log("->Dto Seguro empleo: " + this.state.jobSecure )*/
         this.setState({
             totalLodgings           : Number(this.state.lodgings - this.state.discountLodgings),
-            totalTransport          : Number(this.state.transport - this.state.discountTransport < 0 ? 0 : this.state.transport),
-            totalLunch              : Number(this.state.lunch - this.state.discountLunch < 0 ? 0 : this.state.lunch),
-            totalSnack              : Number(this.state.snack - this.state.discountSnack < 0 ? 0 : this.state.snack),
-            //totalBreakfast          : Number(this.state.breakFast - this.state.discountBreakfast),
-            totalLifeSecure         : Number(this.state.lifeSecure - this.state.discountLifeSecure < 0 ? 0 : this.state.lifeSecure),
-            totalJobSecure          : Number(this.state.jobSecure - this.state.discountJobSecure < 0 ? 0 : this.state.jobSecure),
+            totalTransport          : Utils.totalServiceWithDiscount(this.state.transport, this.state.discountTransport),
+            totalLunch              : Utils.totalServiceWithDiscount(this.state.lunch, this.state.discountLunch),
+            totalSnack              : Utils.totalServiceWithDiscount(this.state.snack, this.state.discountSnack),
+            totalLifeSecure         : Utils.totalServiceWithDiscount(this.state.lifeSecure, this.state.discountLifeSecure),
+            totalJobSecure          : Utils.totalServiceWithDiscount(this.state.jobSecure, this.state.discountJobSecure),
             totalDonation           : Number(this.state.donation)
-        },  () => {  this.setMontlyTotal()  })
+            //totalBreakfast          : Number(this.state.breakFast - this.state.discountBreakfast),
+        },  () => {
+            this.calculateDiscounts()
+            this.setMontlyTotal()
+        })
+    }
+
+    calculateDiscounts = () =>{
+        this.setState({
+            discountTransport   : Utils.getServiceDiscount(this.state.transport, this.state.discountTransport),
+            discountLunch       : Utils.getServiceDiscount(this.state.lunch, this.state.discountLunch),
+            discountSnack       : Utils.getServiceDiscount(this.state.snack, this.state.discountSnack),
+        })
     }
 
     setMontlyTotal = () =>{
@@ -158,7 +169,11 @@ class ServicesMontly extends Component {
         if(e.target.id === 'donacionSelector'){
             this.setState({ donation: Number(e.target.value) }, () => {
                 this.setTotals()
-                this.setState({ donacionName : Utils.getDonacionName(this.state.donation) })
+                this.setState({
+                    donacionName : Utils.getDonacionName(this.state.donation)
+                }, () => {
+                    console.log(this.state.donation)
+                })
             })
         }
 
@@ -166,7 +181,7 @@ class ServicesMontly extends Component {
             let donSolidValue = e.target.value
             this.setState({
                 donSolid: !this.state.donSolid
-            }, () => { 
+            }, () => {
                 if(this.state.donSolid){
                     this.addDonationSelection(donSolidValue)
                 }else{
@@ -268,14 +283,12 @@ class ServicesMontly extends Component {
     }
 
     addDonationSelection = (data) =>{
-        console.log("add")
         let selArr = this.state.donationSel
         selArr.push(data)
         console.log(selArr)
     }
 
     removeDonationSelection = (data) =>{
-        console.log("remove")
         let selArr = this.state.donationSel
         let pos = selArr.indexOf(data);
         selArr.splice(pos, 1)
