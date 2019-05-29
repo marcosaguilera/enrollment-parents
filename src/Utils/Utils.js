@@ -30,7 +30,7 @@ let getServiceCode =  function(serviceName){
     if(serviceName === '2 corazones')        { return '0086' }
     if(serviceName === '3 corazones')        { return '0087' }
     if(serviceName === '4 corazones')        { return '0088' }
-    
+
     //////// Eco/Club services
     if(serviceName === "Lineal 1 día semanal (sin transporte curricular)"){ return "1007" }
     if(serviceName === "Lineal 2 días semanales (sin transporte curricular)"){ return "1011" }
@@ -47,15 +47,19 @@ let getServiceCode =  function(serviceName){
     if(serviceName === "Puerta a puerta 3 días (con transporte curricular)"){ return "4017" }
     if(serviceName === "Puerta a puerta 4 días (con transporte curricular)"){ return "1512" }
 
-    if(serviceName === "Refrigerio 1 día semanal"){ return "0111" }
-    if(serviceName === "Refrigerio 2 días semanales"){ return "0112" }
-    if(serviceName === "Refrigerio 3 días semanales"){ return "0113" }
-    if(serviceName === "Refrigerio 4 días semanales"){ return "0114" }
+    if(serviceName === "ECO Refrigerio 1 día semanal")   { return "0111" }
+    if(serviceName === "ECO Refrigerio 2 días semanales"){ return "0112" }
+    if(serviceName === "ECO Refrigerio 3 días semanales"){ return "0113" }
+    if(serviceName === "ECO Refrigerio 4 días semanales"){ return "0114" }
+
+    if(serviceName === "CLUB Refrigerio 3 días semanales"){ return "0115" }
+    if(serviceName === "CLUB Refrigerio 5 días semanales"){ return "0116" }
 
     //////// NA
     if(serviceName === 'Sin transporte')     { return '' }
     if(serviceName === 'Sin donacion')       { return '' }
     if(serviceName === 'Sin anuario')        { return '' }
+    if(serviceName === 'Sin refrigerio' )    { return '' }
 }
 
 let getTransportServiceName = function(transportValue){
@@ -137,10 +141,13 @@ let getAnuarioName = function(value){
 }
 
 let getSnackEcoName = function(value){
-    if( value === 25000 ){ return 'Refrigerio 1 día semanal' }
-    if( value === 45000 ){ return 'Refrigerio 2 días semanales' }
-    if( value === 65000 ){ return 'Refrigerio 3 días semanales' }
-    if( value === 85000 ){ return 'Refrigerio 4 días semanales' }
+    if( value === 25000  ){ return 'ECO Refrigerio 1 día semanal' }
+    if( value === 45000  ){ return 'ECO Refrigerio 2 días semanales' }
+    if( value === 65000  ){ return 'ECO Refrigerio 3 días semanales' }
+    if( value === 85000  ){ return 'ECO Refrigerio 4 días semanales' }
+    // CLUB
+    if( value === 80000  ){ return 'CLUB Refrigerio 3 días semanales' }
+    if( value === 130000 ){ return 'CLUB Refrigerio 5 días semanales' }
     if( value === 0 ){ return 'Sin refrigerio' }
 }
 
@@ -161,19 +168,38 @@ let convertToHtml = function(){
     return doc
 }
 
+let totalServiceWithDiscount = function(value, discount){
+    if(discount > 0){
+        return Number(value * 0.5)
+    }
+    if(discount === 0){
+        return Number(value)
+    }
+}
+
+let getServiceDiscount = function(value, discount){
+    if(discount > 0){
+        return Number(value * 0.5)
+    }else{
+        return 0
+    }
+}
+
 module.exports = {
-    getServiceCode,
-    getTransportServiceName,
-    existTextMatch,
-    checkSelection,
-    checkNull,
-    getMatriculaName,
-    getPensionName,
-    getDonacionName,
-    getAnuarioName,
-    getEcoTransportServiceName,
-    getSnackEcoName,
-    colorPicker,
-    authChecker,
-    convertToHtml
+        getServiceCode,
+        getTransportServiceName,
+        existTextMatch,
+        checkSelection,
+        checkNull,
+        getMatriculaName,
+        getPensionName,
+        getDonacionName,
+        getAnuarioName,
+        getEcoTransportServiceName,
+        getSnackEcoName,
+        colorPicker,
+        authChecker,
+        convertToHtml,
+        totalServiceWithDiscount,
+        getServiceDiscount
 }
