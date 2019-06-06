@@ -254,7 +254,8 @@ class Resume extends Component {
   }
 
   toggle() {
-    this.setState({ modal: !this.state.modal });
+    this.saveDataConfirmed()
+    this.setState({ modal: !this.state.modal })
     //this.handlePayOnlineData();
     //this.tuCompraPayment()
   }
