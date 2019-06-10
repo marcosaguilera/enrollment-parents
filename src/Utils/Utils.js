@@ -170,7 +170,8 @@ let convertToHtml = function(){
 
 let totalServiceWithDiscount = function(value, discount){
     if(discount > 0){
-        return Number(value * 0.5)
+        return Number(value - discount)
+        //return Number(value * 0.5)
     }
     if(discount === 0){
         return Number(value)
@@ -179,7 +180,10 @@ let totalServiceWithDiscount = function(value, discount){
 
 let getServiceDiscount = function(value, discount){
     if(discount > 0){
-        return Number(value * 0.5)
+        return Number(discount)
+        //return Number(value * 0.5)
+        //return Number(value * 0.5)
+        //return Number(value * 0.5)
     }else{
         return 0
     }
