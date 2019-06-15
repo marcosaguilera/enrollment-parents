@@ -42,8 +42,8 @@ class ServicesMontly extends Component {
             lunch                   : 0,        donSolid : false,
             snack                   : 0,        donEdu   : false,
             breakFast               : 0,        donPres  : false,
-            lifeSecure              : 0,
-            jobSecure               : 0,
+            lifeSecure              : 0,        lunch_aux: 0,
+            jobSecure               : 0,        snack_aux: 0,
             donation                : 30000,
 
             //Discounts                         // Selection values
@@ -93,6 +93,8 @@ class ServicesMontly extends Component {
                 transport           : Utils.checkNull(montly_data.transporte),
                 lunch               : Utils.checkNull(montly_data.alimentos_almuerzo),
                 snack               : Utils.checkNull(montly_data.alimentos_m9),
+                lunch_aux           : Utils.checkNull(montly_data.alimentos_almuerzo),
+                snack_aux           : Utils.checkNull(montly_data.alimentos_m9),
                 //breakFast           : Utils.checkNull(montly_data.alimentos_desayuno),
                 lifeSecure          : Utils.checkNull(montly_data.seguro_vida),
                 jobSecure           : this.state.asopadresSelection === "Si" ? 59500 : 64300,
@@ -218,12 +220,22 @@ class ServicesMontly extends Component {
 
         //Lunch onChange Actions
         if(e.target.id === 'lunch_yes'){
-            this.setState({ lunch: Number(e.target.value), lunchSel : 'Si' }, () => {
+            //console.log(e.target.value)
+            if(e.target.value == 0){
+                let lunch_aux = this.state.lunch_aux
+                //console.log(lunch_aux)
+                this.setState({ lunch: lunch_aux, lunchSel : 'Si' }, () => {
+                    //console.log(this.state.lunch)
+                    this.setTotals()
+                })
+            }
+            /*this.setState({ lunch: Number(e.target.value), lunchSel : 'Si' }, () => {
                 this.setTotals()
-            })
+            })*/
         }
 
         if(e.target.id === 'lunch_no'){
+            console.log(e.target.value)
             this.setState({ lunch: 0, lunchSel : 'No' }, () => {
                 this.setTotals()
             })
@@ -231,9 +243,15 @@ class ServicesMontly extends Component {
 
         //Snack onChange Actions
         if(e.target.id === 'snack_yes'){
-            this.setState({ snack: Number(e.target.value), snackSel : 'Si' }, () => {
+            if(e.target.value == 0){
+                let snack_aux = this.state.snack_aux
+                this.setState({ snack: snack_aux, snackSel : 'Si' }, () => {
+                    this.setTotals()
+                })
+            }
+            /*this.setState({ snack: Number(e.target.value), snackSel : 'Si' }, () => {
                 this.setTotals()
-            })
+            })*/
         }
 
         if(e.target.id === 'snack_no'){
@@ -409,12 +427,12 @@ class ServicesMontly extends Component {
                                 grade={this.state.grade}
                                 name={this.state.name}
                                 lastname={this.state.lastname} />
-
                     <hr/>
 
                     <div className="row">
                         <div className="col-sm">
-                            <h5 className="py-3">Selección de servicios mensuales</h5>
+                            <h5 style={{ marginBottom: 0 }}>Selección de servicios mensuales</h5>
+                            <p style={{ fontSize: 15 }}>(Todos los servicios x 10 meses de Agosto a Mayo)</p>
                         </div>
                         <div className="col-sm" style={{ textAlign: 'right', marginRight : 2 }}>
                             <Help help_from="step_2" />
@@ -477,7 +495,7 @@ class ServicesMontly extends Component {
                                 <td>Almuerzo <a href="https://rochester.edu.co/alimentacion" className="badge btn-link" rel="noopener noreferrer" target="_blank">(Ver más)</a></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="lunchRadioOptions" id="lunch_yes" value="442000" defaultChecked onChange={this.handleOnChange} /> 
+                                        <input className="form-check-input" type="radio" name="lunchRadioOptions" id="lunch_yes" value={this.state.lunch} defaultChecked onChange={this.handleOnChange} /> 
                                         <label className="form-check-label" htmlFor="lunch_yes">Si</label>
                                     </div>
                                     <div className="form-check form-check-inline">
@@ -499,7 +517,7 @@ class ServicesMontly extends Component {
                                 <td>Medias Nueves <a href="https://rochester.edu.co/alimentacion" className="badge btn-link" rel="noopener noreferrer" target="_blank">(Ver más)</a></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="snackRadioOptions" id="snack_yes" value="111000" defaultChecked  onChange={this.handleOnChange}/> 
+                                        <input className="form-check-input" type="radio" name="snackRadioOptions" id="snack_yes" value={this.state.snack} defaultChecked  onChange={this.handleOnChange}/> 
                                         <label className="form-check-label" htmlFor="snack_yes">Si</label>
                                     </div>
                                     <div className="form-check form-check-inline">
@@ -584,7 +602,7 @@ class ServicesMontly extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Donaciones a proyectos de sostenibilidad <a href="https://rochester.edu.co/un-mejor-pais/" className="badge btn-link" rel="noopener noreferrer" target="_blank">(Ver más)</a> <p style={{ fontSize: 11 }}>{ReactHtmlParser(Texts.general_texts[0].donation_help)}</p></td>
+                                <td>Donaciones <b>mensuales</b> a proyectos de sostenibilidad <a href="https://rochester.edu.co/un-mejor-pais/" className="badge btn-link" rel="noopener noreferrer" target="_blank">(Ver más)</a> <p style={{ fontSize: 11 }}>{ReactHtmlParser(Texts.general_texts[0].donation_help)}</p></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check form-check-inline">
                                         <input className="form-check-input" onChange={this.handleOnChange} type="checkbox" value="solidaridad" id="donationDefaultCheck1" />
