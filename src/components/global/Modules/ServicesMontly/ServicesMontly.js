@@ -35,16 +35,16 @@ class ServicesMontly extends Component {
 
         this.state = {
             // General Data                     // Demographic data
-            step2_data              : {},       code     : '',
-            demo_data               : [],       name     : '',
-            lodgings                : 0,        lastname : '',
-            transport               : 0,        grade    : '',
-            lunch                   : 0,        donSolid : false,
-            snack                   : 0,        donEdu   : false,
-            breakFast               : 0,        donPres  : false,
-            lifeSecure              : 0,        lunch_aux: 0,
-            jobSecure               : 0,        snack_aux: 0,
-            donation                : 30000,
+            step2_data              : {},       code          : '',
+            demo_data               : [],       name          : '',
+            lodgings                : 0,        lastname      : '',
+            transport               : 0,        grade         : '',
+            lunch                   : 0,        donSolid      : false,
+            snack                   : 0,        donEdu        : false,
+            breakFast               : 0,        donPres       : false,
+            lifeSecure              : 0,        lunch_aux     : 0,
+            jobSecure               : 0,        snack_aux     : 0,
+            donation                : 30000,    lifeSecure_aux: 0,
 
             //Discounts                         // Selection values
             discountLodgings        : 0,        transportSel  : 'Si',
@@ -97,6 +97,7 @@ class ServicesMontly extends Component {
                 snack_aux           : Utils.checkNull(montly_data.alimentos_m9),
                 //breakFast           : Utils.checkNull(montly_data.alimentos_desayuno),
                 lifeSecure          : Utils.checkNull(montly_data.seguro_vida),
+                lifeSecure_aux      : Utils.checkNull(montly_data.seguro_vida),
                 jobSecure           : this.state.asopadresSelection === "Si" ? 59500 : 64300,
 
                 //discounts
@@ -117,13 +118,6 @@ class ServicesMontly extends Component {
     };
 
     setTotals = () => {
-        /*console.log("->Dto Pensión: " + this.state.lodgings  )
-        console.log("->Dto Transporte: " + this.state.transport)
-        console.log("->Dto Almuerzo: " + this.state.lunch     )
-        console.log("->Dto M9: " + this.state.snack     )
-        console.log("->Dto Desayuno: " + this.state.breakFast )
-        console.log("->Dto Seguro de vida: " + this.state.lifeSecure)
-        console.log("->Dto Seguro empleo: " + this.state.jobSecure )*/
         this.setState({
             totalLodgings           : Number(this.state.lodgings - this.state.discountLodgings),
             totalTransport          : Utils.totalServiceWithDiscount(this.state.transport, this.state.discountTransport),
@@ -149,14 +143,14 @@ class ServicesMontly extends Component {
 
     setMontlyTotal = () =>{
         this.setState({
-            totalMontlyServices :   this.state.totalLodgings +
-                                    this.state.totalTransport +
-                                    this.state.totalLunch +
-                                    this.state.totalSnack +
-                                    this.state.totalBreakfast +
-                                    this.state.totalLifeSecure +
-                                    this.state.totalJobSecure +
-                                    this.state.totalDonation
+            totalMontlyServices : this.state.totalLodgings +
+                                this.state.totalTransport +
+                                this.state.totalLunch +
+                                this.state.totalSnack +
+                                this.state.totalBreakfast +
+                                this.state.totalLifeSecure +
+                                this.state.totalJobSecure +
+                                this.state.totalDonation
         })
     }
 
@@ -275,9 +269,17 @@ class ServicesMontly extends Component {
 
         //LifeSecure onChange Actions
         if(e.target.id === 'lifeSecure_yes'){
-            this.setState({ lifeSecure: Number(e.target.value), lifeSecureSel : 'Si' }, () => {
-                this.setTotals()
-            })
+            console.log(e.target.value)
+            if(e.target.value == 0){
+                let lifeSecure_aux = this.state.lifeSecure_aux
+                this.setState({ lifeSecure: lifeSecure_aux, lifeSecureSel : 'Si' }, () => {
+                    this.setTotals()
+                })
+            }
+
+            //this.setState({ lifeSecure: Number(e.target.value), lifeSecureSel : 'Si' }, () => {
+            //    this.setTotals()
+            //})
         }
 
         if(e.target.id === 'lifeSecure_no'){
@@ -561,7 +563,7 @@ class ServicesMontly extends Component {
                                 <td>Seguro de vida <a href="https://rochester.edu.co/matriculas2019/#seguros" className="badge btn-link" rel="noopener noreferrer" target="_blank">(Ver más)</a></td>
                                 <td className="choiceCustomClass">
                                     <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="lifeSecureRadioOptions" id="lifeSecure_yes" value="65000" defaultChecked  onChange={this.handleOnChange}/> 
+                                        <input className="form-check-input" type="radio" name="lifeSecureRadioOptions" id="lifeSecure_yes" value={this.state.lifeSecure} defaultChecked  onChange={this.handleOnChange}/> 
                                         <label className="form-check-label" htmlFor="lifeSecure_yes">Si</label>
                                     </div>
                                     <div className="form-check form-check-inline">
