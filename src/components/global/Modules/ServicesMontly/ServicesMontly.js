@@ -126,7 +126,7 @@ class ServicesMontly extends Component {
     };
 
     calculateDiscounts = () =>{
-        console.log(this.state.transport * ( this.state.discountTransPercent / 100 ))
+        console.log(`Value selected: ${this.state.transport} - Value with ${this.state.discountTransPercent}% off: ${this.state.transport * ( this.state.discountTransPercent / 100 )}`)
         this.setState({
             //discountTransport   : Utils.getServiceDiscount(this.state.transport, this.state.discountTransport),
             discountTransport   : Number(this.state.transport * ( this.state.discountTransPercent / 100 )),
@@ -176,7 +176,7 @@ class ServicesMontly extends Component {
 
         if(e.target.id === 'donacionSelector'){
             this.setState({ donation: Number(e.target.value) }, () => {
-                this.setTotals()
+                this.calculateDiscounts()
                 this.setState({
                     donacionName : Utils.getDonacionName(this.state.donation)
                 }, () => {
@@ -229,7 +229,7 @@ class ServicesMontly extends Component {
             if(e.target.value == 0){
                 let lunch_aux = this.state.lunch_aux
                 this.setState({ lunch: lunch_aux, lunchSel : 'Si' }, () => {
-                    this.setTotals()
+                    this.calculateDiscounts()
                 })
             }
         }
@@ -237,7 +237,7 @@ class ServicesMontly extends Component {
         if(e.target.id === 'lunch_no'){
             console.log(e.target.value)
             this.setState({ lunch: 0, lunchSel : 'No' }, () => {
-                this.setTotals()
+                this.calculateDiscounts()
             })
         }
 
@@ -246,27 +246,27 @@ class ServicesMontly extends Component {
             if(e.target.value == 0){
                 let snack_aux = this.state.snack_aux
                 this.setState({ snack: snack_aux, snackSel : 'Si' }, () => {
-                    this.setTotals()
+                    this.calculateDiscounts()
                 })
             }
         }
 
         if(e.target.id === 'snack_no'){
             this.setState({ snack: 0, snackSel : 'No' }, () => {
-                this.setTotals()
+                this.calculateDiscounts()
             })
         }
 
         //Breakfast onChange Actions
         if(e.target.id === 'breakFast_yes'){
             this.setState({ breakFast: Number(e.target.value), breakFastSel : 'Si' }, () => {
-                this.setTotals()
+                this.calculateDiscounts()
             })
         }
 
         if(e.target.id === 'breakFast_no'){
             this.setState({ breakFast: 0, breakFastSel : 'No' }, () => {
-                this.setTotals()
+                this.calculateDiscounts()
             })
         }
 
@@ -276,27 +276,27 @@ class ServicesMontly extends Component {
             if(e.target.value == 0){
                 let lifeSecure_aux = this.state.lifeSecure_aux
                 this.setState({ lifeSecure: lifeSecure_aux, lifeSecureSel : 'Si' }, () => {
-                    this.setTotals()
+                    this.calculateDiscounts()
                 })
             }
         }
 
         if(e.target.id === 'lifeSecure_no'){
             this.setState({ lifeSecure: 0, lifeSecureSel : 'No' }, () => {
-                this.setTotals()
+                this.calculateDiscounts()
             })
         }
 
         //jobSecure onChange Actions
         if(e.target.id === 'jobSecure_yes'){
             this.setState({ jobSecure: Number(e.target.value), jobSecureSel : 'Si' }, () => {
-                this.setTotals()
+                this.calculateDiscounts()
             })
         }
 
         if(e.target.id === 'jobSecure_no'){
             this.setState({ jobSecure: 0, jobSecureSel : 'No' }, () => {
-                this.setTotals()
+                this.calculateDiscounts()
             })
         }
     }
