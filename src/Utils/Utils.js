@@ -189,6 +189,14 @@ let getServiceDiscount = function(value, discount){
     }
 }
 
+let getServiceDiscount2 = function(value, discount){
+    let percentaje = Number((discount * 100) / value)
+    console.log(percentaje)
+    let newValue = Number(value * (percentaje / 100))
+    console.log(newValue)
+    return newValue
+}
+
 module.exports = {
         getServiceCode,
         getTransportServiceName,
@@ -205,5 +213,6 @@ module.exports = {
         authChecker,
         convertToHtml,
         totalServiceWithDiscount,
-        getServiceDiscount
+        getServiceDiscount,
+        getServiceDiscount2
 }

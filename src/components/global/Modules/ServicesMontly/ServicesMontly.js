@@ -55,6 +55,9 @@ class ServicesMontly extends Component {
             discountLifeSecure      : 0,        jobSecureSel  : 'Si',
             discountJobSecure       : 0,        donationSel   : [],
 
+            //Discount percentaje
+            discountTransPercent    : 0,
+
             //Total
             totalLodgings           : 0,        // Extra states
             totalTransport          : 0,        matriculaCode : '',
@@ -110,8 +113,11 @@ class ServicesMontly extends Component {
                 discountJobSecure   : Utils.checkNull(montly_data.seguro_desempleo_descuento),
             }, () => {
                 this.setTotals()
-                this.setState({ transportName : Utils.getTransportServiceName(this.state.transport) }, ()=>{
-                    //console.log(this.state.transportName +  "--- valor seguro desempleo" + this.state.jobSecure)
+                this.setState({
+                    transportName : Utils.getTransportServiceName(this.state.transport),
+                    discountTransPercent : (this.state.discountTransport * 100) / this.state.transport // get the discount percentaje
+                }, ()=>{
+                    console.log("valor descuento transporte: " + this.state.discountTransPercent)
                 })
             })
         })
@@ -120,11 +126,11 @@ class ServicesMontly extends Component {
     setTotals = () => {
         this.setState({
             totalLodgings           : Number(this.state.lodgings - this.state.discountLodgings),
-            totalTransport          : Utils.totalServiceWithDiscount(this.state.transport, this.state.discountTransport),
-            totalLunch              : Utils.totalServiceWithDiscount(this.state.lunch, this.state.discountLunch),
-            totalSnack              : Utils.totalServiceWithDiscount(this.state.snack, this.state.discountSnack),
-            totalLifeSecure         : Utils.totalServiceWithDiscount(this.state.lifeSecure, this.state.discountLifeSecure),
-            totalJobSecure          : Utils.totalServiceWithDiscount(this.state.jobSecure, this.state.discountJobSecure),
+            totalTransport          : this.state.transport === 0 ? 0 : Utils.totalServiceWithDiscount(this.state.transport, this.state.discountTransport),
+            totalLunch              : this.state.lunch === 0 ? 0 : Utils.totalServiceWithDiscount(this.state.lunch, this.state.discountLunch),
+            totalSnack              : this.state.snack === 0 ? 0 : Utils.totalServiceWithDiscount(this.state.snack, this.state.discountSnack),
+            totalLifeSecure         : this.state.lifeSecure === 0 ? 0 : Utils.totalServiceWithDiscount(this.state.lifeSecure, this.state.discountLifeSecure),
+            totalJobSecure          : this.state.jobSecure === 0 ? 0 : Utils.totalServiceWithDiscount(this.state.jobSecure, this.state.discountJobSecure),
             totalDonation           : Number(this.state.donation)
             //totalBreakfast          : Number(this.state.breakFast - this.state.discountBreakfast),
         },  () => {
