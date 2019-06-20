@@ -112,16 +112,30 @@ class ServicesMontly extends Component {
                 discountLifeSecure  : Utils.checkNull(montly_data.seguro_vida_descuento),
                 discountJobSecure   : Utils.checkNull(montly_data.seguro_desempleo_descuento),
             }, () => {
-                this.setTotals()
+                //this.setTotals()
+                //this.calculateDiscounts()
                 this.setState({
                     transportName : Utils.getTransportServiceName(this.state.transport),
                     discountTransPercent : (this.state.discountTransport * 100) / this.state.transport // get the discount percentaje
                 }, ()=>{
                     console.log("valor descuento transporte: " + this.state.discountTransPercent)
+                    this.calculateDiscounts()
                 })
             })
         })
     };
+
+    calculateDiscounts = () =>{
+        console.log(`Value selected: ${this.state.transport} - Value with ${this.state.discountTransPercent}% off: ${this.state.transport * ( this.state.discountTransPercent / 100 )}`)
+        this.setState({
+            //discountTransport   : Utils.getServiceDiscount2(this.state.transport, this.state.discountTransport),
+            discountTransport   : Number(this.state.transport * ( this.state.discountTransPercent / 100 )),
+            discountLunch       : Utils.getServiceDiscount(this.state.lunch, this.state.discountLunch),
+            discountSnack       : Utils.getServiceDiscount(this.state.snack, this.state.discountSnack),
+        }, () => {
+            this.setTotals()
+        })
+    }
 
     setTotals = () => {
         this.setState({
@@ -134,16 +148,8 @@ class ServicesMontly extends Component {
             totalDonation           : Number(this.state.donation)
             //totalBreakfast          : Number(this.state.breakFast - this.state.discountBreakfast),
         },  () => {
-            this.calculateDiscounts()
+            //this.calculateDiscounts()
             this.setMontlyTotal()
-        })
-    }
-
-    calculateDiscounts = () =>{
-        this.setState({
-            discountTransport   : Utils.getServiceDiscount(this.state.transport, this.state.discountTransport),
-            discountLunch       : Utils.getServiceDiscount(this.state.lunch, this.state.discountLunch),
-            discountSnack       : Utils.getServiceDiscount(this.state.snack, this.state.discountSnack),
         })
     }
 
@@ -163,14 +169,14 @@ class ServicesMontly extends Component {
     handleOnChange(e){
         if(e.target.id === 'transportSelector'){
             this.setState({ transport: Number(e.target.value) }, () => {
-                this.setTotals()
+                this.calculateDiscounts()
                 this.setState({ transportName : Utils.getTransportServiceName(this.state.transport) })
             })
         }
 
         if(e.target.id === 'donacionSelector'){
             this.setState({ donation: Number(e.target.value) }, () => {
-                this.setTotals()
+                this.calculateDiscounts()
                 this.setState({
                     donacionName : Utils.getDonacionName(this.state.donation)
                 }, () => {
@@ -196,7 +202,7 @@ class ServicesMontly extends Component {
             let donEduValue = e.target.value
             this.setState({
                 donEdu: !this.state.donEdu
-            }, () => { 
+            }, () => {
                 if(this.state.donEdu){
                     this.addDonationSelection(donEduValue)
                 }else{
@@ -220,24 +226,18 @@ class ServicesMontly extends Component {
 
         //Lunch onChange Actions
         if(e.target.id === 'lunch_yes'){
-            //console.log(e.target.value)
             if(e.target.value == 0){
                 let lunch_aux = this.state.lunch_aux
-                //console.log(lunch_aux)
                 this.setState({ lunch: lunch_aux, lunchSel : 'Si' }, () => {
-                    //console.log(this.state.lunch)
-                    this.setTotals()
+                    this.calculateDiscounts()
                 })
             }
-            /*this.setState({ lunch: Number(e.target.value), lunchSel : 'Si' }, () => {
-                this.setTotals()
-            })*/
         }
 
         if(e.target.id === 'lunch_no'){
             console.log(e.target.value)
             this.setState({ lunch: 0, lunchSel : 'No' }, () => {
-                this.setTotals()
+                this.calculateDiscounts()
             })
         }
 
@@ -246,30 +246,27 @@ class ServicesMontly extends Component {
             if(e.target.value == 0){
                 let snack_aux = this.state.snack_aux
                 this.setState({ snack: snack_aux, snackSel : 'Si' }, () => {
-                    this.setTotals()
+                    this.calculateDiscounts()
                 })
             }
-            /*this.setState({ snack: Number(e.target.value), snackSel : 'Si' }, () => {
-                this.setTotals()
-            })*/
         }
 
         if(e.target.id === 'snack_no'){
             this.setState({ snack: 0, snackSel : 'No' }, () => {
-                this.setTotals()
+                this.calculateDiscounts()
             })
         }
 
         //Breakfast onChange Actions
         if(e.target.id === 'breakFast_yes'){
             this.setState({ breakFast: Number(e.target.value), breakFastSel : 'Si' }, () => {
-                this.setTotals()
+                this.calculateDiscounts()
             })
         }
 
         if(e.target.id === 'breakFast_no'){
             this.setState({ breakFast: 0, breakFastSel : 'No' }, () => {
-                this.setTotals()
+                this.calculateDiscounts()
             })
         }
 
@@ -279,31 +276,27 @@ class ServicesMontly extends Component {
             if(e.target.value == 0){
                 let lifeSecure_aux = this.state.lifeSecure_aux
                 this.setState({ lifeSecure: lifeSecure_aux, lifeSecureSel : 'Si' }, () => {
-                    this.setTotals()
+                    this.calculateDiscounts()
                 })
             }
-
-            //this.setState({ lifeSecure: Number(e.target.value), lifeSecureSel : 'Si' }, () => {
-            //    this.setTotals()
-            //})
         }
 
         if(e.target.id === 'lifeSecure_no'){
             this.setState({ lifeSecure: 0, lifeSecureSel : 'No' }, () => {
-                this.setTotals()
+                this.calculateDiscounts()
             })
         }
 
         //jobSecure onChange Actions
         if(e.target.id === 'jobSecure_yes'){
             this.setState({ jobSecure: Number(e.target.value), jobSecureSel : 'Si' }, () => {
-                this.setTotals()
+                this.calculateDiscounts()
             })
         }
 
         if(e.target.id === 'jobSecure_no'){
             this.setState({ jobSecure: 0, jobSecureSel : 'No' }, () => {
-                this.setTotals()
+                this.calculateDiscounts()
             })
         }
     }
