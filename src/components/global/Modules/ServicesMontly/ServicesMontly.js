@@ -116,7 +116,7 @@ class ServicesMontly extends Component {
                 //this.calculateDiscounts()
                 this.setState({
                     transportName : Utils.getTransportServiceName(this.state.transport),
-                    discountTransPercent : (this.state.discountTransport * 100) / this.state.transport // get the discount percentaje
+                    discountTransPercent : this.state.discountTransport > 0 ? (this.state.discountTransport * 100) / this.state.transport : 0 // get the discount percentaje
                 }, ()=>{
                     console.log("valor descuento transporte: " + this.state.discountTransPercent)
                     this.calculateDiscounts()
